@@ -1,0 +1,50 @@
+:root {
+  /* ------------------------- color ------------------------- */
+  --palmLeaf: #34542a;
+  --nightMare: #132210;
+  --blackTruffle: #132210;
+  --white: #fff;
+  --black: #414042;
+
+  /* ------------------------- Font------------------------- */
+  --fontPrimary: "Poppins", sans-serif;
+  --fontSecondary: "Montserrat", sans-serif;
+
+  /* ------------------------- box shadow & border ------------------------- */
+  --navbarBoxShadow: 0px 2px 12px #0000001d;
+  --imageBorderRadius: 20px;
+
+  /* ------------------------- font size ------------------------- */
+  --commonTitle: 20px;
+
+  /* ------------------------- font weight ------------------------- */
+  --normal: 400;
+  --semiBold: 400;
+  --bold: 500;
+
+  /* ------------------------- transition ------------------------- */
+  --defaultTransition: 0.3s;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--fontPrimary);
+  color: var(--black);
+  font-weight: var(--normal);
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  display: inline-block;
+}
