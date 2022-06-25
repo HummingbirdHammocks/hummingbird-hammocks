@@ -1,12 +1,12 @@
 import React from "react"
 
-import { Seo } from "components"
+import { Seo, Layout } from "components"
 
 const NotFoundPage = () => (
-  <div>
+  <Layout>
     <Seo title="Not Found" />
     <div>Sorry, The page not found!</div>
-  </div>
+  </Layout>
 )
 
 export default NotFoundPage

@@ -1,12 +1,13 @@
 import React from "react"
 
-import { Seo } from "components"
+import { Seo, Layout } from "components"
+import { Hero } from "sections"
 
 const IndexPage = () => (
-  <div>
+  <Layout>
     <Seo />
-    Hello Hummingbird Hammocks
-  </div>
+    <Hero />
+  </Layout>
 )
 
 export default IndexPage

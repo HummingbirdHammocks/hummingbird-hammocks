@@ -1,7 +1,11 @@
-/**
- * Implement Gatsby's SSR (Server Side Rendering) APIs in this file.
- *
- * See: https://www.gatsbyjs.com/docs/ssr-apis/
- */
+import React from "react"
+import { ThemeProvider } from "@mui/material"
 
-// You can delete this file if you're not using it
+import theme from "./src/ui/theme"
+import { UIProvider } from "./src/contexts/ui"
+
+export const wrapRootElement = ({ element }) => (
+  <ThemeProvider theme={theme}>
+    <UIProvider>{element}</UIProvider>
+  </ThemeProvider>
+)

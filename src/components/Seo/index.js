@@ -1,5 +1,6 @@
 import React from "react"
 import { Helmet } from "react-helmet"
+import { PropTypes } from "prop-types"
 import { StaticQuery, graphql } from "gatsby"
 
 import Image from "../../assets/images/logo.png"
@@ -61,3 +62,10 @@ const query = graphql`
     }
   }
 `
+
+Seo.propTypes = {
+  name: PropTypes.string,
+  description: PropTypes.string,
+  image: PropTypes.string,
+  keywords: PropTypes.string,
+}

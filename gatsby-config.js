@@ -1,3 +1,5 @@
+require("dotenv").config()
+
 module.exports = {
   siteMetadata: {
     title: `Title Here`,
@@ -34,13 +36,36 @@ module.exports = {
         icon: `src/assets/images/icon.png`,
       },
     },
-    `gatsby-plugin-material-ui`,
     {
-      resolve: `gatsby-plugin-google-fonts`,
+      resolve: `gatsby-plugin-material-ui`,
       options: {
-        fonts: [`Poppins\:200,300,400,500`, `Montserrat\:300,400,700`],
-        display: "swap",
+        stylesProvider: {
+          injectFirst: true,
+        },
       },
     },
+    {
+      resolve: `gatsby-plugin-google-fonts-with-attributes`,
+      options: {
+        fonts: [
+          `poppins\::300,400,500,600,700,800,900`,
+          `montserrat\::300,400,500,600,700`,
+        ],
+        display: "swap",
+        attributes: {
+          rel: "preload",
+          as: "font",
+          // rel: "stylesheet preload prefetch",
+          // as: "style",
+        },
+      },
+    },
+    // {
+    //   resolve: "gatsby-source-shopify",
+    //   options: {
+    //     password: process.env.SHOPIFY_SHOP_PASSWORD,
+    //     storeUrl: process.env.GATSBY_SHOPIFY_STORE_URL,
+    //   },
+    // },
   ],
 }
