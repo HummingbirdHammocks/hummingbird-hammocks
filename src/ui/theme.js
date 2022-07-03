@@ -3,11 +3,16 @@ import { grey } from "@mui/material/colors"
 
 const rawTheme = createTheme({
   palette: {
-    primary: "#34542a",
-    secondary: "#132210",
+    primary: {
+      main: "#34542a",
+    },
+    secondary: {
+      main: "#132210",
+    },
     white: "#fff",
     dark: "#414042",
     titleBackground: "#1e1e1e99",
+    blackTruffle: "#414042",
   },
   typography: {
     fontFamily: "'Poppins', sans-serif",
@@ -20,7 +25,7 @@ const rawTheme = createTheme({
 })
 
 const fontHeader = {
-  color: rawTheme.palette.text.primary,
+  color: rawTheme.palette.text.primary.main,
   fontWeight: rawTheme.typography.fontWeightMedium,
   fontFamily: rawTheme.typography.fontFamilySecondary,
   textTransform: "uppercase",
@@ -42,14 +47,18 @@ const theme = {
     h1: {
       ...rawTheme.typography.h1,
       ...fontHeader,
-      letterSpacing: 0,
       fontSize: 40,
+      letterSpacing: 2,
+      fontWeight: 500,
       fontFamily: rawTheme.typography.fontFamily,
     },
     h2: {
       ...rawTheme.typography.h2,
       ...fontHeader,
-      fontSize: 48,
+      fontSize: 28,
+      fontWeight: 400,
+      letterSpacing: 2,
+      lineHeight: 1.5,
     },
     h3: {
       ...rawTheme.typography.h3,
@@ -70,21 +79,57 @@ const theme = {
       ...rawTheme.typography.h6,
       ...fontHeader,
       fontSize: 18,
+      letterSpacing: 1.5,
+      fontWeight: 400,
+      textTransform: "uppercase",
+    },
+    navMenu: {
+      ...rawTheme.typography.navMenu,
+      fontSize: 14,
+      letterSpacing: 1,
+      fontWeight: 500,
+      fontFamily: rawTheme.typography.fontFamily,
+      color: rawTheme.palette.blackTruffle,
+      textTransform: "uppercase",
     },
     subtitle1: {
       ...rawTheme.typography.subtitle1,
       fontFamily: rawTheme.typography.fontFamilySecondary,
-      fontSize: 18,
+      fontSize: 20,
+      letterSpacing: 2,
+      lineHeight: 1.6,
       color: rawTheme.palette.white,
+      fontWeight: 400,
+    },
+    subtitle2: {
+      ...rawTheme.typography.body1,
+      fontSize: 15,
+      textTransform: "uppercase",
+      letterSpacing: 2,
+    },
+    subtitle3: {
+      ...rawTheme.typography.body1,
+      fontFamily: rawTheme.typography.fontFamilySecondary,
+      fontSize: 15,
+      textTransform: "uppercase",
+      letterSpacing: 1,
     },
     body1: {
       ...rawTheme.typography.body2,
-      fontWeight: rawTheme.typography.fontWeightRegular,
-      fontSize: 16,
+      fontSize: 17,
+      fontWeight: 300,
+      letterSpacing: 1,
+      color: rawTheme.palette.dark,
+      fontFamily: rawTheme.typography.fontFamilySecondary,
     },
-    body2: {
-      ...rawTheme.typography.body1,
-      fontSize: 14,
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 600,
+        md: 960,
+        lg: 1280,
+        xl: 1920,
+      },
     },
   },
 }

@@ -1,68 +1,100 @@
 import React from "react"
-import { Box, Button, Typography } from "@mui/material"
-import { StaticImage } from "gatsby-plugin-image"
-import { makeStyles } from "@mui/styles"
+import { Box, Typography, styled } from "@mui/material"
+import { LinkButton } from "components"
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: "grid",
-    minHeight: "500px",
-  },
-  middle: {
-    gridArea: "1/1",
-    position: "relative",
-    placeItems: "center",
-    display: "grid",
-  },
+const Wrapper = styled("section")(() => ({
+  display: "grid",
+  minHeight: "500px",
 }))
 
-export function Hero() {
-  const classes = useStyles()
+const Middle = styled("section")(({ position }) => ({
+  position: "absolute",
+  display: "flex",
+  left: position === "left" ? "30%" : position === "right" ? "67%" : "50%",
+  top: "50%",
+  transform: "translate(-50%, -50%)",
+}))
+
+export function Hero({ children, data }) {
+  const { subtitle1, mainText, subtitle2, button, position } = data
 
   return (
-    <section className={classes.root}>
-      <StaticImage
-        style={{
-          gridArea: "1/1",
-        }}
-        layout="fullWidth"
-        alt="Ultralight Hammock"
-        src="../../assets/images/home/Ultralight Hammock.jpeg"
-        placeholder="blurred"
-      />
-      <div className={classes.middle}>
+    <Wrapper sx={{ position: "relative" }}>
+      {children}
+      <Middle position={position}>
         <Box
           borderRadius={4}
           sx={{
             p: "20px 40px",
             backgroundColor: "titleBackground",
-            "&:hover": {
-              backgroundColor: "primary",
-              opacity: [0.9, 0.8, 0.7],
-            },
           }}
         >
-          <Typography textAlign="center" variant="subtitle1">
-            Tiny on the Scale, Tiny in your Pocket
+          <Typography
+            sx={{ margin: "20px 10px;" }}
+            textAlign={
+              position === "left"
+                ? "left"
+                : position === "right"
+                ? "right"
+                : "center"
+            }
+            variant="subtitle1"
+          >
+            {subtitle1}
           </Typography>
           <Typography
             textTransform="uppercase"
-            textAlign="center"
-            sx={{ maxWidth: "450px" }}
-            color="white.main"
+            textAlign={
+              position === "left"
+                ? "left"
+                : position === "right"
+                ? "right"
+                : "center"
+            }
+            sx={{ maxWidth: "550px", mb: "17px" }}
+            color="white"
             variant="h1"
           >
-            ULTRALIGHT HAMMOCKS FOR EVERY ADVENTURE
+            {mainText}
           </Typography>
-          <Typography textAlign="center" variant="subtitle1">
-            One Order Placed = Two Trees Planted
+          <Typography
+            textAlign={
+              position === "left"
+                ? "left"
+                : position === "right"
+                ? "right"
+                : "center"
+            }
+            variant="subtitle1"
+          >
+            {subtitle2}
           </Typography>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Button>Hello</Button>
-            <Button>Hello</Button>
-          </Box>
+          {button && (
+            <Box
+              display={"flex"}
+              justifyContent={
+                position === "left"
+                  ? "left"
+                  : position === "right"
+                  ? "right"
+                  : "center"
+              }
+            >
+              {button.map(item => (
+                <LinkButton
+                  key={item.id}
+                  margin="10px"
+                  color={item.color ? item.color : "black"}
+                  background={item.background ? item.background : "white"}
+                  to={item.url}
+                >
+                  {item.text}
+                </LinkButton>
+              ))}
+            </Box>
+          )}
         </Box>
-      </div>
-    </section>
+      </Middle>
+    </Wrapper>
   )
 }
