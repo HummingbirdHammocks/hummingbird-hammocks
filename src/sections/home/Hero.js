@@ -5,9 +5,10 @@ import { LinkButton } from "components"
 const Wrapper = styled("section")(() => ({
   display: "grid",
   minHeight: "600px",
+  position: "relative",
 }))
 
-const Middle = styled("section")(({ position, theme }) => ({
+const Middle = styled("div")(({ position, theme }) => ({
   position: "absolute",
   display: "flex",
   left: position === "left" ? "30%" : position === "right" ? "67%" : "50%",
@@ -24,7 +25,7 @@ export function Hero({ children, data }) {
   const { subtitle1, mainText, subtitle2, button, position } = data
 
   return (
-    <Wrapper sx={{ position: "relative" }}>
+    <Wrapper>
       {children}
       <Middle position={!matches ? position : "center"}>
         <Box
