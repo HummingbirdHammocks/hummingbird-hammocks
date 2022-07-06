@@ -15,16 +15,12 @@ import { useUICartContext, CartContext } from "contexts"
 
 export const CartDrawer = () => {
   const { cartOpen, setCartOpen } = useUICartContext()
-  const { checkout, updateLineItem } = useContext(CartContext)
+  const { checkout, updateLineItem, removeLineItem } = useContext(CartContext)
+
   const [open, setOpen] = useState(true)
 
   const handleClick = () => {
     setOpen(!open)
-  }
-
-  //handle adjust quantity
-  const handleAdjuctQuantity = ({ quantity, variantId }) => {
-    updateLineItem({ quantity, variantId })
   }
 
   let totalQuantity = 0
@@ -33,6 +29,13 @@ export const CartDrawer = () => {
     checkout.lineItems.forEach(lineItem => {
       totalQuantity = totalQuantity + lineItem.quantity
     })
+  }
+
+  const handleDecrementQuantity = ({ variantId }) => {
+    updateLineItem({ quantity: -1, variantId })
+  }
+  const handleIncrementQuantity = ({ variantId }) => {
+    updateLineItem({ quantity: 1, variantId })
   }
 
   return (
@@ -58,7 +61,7 @@ export const CartDrawer = () => {
       </Box>
       <Divider />
 
-      <Box>
+      <Box sx={{ overflow: "auto", height: "calc((100vh - 80px) - 3.25rem)" }}>
         {checkout?.lineItems?.map(item => (
           <Box
             key={item.id}
@@ -68,10 +71,20 @@ export const CartDrawer = () => {
             borderBottom="1px solid #4f4c4c00"
             display="flex"
           >
-            <Box display="flex" alignItems="center" flexDirection="column">
+            <Box
+              mr="20px"
+              display="flex"
+              alignItems="center"
+              flexDirection="column"
+            >
               <QuantityButton
                 variant="outlined"
                 color="primary"
+                onClick={() =>
+                  handleIncrementQuantity({
+                    variantId: item.variant.id,
+                  })
+                }
                 sx={{
                   height: "32px",
                   width: "32px",
@@ -86,6 +99,11 @@ export const CartDrawer = () => {
               <QuantityButton
                 variant="outlined"
                 color="primary"
+                onClick={() =>
+                  handleDecrementQuantity({
+                    variantId: item.variant.id,
+                  })
+                }
                 sx={{
                   height: "32px",
                   width: "32px",
@@ -123,7 +141,10 @@ export const CartDrawer = () => {
             </Box>
 
             <IconButton ml={2.5} size="small">
-              <Delete fontSize="small" />
+              <Delete
+                onClick={() => removeLineItem(item.id)}
+                fontSize="small"
+              />
             </IconButton>
           </Box>
         ))}
