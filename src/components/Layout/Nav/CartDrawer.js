@@ -27,8 +27,6 @@ export const CartDrawer = () => {
     updateLineItem({ quantity, variantId })
   }
 
-  console.log(checkout)
-
   let totalQuantity = 0
 
   if (checkout) {

@@ -45,14 +45,14 @@ exports.createPages = async ({ graphql, actions }) => {
     })
   })
 
-  //create collections products pages
-  // data.allShopifyCollection.edges.forEach(({ node }) => {
-  //   createPage({
-  //     path: `${node.handle}`,
-  //     context: {
-  //       shopifyId: node.shopifyId,
-  //     },
-  //     component: path.resolve("./src/templates/CollectionTemplate/index.js"),
-  //   })
-  // })
+  // create collections products pages
+  data.allShopifyCollection.edges.forEach(({ node }) => {
+    createPage({
+      path: `collections/${node.handle}`,
+      context: {
+        shopifyId: node.shopifyId,
+      },
+      component: path.resolve("./src/templates/CollectionsTemplate/index.js"),
+    })
+  })
 }

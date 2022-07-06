@@ -2,62 +2,63 @@
 const menuItems = [
   {
     title: "Hammocks",
-    url: "/",
+    url: "/collections/hammocks",
   },
   {
     title: "Tree Straps",
-    url: "/",
+    url: "/collections/tree-straps",
   },
   {
     title: "Shelters",
-    url: "/",
+    url: "/collections/shelter",
   },
   {
     title: "More Gear",
-    url: "/",
+    url: "/collections/parts-and-accessories",
     submenu: [
       {
         title: "Accessories",
-        url: "/",
+        url: "/collections/parts-and-accessories",
         submenu: [
           {
             title: "Hammock Accessories",
-            url: "/",
+            url: "/collections/hammock-accessories",
           },
           {
             title: "Tree Strap Accessories",
-            url: "/",
+            url: "/collections/tree-strap-accessories",
           },
           {
             title: "Shelter Accessories",
+            url: "/collections/shelter-accessories",
           },
         ],
       },
       {
         title: "Care & Repair",
-        url: "/",
+        url: "/collections/care-and-repair",
       },
       {
         title: "Apparel & Merch",
-        url: "/",
+        url: "/collections/merchandise",
       },
       {
         title: "Bargain Bin",
-        url: "/",
+        url: "/collections/bargain-bin",
       },
     ],
   },
   {
     title: "Explore",
-    url: "/",
+    url: "/collections/",
     submenu: [
       {
         title: "About us",
-        url: "/",
+        url: "/about-us",
       },
       {
         title: "Contact us",
-        url: "/",
+        url: "/contact-us",
       },
       {
         title: "Knowledgebase",

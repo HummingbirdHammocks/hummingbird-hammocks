@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { graphql } from "gatsby"
 import { styled, Box, Typography, useMediaQuery } from "@mui/material"
 import { FreeMode, Navigation, Thumbs } from "swiper"
@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import { GatsbyImage } from "gatsby-plugin-image"
 
 import { Seo, Layout, MainWrapper } from "components"
+import { CartContext } from "contexts"
 
 const TemplateSection = styled("section")(({ theme }) => ({
   background: theme.palette.white,
@@ -29,6 +30,20 @@ const ProductPage = ({ data }) => {
   const matches = useMediaQuery("(max-width:900px)")
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null)
+  const [product, setProduct] = useState(null)
+  const [selectedVariant, setSelectedVariant] = useState(null)
+
+  const { getProductById } = useContext(CartContext)
+
+  useEffect(() => {
+    getProductById(shopifyId).then(result => {
+      setProduct(result)
+      setSelectedVariant(result.variants[0])
+
+      console.log(product)
+      /* eslint-disable react-hooks/exhaustive-deps */
+    })
+  }, [getProductById, shopifyId, setProduct])
 
   return (
     <Layout>
@@ -39,9 +54,8 @@ const ProductPage = ({ data }) => {
             <Box maxWidth={600}>
               <Swiper
                 spaceBetween={10}
-                navigation={true}
                 thumbs={{ swiper: thumbsSwiper }}
-                modules={[FreeMode, Navigation, Thumbs]}
+                modules={[FreeMode, Thumbs]}
                 className="mySwiper2"
               >
                 {images.map(image => (
@@ -58,6 +72,7 @@ const ProductPage = ({ data }) => {
                 spaceBetween={10}
                 slidesPerView={4}
                 freeMode={true}
+                navigation={true}
                 watchSlidesProgress={true}
                 modules={[FreeMode, Navigation, Thumbs]}
                 className="mySwiper"
@@ -87,6 +102,34 @@ const ProductPage = ({ data }) => {
                 >
                   {description}
                 </Typography>
+              </Box>
+              <Box>
+                {product?.availableForSale && !!selectedVariant && (
+                  <>
+                    {product?.variants.length > 1 && (
+                      <>
+                        <div>
+                          <strong>Varients</strong>
+                          <select value={selectedVariant.id}>
+                            {product?.variants.map(v => (
+                              <option key={v.id} value={v.id}>
+                                {v.title}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        {!!selectedVariant && (
+                          <>
+                            <div>
+                              Price: {selectedVariant.priceV2.currencyCode}{" "}
+                              {selectedVariant.price}
+                            </div>
+                          </>
+                        )}
+                      </>
+                    )}
+                  </>
+                )}
               </Box>
             </Box>
           </MainGridWrapper>
