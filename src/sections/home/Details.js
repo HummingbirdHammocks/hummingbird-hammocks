@@ -1,5 +1,5 @@
 import React from "react"
-import { styled, Box, Typography } from "@mui/material"
+import { styled, Box, Typography, useMediaQuery, Divider } from "@mui/material"
 
 import { MainWrapper, LinkButton } from "components"
 
@@ -18,7 +18,7 @@ const MainGridWrapper = styled("div")(({ theme, orderkey }) => ({
     order: orderkey,
   },
 
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("md")]: {
     gridTemplateColumns: "repeat(1, 1fr)",
   },
 }))
@@ -35,8 +35,9 @@ const TextContent = styled("div")(({ theme }) => ({
   },
 }))
 
-export function Details({ data, children, order }) {
+export function Details({ data, children, order, divider }) {
   const { title, subText, buttonText, buttonLink } = data
+  const matches = useMediaQuery("(max-width:900px)")
 
   return (
     <DetailsSection>
@@ -46,7 +47,7 @@ export function Details({ data, children, order }) {
             {children}
           </Box>
 
-          <Box>
+          <Box marginBottom={matches ? "50px" : "0"}>
             <TextContent>
               <Typography
                 textTransform="uppercase"
@@ -69,6 +70,7 @@ export function Details({ data, children, order }) {
             </TextContent>
           </Box>
         </MainGridWrapper>
+        {matches === divider && <Divider />}
       </MainWrapper>
     </DetailsSection>
   )

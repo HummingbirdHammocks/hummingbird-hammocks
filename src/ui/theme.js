@@ -13,6 +13,7 @@ const rawTheme = createTheme({
     dark: "#414042",
     titleBackground: "#1e1e1e99",
     blackTruffle: "#414042",
+    blackBackground: "#393939",
   },
   typography: {
     fontFamily: "'Poppins', sans-serif",
@@ -51,6 +52,11 @@ const theme = {
       letterSpacing: 2,
       fontWeight: 500,
       fontFamily: rawTheme.typography.fontFamily,
+
+      [rawTheme.breakpoints.down("md")]: {
+        fontSize: 22,
+        letterSpacing: 1,
+      },
     },
     h2: {
       ...rawTheme.typography.h2,
@@ -100,6 +106,10 @@ const theme = {
       lineHeight: 1.6,
       color: rawTheme.palette.white,
       fontWeight: 400,
+      [rawTheme.breakpoints.down("md")]: {
+        fontSize: 14,
+        letterSpacing: 1,
+      },
     },
     subtitle2: {
       ...rawTheme.typography.body1,

@@ -1,41 +1,48 @@
 import React from "react"
-import { Box, Typography, styled } from "@mui/material"
+import { Box, Typography, styled, useMediaQuery } from "@mui/material"
 import { LinkButton } from "components"
 
 const Wrapper = styled("section")(() => ({
   display: "grid",
-  minHeight: "500px",
+  minHeight: "600px",
 }))
 
-const Middle = styled("section")(({ position }) => ({
+const Middle = styled("section")(({ position, theme }) => ({
   position: "absolute",
   display: "flex",
   left: position === "left" ? "30%" : position === "right" ? "67%" : "50%",
   top: "50%",
   transform: "translate(-50%, -50%)",
+
+  [theme.breakpoints.down("md")]: {
+    position: "inherit",
+  },
 }))
 
 export function Hero({ children, data }) {
+  const matches = useMediaQuery("(max-width:768px)")
   const { subtitle1, mainText, subtitle2, button, position } = data
 
   return (
     <Wrapper sx={{ position: "relative" }}>
       {children}
-      <Middle position={position}>
+      <Middle position={!matches ? position : "center"}>
         <Box
-          borderRadius={4}
+          borderRadius={matches ? "0" : "20px"}
           sx={{
             p: "20px 40px",
-            backgroundColor: "titleBackground",
+            backgroundColor: matches ? "blackBackground" : "titleBackground",
           }}
         >
           <Typography
             sx={{ margin: "20px 10px;" }}
             textAlign={
-              position === "left"
-                ? "left"
-                : position === "right"
-                ? "right"
+              !matches
+                ? position === "left"
+                  ? "left"
+                  : position === "right"
+                  ? "right"
+                  : "center"
                 : "center"
             }
             variant="subtitle1"
@@ -45,10 +52,12 @@ export function Hero({ children, data }) {
           <Typography
             textTransform="uppercase"
             textAlign={
-              position === "left"
-                ? "left"
-                : position === "right"
-                ? "right"
+              !matches
+                ? position === "left"
+                  ? "left"
+                  : position === "right"
+                  ? "right"
+                  : "center"
                 : "center"
             }
             sx={{ maxWidth: "550px", mb: "17px" }}
@@ -59,10 +68,12 @@ export function Hero({ children, data }) {
           </Typography>
           <Typography
             textAlign={
-              position === "left"
-                ? "left"
-                : position === "right"
-                ? "right"
+              !matches
+                ? position === "left"
+                  ? "left"
+                  : position === "right"
+                  ? "right"
+                  : "center"
                 : "center"
             }
             variant="subtitle1"
@@ -71,12 +82,14 @@ export function Hero({ children, data }) {
           </Typography>
           {button && (
             <Box
-              display={"flex"}
+              display={!matches ? "flex" : "grid"}
               justifyContent={
-                position === "left"
-                  ? "left"
-                  : position === "right"
-                  ? "right"
+                !matches
+                  ? position === "left"
+                    ? "left"
+                    : position === "right"
+                    ? "right"
+                    : "center"
                   : "center"
               }
             >

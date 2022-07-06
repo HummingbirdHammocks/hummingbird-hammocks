@@ -15,11 +15,8 @@ import { Link } from "gatsby"
 
 export const AppDrawer = () => {
   const { drawerOpen, setDrawerOpen } = useNavContext()
-  const [open, setOpen] = useState(true)
-
-  const handleClick = () => {
-    setOpen(!open)
-  }
+  const [nav1, setNav1] = useState(false)
+  const [nav2, setNav2] = useState(false)
 
   return (
     <Drawer
@@ -53,23 +50,23 @@ export const AppDrawer = () => {
           <Typography variant="navMenu">Shelter</Typography>
         </ListItem>
 
-        <ListItemButton onClick={handleClick}>
+        <ListItemButton onClick={() => setNav1(!nav1)}>
           <Link style={{ textDecoration: "none" }} to="/">
             <Typography variant="navMenu">More Gear</Typography>
           </Link>
 
-          {open ? <ExpandLess /> : <ExpandMore />}
+          {nav1 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
-        <Collapse in={open} timeout="auto" unmountOnExit>
+        <Collapse in={nav1} timeout="auto" unmountOnExit>
           <List sx={{ pl: 4 }} component="div" disablePadding>
-            <ListItemButton onClick={handleClick}>
+            <ListItemButton>
               <Link style={{ textDecoration: "none" }} to="/">
                 <Typography variant="navMenu">Accessorie</Typography>
               </Link>
 
-              {open ? <ExpandLess /> : <ExpandMore />}
+              <ExpandLess />
             </ListItemButton>
-            <Collapse in={open} timeout="auto" unmountOnExit>
+            <Collapse in={nav1} timeout="auto" unmountOnExit>
               <List sx={{ pl: 4 }} component="div" disablePadding>
                 <ListItem component={Link} to="/">
                   <Typography variant="navMenu">Hammock Accessories</Typography>
@@ -96,14 +93,14 @@ export const AppDrawer = () => {
           </List>
         </Collapse>
 
-        <ListItemButton onClick={handleClick}>
+        <ListItemButton onClick={() => setNav2(!nav2)}>
           <Link style={{ textDecoration: "none" }} to="/">
             <Typography variant="navMenu">Explore</Typography>
           </Link>
 
-          {open ? <ExpandLess /> : <ExpandMore />}
+          {nav2 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
-        <Collapse in={open} timeout="auto" unmountOnExit>
+        <Collapse in={nav2} timeout="auto" unmountOnExit>
           <List sx={{ pl: 4 }} component="div" disablePadding>
             <ListItem component={Link} to="/">
               <Typography variant="navMenu">Bargain Bin</Typography>

@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from "react"
-import { styled, Box, Typography, Button } from "@mui/material"
-import { Navigation, Autoplay } from "swiper"
+import React, { useContext } from "react"
+import { styled, Box, Typography, useMediaQuery } from "@mui/material"
+import { Navigation, Autoplay, Pagination } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { GatsbyImage } from "gatsby-plugin-image"
 
@@ -43,19 +43,43 @@ const TextBox = styled(Box)(() => ({
 
 export function FeaturedProduct() {
   const { featuredProducts } = useContext(ProductContext)
+  const matches = useMediaQuery("(max-width:1100px)")
 
   return (
     <Wrapper>
       <Swiper
-        slidesPerView={5}
+        slidesPerView={1}
         spaceBetween={30}
-        navigation={true}
-        // loop={true}
-        // autoplay={{
-        //   delay: 1500,
-        //   disableOnInteraction: false,
-        // }}
-        modules={[Navigation, Autoplay]}
+        navigation={matches ? false : true}
+        loop={true}
+        pagination={{ clickable: true }}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        breakpoints={{
+          "@0.00": {
+            slidesPerView: 1,
+            spaceBetween: 10,
+          },
+          "@0.75": {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          "@1.00": {
+            slidesPerView: 3,
+            spaceBetween: 40,
+          },
+          "@1.50": {
+            slidesPerView: 4,
+            spaceBetween: 50,
+          },
+          "@2.00": {
+            slidesPerView: 5,
+            spaceBetween: 60,
+          },
+        }}
+        modules={[Navigation, Autoplay, Pagination]}
         className="mySwiper"
       >
         {featuredProducts.map(item => (

@@ -45,6 +45,25 @@ const secondData = {
   // ],
 }
 
+const thirdData = {
+  position: "left",
+  subtitle1: "Hammocks need trees, and so do we!",
+  mainText: "WE PLANT TWO TREES FOR EVERY ORDER",
+  subtitle2: "One Order Placed = Two Trees Planted",
+  button: [
+    {
+      id: 1,
+      text: "Ecology",
+      url: "/",
+    },
+    {
+      id: 2,
+      text: "Eden Project",
+      url: "/",
+    },
+  ],
+}
+
 const detailsData = {
   order: 1,
   title: "SIL-POLY RAIN TARPS",
@@ -73,12 +92,11 @@ const IndexPage = () => (
         }}
         layout="fullWidth"
         alt="Ultralight Hammock"
-        src="../assets/images/home/Ultralight Hammock.jpeg"
+        src="../assets/images/home/hero-back.jpg"
         placeholder="blurred"
       />
     </Hero>
     <Info />
-    <FeaturedProduct />
     <Hero data={secondData}>
       <StaticImage
         style={{
@@ -90,8 +108,21 @@ const IndexPage = () => (
         placeholder="blurred"
       />
     </Hero>
-    <Details data={detailsData}>
+    <FeaturedProduct />
+    <Hero data={thirdData}>
       <StaticImage
+        style={{
+          gridArea: "1/1",
+        }}
+        layout="fullWidth"
+        alt="Ultralight Hammock"
+        src="../assets/images/home/ecology.jpg"
+        placeholder="blurred"
+      />
+    </Hero>
+    <Details divider={true} data={detailsData}>
+      <StaticImage
+        imgStyle={{ borderRadius: "20px" }}
         src="../assets/images/home/Details.jpg"
         alt="Hummingbird Hammocks"
         placeholder="blurred"
@@ -99,6 +130,7 @@ const IndexPage = () => (
     </Details>
     <Details order="2" data={detailsData2}>
       <StaticImage
+        imgStyle={{ borderRadius: "20px" }}
         src="../assets/images/home/Details.jpg"
         alt="Hummingbird Hammocks"
         placeholder="blurred"

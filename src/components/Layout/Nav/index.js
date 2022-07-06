@@ -12,7 +12,6 @@ import { StaticImage } from "gatsby-plugin-image"
 import MenuIcon from "@mui/icons-material/Menu"
 import { ShoppingBasket } from "@mui/icons-material"
 
-import "../../../ui/app.css"
 import NavMenuItems from "./MenuItems"
 import { MainWrapper, Link } from "components"
 import { useNavContext, useUICartContext } from "contexts"
@@ -79,7 +78,7 @@ const AppbarMobile = () => {
             <MenuIcon color="white" />
           </IconButton>
 
-          <Typography>Menu</Typography>
+          <Typography color="white">Menu</Typography>
           <Link sx={{ ml: "auto" }} to="/">
             <StaticImage
               src="../../../assets/images/icon.png"
@@ -113,6 +112,18 @@ const AppbarMobile = () => {
 
 const ListBox = styled("li")(() => ({
   padding: "15px 10px",
+
+  "& .arrow": {
+    "&:after": {
+      content: `""`,
+      display: "inline-block",
+      marginLeft: "0.28em",
+      verticalAlign: "0.09em",
+      borderTop: "0.42em solid",
+      borderRight: "0.32em solid transparent",
+      borderLeft: "0.32em solid transparent",
+    },
+  },
 }))
 
 const MenuItems = ({ items, depthLevel }) => {
@@ -159,7 +170,7 @@ const MenuItems = ({ items, depthLevel }) => {
             <Typography variant="navMenu">
               {items.title}{" "}
               {depthLevel > 0 ? (
-                <span>&raquo;</span>
+                <span style={{ float: "right" }}>&raquo;</span>
               ) : (
                 <span className="arrow"></span>
               )}
