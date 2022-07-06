@@ -4,7 +4,7 @@ import { Navigation, Autoplay, Pagination } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { GatsbyImage } from "gatsby-plugin-image"
 
-import { AddToCart } from "components"
+import { AddToCart, Link } from "components"
 import { ProductContext } from "contexts"
 
 const Wrapper = styled("section")(() => ({
@@ -27,10 +27,14 @@ const ImageBox = styled(Box)(() => ({
   },
 }))
 
-const AbsoluteImage = styled(GatsbyImage)(() => ({
+const AbsoluteImage = styled(GatsbyImage)(({ theme }) => ({
   position: "absolute",
   top: 0,
   borderRadius: "20px",
+
+  [theme.breakpoints.down("md")]: {
+    margin: "0 30px",
+  },
 }))
 
 const TextBox = styled(Box)(() => ({
@@ -84,7 +88,7 @@ export function FeaturedProduct() {
       >
         {featuredProducts.map(item => (
           <SwiperSlide key={item.shopifyId}>
-            <ImageBox minHeight={550}>
+            <ImageBox minHeight={matches ? "650px" : "600px"}>
               <AbsoluteImage
                 className="image-1"
                 image={item.featuredImage.gatsbyImageData}
@@ -97,13 +101,16 @@ export function FeaturedProduct() {
                 alt={item.images[1].altText}
               />
               <TextBox>
-                <Typography
-                  textAlign={"center"}
-                  variant="subtitle2"
-                  color="black"
-                >
-                  {item.title}
-                </Typography>
+                <Link to={`products/${item.handle}`}>
+                  <Typography
+                    textAlign={"center"}
+                    variant="subtitle2"
+                    color="black"
+                  >
+                    {item.title}
+                  </Typography>
+                </Link>
+
                 <Typography
                   textAlign={"center"}
                   variant="subtitle3"

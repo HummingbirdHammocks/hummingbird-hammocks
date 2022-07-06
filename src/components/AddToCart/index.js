@@ -1,6 +1,8 @@
 import React, { useContext } from "react"
-import { styled, Box, Button } from "@mui/material"
+import { styled, Box } from "@mui/material"
 import { CartContext } from "contexts"
+
+import { OnButton } from "components"
 
 const Wrapper = styled(Box)(() => ({
   padding: "10px",
@@ -15,7 +17,7 @@ export const AddToCart = ({ variantId, available }) => {
 
   return (
     <Wrapper>
-      <Button onClick={handleSubmit}>Add to Cart</Button>
+      <OnButton onClick={handleSubmit}>Add to Cart</OnButton>
     </Wrapper>
   )
 }

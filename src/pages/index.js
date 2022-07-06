@@ -19,6 +19,8 @@ const heroData = {
       id: 2,
       text: "Tree Straps",
       url: "/",
+      background: "transparent",
+      color: "white",
     },
   ],
 }
@@ -55,6 +57,8 @@ const thirdData = {
       id: 1,
       text: "Ecology",
       url: "/",
+      background: "transparent",
+      color: "white",
     },
     {
       id: 2,

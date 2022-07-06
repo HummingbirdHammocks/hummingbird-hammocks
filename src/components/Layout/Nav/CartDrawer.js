@@ -63,6 +63,7 @@ export const CartDrawer = () => {
       <Box>
         {checkout?.lineItems?.map(item => (
           <Box
+            key={item.id}
             alignItems="center"
             py={2}
             px={2.5}

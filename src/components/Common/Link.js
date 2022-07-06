@@ -4,7 +4,14 @@ import { styled } from "@mui/material"
 import { Link as GatsbyLink } from "gatsby"
 
 export const Link = forwardRef(function Link(props, ref) {
-  return <MuiLink component={GatsbyLink} ref={ref} {...props} />
+  return (
+    <MuiLink
+      sx={{ textDecoration: "none" }}
+      component={GatsbyLink}
+      ref={ref}
+      {...props}
+    />
+  )
 })
 
 export const LinkButton = styled(GatsbyLink)(

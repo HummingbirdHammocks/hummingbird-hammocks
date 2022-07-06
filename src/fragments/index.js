@@ -6,7 +6,9 @@ export const productFields = graphql`
     title
     description
     tags
+    handle
     images {
+      id
       altText
       gatsbyImageData(placeholder: BLURRED)
     }
