@@ -7,6 +7,8 @@ export const productFields = graphql`
     description
     tags
     handle
+    productType
+    id
     images {
       id
       altText

@@ -13,9 +13,9 @@ const TextBox = styled(Box)(() => ({}))
 export const ProductCard = ({ products }) => {
   return (
     <>
-      {products.map(product => (
-        <ProductWrapper>
-          <Link>
+      {products?.map(product => (
+        <ProductWrapper key={product.id}>
+          <Link to={`/products/${product.handle}`}>
             <GatsbyImage
               alt={product.title}
               image={product.images[0].gatsbyImageData}
