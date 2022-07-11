@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { useContext } from "react"
 import {
   Drawer,
   Box,
@@ -17,11 +17,11 @@ export const CartDrawer = () => {
   const { cartOpen, setCartOpen } = useUICartContext()
   const { checkout, updateLineItem, removeLineItem } = useContext(CartContext)
 
-  const [open, setOpen] = useState(true)
+  // const [open, setOpen] = useState(true)
 
-  const handleClick = () => {
-    setOpen(!open)
-  }
+  // const handleClick = () => {
+  //   setOpen(!open)
+  // }
 
   let totalQuantity = 0
 
@@ -140,11 +140,12 @@ export const CartDrawer = () => {
               </Box>
             </Box>
 
-            <IconButton ml={2.5} size="small">
-              <Delete
-                onClick={() => removeLineItem(item.id)}
-                fontSize="small"
-              />
+            <IconButton
+              onClick={() => removeLineItem(item.id)}
+              ml={2.5}
+              size="small"
+            >
+              <Delete fontSize="small" />
             </IconButton>
           </Box>
         ))}

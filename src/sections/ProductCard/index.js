@@ -11,6 +11,7 @@ const ProductWrapper = styled(Box)(() => ({
 const TextBox = styled(Box)(() => ({}))
 
 export const ProductCard = ({ products }) => {
+  console.log(products)
   return (
     <>
       {products?.map(product => (

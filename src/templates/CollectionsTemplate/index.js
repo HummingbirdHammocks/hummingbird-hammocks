@@ -13,14 +13,14 @@ import {
   ListItemIcon,
   Divider,
   FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
+  NativeSelect,
+  IconButton,
+  Slider,
 } from "@mui/material"
 import { GatsbyImage } from "gatsby-plugin-image"
-import { ExpandLess, ExpandMore } from "@mui/icons-material"
+import { ExpandLess, ExpandMore, Delete } from "@mui/icons-material"
 
-import { Seo, Layout, MainWrapper } from "components"
+import { Seo, Layout, MainWrapper, Link, OnButton } from "components"
 import { ProductCard } from "sections"
 
 const Wrapper = styled("section")(() => ({
@@ -45,7 +45,7 @@ const Gradient = styled("div")(() => ({
 }))
 
 const ProductWrapper = styled("div")(({ theme }) => ({
-  padding: "60px 15px",
+  padding: "0 15px 60px 15px",
   display: "grid",
   gridTemplateColumns: "1fr 3fr",
 
@@ -54,7 +54,7 @@ const ProductWrapper = styled("div")(({ theme }) => ({
   },
 }))
 
-const ProductGridContent = styled("div")(({ theme }) => ({
+const ProductGridContent = styled("div")(() => ({
   padding: "10px 50px",
 }))
 
@@ -76,28 +76,39 @@ const FilterGridWrapper = styled("div")(() => ({
 
 const CollectionsPage = ({ data }) => {
   const { title, image, products, description } = data.shopifyCollection
+  const { collections } = data.allShopifyCollection
 
-  const [productType, setProductType] = useState(
-    Array.from(new Set(products.map(j => j.productType)))
+  const productType = Array.from(new Set(products.map(j => j.productType)))
+  // const allColors = Array.from(
+  //   new Set(products.map(i => i.variants.map(j => j.title)).flat(1))
+  // )
+  const heightPrice = Math.max(
+    ...products.map(i => Number(i.priceRangeV2.minVariantPrice.amount))
   )
 
   const [theProducts, setTheProducts] = useState(null)
   const [productTypeChecked, setProductTypeChecked] = useState([])
+  // const [colorChecked, setColorChecked] = useState([])
   const [collapse, setCollapse] = useState({
     collections: false,
     price: false,
     productType: false,
+    colors: false,
   })
-  const [filterOptions, setFilterOptions] = useState({})
+  const [filterOptions, setFilterOptions] = useState({ sort: "relevance" })
+  const [selectedPrice, setSelectedPrice] = useState([0, heightPrice])
 
+  // Handle Collapse
   const handleCollapse = target => {
     setCollapse({ ...collapse, [target]: !collapse[target] })
   }
 
+  // Handle Product Sort Change
   const handleProductSortChange = e => {
     setFilterOptions({ ...filterOptions, sort: e.target.value })
   }
 
+  //Handle Product Type Checked
   const handleProductTypeToggle = value => () => {
     const currentIndex = productTypeChecked.indexOf(value)
     const newChecked = [...productTypeChecked]
@@ -112,13 +123,57 @@ const CollectionsPage = ({ data }) => {
 
     setFilterOptions({
       ...filterOptions,
-      productType: newChecked.map(item => productType[item]),
+      productType: newChecked.map(item => item),
+    })
+  }
+
+  // Handle Color Checked
+  // const handleColorToggle = value => () => {
+  //   const currentIndex = colorChecked.indexOf(value)
+  //   const newChecked = [...colorChecked]
+
+  //   if (currentIndex === -1) {
+  //     newChecked.push(value)
+  //   } else {
+  //     newChecked.splice(currentIndex, 1)
+  //   }
+
+  //   setColorChecked(newChecked)
+
+  //   setFilterOptions({
+  //     ...filterOptions,
+  //     colors: newChecked.map(item => item),
+  //   })
+  //   console.log(filterOptions)
+  // }
+
+  // Handle Price Filter
+  const handleChangePrice = (event, value) => {
+    setSelectedPrice(value)
+  }
+
+  // Handle Price Filter OnClick
+  const handlePriceFilterClick = () => {
+    setFilterOptions({
+      ...filterOptions,
+      price: true,
+    })
+  }
+
+  // Handle Clear Price Filter OnClick
+  const handleClearPriceFilterClick = () => {
+    setSelectedPrice([0, heightPrice])
+    setFilterOptions({
+      ...filterOptions,
+      price: false,
     })
   }
 
   // Product Sorting
   const productSorting = (data, value) => {
-    if (value === "low") {
+    if (value === "relevance") {
+      return data
+    } else if (value === "low") {
       return data.sort(
         (a, b) =>
           Number(a.priceRangeV2.minVariantPrice.amount) -
@@ -130,6 +185,16 @@ const CollectionsPage = ({ data }) => {
           Number(b.priceRangeV2.minVariantPrice.amount) -
           Number(a.priceRangeV2.minVariantPrice.amount)
       )
+    } else if (value === "featured") {
+      return data.filter(i => i.tags.includes("Featured"))
+    } else if (value === "newToOld") {
+      return data.sort(
+        (a, b) => new Date(a.publishedAt) - new Date(b.publishedAt)
+      )
+    } else if ((value = "oldToNew")) {
+      return data.sort(
+        (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)
+      )
     }
 
     return data
@@ -140,9 +205,42 @@ const CollectionsPage = ({ data }) => {
     return data.filter(item => values.includes(item.productType))
   }
 
+  // Product Filter by Colors
+  // const filterByColor = (data, values) => {
+  //   return data
+  //     .map(i => ({
+  //       ...i,
+  //       variants: i.variants.filter(({ title }) => !values.includes(title)),
+  //     }))
+  //     .filter(({ variants }) => variants.length)
+
+  //   // let newData = []
+
+  //   // for (let i = 0; i < data.length; i++) {
+  //   //   const variantsArr = Array.from(data[i].variants.map(i => i.title))
+
+  //   //   for (let j = 0; j < variantsArr.length; j++) {
+  //   //     if (values.includes(variantsArr[j])) {
+  //   //       newData.push(data[i])
+  //   //     }
+  //   //   }
+
+  //   //   return newData
+  //   // }
+  // }
+
   // Product Filter by Availability
   const filterByAvailability = data => {
     return data.filter(item => item.variants[0].availableForSale === true)
+  }
+
+  // Product Filter by Price
+  const filterByPrice = data => {
+    return data.filter(
+      item =>
+        Number(item.priceRangeV2.minVariantPrice.amount) >= selectedPrice[0] &&
+        Number(item.priceRangeV2.minVariantPrice.amount) <= selectedPrice[1]
+    )
   }
 
   // Filter Function
@@ -167,14 +265,23 @@ const CollectionsPage = ({ data }) => {
       filterProducts = filterByAvailability(filterProducts)
     }
 
+    // Filter by Price
+    if (filterOptions.price) {
+      filterProducts = filterByPrice(filterProducts)
+    }
+
+    // Filter for Color
+    // if (filterOptions?.colors?.length > 0) {
+    //   filterProducts = filterByColor(filterProducts, filterOptions.colors)
+    // }
+
     setTheProducts(filterProducts)
   }
 
   useEffect(() => {
     filterFunction()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterOptions])
-
-  console.log(theProducts)
 
   return (
     <Layout>
@@ -196,11 +303,84 @@ const CollectionsPage = ({ data }) => {
         <Gradient />
       </Wrapper>
       <MainWrapper>
+        {/*  
+          
+            Sorting Product
+          
+            */}
+        <Box display="flex" justifyContent="right">
+          <Box sx={{ minWidth: 120, maxWidth: 320, p: "40px 10px 20px 10px" }}>
+            <FormControl>
+              {/* <InputLabel variant="standard" htmlFor="uncontrolled-native">
+              Sort
+            </InputLabel> */}
+              <NativeSelect
+                value={filterOptions.sort}
+                onChange={handleProductSortChange}
+              >
+                <option value="featured">Featured</option>
+                <option value="relevance">Relevance</option>
+                <option value="high">Price(How to Low)</option>
+                <option value="low">Price(Low to High)</option>
+                <option value="newToOld">Data(New to Old)</option>
+                <option value="oldToNew">Data(Old to New)</option>
+              </NativeSelect>
+            </FormControl>
+          </Box>
+        </Box>
+
+        <Divider />
         <ProductWrapper>
           <FilterGridWrapper>
+            {/* 
+          
+            All the filter option that selected
+          
+           */}
+            {filterOptions?.productType?.length > 0 && (
+              <Box
+                sx={{ background: "#e3e3e3", borderRadius: "20px" }}
+                padding="20px"
+              >
+                <Typography variant="h6">Selected Filters</Typography>
+                <List>
+                  {filterOptions?.productType?.map((item, index) => (
+                    <ListItem
+                      secondaryAction={
+                        <IconButton
+                          onClick={handleProductTypeToggle(item)}
+                          edge="end"
+                          aria-label="delete"
+                        >
+                          <Delete />
+                        </IconButton>
+                      }
+                      key={index}
+                    >
+                      <ListItemText primary={item} />
+                    </ListItem>
+                  ))}
+                </List>
+              </Box>
+            )}
+
             <List>
+              {/* 
+          
+              All the Collections
+          
+              */}
               <ListItemButton onClick={() => handleCollapse("collections")}>
-                <ListItemText primary="Collections" />
+                <ListItemText
+                  secondaryTypographyProps={{
+                    fontSize: 20,
+                    letterSpacing: 1.2,
+                    fontWeight: 400,
+                    textTransform: "uppercase",
+                    color: "#000",
+                  }}
+                  secondary="Collections"
+                />
                 {collapse["collections"] ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
               <Collapse
@@ -208,14 +388,31 @@ const CollectionsPage = ({ data }) => {
                 timeout="auto"
                 unmountOnExit
               >
-                <ListItem>
-                  <Typography>List of Collections with Link</Typography>
-                </ListItem>
+                {collections?.map(collection => (
+                  <ListItem key={collection.shopifyId}>
+                    <Link to={`/collections/${collection.handle}`}>
+                      <Typography>{collection.title}</Typography>
+                    </Link>
+                  </ListItem>
+                ))}
               </Collapse>
               <Divider />
-
+              {/* 
+          
+              Product Type Filtering
+          
+            */}
               <ListItemButton onClick={() => handleCollapse("productType")}>
-                <ListItemText primary="productType" />
+                <ListItemText
+                  secondaryTypographyProps={{
+                    fontSize: 20,
+                    letterSpacing: 1.2,
+                    fontWeight: 400,
+                    textTransform: "uppercase",
+                    color: "#000",
+                  }}
+                  secondary="Product Type"
+                />
                 {collapse["productType"] ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
               <Collapse
@@ -224,19 +421,17 @@ const CollectionsPage = ({ data }) => {
                 unmountOnExit
               >
                 {productType.map((value, index) => {
-                  const labelId = `checkbox-list-label-${index}`
-
                   return (
                     <ListItem key={index} disablePadding>
                       <ListItemButton
                         role={undefined}
-                        onClick={handleProductTypeToggle(index)}
+                        onClick={handleProductTypeToggle(value)}
                         dense
                       >
                         <ListItemIcon>
                           <Checkbox
                             edge="start"
-                            checked={productTypeChecked.indexOf(index) !== -1}
+                            checked={productTypeChecked.indexOf(value) !== -1}
                             tabIndex={-1}
                             disableRipple
                             inputProps={{ "aria-labelledby": index }}
@@ -248,26 +443,101 @@ const CollectionsPage = ({ data }) => {
                   )
                 })}
               </Collapse>
+              <Divider />
+              {/*
+
+              Price Filtering
+          
+             */}
+              <ListItemButton onClick={() => handleCollapse("price")}>
+                <ListItemText
+                  secondaryTypographyProps={{
+                    fontSize: 20,
+                    letterSpacing: 1.2,
+                    fontWeight: 400,
+                    textTransform: "uppercase",
+                    color: "#000",
+                  }}
+                  secondary="Price"
+                />
+                {collapse["price"] ? <ExpandLess /> : <ExpandMore />}
+              </ListItemButton>
+              <Collapse
+                sx={{ mb: "20px" }}
+                in={collapse["price"]}
+                timeout="auto"
+                unmountOnExit
+              >
+                <Slider
+                  sx={{ mt: "40px" }}
+                  value={selectedPrice}
+                  onChange={handleChangePrice}
+                  valueLabelDisplay="on"
+                  min={0}
+                  max={heightPrice}
+                />
+
+                <OnButton onClick={handlePriceFilterClick}>Apply</OnButton>
+                {filterOptions?.price && (
+                  <OnButton onClick={handleClearPriceFilterClick}>
+                    Clear
+                  </OnButton>
+                )}
+              </Collapse>
+
+              <Divider />
+
+              {/*
+
+                Color Filtering
+          
+             */}
+              {/* <ListItemButton onClick={() => handleCollapse("colors")}>
+                <ListItemText
+                  secondaryTypographyProps={{
+                    fontSize: 20,
+                    letterSpacing: 1.2,
+                    fontWeight: 400,
+                    textTransform: "uppercase",
+                    color: "#000",
+                  }}
+                  secondary="Colors & Variants"
+                />
+                {collapse["colors"] ? <ExpandLess /> : <ExpandMore />}
+              </ListItemButton>
+              <Collapse in={collapse["colors"]} timeout="auto" unmountOnExit>
+                {allColors?.map((value, index) => {
+                  return (
+                    <ListItem key={index} disablePadding>
+                      <ListItemButton
+                        role={undefined}
+                        onClick={handleColorToggle(value)}
+                        dense
+                      >
+                        <ListItemIcon>
+                          <Checkbox
+                            edge="start"
+                            checked={colorChecked.indexOf(value) !== -1}
+                            tabIndex={-1}
+                            disableRipple
+                            inputProps={{ "aria-labelledby": index }}
+                          />
+                        </ListItemIcon>
+                        <ListItemText id={index} primary={value} />
+                      </ListItemButton>
+                    </ListItem>
+                  )
+                })}
+              </Collapse> */}
             </List>
           </FilterGridWrapper>
+
           <ProductGridContent>
-            <Box sx={{ minWidth: 120 }}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">
-                  {filterOptions.sort}
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Shorting"
-                  value={filterOptions.sort}
-                  onChange={handleProductSortChange}
-                >
-                  <MenuItem value="low">Price(Low to High)</MenuItem>
-                  <MenuItem value="high">Price(How to Low)</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
+            {/*  
+          
+             Showing Product
+          
+            */}
             <ProductGridWrapper>
               {theProducts && <ProductCard products={theProducts} />}
             </ProductGridWrapper>
@@ -291,6 +561,13 @@ export const query = graphql`
       products {
         ...ShopifyProductFields
         ...ProductTileFields
+      }
+    }
+    allShopifyCollection {
+      collections: nodes {
+        handle
+        shopifyId
+        title
       }
     }
   }

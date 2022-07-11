@@ -8,6 +8,7 @@ export const productFields = graphql`
     tags
     handle
     productType
+    publishedAt
     id
     images {
       id
@@ -18,6 +19,7 @@ export const productFields = graphql`
       id
       availableForSale
       shopifyId
+      title
     }
     featuredImage {
       altText

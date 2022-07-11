@@ -16,6 +16,35 @@ import NavMenuItems from "./MenuItems"
 import { MainWrapper, Link } from "components"
 import { useNavContext, useUICartContext } from "contexts"
 
+const Wrapper = styled("ul")(() => ({
+  position: "absolute",
+  minWidth: "260px",
+  zIndex: 1201,
+  background: "#fff",
+  listStyle: "none",
+  padding: "7px 0",
+  borderRadius: "15px",
+  border: "1px solid #d3cece",
+  boxShadow:
+    "0 10px 15px -3px rgba(46, 41, 51, 0.08), 0 4px 6px -2px rgba(71, 63, 79, 0.16)",
+}))
+
+const ListBox = styled("li")(() => ({
+  padding: "15px 10px",
+
+  "& .arrow": {
+    "&:after": {
+      content: `""`,
+      display: "inline-block",
+      marginLeft: "0.28em",
+      verticalAlign: "0.09em",
+      borderTop: "0.42em solid",
+      borderRight: "0.32em solid transparent",
+      borderLeft: "0.32em solid transparent",
+    },
+  },
+}))
+
 function Nav() {
   const matches = useMediaQuery("(max-width:1100px)")
 
@@ -39,7 +68,7 @@ const AppbarDesktop = () => {
               placeholder="blurred"
             />
           </Link>
-          <List classNames="menus" sx={{ display: "flex" }}>
+          <List className="menus" sx={{ display: "flex" }}>
             {NavMenuItems.map((menu, index) => {
               const depthLevel = 0
               return (
@@ -48,13 +77,7 @@ const AppbarDesktop = () => {
             })}
           </List>
           <IconButton sx={{ ml: "auto" }}>
-            <svg
-              class="aa-SubmitIcon"
-              viewBox="0 0 24 24"
-              width="20"
-              height="20"
-              fill="currentColor"
-            >
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
               <path d="M16.041 15.856c-0.034 0.026-0.067 0.055-0.099 0.087s-0.060 0.064-0.087 0.099c-1.258 1.213-2.969 1.958-4.855 1.958-1.933 0-3.682-0.782-4.95-2.050s-2.050-3.017-2.050-4.95 0.782-3.682 2.050-4.95 3.017-2.050 4.95-2.050 3.682 0.782 4.95 2.050 2.050 3.017 2.050 4.95c0 1.886-0.745 3.597-1.959 4.856zM21.707 20.293l-3.675-3.675c1.231-1.54 1.968-3.493 1.968-5.618 0-2.485-1.008-4.736-2.636-6.364s-3.879-2.636-6.364-2.636-4.736 1.008-6.364 2.636-2.636 3.879-2.636 6.364 1.008 4.736 2.636 6.364 3.879 2.636 6.364 2.636c2.125 0 4.078-0.737 5.618-1.968l3.675 3.675c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414z"></path>
             </svg>
           </IconButton>
@@ -104,22 +127,6 @@ const AppbarMobile = () => {
   )
 }
 
-const ListBox = styled("li")(() => ({
-  padding: "15px 10px",
-
-  "& .arrow": {
-    "&:after": {
-      content: `""`,
-      display: "inline-block",
-      marginLeft: "0.28em",
-      verticalAlign: "0.09em",
-      borderTop: "0.42em solid",
-      borderRight: "0.32em solid transparent",
-      borderLeft: "0.32em solid transparent",
-    },
-  },
-}))
-
 const MenuItems = ({ items, depthLevel }) => {
   const [dropdown, setDropdown] = useState(false)
 
@@ -158,7 +165,7 @@ const MenuItems = ({ items, depthLevel }) => {
             sx={{ my: 1, mx: 1.5 }}
             to={items.url}
             aria-haspopup="menu"
-            aria-expanded={dropdown ? "true" : "false"}
+            aria-expanded={dropdown ? true : false}
             onClick={() => setDropdown(prev => !prev)}
           >
             <Typography variant="navMenu">
@@ -191,26 +198,12 @@ const MenuItems = ({ items, depthLevel }) => {
   )
 }
 
-const Wrapper = styled("ul")(() => ({
-  position: "absolute",
-  minWidth: "260px",
-  zIndex: 1201,
-  background: "#fff",
-  listStyle: "none",
-  padding: "7px 0",
-  borderRadius: "15px",
-  border: "1px solid #d3cece",
-  boxShadow:
-    "0 10px 15px -3px rgba(46, 41, 51, 0.08), 0 4px 6px -2px rgba(71, 63, 79, 0.16)",
-}))
-
 const Dropdown = ({ submenus, dropdown, depthLevel }) => {
   depthLevel = depthLevel + 1
   const dropdownClass = depthLevel > 1 ? true : false
 
   return (
     <Wrapper
-      dropdown={dropdown}
       sx={{
         display: !dropdown ? "none" : "block",
         position: !dropdownClass ? "" : "absolute",
