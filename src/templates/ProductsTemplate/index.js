@@ -7,6 +7,7 @@ import { GatsbyImage } from "gatsby-plugin-image"
 
 import { Seo, Layout, MainWrapper } from "components"
 import { CartContext } from "contexts"
+import JudgeMe from "utils/judgeMe"
 
 const TemplateSection = styled("section")(({ theme }) => ({
   background: theme.palette.white,
@@ -26,28 +27,47 @@ const MainGridWrapper = styled("div")(({ theme }) => ({
 }))
 
 const ProductPage = ({ data }) => {
-  const { title, images, description, shopifyId } = data.shopifyProduct
+  const { title, handle, images, description, shopifyId } = data.shopifyProduct
+
+  const { metaDescription, metaTitle, metaProductDetails } = data
+
   const matches = useMediaQuery("(max-width:900px)")
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null)
   const [product, setProduct] = useState(null)
   const [selectedVariant, setSelectedVariant] = useState(null)
+  const [reviews, setReviews] = useState(null)
 
   const { getProductById } = useContext(CartContext)
+
+  let reviewWidget = new JudgeMe(handle)
+
+  let productDetails
+
+  if (metaProductDetails?.value)
+    productDetails = JSON.parse(metaProductDetails.value)
+
+  console.log(productDetails)
+
+  useEffect(() => {
+    setReviews(reviewWidget.getReviewWidget().then(data => setReviews(data)))
+  }, [])
 
   useEffect(() => {
     getProductById(shopifyId).then(result => {
       setProduct(result)
       setSelectedVariant(result.variants[0])
 
-      console.log(product)
       /* eslint-disable react-hooks/exhaustive-deps */
     })
   }, [getProductById, shopifyId, setProduct])
 
   return (
     <Layout>
-      <Seo title={title} description={description} />
+      <Seo
+        title={metaTitle?.value || title}
+        description={metaDescription?.value || description}
+      />
       <TemplateSection>
         <MainWrapper>
           <MainGridWrapper>
@@ -133,6 +153,24 @@ const ProductPage = ({ data }) => {
               </Box>
             </Box>
           </MainGridWrapper>
+
+          {reviews && (
+            <div
+              className="jdgm-widget jdgm-review-widget jdgm-outside-widget"
+              data-id={reviews.product_external_id}
+              data-product-title={title}
+            >
+              <div dangerouslySetInnerHTML={{ __html: reviews.widget }} />
+            </div>
+          )}
+
+          {productDetails &&
+            productDetails?.map((item, index) => (
+              <div key={index}>
+                <div>{item.title}</div>
+                <div dangerouslySetInnerHTML={{ __html: item.body }} />
+              </div>
+            ))}
         </MainWrapper>
       </TemplateSection>
     </Layout>
@@ -142,9 +180,30 @@ const ProductPage = ({ data }) => {
 export default ProductPage
 
 export const query = graphql`
-  query ProductQuery($shopifyId: String) {
-    shopifyProduct(shopifyId: { eq: $shopifyId }) {
+  query ProductQuery($id: String) {
+    shopifyProduct(id: { eq: $id }) {
       ...ShopifyProductFields
+    }
+
+    metaTitle: shopifyProductMetafield(
+      productId: { eq: $id }
+      key: { eq: "title_tag" }
+    ) {
+      value
+    }
+
+    metaDescription: shopifyProductMetafield(
+      productId: { eq: $id }
+      key: { eq: "description_tag" }
+    ) {
+      value
+    }
+
+    metaProductDetails: shopifyProductMetafield(
+      productId: { eq: $id }
+      key: { eq: "product_details" }
+    ) {
+      value
     }
   }
 `

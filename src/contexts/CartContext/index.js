@@ -8,7 +8,7 @@ const client = Client.buildClient({
 })
 
 const defaultState = {
-  cart: {},
+  customerAccessToken: null,
 }
 
 export const CartContext = createContext(defaultState)
