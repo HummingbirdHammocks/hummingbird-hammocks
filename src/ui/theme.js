@@ -80,6 +80,9 @@ const theme = {
       ...rawTheme.typography.h5,
       fontSize: 20,
       fontWeight: rawTheme.typography.fontWeightLight,
+      letterSpacing: 1.5,
+      fontWeight: 400,
+      textTransform: "uppercase",
     },
     h6: {
       ...rawTheme.typography.h6,

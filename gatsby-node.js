@@ -26,7 +26,7 @@ exports.createPages = async ({ graphql, actions }) => {
       allShopifyProduct {
         edges {
           node {
-            shopifyId
+            id
             handle
           }
         }
@@ -39,7 +39,7 @@ exports.createPages = async ({ graphql, actions }) => {
     createPage({
       path: `products/${node.handle}`,
       context: {
-        shopifyId: node.shopifyId,
+        id: node.id,
       },
       component: path.resolve("./src/templates/ProductsTemplate/index.js"),
     })

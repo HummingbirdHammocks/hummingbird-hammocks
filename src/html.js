@@ -12,6 +12,31 @@ export default function HTML(props) {
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
         {props.headComponents}
+        {/* Judge Me start */}
+        <script>
+          jdgm = window.jdgm || {};jdgm.SHOP_DOMAIN =
+          'hummingbird-hammocks.myshopify.com';jdgm.PLATFORM =
+          'shopify';jdgm.PUBLIC_TOKEN = 'Yc8UD8ErSdTRRpdNomoaN6i1MQo';
+        </script>
+        <script
+          data-cfasync="false"
+          type="text/javascript"
+          async
+          src="https://cdn.judge.me/widget_preloader.js"
+        ></script>
+        <script
+          data-cfasync="false"
+          type="text/javascript"
+          async
+          src="https://cdn.judge.me/assets/installed.js"
+        ></script>
+
+        <link
+          rel="stylesheet"
+          type="text/css"
+          media="all"
+          href="https://cdn.judge.me/shopify_v2.css"
+        />
       </head>
       <body style={{ margin: "0", padding: "0" }} {...props.bodyAttributes}>
         {props.preBodyComponents}

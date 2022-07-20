@@ -2,7 +2,7 @@ require("dotenv").config()
 
 module.exports = {
   siteMetadata: {
-    title: `Title Here`,
+    title: `Hummingbird Hammocks`,
     description: `google description goes here`,
     keywords: `google keywords`,
     siteName: `Example`,
@@ -61,11 +61,20 @@ module.exports = {
       },
     },
     {
+      resolve: `gatsby-plugin-apollo-shopify`,
+      options: {
+        shopName: process.env.GATSBY_SHOPIFY_SHOP_NAME,
+        accessToken: process.env.GATSBY_STOREFRONT_ACCESS_TOKEN,
+        apiVersion: "2022-04",
+      },
+    },
+    {
       resolve: "gatsby-source-shopify",
       options: {
         password: process.env.SHOPIFY_SHOP_PASSWORD,
         storeUrl: process.env.GATSBY_SHOPIFY_STORE_URL,
         shopifyConnections: ["collections"],
+        apiVersion: "2022-04",
         // downloadImages: true,
       },
     },

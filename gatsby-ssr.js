@@ -7,6 +7,7 @@ import {
   NavProvider,
   UICartProvider,
   CartContextProvider,
+  UserContextProvider,
 } from "contexts"
 
 // Import Swiper styles
@@ -17,13 +18,15 @@ import "swiper/css/thumbs"
 import "swiper/css/free-mode"
 
 export const wrapRootElement = ({ element }) => (
-  <ProductContextProvider>
-    <CartContextProvider>
-      <ThemeProvider theme={theme}>
-        <NavProvider>
-          <UICartProvider>{element}</UICartProvider>{" "}
-        </NavProvider>
-      </ThemeProvider>
-    </CartContextProvider>
-  </ProductContextProvider>
+  <UserContextProvider>
+    <ProductContextProvider>
+      <CartContextProvider>
+        <ThemeProvider theme={theme}>
+          <NavProvider>
+            <UICartProvider>{element}</UICartProvider>{" "}
+          </NavProvider>
+        </ThemeProvider>
+      </CartContextProvider>
+    </ProductContextProvider>
+  </UserContextProvider>
 )
