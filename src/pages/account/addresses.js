@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react"
 import { styled, Typography, Divider, Box } from "@mui/material"
-import { Query, Mutation } from "react-apollo"
-import gql from "graphql-tag"
+import { useMutation, gql, useQuery } from "@apollo/client"
 import { navigate } from "gatsby"
 import { useForm } from "react-hook-form"
 
@@ -11,7 +10,6 @@ import {
   Layout,
   MainWrapper,
   OnButton,
-  Link,
   MiddleSpinner,
   SimpleForm,
 } from "components"
@@ -46,14 +44,27 @@ const AddressPage = () => {
     handleSubmit,
   } = useForm()
 
+  const variables = {
+    variables: {
+      customerAccessToken,
+    },
+  }
+
+  //Query & Mutation
+  const { data, loading, error, refetch } = useQuery(
+    CUSTOMER_ADDRESS,
+    variables
+  )
+  const [deleteAddress, {}] = useMutation(CUSTOMER_DELETE_ADDRESS)
+  const [customerAddressCreate, {}] = useMutation(CUSTOMER_CREATE_ADDRESS)
+  const [customerAddressUpdate, {}] = useMutation(CUSTOMER_EDIT_ADDRESS)
+  const [customerDefaultAddressUpdate, {}] = useMutation(
+    CUSTOMER_EDIT_DEFAULT_ADDRESS
+  )
+
   const userLogout = () => {
     logout()
     navigate("/")
-  }
-
-  const editAddress = data => {
-    setFormAddress(data)
-    setFormType("Edit")
   }
 
   const addAddress = () => {
@@ -71,6 +82,130 @@ const AddressPage = () => {
     setFormType("Add")
   }
 
+  const editAddress = data => {
+    setFormAddress(data)
+    setFormType("Edit")
+  }
+
+  // Handle Delete Address
+  const handleDeleteAddress = id => {
+    deleteAddress({
+      variables: {
+        customerAccessToken,
+        id,
+      },
+    })
+      .then(result => {
+        refetch()
+        setMessage("Delete Successful!")
+      })
+      .catch(error => {
+        console.log(error)
+        setMessage("Something went wrong!")
+      })
+  }
+
+  // Handle Form Submit
+  const handleFormSubmit = ({
+    address1,
+    address2,
+    city,
+    country,
+    firstName,
+    lastName,
+    id,
+    phone,
+    zip,
+  }) => {
+    try {
+      if (formType === "Add") {
+        customerAddressCreate({
+          variables: {
+            customerAccessToken,
+            address: {
+              address1,
+              address2,
+              city,
+              country,
+              firstName,
+              lastName,
+              phone,
+              zip,
+            },
+          },
+        })
+          .then(result => {
+            checkDefaultAddress &&
+              customerDefaultAddressUpdate({
+                variables: {
+                  customerAccessToken,
+                  addressId:
+                    result.data.customerAddressCreate.customerAddress.id,
+                },
+              })
+                .then(result => {
+                  setCheckDefaultAddress(false)
+                  refetch()
+                })
+                .catch(error => {
+                  setMessage("Something went wrong!")
+                })
+
+            refetch()
+            setMessage("Your New Address Added Successful!")
+          })
+          .catch(error => {
+            console.log(error)
+            setMessage("Something went wrong!")
+          })
+      }
+
+      if (formType === "Edit") {
+        customerAddressUpdate({
+          variables: {
+            customerAccessToken,
+            id,
+            address: {
+              address1,
+              address2,
+              city,
+              country,
+              firstName,
+              lastName,
+              phone,
+              zip,
+            },
+          },
+        })
+          .then(result => {
+            checkDefaultAddress &&
+              customerDefaultAddressUpdate({
+                variables: {
+                  customerAccessToken,
+                  addressId: id,
+                },
+              })
+                .then(result => {
+                  setCheckDefaultAddress(false)
+                  refetch()
+                })
+                .catch(error => {
+                  setMessage("Something went wrong!")
+                })
+
+            refetch()
+            setMessage("Your Address Update Successful!")
+          })
+          .catch(error => {
+            console.log(error)
+            setMessage("Something went wrong!")
+          })
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     reset(formAddress)
   }, [formAddress, message])
@@ -80,412 +215,195 @@ const AddressPage = () => {
       <Seo title="Account" />
       <AddressSection>
         <MainWrapper>
+          <Box pb="20px" justifyContent="space-between" display="flex">
+            <Typography variant="h2">Account Details</Typography>
+            <OnButton
+              hoverColor="black"
+              hoverBack="white"
+              padding="0"
+              border="0"
+              onClick={userLogout}
+            >
+              Logout
+            </OnButton>
+          </Box>
+
+          <Divider />
+
           <Box padding="0 200px">
-            {customerAccessToken ? (
-              <Query
-                query={CUSTOMER_ADDRESS}
-                variables={{
-                  customerAccessToken,
-                }}
-              >
-                {({ loading, error, data }) => {
-                  if (loading)
-                    return <MiddleSpinner divMinHeight="460px" size={20} />
-                  if (error) return <div>Error</div>
-                  const { defaultAddress, addresses } = data.customer
+            <AddressGrid>
+              {error && "Error"}
+              {loading && <MiddleSpinner divMinHeight="460px" size={20} />}
 
-                  console.log(addresses)
+              {data && (
+                <>
+                  <Box p="20px 30px" borderRight="1px solid #111">
+                    <Typography m="20px 0" variant="h5">
+                      Customer Addresses
+                    </Typography>
+                    {data != null &&
+                      data?.customer.addresses.edges.map(item => {
+                        const {
+                          address1,
+                          address2,
+                          city,
+                          country,
+                          firstName,
+                          lastName,
+                          id,
+                          phone,
+                          zip,
+                        } = item.node
 
-                  return (
-                    <>
-                      <Box
-                        pb="20px"
-                        justifyContent="space-between"
-                        display="flex"
-                      >
-                        <Typography variant="h2">Account Details</Typography>
-                        <OnButton
-                          hoverColor="black"
-                          hoverBack="white"
-                          padding="0"
-                          border="0"
-                          onClick={userLogout}
-                        >
-                          Logout
-                        </OnButton>
-                      </Box>
+                        return (
+                          <Box key={id}>
+                            <Typography variant="body1">
+                              <b>
+                                {firstName.toLocaleUpperCase()}{" "}
+                                {lastName.toLocaleUpperCase()}{" "}
+                                {data?.customer.defaultAddress.id === id && (
+                                  <i>(DEFAULT)</i>
+                                )}
+                              </b>
+                              <br />
+                              {address1}
+                              <br />
+                              {address2 && (
+                                <>
+                                  {address2} <br />
+                                </>
+                              )}
+                              {city}, {zip}
+                              <br />
+                              {country}
+                              <br />
+                              {phone}
+                            </Typography>
+                            <OnButton
+                              onClick={() =>
+                                editAddress({
+                                  address1,
+                                  address2,
+                                  city,
+                                  country,
+                                  firstName,
+                                  lastName,
+                                  id,
+                                  phone,
+                                  zip,
+                                })
+                              }
+                            >
+                              Edit
+                            </OnButton>
 
-                      <Divider />
+                            <OnButton onClick={() => handleDeleteAddress(id)}>
+                              Remove
+                            </OnButton>
 
-                      <AddressGrid>
-                        <Box p="20px 30px" borderRight="1px solid #111">
-                          <Typography m="20px 0" variant="h5">
-                            Customer Addresses
-                          </Typography>
-                          {addresses != null &&
-                            addresses.edges.map(address => {
-                              const {
-                                address1,
-                                address2,
-                                city,
-                                country,
-                                firstName,
-                                lastName,
-                                id,
-                                phone,
-                                zip,
-                              } = address.node
+                            <Divider sx={{ m: "20px 20px 20px 0" }} />
+                          </Box>
+                        )
+                      })}
 
-                              return (
-                                <Box key={id}>
-                                  <Typography variant="body1">
-                                    <b>
-                                      {firstName.toLocaleUpperCase()}{" "}
-                                      {lastName.toLocaleUpperCase()}{" "}
-                                      {defaultAddress.id === id && (
-                                        <i>(DEFAULT)</i>
-                                      )}
-                                    </b>
-                                    <br />
-                                    {address1}
-                                    <br />
-                                    {address2 && (
-                                      <>
-                                        {address2} <br />
-                                      </>
-                                    )}
-                                    {city}, {zip}
-                                    <br />
-                                    {country}
-                                    <br />
-                                    {phone}
-                                  </Typography>
-                                  <OnButton
-                                    onClick={() =>
-                                      editAddress({
-                                        address1,
-                                        address2,
-                                        city,
-                                        country,
-                                        firstName,
-                                        lastName,
-                                        id,
-                                        phone,
-                                        zip,
-                                      })
-                                    }
-                                  >
-                                    Edit
-                                  </OnButton>
-                                  <Mutation mutation={CUSTOMER_DELETE_ADDRESS}>
-                                    {customerAddressDelete => {
-                                      return (
-                                        <OnButton
-                                          onClick={() => {
-                                            customerAddressDelete({
-                                              variables: {
-                                                id,
-                                                customerAccessToken,
-                                              },
-                                            })
-                                              .then(result => {
-                                                typeof window !== "undefined" &&
-                                                  window.location.reload()
-                                              })
-                                              .catch(err => {
-                                                setMessage(
-                                                  "Something went wrong!"
-                                                )
-                                              })
-                                          }}
-                                        >
-                                          Remove
-                                        </OnButton>
-                                      )
-                                    }}
-                                  </Mutation>
+                    <OnButton onClick={() => addAddress()}>
+                      Add new address
+                    </OnButton>
+                  </Box>
+                </>
+              )}
 
-                                  <Divider sx={{ m: "20px 20px 20px 0" }} />
-                                </Box>
-                              )
-                            })}
+              <Box p="20px">
+                {message ? <Typography variant="h2">{message}</Typography> : ""}
+                <Typography variant="h5">
+                  {formType === "Add" ? "Add New Address" : "Update Address"}
+                </Typography>
 
-                          <OnButton onClick={() => addAddress()}>
-                            Add new address
-                          </OnButton>
-                        </Box>
-                        <Box p="20px">
-                          <Typography variant="h5">
-                            {formType === "Add"
-                              ? "Add New Address"
-                              : "Update Address"}
-                          </Typography>
-                          <Mutation mutation={CUSTOMER_CREATE_ADDRESS}>
-                            {customerAddressCreate => {
-                              return (
-                                <Mutation mutation={CUSTOMER_EDIT_ADDRESS}>
-                                  {customerAddressUpdate => {
-                                    return (
-                                      <Mutation
-                                        mutation={CUSTOMER_EDIT_DEFAULT_ADDRESS}
-                                      >
-                                        {customerDefaultAddressUpdate => {
-                                          return (
-                                            <SimpleForm
-                                              onSubmit={handleSubmit(
-                                                ({
-                                                  address1,
-                                                  address2,
-                                                  city,
-                                                  country,
-                                                  firstName,
-                                                  lastName,
-                                                  id,
-                                                  phone,
-                                                  zip,
-                                                }) => {
-                                                  try {
-                                                    console.log(country)
-                                                    if (formType === "Add") {
-                                                      customerAddressCreate({
-                                                        variables: {
-                                                          customerAccessToken,
-                                                          address: {
-                                                            address1,
-                                                            address2,
-                                                            city,
-                                                            country,
-                                                            firstName,
-                                                            lastName,
-                                                            phone,
-                                                            zip,
-                                                          },
-                                                        },
-                                                      })
+                <SimpleForm onSubmit={handleSubmit(handleFormSubmit)}>
+                  <label htmlFor="password">First Name</label>
+                  <input
+                    {...register("firstName", {
+                      required: true,
+                      value: `${formAddress?.firstName || ""}`,
+                    })}
+                  />
+                  {errors.firstName?.type === "required" &&
+                    "First Name is required!"}
 
-                                                      checkDefaultAddress &&
-                                                        customerDefaultAddressUpdate(
-                                                          {
-                                                            variables: {
-                                                              customerAccessToken,
-                                                              addressId: id,
-                                                            },
-                                                          }
-                                                        )
+                  <label htmlFor="lastName">Last Name</label>
+                  <input
+                    {...register("lastName", {
+                      value: `${formAddress?.lastName || ""}`,
+                    })}
+                  />
+                  <label htmlFor="company">Company</label>
+                  <input
+                    {...register("company", {
+                      value: `${formAddress?.company || ""}`,
+                    })}
+                  />
+                  <label htmlFor="address1">Address1</label>
+                  <input
+                    {...register("address1", {
+                      required: true,
+                      value: `${formAddress?.address1 || ""}`,
+                    })}
+                  />
+                  {errors.address1?.type === "required" &&
+                    "Address1 is required!"}
+                  <label htmlFor="address2">Address2</label>
+                  <input
+                    {...register("address2", {
+                      value: `${formAddress?.address2 || ""}`,
+                    })}
+                  />
+                  <label htmlFor="city">City</label>
+                  <input
+                    {...register("city", {
+                      required: true,
+                      value: `${formAddress?.city || ""}`,
+                    })}
+                  />
+                  {errors.city?.type === "required" && "City is required!"}
 
-                                                      setMessage(
-                                                        "Your New Address Added Successful!"
-                                                      )
-
-                                                      setTimeout(() => {
-                                                        typeof window !==
-                                                          "undefined" &&
-                                                          window.location.reload()
-                                                      }, 1000)
-                                                    }
-
-                                                    if (formType === "Edit") {
-                                                      customerAddressUpdate({
-                                                        variables: {
-                                                          customerAccessToken,
-                                                          id,
-                                                          address: {
-                                                            address1,
-                                                            address2,
-                                                            city,
-                                                            country,
-                                                            firstName,
-                                                            lastName,
-                                                            phone,
-                                                            zip,
-                                                          },
-                                                        },
-                                                      })
-
-                                                      checkDefaultAddress &&
-                                                        customerDefaultAddressUpdate(
-                                                          {
-                                                            variables: {
-                                                              customerAccessToken,
-                                                              addressId: id,
-                                                            },
-                                                          }
-                                                        )
-
-                                                      setMessage(
-                                                        "Your New Address Update Successful!"
-                                                      )
-
-                                                      setTimeout(() => {
-                                                        typeof window !==
-                                                          "undefined" &&
-                                                          window.location.reload()
-                                                      }, 1000)
-                                                    }
-                                                  } catch (error) {
-                                                    console.log(error)
-                                                  }
-                                                }
-                                              )}
-                                            >
-                                              <label htmlFor="password">
-                                                First Name
-                                              </label>
-                                              <input
-                                                {...register("firstName", {
-                                                  required: true,
-                                                  value: `${
-                                                    formAddress?.firstName || ""
-                                                  }`,
-                                                })}
-                                              />
-                                              {errors.firstName?.type ===
-                                                "required" &&
-                                                "First Name is required!"}
-
-                                              <label htmlFor="lastName">
-                                                Last Name
-                                              </label>
-                                              <input
-                                                {...register("lastName", {
-                                                  value: `${
-                                                    formAddress?.lastName || ""
-                                                  }`,
-                                                })}
-                                              />
-                                              <label htmlFor="company">
-                                                Company
-                                              </label>
-                                              <input
-                                                {...register("company", {
-                                                  value: `${
-                                                    formAddress?.company || ""
-                                                  }`,
-                                                })}
-                                              />
-                                              <label htmlFor="address1">
-                                                Address1
-                                              </label>
-                                              <input
-                                                {...register("address1", {
-                                                  required: true,
-                                                  value: `${
-                                                    formAddress?.address1 || ""
-                                                  }`,
-                                                })}
-                                              />
-                                              {errors.address1?.type ===
-                                                "required" &&
-                                                "Address1 is required!"}
-                                              <label htmlFor="address2">
-                                                Address2
-                                              </label>
-                                              <input
-                                                {...register("address2", {
-                                                  value: `${
-                                                    formAddress?.address2 || ""
-                                                  }`,
-                                                })}
-                                              />
-                                              <label htmlFor="city">City</label>
-                                              <input
-                                                {...register("city", {
-                                                  required: true,
-                                                  value: `${
-                                                    formAddress?.city || ""
-                                                  }`,
-                                                })}
-                                              />
-                                              {errors.city?.type ===
-                                                "required" &&
-                                                "City is required!"}
-
-                                              {/* <label htmlFor="country">
+                  {/* <label htmlFor="country">
                                                 Country
                                               </label> */}
-                                              <Select
-                                                label="Country"
-                                                {...register("country")}
-                                              />
+                  <Select label="Country" {...register("country")} />
 
-                                              <label htmlFor="zip">
-                                                Postal/Zip Code
-                                              </label>
-                                              <input
-                                                {...register("zip", {
-                                                  required: true,
-                                                  value: `${
-                                                    formAddress?.zip || ""
-                                                  }`,
-                                                })}
-                                              />
-                                              {errors.country?.type ===
-                                                "required" &&
-                                                "Zip is required!"}
+                  <label htmlFor="zip">Postal/Zip Code</label>
+                  <input
+                    {...register("zip", {
+                      required: true,
+                      value: `${formAddress?.zip || ""}`,
+                    })}
+                  />
+                  {errors.country?.type === "required" && "Zip is required!"}
 
-                                              <label htmlFor="phone">
-                                                Phone
-                                              </label>
-                                              <input
-                                                {...register("phone", {
-                                                  value: `${
-                                                    formAddress?.phone || ""
-                                                  }`,
-                                                })}
-                                              />
+                  <label htmlFor="phone">Phone</label>
+                  <input
+                    {...register("phone", {
+                      value: `${formAddress?.phone || ""}`,
+                    })}
+                  />
 
-                                              <label htmlFor="checkDefaultAddress">
-                                                Set as default address
-                                              </label>
-                                              <input
-                                                type="checkbox"
-                                                onChange={() =>
-                                                  setCheckDefaultAddress(
-                                                    !checkDefaultAddress
-                                                  )
-                                                }
-                                                value={checkDefaultAddress}
-                                              />
+                  <label htmlFor="checkDefaultAddress">
+                    Set as default address
+                  </label>
+                  <input
+                    type="checkbox"
+                    onChange={() =>
+                      setCheckDefaultAddress(!checkDefaultAddress)
+                    }
+                    value={checkDefaultAddress}
+                  />
 
-                                              {message ? (
-                                                <h4>{message}</h4>
-                                              ) : (
-                                                ""
-                                              )}
-                                              <OnButton type="submit">
-                                                {formType === "Add"
-                                                  ? "Add New Address"
-                                                  : "Update Address"}
-                                              </OnButton>
-                                            </SimpleForm>
-                                          )
-                                        }}
-                                      </Mutation>
-                                    )
-                                  }}
-                                </Mutation>
-                              )
-                            }}
-                          </Mutation>
-                        </Box>
-                      </AddressGrid>
-                    </>
-                  )
-                }}
-              </Query>
-            ) : (
-              <Box
-                minHeight="450px"
-                justifyContent="center"
-                alignItems="center"
-                display="flex"
-              >
-                <Typography variant="h1">You need to login first!</Typography>
-                <OnButton>
-                  <Link to="/account/login">Go to Log In</Link>
-                </OnButton>
+                  <OnButton type="submit">
+                    {formType === "Add" ? "Add New Address" : "Update Address"}
+                  </OnButton>
+                </SimpleForm>
               </Box>
-            )}
+            </AddressGrid>
           </Box>
         </MainWrapper>
       </AddressSection>

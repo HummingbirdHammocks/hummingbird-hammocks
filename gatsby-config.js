@@ -61,14 +61,6 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-plugin-apollo-shopify`,
-      options: {
-        shopName: process.env.GATSBY_SHOPIFY_SHOP_NAME,
-        accessToken: process.env.GATSBY_STOREFRONT_ACCESS_TOKEN,
-        apiVersion: "2022-04",
-      },
-    },
-    {
       resolve: "gatsby-source-shopify",
       options: {
         password: process.env.SHOPIFY_SHOP_PASSWORD,

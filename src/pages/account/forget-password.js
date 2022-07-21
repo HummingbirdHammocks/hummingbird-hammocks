@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react"
 import { styled, Typography, Divider, Box } from "@mui/material"
-import gql from "graphql-tag"
-import { Mutation } from "react-apollo"
+import { useMutation, gql } from "@apollo/client"
 import { navigate } from "gatsby"
 import { useForm } from "react-hook-form"
 
@@ -35,6 +34,30 @@ const ForgetPage = () => {
     logout,
   } = useContext(UserContext)
 
+  const [forgetPassword, { loading, error }] = useMutation(
+    CUSTOMER_PASSWORD_FORGET
+  )
+
+  const handleForgetPassword = async ({ email }) => {
+    const { data } = await forgetPassword({
+      variables: {
+        email,
+      },
+    })
+
+    if (!error) {
+      setMessage(
+        "We've sent you an email with a link to update your password. You're redirect to Log in page within 3 seconds"
+      )
+
+      setTimeout(function () {
+        navigate("/account/login")
+      }, 5000)
+    } else {
+      setMessage("Something went wrong!")
+    }
+  }
+
   return (
     <Layout>
       <Seo title="Forger Password" />
@@ -62,60 +85,32 @@ const ForgetPage = () => {
 
                 <Box padding="30px" justifyContent="center" display="flex">
                   <Box>
-                    <Mutation mutation={CUSTOMER_PASSWORD_FORGET}>
-                      {customerRecover => {
-                        return (
-                          <>
-                            <Typography>Reset Password</Typography>
-                            <SimpleForm
-                              onSubmit={handleSubmit(({ email }) => {
-                                customerRecover({
-                                  variables: {
-                                    email,
-                                  },
-                                })
-                                  .then(result => {
-                                    console.log(result)
-                                    setMessage(
-                                      "We've sent you an email with a link to update your password. You're redirect to Log in page within 5 seconds"
-                                    )
-                                    setTimeout(function () {
-                                      navigate("/account/login")
-                                    }, 5000)
-                                  })
-                                  .catch(err => {
-                                    setMessage("Something went wrong!")
-                                  })
-                              })}
-                            >
-                              <label for="email">Email</label>
-                              <input
-                                {...register("email", {
-                                  required: true,
-                                  pattern: {
-                                    value:
-                                      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                                    message: "Please enter a valid email",
-                                  },
-                                })}
-                              />
-                              {errors.email?.message && (
-                                <div>{errors.email?.message}</div>
-                              )}
-                              {errors.email?.type === "required" &&
-                                "Email is required!"}
+                    <Typography>Reset Password</Typography>
+                    <SimpleForm onSubmit={handleSubmit(handleForgetPassword)}>
+                      <label for="email">Email</label>
+                      <input
+                        {...register("email", {
+                          required: true,
+                          pattern: {
+                            value:
+                              /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                            message: "Please enter a valid email",
+                          },
+                        })}
+                      />
+                      {errors.email?.message && (
+                        <div>{errors.email?.message}</div>
+                      )}
+                      {errors.email?.type === "required" &&
+                        "Email is required!"}
 
-                              {message ? <h4>{message}</h4> : ""}
-                              <Typography>
-                                We will send you an email to reset your
-                                password.
-                              </Typography>
-                              <OnButton type="submit">Submit</OnButton>
-                            </SimpleForm>
-                          </>
-                        )
-                      }}
-                    </Mutation>
+                      {message ? <h4>{message}</h4> : ""}
+                      <Typography>
+                        We will send you an email to reset your password.
+                      </Typography>
+                      <OnButton type="submit">Submit</OnButton>
+                    </SimpleForm>
+
                     <Box mt="20px">
                       <Typography variant="body1">
                         <b>Already Customer?</b>{" "}

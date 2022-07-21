@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react"
 import { styled, Typography, Divider, Box } from "@mui/material"
-import gql from "graphql-tag"
-import { Mutation } from "react-apollo"
+import { useMutation, gql } from "@apollo/client"
 import { navigate } from "gatsby"
 import { useForm } from "react-hook-form"
 
@@ -42,6 +41,32 @@ const ResetPage = ({ params }) => {
     setValue(value)
   }
 
+  const [resetPassword, { loading, error }] = useMutation(
+    CUSTOMER_PASSWORD_RESET
+  )
+
+  const handlePasswordReset = async ({ password }) => {
+    const { data } = await resetPassword({
+      variables: {
+        password,
+        resetUrl,
+      },
+    })
+
+    if (data?.customerResetByUrl) {
+      handleCustomerAccessToken(
+        data.customerResetByUrl.customerAccessToken.accessToken
+      )
+      setMessage("Password Reset Done! You'll logged in automatically in 3s...")
+
+      setTimeout(function () {
+        navigate("/account/")
+      }, 3000)
+    } else {
+      setMessage("Somthing went wrong!")
+    }
+  }
+
   return (
     <Layout>
       <Seo title="Forger Password" />
@@ -69,52 +94,18 @@ const ResetPage = ({ params }) => {
 
                 <Box padding="30px" justifyContent="center" display="flex">
                   <Box>
-                    <Mutation mutation={CUSTOMER_PASSWORD_RESET}>
-                      {customerRecover => {
-                        return (
-                          <>
-                            <SimpleForm
-                              onSubmit={handleSubmit(({ password }) => {
-                                customerRecover({
-                                  variables: {
-                                    password,
-                                    resetUrl,
-                                  },
-                                })
-                                  .then(result => {
-                                    console.log(result)
-                                    setMessage(
-                                      "Password Reset Done! You'll logged in automatically in 3s..."
-                                    )
-                                    setTimeout(function () {
-                                      handleCustomerAccessToken(
-                                        result.data.customerResetByUrl
-                                          .customerAccessToken.accessToken
-                                      )
-                                      navigate("/account/")
-                                    }, 3000)
-                                  })
-                                  .catch(err => {
-                                    setMessage("Something went wrong!")
-                                  })
-                              })}
-                            >
-                              <label htmlFor="password">
-                                Enter New Password
-                              </label>
-                              <input
-                                {...register("password", {
-                                  required: true,
-                                  maxLength: 30,
-                                })}
-                              />
-                              {message ? <h4>{message}</h4> : ""}
-                              <OnButton type="submit">Submit</OnButton>
-                            </SimpleForm>
-                          </>
-                        )
-                      }}
-                    </Mutation>
+                    <SimpleForm onSubmit={handleSubmit(handlePasswordReset)}>
+                      <label htmlFor="password">Enter New Password</label>
+                      <input
+                        {...register("password", {
+                          required: true,
+                          maxLength: 30,
+                        })}
+                      />
+                      {message ? <h4>{message}</h4> : ""}
+                      <OnButton type="submit">Submit</OnButton>
+                    </SimpleForm>
+
                     <Box mt="20px">
                       <Typography variant="body1">
                         <b>Already Customer?</b>{" "}

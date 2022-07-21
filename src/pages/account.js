@@ -1,8 +1,7 @@
 import React, { useContext } from "react"
 import { styled, Typography, Divider, Box } from "@mui/material"
-import { Query } from "react-apollo"
-import gql from "graphql-tag"
 import { navigate } from "gatsby"
+import { useQuery, gql } from "@apollo/client"
 
 import { UserContext } from "contexts"
 import {
@@ -37,107 +36,100 @@ const AccountPage = () => {
     navigate("/")
   }
 
+  const { data, loading, error } = useQuery(CUSTOMER_INFO, {
+    variables: {
+      customerAccessToken,
+    },
+  })
+
+  // const data = useQuery(CUSTOMER_INFO, {
+  //   variables: {
+  //     customerAccessToken,
+  //   },
+  // })
+
+  // console.log(data)
+
   return (
     <Layout>
       <Seo title="Account" />
       <AccountSection>
         <MainWrapper>
-          <Box padding="0 200px">
-            {customerAccessToken ? (
-              <Query
-                query={CUSTOMER_INFO}
-                variables={{
-                  customerAccessToken,
-                }}
-              >
-                {({ loading, error, data }) => {
-                  if (loading)
-                    return <MiddleSpinner divMinHeight="460px" size={20} />
-                  if (error) return <div>Error</div>
-                  const {
-                    defaultAddress,
-                    orders,
-                    addresses,
-                    email,
-                    firstName,
-                    lastName,
-                  } = data.customer
+          {customerAccessToken ? (
+            <Box padding="0 200px">
+              {error && "Error"}
+              {loading && <MiddleSpinner divMinHeight="460px" size={20} />}
+              {data && (
+                <>
+                  <Box pb="20px" justifyContent="space-between" display="flex">
+                    <Typography variant="h2">Account Details</Typography>
+                    <OnButton
+                      hovercolor="black"
+                      hoverback="white"
+                      padding="0"
+                      border="0"
+                      onClick={userLogout}
+                    >
+                      Logout
+                    </OnButton>
+                  </Box>
 
-                  console.log(data.customer)
-                  return (
-                    <>
-                      <Box
-                        pb="20px"
-                        justifyContent="space-between"
-                        display="flex"
-                      >
-                        <Typography variant="h2">Account Details</Typography>
-                        <OnButton
-                          hovercolor="black"
-                          hoverback="white"
-                          padding="0"
-                          border="0"
-                          onClick={userLogout}
-                        >
-                          Logout
-                        </OnButton>
-                      </Box>
+                  <Divider />
 
-                      <Divider />
-
-                      <AccountGrid>
-                        <Box p="20px 0" borderRight="1px solid #111">
-                          <Typography variant="h5">{`${firstName} ${lastName}`}</Typography>
-                          <Typography variant="body1">{email}</Typography>
-                          {addresses.edges.length > 0 && (
-                            <>
-                              <Typography mt="40px" variant="h5">
-                                Primary Address
-                              </Typography>
-                              <Typography variant="body1">
-                                {defaultAddress?.address1}
-                                <br />
-                                {defaultAddress?.address2 && (
-                                  <>
-                                    {defaultAddress?.address2} <br />
-                                  </>
-                                )}
-                                {defaultAddress?.city}, {defaultAddress?.zip}
-                                <br />
-                                {defaultAddress?.country}
-                                <br />
-                                {defaultAddress?.phone}
-                              </Typography>
-                            </>
-                          )}
-
-                          <Typography mt="20px" variant="body1">
-                            <Link to="/account/addresses">{`View Addresses (${addresses.edges.length})`}</Link>
+                  <AccountGrid>
+                    <Box p="20px 0" borderRight="1px solid #111">
+                      <Typography variant="h5">{`${data.customer.firstName} ${data.customer.lastName}`}</Typography>
+                      <Typography variant="body1">
+                        {data.customer.email}
+                      </Typography>
+                      {data.customer.addresses.edges.length > 0 && (
+                        <>
+                          <Typography mt="40px" variant="h5">
+                            Primary Address
                           </Typography>
-                        </Box>
-                        <Box p="20px">
-                          <Typography variant="h5">Order History</Typography>
-                          <OrderHistory rows={orders?.edges} />
-                        </Box>
-                      </AccountGrid>
-                    </>
-                  )
-                }}
-              </Query>
-            ) : (
-              <Box
-                minHeight="450px"
-                justifyContent="center"
-                alignItems="center"
-                display="flex"
-              >
-                <Typography variant="h1">You need to login first!</Typography>
-                <OnButton>
-                  <Link to="/account/login">Go to Log In</Link>
-                </OnButton>
-              </Box>
-            )}
-          </Box>
+                          <Typography variant="body1">
+                            {data.customer.defaultAddress?.address1}
+                            <br />
+                            {data.customer.defaultAddress?.address2 && (
+                              <>
+                                {data.customer.defaultAddress?.address2} <br />
+                              </>
+                            )}
+                            {data.customer.defaultAddress?.city},{" "}
+                            {data.customer.defaultAddress?.zip}
+                            <br />
+                            {data.customer.defaultAddress?.country}
+                            <br />
+                            {data.customer.defaultAddress?.phone}
+                          </Typography>
+                        </>
+                      )}
+
+                      <Typography mt="20px" variant="body1">
+                        <Link to="/account/addresses">{`View Addresses (${data.customer.addresses.edges.length})`}</Link>
+                      </Typography>
+                    </Box>
+                    <Box p="20px">
+                      <Typography variant="h5">Order History</Typography>
+                      <OrderHistory rows={data.customer.orders?.edges} />
+                    </Box>
+                  </AccountGrid>
+                </>
+              )}
+            </Box>
+          ) : (
+            <Box
+              minHeight="450px"
+              justifyContent="center"
+              alignItems="center"
+              display="flex"
+            >
+              <Typography variant="h1">You need to login first!</Typography>
+              <OnButton>
+                <Link to="/account/login">Go to Log In</Link>
+              </OnButton>
+            </Box>
+          )}
         </MainWrapper>
       </AccountSection>
     </Layout>
@@ -192,22 +184,3 @@ const CUSTOMER_INFO = gql`
     }
   }
 `
-
-// lineItems(first: 10) {
-//   edges {
-//     node {
-//       title
-//       quantity
-//     }
-//   }
-// }
-// shippingAddress {
-//   address1
-//   address2
-//   city
-//   lastName
-//   firstName
-//   zip
-//   phone
-//   country
-// }

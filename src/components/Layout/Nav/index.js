@@ -13,8 +13,7 @@ import {
 import { StaticImage } from "gatsby-plugin-image"
 import MenuIcon from "@mui/icons-material/Menu"
 import { ShoppingBasket, AccountCircle } from "@mui/icons-material"
-import { Query } from "react-apollo"
-import gql from "graphql-tag"
+import { useQuery, gql } from "@apollo/client"
 
 import NavMenuItems from "./MenuItems"
 import { MainWrapper, Link } from "components"
@@ -63,6 +62,12 @@ const AppbarDesktop = () => {
     store: { customerAccessToken },
   } = useContext(UserContext)
 
+  const { data, loading, error } = useQuery(CUSTOMER_NAME, {
+    variables: {
+      customerAccessToken,
+    },
+  })
+
   return (
     <AppBar sx={{ borderBottom: "2px solid #414042" }} color="white">
       <MainWrapper>
@@ -96,21 +101,9 @@ const AppbarDesktop = () => {
               startIcon={<AccountCircle />}
             >
               <Link to="/account">
-                <Query
-                  query={CUSTOMER_NAME}
-                  variables={{
-                    customerAccessToken,
-                  }}
-                >
-                  {({ loading, error, data }) => {
-                    if (loading) return <CircularProgress size={10} />
-                    return (
-                      <Typography variant="subtitle3">
-                        {data?.customer?.firstName}
-                      </Typography>
-                    )
-                  }}
-                </Query>
+                <Typography variant="subtitle3">
+                  {data?.customer?.firstName}
+                </Typography>
               </Link>
             </Button>
           ) : (
