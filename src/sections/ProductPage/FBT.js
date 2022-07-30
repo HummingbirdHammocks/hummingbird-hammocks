@@ -1,0 +1,203 @@
+import React, { useState, useEffect, useContext } from "react"
+import { Box, Divider, styled, Typography, Checkbox } from "@mui/material"
+
+import { CartContext } from "contexts"
+import { OnButton } from "components"
+
+const FBTSection = styled("section")(({ theme }) => ({
+  background: theme.palette.white,
+  padding: "60px 15px",
+}))
+
+export const FBT = ({ currentVariant, product, fbtData }) => {
+  const [data, setData] = useState(null)
+  const [selectedVariant, setSelectedVariant] = useState(null)
+
+  const { getProductById, updateLineItem } = useContext(CartContext)
+
+  useEffect(() => {
+    let items = JSON.parse(fbtData)
+    let variants = []
+    let procedd = 0
+
+    items.forEach((item, index, arr) => {
+      getProductById(item).then(result => {
+        arr[index] = result
+
+        let getAvailable = result.variants.filter(i => i.available === true)
+
+        if (getAvailable.length >= 1) {
+          variants[index + 1] = { ...getAvailable[0], selected: true }
+        }
+
+        procedd++
+
+        if (procedd === arr.length) {
+          setAllData()
+        }
+      })
+    })
+
+    function setAllData() {
+      items = [product].concat(items)
+
+      for (let i = 0; i < items.length; i++) {
+        items[i] = {
+          ...items[i],
+          variants: items[i].variants.filter(i => i.available === true),
+        }
+      }
+
+      let firstVariant = product.variants.filter(
+        ({ id }) => id === currentVariant.id
+      )
+
+      variants[0] = firstVariant[0].available
+        ? {
+            ...firstVariant[0],
+            selected: true,
+          }
+        : items[0].variants.length >= 1
+        ? {
+            ...items[0].variants[0],
+            selected: true,
+          }
+        : { ...product.variants[0], selected: false }
+
+      setData(items)
+      setSelectedVariant(variants)
+    }
+  }, [currentVariant, setSelectedVariant])
+
+  const handleSubmit = async () => {
+    for (let i = 0; i < selectedVariant.length; i++) {
+      if (selectedVariant[i].selected) {
+        await updateLineItem({ variantId: selectedVariant[i].id, quantity: 1 })
+      }
+    }
+  }
+
+  const handleCheckChange = itemIndex => {
+    setSelectedVariant(prevState => {
+      const newState = prevState.map((obj, index) => {
+        if (index === itemIndex) {
+          return { ...obj, selected: obj.available ? !obj.selected : false }
+        }
+
+        return obj
+      })
+
+      return newState
+    })
+
+    console.log(selectedVariant)
+  }
+
+  const handleSelectChange = (itemIndex, value) => {
+    let allVariants = selectedVariant
+    console.log(allVariants)
+    let findVariant = data[itemIndex].variants.filter(({ id }) => id === value)
+
+    allVariants[itemIndex] = findVariant[0]
+
+    setSelectedVariant(allVariants)
+    handleCheckChange(itemIndex)
+  }
+
+  return (
+    <FBTSection>
+      <Typography pb="20px" variant="h5">
+        FREQUENTLY BOUGHT TOGETHER
+      </Typography>
+      <Divider />
+      <Box mt="50px">
+        {selectedVariant && (
+          <>
+            <Box mb="70px" display="flex">
+              {selectedVariant.map((item, index) => {
+                if (item.selected) {
+                  return (
+                    <>
+                      <Box p="0 40px" key={item.id}>
+                        <img
+                          src={item.image.src}
+                          height="80px"
+                          alt={item.image.altText}
+                        />
+                      </Box>
+                      {index !== selectedVariant.length - 1 ? (
+                        <Box
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="center"
+                        >
+                          +
+                        </Box>
+                      ) : (
+                        ""
+                      )}
+                    </>
+                  )
+                }
+              })}
+              <Box>
+                <Typography pb="20px" variant="subtitle2">
+                  Total price: $
+                  {Number(
+                    selectedVariant
+                      .map(item => item.selected && Number(item.priceV2.amount))
+                      .reduce((prev, curr) => prev + curr, 0)
+                  ).toFixed(2)}
+                </Typography>
+                <OnButton onClick={handleSubmit}>Add to Cart</OnButton>
+              </Box>
+            </Box>
+
+            <Box>
+              {selectedVariant.map((item, index) => (
+                <Box key={item.id} display="flex">
+                  <Checkbox
+                    onChange={() => handleCheckChange(index)}
+                    checked={item.selected}
+                  />
+                  <Box>
+                    {index === 0 ? (
+                      <b>This Item: {data[index].title}</b>
+                    ) : (
+                      <> {data[index].title}</>
+                    )}{" "}
+                    {data[index].variants.length >= 1 &&
+                      data[index].variants[0]?.title !== "Default Title" && (
+                        <select
+                          value={selectedVariant[index].id}
+                          onChange={e =>
+                            handleSelectChange(index, e.target.value)
+                          }
+                        >
+                          {data[index].variants.map(i => {
+                            return (
+                              <option
+                                // selected={currentVariant.id === i.id}
+                                key={i.id}
+                                value={i.id}
+                              >
+                                {i.title}
+                              </option>
+                            )
+                          })}
+                        </select>
+                      )}{" "}
+                    <b>
+                      ${selectedVariant[index]?.priceV2.amount}{" "}
+                      {selectedVariant[index]?.priceV2.currencyCode}
+                    </b>
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+          </>
+        )}
+      </Box>
+    </FBTSection>
+  )
+}

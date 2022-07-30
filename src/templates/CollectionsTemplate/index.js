@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useContext } from "react"
 import { graphql } from "gatsby"
 import {
   Box,
@@ -22,6 +22,7 @@ import { ExpandLess, ExpandMore, Delete } from "@mui/icons-material"
 
 import { Seo, Layout, MainWrapper, Link, OnButton } from "components"
 import { ProductCard } from "sections"
+import { RecentViewedContext } from "contexts"
 
 const Wrapper = styled("section")(() => ({
   display: "grid",
@@ -77,11 +78,10 @@ const FilterGridWrapper = styled("div")(() => ({
 const CollectionsPage = ({ data }) => {
   const { title, image, products, description } = data.shopifyCollection
   const { collections } = data.allShopifyCollection
+  const { recentViewedProducts } = useContext(RecentViewedContext)
 
   const productType = Array.from(new Set(products.map(j => j.productType)))
-  // const allColors = Array.from(
-  //   new Set(products.map(i => i.variants.map(j => j.title)).flat(1))
-  // )
+
   const heightPrice = Math.max(
     ...products.map(i => Number(i.priceRangeV2.minVariantPrice.amount))
   )
@@ -93,7 +93,7 @@ const CollectionsPage = ({ data }) => {
     collections: false,
     price: false,
     productType: false,
-    colors: false,
+    recentViewed: false,
   })
   const [filterOptions, setFilterOptions] = useState({ sort: "relevance" })
   const [selectedPrice, setSelectedPrice] = useState([0, heightPrice])
@@ -126,26 +126,6 @@ const CollectionsPage = ({ data }) => {
       productType: newChecked.map(item => item),
     })
   }
-
-  // Handle Color Checked
-  // const handleColorToggle = value => () => {
-  //   const currentIndex = colorChecked.indexOf(value)
-  //   const newChecked = [...colorChecked]
-
-  //   if (currentIndex === -1) {
-  //     newChecked.push(value)
-  //   } else {
-  //     newChecked.splice(currentIndex, 1)
-  //   }
-
-  //   setColorChecked(newChecked)
-
-  //   setFilterOptions({
-  //     ...filterOptions,
-  //     colors: newChecked.map(item => item),
-  //   })
-  //   console.log(filterOptions)
-  // }
 
   // Handle Price Filter
   const handleChangePrice = (event, value) => {
@@ -205,30 +185,6 @@ const CollectionsPage = ({ data }) => {
     return data.filter(item => values.includes(item.productType))
   }
 
-  // Product Filter by Colors
-  // const filterByColor = (data, values) => {
-  //   return data
-  //     .map(i => ({
-  //       ...i,
-  //       variants: i.variants.filter(({ title }) => !values.includes(title)),
-  //     }))
-  //     .filter(({ variants }) => variants.length)
-
-  //   // let newData = []
-
-  //   // for (let i = 0; i < data.length; i++) {
-  //   //   const variantsArr = Array.from(data[i].variants.map(i => i.title))
-
-  //   //   for (let j = 0; j < variantsArr.length; j++) {
-  //   //     if (values.includes(variantsArr[j])) {
-  //   //       newData.push(data[i])
-  //   //     }
-  //   //   }
-
-  //   //   return newData
-  //   // }
-  // }
-
   // Product Filter by Availability
   const filterByAvailability = data => {
     return data.filter(item => item.variants[0].availableForSale === true)
@@ -270,11 +226,6 @@ const CollectionsPage = ({ data }) => {
       filterProducts = filterByPrice(filterProducts)
     }
 
-    // Filter for Color
-    // if (filterOptions?.colors?.length > 0) {
-    //   filterProducts = filterByColor(filterProducts, filterOptions.colors)
-    // }
-
     setTheProducts(filterProducts)
   }
 
@@ -287,7 +238,11 @@ const CollectionsPage = ({ data }) => {
     <Layout>
       <Seo title={title} description={description} />
       <Wrapper>
-        <GatsbyImage image={image.gatsbyImageData} alt={title} />
+        <GatsbyImage
+          placeholder="blurred"
+          image={image.gatsbyImageData}
+          alt={title}
+        />
         <Middle>
           <Box>
             <Typography
@@ -303,13 +258,18 @@ const CollectionsPage = ({ data }) => {
         <Gradient />
       </Wrapper>
       <MainWrapper>
+        <Box m="30px 10px">
+          <Typography variant="navMenu">
+            <Link to="/">HAMMOCK SHOP</Link> / {title}
+          </Typography>
+        </Box>
         {/*  
           
             Sorting Product
           
             */}
         <Box display="flex" justifyContent="right">
-          <Box sx={{ minWidth: 120, maxWidth: 320, p: "40px 10px 20px 10px" }}>
+          <Box sx={{ minWidth: 120, maxWidth: 320, p: "20px 10px 20px 10px" }}>
             <FormControl>
               {/* <InputLabel variant="standard" htmlFor="uncontrolled-native">
               Sort
@@ -484,15 +444,14 @@ const CollectionsPage = ({ data }) => {
                   </OnButton>
                 )}
               </Collapse>
-
               <Divider />
 
-              {/*
-
-                Color Filtering
+              {/* 
           
-             */}
-              {/* <ListItemButton onClick={() => handleCollapse("colors")}>
+              Recent Products
+          
+              */}
+              <ListItemButton onClick={() => handleCollapse("recentViewed")}>
                 <ListItemText
                   secondaryTypographyProps={{
                     fontSize: 20,
@@ -501,34 +460,19 @@ const CollectionsPage = ({ data }) => {
                     textTransform: "uppercase",
                     color: "#000",
                   }}
-                  secondary="Colors & Variants"
+                  secondary="Recent Viewed Products"
                 />
-                {collapse["colors"] ? <ExpandLess /> : <ExpandMore />}
+                {collapse["recentViewed"] ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
-              <Collapse in={collapse["colors"]} timeout="auto" unmountOnExit>
-                {allColors?.map((value, index) => {
-                  return (
-                    <ListItem key={index} disablePadding>
-                      <ListItemButton
-                        role={undefined}
-                        onClick={handleColorToggle(value)}
-                        dense
-                      >
-                        <ListItemIcon>
-                          <Checkbox
-                            edge="start"
-                            checked={colorChecked.indexOf(value) !== -1}
-                            tabIndex={-1}
-                            disableRipple
-                            inputProps={{ "aria-labelledby": index }}
-                          />
-                        </ListItemIcon>
-                        <ListItemText id={index} primary={value} />
-                      </ListItemButton>
-                    </ListItem>
-                  )
-                })}
-              </Collapse> */}
+              <Collapse
+                in={collapse["recentViewed"]}
+                timeout="auto"
+                unmountOnExit
+              >
+                {recentViewedProducts && (
+                  <ProductCard products={recentViewedProducts.slice(0, 3)} />
+                )}
+              </Collapse>
             </List>
           </FilterGridWrapper>
 

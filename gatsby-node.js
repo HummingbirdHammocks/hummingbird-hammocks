@@ -1,4 +1,5 @@
 const path = require(`path`)
+const { nextTick } = require("process")
 
 // Absolute imports
 exports.onCreateWebpackConfig = ({ actions }) => {
@@ -25,8 +26,18 @@ exports.createPages = async ({ graphql, actions }) => {
       }
       allShopifyProduct {
         edges {
+          next {
+            handle
+          }
           node {
             id
+            handle
+            collections {
+              handle
+              title
+            }
+          }
+          previous {
             handle
           }
         }
@@ -35,11 +46,22 @@ exports.createPages = async ({ graphql, actions }) => {
   `)
 
   //create single product pages
-  data.allShopifyProduct.edges.forEach(({ node }) => {
+  data.allShopifyProduct.edges.forEach(({ node, previous, next }) => {
     createPage({
       path: `products/${node.handle}`,
       context: {
         id: node.id,
+        collection: node.collections[1]?.handle
+          ? {
+              handle: node.collections[1].handle,
+              title: node.collections[1].title,
+            }
+          : {
+              handle: node.collections[0].handle,
+              title: node.collections[0].title,
+            },
+        prev: previous?.handle,
+        next: next?.handle,
       },
       component: path.resolve("./src/templates/ProductsTemplate/index.js"),
     })

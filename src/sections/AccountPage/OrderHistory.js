@@ -1,14 +1,26 @@
 import React from "react"
-import Table from "@mui/material/Table"
-import TableBody from "@mui/material/TableBody"
-import TableCell from "@mui/material/TableCell"
-import TableContainer from "@mui/material/TableContainer"
-import TableHead from "@mui/material/TableHead"
-import TableRow from "@mui/material/TableRow"
-import Paper from "@mui/material/Paper"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material"
+import { navigate } from "gatsby"
+import { useLocation } from "@gatsbyjs/reach-router"
 
 export const OrderHistory = ({ rows }) => {
-  console.log(rows)
+  // Variants & Product Image
+  const { pathname } = useLocation()
+
+  const handleOrderDetails = name => {
+    navigate(`${pathname}?orders=${encodeURIComponent(name)}`, {
+      replace: true,
+    })
+  }
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -35,9 +47,16 @@ export const OrderHistory = ({ rows }) => {
             return (
               <TableRow
                 key={index}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                }}
               >
-                <TableCell component="th" scope="row">
+                <TableCell
+                  onClick={() => handleOrderDetails(name)}
+                  component="th"
+                  scope="row"
+                  sx={{ cursor: "pointer" }}
+                >
                   {name}
                 </TableCell>
                 <TableCell align="right">{processedAt}</TableCell>

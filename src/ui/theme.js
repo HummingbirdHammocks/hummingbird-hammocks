@@ -9,8 +9,12 @@ const rawTheme = createTheme({
     secondary: {
       main: "#132210",
     },
-    white: "#fff",
-    dark: "#414042",
+    white: {
+      main: "#fff",
+    },
+    dark: {
+      main: "#414042",
+    },
     titleBackground: "#1e1e1e99",
     blackTruffle: "#414042",
     blackBackground: "#393939",
@@ -79,7 +83,6 @@ const theme = {
     h5: {
       ...rawTheme.typography.h5,
       fontSize: 20,
-      fontWeight: rawTheme.typography.fontWeightLight,
       letterSpacing: 1.5,
       fontWeight: 400,
       textTransform: "uppercase",
@@ -107,7 +110,7 @@ const theme = {
       fontSize: 20,
       letterSpacing: 2,
       lineHeight: 1.6,
-      color: rawTheme.palette.white,
+      color: rawTheme.palette.white.main,
       fontWeight: 400,
       [rawTheme.breakpoints.down("md")]: {
         fontSize: 14,
@@ -134,6 +137,14 @@ const theme = {
       letterSpacing: 1,
       color: rawTheme.palette.dark,
       fontFamily: rawTheme.typography.fontFamilySecondary,
+    },
+    navUser: {
+      ...rawTheme.typography.navMenu,
+      fontSize: 13,
+      letterSpacing: 1,
+      fontWeight: 500,
+      fontFamily: rawTheme.typography.fontFamily,
+      color: rawTheme.palette.dark,
     },
     breakpoints: {
       values: {

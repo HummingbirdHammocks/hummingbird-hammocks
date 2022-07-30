@@ -61,8 +61,7 @@ export function Hero({ children, data }) {
                   : "center"
                 : "center"
             }
-            sx={{ maxWidth: "550px", mb: "17px" }}
-            color="white"
+            sx={{ maxWidth: "550px", mb: "17px", color: "#fff" }}
             variant="h1"
           >
             {mainText}

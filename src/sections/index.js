@@ -1,3 +1,4 @@
-export * from "./home"
+export * from "./HomePage"
 export * from "./ProductCard"
-export * from "./account"
+export * from "./AccountPage"
+export * from "./ProductPage"

@@ -8,10 +8,16 @@ import {
   styled,
   IconButton,
 } from "@mui/material"
-import { ShoppingBasket, Add, Remove, Close, Delete } from "@mui/icons-material"
-import { Link } from "gatsby"
+import {
+  ShoppingCartOutlined,
+  Add,
+  Remove,
+  Close,
+  Delete,
+} from "@mui/icons-material"
 
 import { useUICartContext, CartContext } from "contexts"
+import { OnButton } from "components"
 
 export const CartDrawer = () => {
   const { cartOpen, setCartOpen } = useUICartContext()
@@ -46,10 +52,10 @@ export const CartDrawer = () => {
       anchor="right"
       open={cartOpen}
     >
-      <Box display="flex" justifyContent="space-between" padding="25px 20px">
+      <Box display="flex" justifyContent="space-between" padding="16px 25px">
         <Box display="flex" justifyContent="center" alignItems="center">
-          <ShoppingBasket sx={{ mr: "10px" }} />
-          <Typography sx={{ mt: "6px" }} variant="navMenu">
+          <ShoppingCartOutlined sx={{ mr: "10px" }} />
+          <Typography sx={{ mt: "2px" }} variant="navMenu">
             {totalQuantity} Item
           </Typography>
         </Box>
@@ -150,32 +156,22 @@ export const CartDrawer = () => {
           </Box>
         ))}
       </Box>
-      <Box p={2.5}>
-        <Link href="/checkout-alternative" passHref>
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{
-              mb: "0.75rem",
-              height: "40px",
-            }}
-            fullWidth
-          >
-            Checkout Now
-          </Button>
-        </Link>
-        <Link href="/cart" passHref>
-          <Button
-            color="primary"
-            variant="outlined"
-            sx={{
-              height: 40,
-            }}
-            fullWidth
-          >
-            View Cart
-          </Button>
-        </Link>
+      <Box
+        sx={{
+          backgroundColor: "rgba(255, 255, 255, 0.44)",
+          backdropFilter: "saturate(180%) blur(20px)",
+        }}
+        p="15px 25px 30px  25px"
+      >
+        <OnButton
+          variant="outlined"
+          sx={{
+            height: 40,
+          }}
+          fullWidth
+        >
+          Proceed to Checkout
+        </OnButton>
       </Box>
     </Drawer>
   )

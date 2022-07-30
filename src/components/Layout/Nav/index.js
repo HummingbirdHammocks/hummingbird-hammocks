@@ -5,29 +5,34 @@ import {
   Toolbar,
   Typography,
   useMediaQuery,
-  IconButton,
   styled,
   Button,
-  CircularProgress,
+  IconButton,
+  Badge,
 } from "@mui/material"
 import { StaticImage } from "gatsby-plugin-image"
 import MenuIcon from "@mui/icons-material/Menu"
-import { ShoppingBasket, AccountCircle } from "@mui/icons-material"
+import { ShoppingCartOutlined, AccountCircle } from "@mui/icons-material"
 import { useQuery, gql } from "@apollo/client"
 
 import NavMenuItems from "./MenuItems"
-import { MainWrapper, Link } from "components"
-import { useNavContext, useUICartContext, UserContext } from "contexts"
+import { MainWrapper, Link, MiddleSpinner } from "components"
+import {
+  useNavContext,
+  useUICartContext,
+  UserContext,
+  CartContext,
+} from "contexts"
 
 const Wrapper = styled("ul")(() => ({
   position: "absolute",
   minWidth: "260px",
   zIndex: 1201,
-  background: "#fff",
   listStyle: "none",
   padding: "7px 0",
   borderRadius: "15px",
-  border: "1px solid #d3cece",
+  backgroundColor: "white",
+  border: "1px solid rgba(255, 255, 255, 0.3)",
   boxShadow:
     "0 10px 15px -3px rgba(46, 41, 51, 0.08), 0 4px 6px -2px rgba(71, 63, 79, 0.16)",
 }))
@@ -42,22 +47,49 @@ const ListBox = styled("li")(() => ({
       marginLeft: "0.28em",
       verticalAlign: "0.09em",
       borderTop: "0.42em solid",
-      borderRight: "0.32em solid transparent",
-      borderLeft: "0.32em solid transparent",
+      borderRight: "0.42em solid transparent",
+      borderLeft: "0.42em solid transparent",
     },
   },
 }))
 
 function Nav() {
   const matches = useMediaQuery("(max-width:1100px)")
+  const { checkout } = useContext(CartContext)
 
-  return <>{matches ? <AppbarMobile /> : <AppbarDesktop />}</>
+  const { cartOpen, setCartOpen } = useUICartContext()
+
+  let totalQuantity = 0
+
+  if (checkout) {
+    checkout.lineItems.forEach(lineItem => {
+      totalQuantity = totalQuantity + lineItem.quantity
+    })
+  }
+
+  return (
+    <>
+      {matches ? (
+        <AppbarMobile
+          cartQuantity={totalQuantity}
+          cartOpen={cartOpen}
+          setCartOpen={setCartOpen}
+        />
+      ) : (
+        <AppbarDesktop
+          cartQuantity={totalQuantity}
+          cartOpen={cartOpen}
+          setCartOpen={setCartOpen}
+        />
+      )}
+    </>
+  )
 }
 
 export default Nav
 
-const AppbarDesktop = () => {
-  const { cartOpen, setCartOpen } = useUICartContext()
+const AppbarDesktop = ({ cartQuantity, setCartOpen, cartOpen }) => {
+  const [scroll, setScroll] = useState(false)
   const {
     store: { customerAccessToken },
   } = useContext(UserContext)
@@ -68,8 +100,27 @@ const AppbarDesktop = () => {
     },
   })
 
+  if (typeof window !== "undefined") {
+    //Nacbar Color on Scroll
+    window.onscroll = () => {
+      const scrollMe = window.scrollY
+      if (scrollMe >= 130) {
+        setScroll(true)
+      } else {
+        setScroll(false)
+      }
+    }
+  }
+
   return (
-    <AppBar sx={{ borderBottom: "2px solid #414042" }} color="white">
+    <AppBar
+      sx={{
+        backgroundColor: scroll ? "rgba(255, 255, 255, 0.44)" : "#f0f0ea",
+        backdropFilter: "saturate(180%) blur(20px)",
+        border: "1px solid rgba(255, 255, 255, 0.3)",
+        transition: "0.3s",
+      }}
+    >
       <MainWrapper>
         <Toolbar>
           <Link to="/">
@@ -95,17 +146,18 @@ const AppbarDesktop = () => {
           </IconButton>
 
           {customerAccessToken ? (
-            <Button
-              sx={{ m: "0 20px" }}
-              variant="outlined"
-              startIcon={<AccountCircle />}
-            >
-              <Link to="/account">
-                <Typography variant="subtitle3">
+            <Link style={{ display: "inline-block" }} to="/account">
+              <Button
+                sx={{ m: "0 20px" }}
+                variant="outlined"
+                startIcon={<AccountCircle />}
+              >
+                {loading && <MiddleSpinner size={10} />}
+                <Typography variant="navUser">
                   {data?.customer?.firstName}
                 </Typography>
-              </Link>
-            </Button>
+              </Button>
+            </Link>
           ) : (
             <Link to="/account/login">
               <AccountCircle sx={{ m: "4px 20px 0 20px" }} />
@@ -113,7 +165,9 @@ const AppbarDesktop = () => {
           )}
 
           <IconButton onClick={() => setCartOpen(!cartOpen)}>
-            <ShoppingBasket />
+            <Badge badgeContent={cartQuantity} color="error">
+              <ShoppingCartOutlined />
+            </Badge>
           </IconButton>
         </Toolbar>
       </MainWrapper>
@@ -121,18 +175,20 @@ const AppbarDesktop = () => {
   )
 }
 
-const AppbarMobile = () => {
+const AppbarMobile = ({ cartQuantity, cartOpen, setCartOpen }) => {
   const { drawerOpen, setDrawerOpen } = useNavContext()
 
   return (
-    <AppBar>
+    <AppBar color="secondary">
       <MainWrapper>
         <Toolbar sx={{ p: "0" }}>
           <IconButton onClick={() => setDrawerOpen(!drawerOpen)}>
             <MenuIcon color="white" />
           </IconButton>
 
-          <Typography color="white">Menu</Typography>
+          <Typography variant="subtitle2" color="white">
+            Menu
+          </Typography>
           <Link sx={{ ml: "auto" }} to="/">
             <StaticImage
               src="../../../assets/images/logo-mobile.png"
@@ -143,7 +199,7 @@ const AppbarMobile = () => {
           </Link>
 
           <IconButton sx={{ ml: "auto" }}>
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="white">
               <path d="M16.041 15.856c-0.034 0.026-0.067 0.055-0.099 0.087s-0.060 0.064-0.087 0.099c-1.258 1.213-2.969 1.958-4.855 1.958-1.933 0-3.682-0.782-4.95-2.050s-2.050-3.017-2.050-4.95 0.782-3.682 2.050-4.95 3.017-2.050 4.95-2.050 3.682 0.782 4.95 2.050 2.050 3.017 2.050 4.95c0 1.886-0.745 3.597-1.959 4.856zM21.707 20.293l-3.675-3.675c1.231-1.54 1.968-3.493 1.968-5.618 0-2.485-1.008-4.736-2.636-6.364s-3.879-2.636-6.364-2.636-4.736 1.008-6.364 2.636-2.636 3.879-2.636 6.364 1.008 4.736 2.636 6.364 3.879 2.636 6.364 2.636c2.125 0 4.078-0.737 5.618-1.968l3.675 3.675c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414z"></path>
             </svg>
           </IconButton>
@@ -151,6 +207,11 @@ const AppbarMobile = () => {
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
               <path d="M500 10a207 207 0 01188 125c11 25 16 51 16 79v41h163v613c1 33-11 62-35 86s-53 36-87 36H255c-34 0-63-12-87-36-23-24-35-53-35-86V255h163v-41A207 207 0 01421 26c25-11 51-16 79-16zm286 858V337H214v531c0 11 4 20 12 28s18 12 29 12h490c11 0 21-4 29-12s12-17 12-28zM500 92c-34 0-63 12-87 36s-36 52-36 86v41h246v-41c0-34-12-63-36-86-24-24-53-36-87-36z"></path>
             </svg>
+          </IconButton>
+          <IconButton color="white" onClick={() => setCartOpen(!cartOpen)}>
+            <Badge badgeContent={cartQuantity} color="error">
+              <ShoppingCartOutlined />
+            </Badge>
           </IconButton>
         </Toolbar>
       </MainWrapper>
@@ -202,7 +263,15 @@ const MenuItems = ({ items, depthLevel }) => {
             <Typography variant="navMenu">
               {items.title}{" "}
               {depthLevel > 0 ? (
-                <span style={{ float: "right" }}>&raquo;</span>
+                <span
+                  style={{
+                    float: "right",
+                    fontSize: "18px",
+                    marginTop: "-5px",
+                  }}
+                >
+                  &#9656;
+                </span>
               ) : (
                 <span className="arrow"></span>
               )}

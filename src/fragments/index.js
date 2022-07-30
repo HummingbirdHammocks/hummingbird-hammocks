@@ -12,6 +12,7 @@ export const productFields = graphql`
     id
     images {
       id
+      shopifyId
       altText
       gatsbyImageData(placeholder: BLURRED)
     }
@@ -20,6 +21,16 @@ export const productFields = graphql`
       availableForSale
       shopifyId
       title
+      image {
+        id
+        altText
+        gatsbyImageData(placeholder: BLURRED)
+      }
+    }
+    options {
+      id
+      name
+      values
     }
     featuredImage {
       altText

@@ -5,7 +5,7 @@ import { CartContext } from "contexts"
 import { OnButton } from "components"
 
 const Wrapper = styled(Box)(() => ({
-  padding: "10px",
+  padding: "10px 0",
 }))
 
 export const AddToCart = ({ variantId, available }) => {
@@ -16,7 +16,7 @@ export const AddToCart = ({ variantId, available }) => {
   }
 
   return (
-    <Wrapper>
+    <Wrapper justifyContent="center" display="flex">
       <OnButton onClick={handleSubmit}>Add to Cart</OnButton>
     </Wrapper>
   )

@@ -206,6 +206,10 @@ const AddressPage = () => {
     }
   }
 
+  const returnAccount = () => {
+    navigate("/account")
+  }
+
   useEffect(() => {
     reset(formAddress)
   }, [formAddress, message])
@@ -217,15 +221,27 @@ const AddressPage = () => {
         <MainWrapper>
           <Box pb="20px" justifyContent="space-between" display="flex">
             <Typography variant="h2">Account Details</Typography>
-            <OnButton
-              hoverColor="black"
-              hoverBack="white"
-              padding="0"
-              border="0"
-              onClick={userLogout}
-            >
-              Logout
-            </OnButton>
+            <Box>
+              <OnButton
+                hovercolor="black"
+                hoverback="white"
+                padding="0"
+                border="0"
+                onClick={() => returnAccount()}
+              >
+                Return to Account
+              </OnButton>{" "}
+              /{" "}
+              <OnButton
+                hovercolor="black"
+                hoverback="white"
+                padding="0"
+                border="0"
+                onClick={() => userLogout()}
+              >
+                Logout
+              </OnButton>
+            </Box>
           </Box>
 
           <Divider />

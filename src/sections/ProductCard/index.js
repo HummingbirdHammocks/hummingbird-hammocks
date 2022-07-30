@@ -21,14 +21,14 @@ export const ProductCard = ({ products }) => {
               alt={product.title}
               image={product.images[0].gatsbyImageData}
             />
-            <TextBox>
-              <Typography variant="subtitle2" color="black">
+            <TextBox m="30px 0 5px 0">
+              <Typography textAlign="center" variant="subtitle2" color="black">
                 {product.title}
               </Typography>
               <Typography
-                textAlign={"center"}
-                variant="subtitle3"
-                color="black"
+                textAlign="center"
+                variant="subtitle2"
+                color="primary"
               >
                 {`$${product.priceRangeV2.minVariantPrice.amount} ${product.priceRangeV2.minVariantPrice.currencyCode}`}
               </Typography>

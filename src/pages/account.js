@@ -1,7 +1,9 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { styled, Typography, Divider, Box } from "@mui/material"
 import { navigate } from "gatsby"
 import { useQuery, gql } from "@apollo/client"
+import { useLocation } from "@gatsbyjs/reach-router"
+import queryString from "query-string"
 
 import { UserContext } from "contexts"
 import {
@@ -12,7 +14,7 @@ import {
   Link,
   MiddleSpinner,
 } from "components"
-import { OrderHistory } from "sections"
+import { OrderHistory, OrderDetails } from "sections"
 
 const AccountSection = styled("section")(({ theme }) => ({
   background: theme.palette.white,
@@ -26,14 +28,28 @@ const AccountGrid = styled(Box)(() => ({
 }))
 
 const AccountPage = () => {
+  const [accountDetails, setAccountDetails] = useState({
+    open: false,
+    index: null,
+  })
+
   const {
     store: { customerAccessToken },
     logout,
   } = useContext(UserContext)
 
+  // Variants & Product Image
+  const { search } = useLocation()
+  const q = queryString.parse(search).orders
+
   const userLogout = () => {
     logout()
     navigate("/")
+  }
+
+  const returnAccount = () => {
+    setAccountDetails({ open: false, index: null })
+    navigate("/account")
   }
 
   const { data, loading, error } = useQuery(CUSTOMER_INFO, {
@@ -42,20 +58,23 @@ const AccountPage = () => {
     },
   })
 
-  // const data = useQuery(CUSTOMER_INFO, {
-  //   variables: {
-  //     customerAccessToken,
-  //   },
-  // })
-
-  // console.log(data)
+  useEffect(() => {
+    if (data?.customer.orders?.edges && q) {
+      let index = data.customer.orders?.edges.findIndex(i => i.node.name === q)
+      if (index >= 0) {
+        setAccountDetails({ open: true, index })
+      } else {
+        navigate("/account")
+      }
+    }
+  }, [q, data])
 
   return (
     <Layout>
       <Seo title="Account" />
       <AccountSection>
         <MainWrapper>
-          {customerAccessToken ? (
+          {customerAccessToken && !accountDetails.open ? (
             <Box padding="0 200px">
               {error && "Error"}
               {loading && <MiddleSpinner divMinHeight="460px" size={20} />}
@@ -117,6 +136,12 @@ const AccountPage = () => {
                 </>
               )}
             </Box>
+          ) : customerAccessToken && accountDetails.open ? (
+            <OrderDetails
+              data={data?.customer.orders?.edges[accountDetails.index]}
+              userLogout={userLogout}
+              returnAccount={returnAccount}
+            />
           ) : (
             <Box
               minHeight="450px"
@@ -158,11 +183,45 @@ const CUSTOMER_INFO = gql`
         edges {
           node {
             name
+            id
             totalPrice
             processedAt
             currencyCode
             fulfillmentStatus
             financialStatus
+            shippingAddress {
+              address1
+              address2
+              city
+              lastName
+              firstName
+              country
+              phone
+              name
+              zip
+            }
+            lineItems(first: 10) {
+              edges {
+                node {
+                  title
+                  variant {
+                    sku
+                  }
+
+                  originalTotalPrice {
+                    amount
+                    currencyCode
+                  }
+                  discountedTotalPrice {
+                    amount
+                  }
+                  quantity
+                }
+              }
+            }
+
+            subtotalPrice
+            totalPrice
           }
         }
       }

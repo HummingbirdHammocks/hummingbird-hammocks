@@ -12,8 +12,8 @@ export const OnButton = styled(Button)(
     hovercolor,
   }) => ({
     border: border ? border : "1px solid #000",
-    padding: padding ? padding : "12px 20px",
-    borderRadius: "20px",
+    padding: padding ? padding : "8px 30px",
+    borderRadius: "40px",
     background: background ? background : "white",
     textTransform: "uppercase",
     color: color ? color : "black",
