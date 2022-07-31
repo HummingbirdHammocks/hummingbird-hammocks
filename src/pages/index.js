@@ -68,6 +68,14 @@ const thirdData = {
   ],
 }
 
+const fourthData = {
+  position: "right",
+  subtitle1: "We're Counting Every Gram",
+  mainText: "DYE SUBLIMATION",
+  subtitle2:
+    "The fabric equivalent of a tattoo. This system allows us to print graphics and information on our gear without adding any weight or bulk.",
+}
+
 const detailsData = {
   order: 1,
   title: "SIL-POLY RAIN TARPS",
@@ -79,10 +87,19 @@ const detailsData = {
 
 const detailsData2 = {
   order: 2,
-  title: "SIL-POLY RAIN TARPS",
+  title: "1.55 OZ ULTRALIGHT TREE STRAPS",
   subText:
-    "Don't let rain... rain on your parade. Be ready for any weather with one of our ultralight, no-stretch, sil-poly rain tarps!",
-  buttonText: "Shop Rain Tarps",
+    "Tired of carrying around heavy Tree Straps? So were we, so we made our own! At 1.55 oz and packing smaller than a candy bar, these straps are ready to go everywhere you are.",
+  buttonText: "Shop Tree Tarps",
+  buttonLink: "/",
+}
+
+const detailsData3 = {
+  order: 2,
+  title: "BUG PROTECTION FOR EVERY ADVENTURE",
+  subText:
+    "Relax and sleep without concern for our small creepy, crawly, airborne friends. At only 5.5 oz (156 g,) the Warbler Bug Net provides full 360-degree protection from mosquitos, other bugs, and possibly even small birds.",
+  buttonText: "Shop Bug Nets",
   buttonLink: "/",
 }
 
@@ -127,7 +144,7 @@ const IndexPage = () => (
     <Details divider={true} data={detailsData}>
       <StaticImage
         imgStyle={{ borderRadius: "20px" }}
-        src="../assets/images/home/Details.jpg"
+        src="../assets/images/home/SilPolyFabric.jpg"
         alt="Hummingbird Hammocks"
         placeholder="blurred"
       />
@@ -140,6 +157,25 @@ const IndexPage = () => (
         placeholder="blurred"
       />
     </Details>
+    <Details divider={true} data={detailsData3}>
+      <StaticImage
+        imgStyle={{ borderRadius: "20px" }}
+        src="../assets/images/home/Details 2.jpg"
+        alt="Hummingbird Hammocks"
+        placeholder="blurred"
+      />
+    </Details>
+    <Hero data={fourthData}>
+      <StaticImage
+        style={{
+          gridArea: "1/1",
+        }}
+        layout="fullWidth"
+        alt="Ultralight Hammock"
+        src="../assets/images/home/Hammocks Back.jpg"
+        placeholder="blurred"
+      />
+    </Hero>
   </Layout>
 )
 

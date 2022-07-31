@@ -260,7 +260,15 @@ const MenuItems = ({ items, depthLevel }) => {
             aria-expanded={dropdown ? true : false}
             onClick={() => setDropdown(prev => !prev)}
           >
-            <Typography variant="navMenu">
+            <Typography
+              sx={{
+                transition: "0.3s",
+                "&:hover": {
+                  color: "primary.main",
+                },
+              }}
+              variant="navMenu"
+            >
               {items.title}{" "}
               {depthLevel > 0 ? (
                 <span
@@ -291,7 +299,17 @@ const MenuItems = ({ items, depthLevel }) => {
           sx={{ my: 1, mx: 1.5 }}
           to={items.url}
         >
-          <Typography variant="navMenu">{items.title}</Typography>
+          <Typography
+            sx={{
+              transition: "0.3s",
+              "&:hover": {
+                color: "primary.main",
+              },
+            }}
+            variant="navMenu"
+          >
+            {items.title}
+          </Typography>
         </Link>
       )}
     </ListBox>

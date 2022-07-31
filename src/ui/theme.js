@@ -15,6 +15,9 @@ const rawTheme = createTheme({
     dark: {
       main: "#414042",
     },
+    darkGreen: {
+      main: "#10220e",
+    },
     titleBackground: "#1e1e1e99",
     blackTruffle: "#414042",
     blackBackground: "#393939",
@@ -145,6 +148,15 @@ const theme = {
       fontWeight: 500,
       fontFamily: rawTheme.typography.fontFamily,
       color: rawTheme.palette.dark,
+    },
+
+    footerMenu: {
+      ...rawTheme.typography.navMenu,
+      fontSize: 14,
+      letterSpacing: 1,
+      fontWeight: 500,
+      fontFamily: rawTheme.typography.fontFamilySecondary,
+      color: rawTheme.palette.white,
     },
     breakpoints: {
       values: {

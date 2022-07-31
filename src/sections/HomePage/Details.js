@@ -5,14 +5,14 @@ import { MainWrapper, LinkButton } from "components"
 
 const DetailsSection = styled("section")(({ theme }) => ({
   background: theme.palette.white,
-  padding: "60px 15px",
+  padding: "80px 15px",
 }))
 
 const MainGridWrapper = styled("div")(({ theme, orderkey }) => ({
   display: "grid",
   gridTemplateColumns: "repeat(2, 1fr)",
   gridGap: "20px",
-  margin: "auto",
+  margin: "0 200px",
 
   "& .order": {
     order: orderkey,
@@ -63,7 +63,12 @@ export function Details({ data, children, order, divider }) {
                 {subText}
               </Typography>
               <Box margin="40px 0 0 0">
-                <LinkButton color="black" background="white" to={buttonLink}>
+                <LinkButton
+                  borderColor="#34542a"
+                  color="black"
+                  background="white"
+                  to={buttonLink}
+                >
                   {buttonText}
                 </LinkButton>
               </Box>
