@@ -5,7 +5,7 @@ export const MiddleBox = styled(Box)(({ divMinHeight }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  minHeight: divMinHeight ? divMinHeight : " ",
+  minHeight: divMinHeight && divMinHeight,
 }))
 
 export const MiddleSpinner = ({ divMinHeight, size }) => (

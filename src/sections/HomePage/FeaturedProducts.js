@@ -7,9 +7,21 @@ import { GatsbyImage } from "gatsby-plugin-image"
 import { AddToCart, Link } from "components"
 import { ProductContext } from "contexts"
 
-const Wrapper = styled("section")(() => ({
-  padding: "100px 0",
+const Wrapper = styled("section")(({ theme }) => ({
+  padding: "100px 15px",
   position: "relative",
+
+  "& .swiper-pagination": {
+    bottom: "-3px!important",
+  },
+
+  "& .swiper-pagination-bullet": {
+    backgroundColor: "#132210!important",
+  },
+
+  [theme.breakpoints.down("md")]: {
+    padding: "100px 10px 50px 10px",
+  },
 }))
 
 const ImageBox = styled(Box)(() => ({
@@ -63,13 +75,10 @@ export function FeaturedProduct() {
         }}
         breakpoints={{
           "@0.00": {
-            slidesPerView: 1,
+            slidesPerView: 2,
             spaceBetween: 10,
           },
-          "@0.75": {
-            slidesPerView: 2,
-            spaceBetween: 20,
-          },
+
           "@1.00": {
             slidesPerView: 3,
             spaceBetween: 40,
@@ -88,17 +97,19 @@ export function FeaturedProduct() {
       >
         {featuredProducts.map(item => (
           <SwiperSlide key={item.shopifyId}>
-            <ImageBox minHeight={matches ? "650px" : "600px"}>
+            <ImageBox minHeight={matches ? "350px" : "600px"}>
               <AbsoluteImage
                 className="image-1"
                 image={item.featuredImage.gatsbyImageData}
                 alt={item.featuredImage.altText}
+                placeholder="blurred"
               />
 
               <AbsoluteImage
                 className="image-2"
                 image={item.images[1].gatsbyImageData}
                 alt={item.images[1].altText}
+                placeholder="blurred"
               />
               <TextBox>
                 <Link to={`products/${item.handle}`}>

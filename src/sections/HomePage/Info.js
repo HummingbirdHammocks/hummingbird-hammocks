@@ -6,36 +6,46 @@ import { MainWrapper } from "../../components"
 const InfoSection = styled("section")(({ theme }) => ({
   background: theme.palette.white,
   padding: "60px 15px",
+
+  [theme.breakpoints.down("md")]: {
+    padding: "50px 0",
+    wordBreak: "break-word",
+  },
+
+  "& a": {
+    wordBreak: "break-all",
+  },
 }))
 
-export function Info() {
+export function Info({ title, titleAlign, children, subTextAlign }) {
   return (
     <InfoSection>
       <MainWrapper>
-        <Typography
-          textTransform="uppercase"
-          textAlign="center"
-          sx={{ mb: "30px" }}
-          variant="h2"
-        >
-          ULTRALIGHT HAMMOCKS FOR EVERY ADVENTURE
-        </Typography>
-        <Divider light />
-        <Box display={"flex"} justifyContent="center">
+        {title && (
+          <>
+            <Typography
+              sx={{
+                textDecoration: "underline",
+                textUnderlineOffset: "10px",
+                textDecorationColor: "#cccc",
+                mb: "30px",
+              }}
+              textTransform="uppercase"
+              textAlign={titleAlign ? titleAlign : "center"}
+              variant="h2"
+            >
+              {title}
+            </Typography>
+          </>
+        )}
+
+        <Box display="flex" justifyContent="center">
           <Typography
-            textAlign="center"
+            textAlign={subTextAlign ? subTextAlign : "center"}
             sx={{ mt: "30px", maxWidth: "1200px" }}
             variant="body1"
           >
-            Our gear weighs about 30% less than anything else on the market, but
-            weight isn’t the only thing we care about. We also demand that the
-            hammock packs small and travels well. We believe the volume in your
-            pack deserves as much love as its weight.
-            <br /> <br />
-            You'll find no bulky metal parts or thick webbing here. Using actual
-            reserve parachute nylon and our button link system, we compress the
-            hammock into a very small stuff sack, keeping it as unnoticed in
-            your pack as it is on the scale.
+            {children}
           </Typography>
         </Box>
       </MainWrapper>

@@ -8,6 +8,13 @@ const Wrapper = styled(Box)(() => ({
   padding: "10px 0",
 }))
 
+const AddtoCartButton = styled(OnButton)(({ theme }) => ({
+  [theme.breakpoints.down("md")]: {
+    padding: "5px 10px",
+    fontSize: "13px",
+  },
+}))
+
 export const AddToCart = ({ variantId, available }) => {
   const { updateLineItem } = useContext(CartContext)
 
@@ -17,7 +24,7 @@ export const AddToCart = ({ variantId, available }) => {
 
   return (
     <Wrapper justifyContent="center" display="flex">
-      <OnButton onClick={handleSubmit}>Add to Cart</OnButton>
+      <AddtoCartButton onClick={handleSubmit}>Add to Cart</AddtoCartButton>
     </Wrapper>
   )
 }

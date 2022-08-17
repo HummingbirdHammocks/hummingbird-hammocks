@@ -17,6 +17,10 @@ export const productFields = graphql`
       gatsbyImageData(placeholder: BLURRED)
     }
     variants {
+      metafields {
+        key
+        value
+      }
       id
       availableForSale
       shopifyId

@@ -13,9 +13,9 @@ import {
   ListItemIcon,
   Divider,
   FormControl,
-  NativeSelect,
   IconButton,
   Slider,
+  useMediaQuery,
 } from "@mui/material"
 import { GatsbyImage } from "gatsby-plugin-image"
 import { ExpandLess, ExpandMore, Delete } from "@mui/icons-material"
@@ -30,7 +30,7 @@ const Wrapper = styled("section")(() => ({
   position: "relative",
 }))
 
-const Middle = styled("div")(() => ({
+const Middle = styled(Box)(() => ({
   position: "absolute",
   display: "flex",
   left: "50%",
@@ -39,27 +39,32 @@ const Middle = styled("div")(() => ({
   zIndex: "100",
 }))
 
-const Gradient = styled("div")(() => ({
+const Gradient = styled(Box)(() => ({
   background: "rgba(0,0,0,.6)",
   position: "absolute",
   inset: "0 0 0 0",
 }))
 
-const ProductWrapper = styled("div")(({ theme }) => ({
-  padding: "0 15px 60px 15px",
+const ProductWrapper = styled(Box)(({ theme }) => ({
+  padding: "0 15px 10px 15px",
   display: "grid",
   gridTemplateColumns: "1fr 3fr",
 
   [theme.breakpoints.down("md")]: {
     gridTemplateColumns: "repeat(1, 1fr)",
+    padding: "0",
   },
 }))
 
-const ProductGridContent = styled("div")(() => ({
+const ProductGridContent = styled(Box)(({ theme }) => ({
   padding: "10px 50px",
+
+  [theme.breakpoints.down("md")]: {
+    padding: "0",
+  },
 }))
 
-const ProductGridWrapper = styled("div")(({ theme }) => ({
+const ProductGridWrapper = styled(Box)(({ theme }) => ({
   display: "grid",
   position: "relative",
   gridTemplateColumns: "repeat(2, 1fr)",
@@ -71,14 +76,19 @@ const ProductGridWrapper = styled("div")(({ theme }) => ({
   },
 }))
 
-const FilterGridWrapper = styled("div")(() => ({
-  padding: "60px 15px",
+const FilterGridWrapper = styled(Box)(({ theme }) => ({
+  padding: "20px 15px",
+
+  [theme.breakpoints.down("md")]: {
+    padding: "0",
+  },
 }))
 
 const CollectionsPage = ({ data }) => {
   const { title, image, products, description } = data.shopifyCollection
   const { collections } = data.allShopifyCollection
   const { recentViewedProducts } = useContext(RecentViewedContext)
+  const matches = useMediaQuery("(max-width:900px)")
 
   const productType = Array.from(new Set(products.map(j => j.productType)))
 
@@ -246,10 +256,10 @@ const CollectionsPage = ({ data }) => {
         <Middle>
           <Box>
             <Typography
-              sx={{ margin: "20px 10px;" }}
+              sx={{ margin: "20px 10px" }}
               textAlign="center"
               variant="h1"
-              color="white"
+              color="white.main"
             >
               {title}
             </Typography>
@@ -258,23 +268,26 @@ const CollectionsPage = ({ data }) => {
         <Gradient />
       </Wrapper>
       <MainWrapper>
-        <Box m="30px 10px">
-          <Typography variant="navMenu">
-            <Link to="/">HAMMOCK SHOP</Link> / {title}
-          </Typography>
-        </Box>
-        {/*  
+        <Box
+          m="30px"
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <Box display={matches && "block"}>
+            <Typography variant="collectionName">
+              <Link to="/">HAMMOCK SHOP</Link> / {title}
+            </Typography>
+          </Box>
+          {/*  
           
             Sorting Product
           
             */}
-        <Box display="flex" justifyContent="right">
-          <Box sx={{ minWidth: 120, maxWidth: 320, p: "20px 10px 20px 10px" }}>
+
+          <Box sx={{ minWidth: 120, maxWidth: 320 }}>
             <FormControl>
-              {/* <InputLabel variant="standard" htmlFor="uncontrolled-native">
-              Sort
-            </InputLabel> */}
-              <NativeSelect
+              <select
                 value={filterOptions.sort}
                 onChange={handleProductSortChange}
               >
@@ -284,12 +297,12 @@ const CollectionsPage = ({ data }) => {
                 <option value="low">Price(Low to High)</option>
                 <option value="newToOld">Data(New to Old)</option>
                 <option value="oldToNew">Data(Old to New)</option>
-              </NativeSelect>
+              </select>
             </FormControl>
           </Box>
         </Box>
 
-        <Divider />
+        <Divider color="#e2dfd9" />
         <ProductWrapper>
           <FilterGridWrapper>
             {/* 
@@ -324,7 +337,13 @@ const CollectionsPage = ({ data }) => {
               </Box>
             )}
 
-            <List>
+            <List
+              sx={{
+                borderRight: matches ? "0" : "1px solid #e2dfd9",
+                paddingR: matches ? "0 15px" : "0 20px 0 0",
+                margin: "20px 0",
+              }}
+            >
               {/* 
           
               All the Collections
@@ -349,7 +368,7 @@ const CollectionsPage = ({ data }) => {
                 unmountOnExit
               >
                 {collections?.map(collection => (
-                  <ListItem key={collection.shopifyId}>
+                  <ListItem m="20px" key={collection.shopifyId}>
                     <Link to={`/collections/${collection.handle}`}>
                       <Typography>{collection.title}</Typography>
                     </Link>
@@ -382,7 +401,7 @@ const CollectionsPage = ({ data }) => {
               >
                 {productType.map((value, index) => {
                   return (
-                    <ListItem key={index} disablePadding>
+                    <ListItem m="20px" key={index} disablePadding>
                       <ListItemButton
                         role={undefined}
                         onClick={handleProductTypeToggle(value)}
@@ -423,23 +442,27 @@ const CollectionsPage = ({ data }) => {
                 {collapse["price"] ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
               <Collapse
-                sx={{ mb: "20px" }}
+                sx={{ m: "20px" }}
                 in={collapse["price"]}
                 timeout="auto"
                 unmountOnExit
               >
                 <Slider
-                  sx={{ mt: "40px" }}
+                  sx={{ mt: "15px" }}
                   value={selectedPrice}
                   onChange={handleChangePrice}
                   valueLabelDisplay="on"
                   min={0}
+                  size="small"
                   max={heightPrice}
                 />
 
                 <OnButton onClick={handlePriceFilterClick}>Apply</OnButton>
                 {filterOptions?.price && (
-                  <OnButton onClick={handleClearPriceFilterClick}>
+                  <OnButton
+                    margin="0 0 0 15px"
+                    onClick={handleClearPriceFilterClick}
+                  >
                     Clear
                   </OnButton>
                 )}
@@ -469,8 +492,15 @@ const CollectionsPage = ({ data }) => {
                 timeout="auto"
                 unmountOnExit
               >
-                {recentViewedProducts && (
-                  <ProductCard products={recentViewedProducts.slice(0, 3)} />
+                {recentViewedProducts.length > 0 ? (
+                  <ProductCard
+                    minHeight="230px"
+                    products={recentViewedProducts.slice(0, 3)}
+                  />
+                ) : (
+                  <Box m="20px">
+                    <Typography variant="body1">No Product Found!</Typography>
+                  </Box>
                 )}
               </Collapse>
             </List>
@@ -483,7 +513,9 @@ const CollectionsPage = ({ data }) => {
           
             */}
             <ProductGridWrapper>
-              {theProducts && <ProductCard products={theProducts} />}
+              {theProducts && (
+                <ProductCard mdMinHeight="250px" products={theProducts} />
+              )}
             </ProductGridWrapper>
           </ProductGridContent>
         </ProductWrapper>

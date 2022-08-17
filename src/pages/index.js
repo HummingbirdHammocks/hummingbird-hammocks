@@ -1,7 +1,8 @@
 import React from "react"
 import { StaticImage } from "gatsby-plugin-image"
+import { Box } from "@mui/material"
 
-import { Seo, Layout } from "components"
+import { Seo, Layout, MainWrapper } from "components"
 import { Hero, Info, Details, FeaturedProduct } from "sections"
 
 const heroData = {
@@ -13,14 +14,16 @@ const heroData = {
     {
       id: 1,
       text: "Hammocks",
-      url: "/",
+      type: "link",
+      url: "/collections/hammocks",
     },
     {
       id: 2,
       text: "Tree Straps",
-      url: "/",
+      url: "/collections/tree-straps",
       background: "transparent",
       color: "white",
+      type: "link",
     },
   ],
 }
@@ -31,20 +34,6 @@ const secondData = {
   mainText: "REAL PARACHUTE FABRIC",
   subtitle2:
     "All of our hammocks use actual FAA certified reserve parachute material. This fabric is trusted by skydivers, BASE jumpers, and aerobatic pilots every day.",
-  // button: [
-  //   {
-  //     id: 1,
-  //     text: "Hammocks",
-  //     url: "/",
-  //     background: "transparent",
-  //     color: "white",
-  //   },
-  //   {
-  //     id: 2,
-  //     text: "Tree Straps",
-  //     url: "/",
-  //   },
-  // ],
 }
 
 const thirdData = {
@@ -56,14 +45,22 @@ const thirdData = {
     {
       id: 1,
       text: "Ecology",
-      url: "/",
+      url: "https://ecologi.com/hummingbirdhammocks",
+      type: "href",
       background: "transparent",
       color: "white",
+      hoverBack: "#34542a",
+      hoverBolor: "#fff",
+      hoverBorder: "1px solid #34542a",
     },
     {
       id: 2,
       text: "Eden Project",
-      url: "/",
+      type: "href",
+      url: "https://www.edenprojects.org/our-work",
+      hoverBack: "#34542a",
+      hoverBolor: "#fff",
+      hoverBorder: "1px solid #34542a",
     },
   ],
 }
@@ -82,7 +79,7 @@ const detailsData = {
   subText:
     "Don't let rain... rain on your parade. Be ready for any weather with one of our ultralight, no-stretch, sil-poly rain tarps!",
   buttonText: "Shop Rain Tarps",
-  buttonLink: "/",
+  buttonLink: "/collections/shelter",
 }
 
 const detailsData2 = {
@@ -91,7 +88,7 @@ const detailsData2 = {
   subText:
     "Tired of carrying around heavy Tree Straps? So were we, so we made our own! At 1.55 oz and packing smaller than a candy bar, these straps are ready to go everywhere you are.",
   buttonText: "Shop Tree Tarps",
-  buttonLink: "/",
+  buttonLink: "/collections/tree-straps",
 }
 
 const detailsData3 = {
@@ -100,7 +97,7 @@ const detailsData3 = {
   subText:
     "Relax and sleep without concern for our small creepy, crawly, airborne friends. At only 5.5 oz (156 g,) the Warbler Bug Net provides full 360-degree protection from mosquitos, other bugs, and possibly even small birds.",
   buttonText: "Shop Bug Nets",
-  buttonLink: "/",
+  buttonLink: "/products/warbler-bug-net",
 }
 
 const IndexPage = () => (
@@ -117,7 +114,17 @@ const IndexPage = () => (
         placeholder="blurred"
       />
     </Hero>
-    <Info />
+    <Info title="MORE THAN JUST ULTRALIGHT">
+      Our gear weighs about 30% less than anything else on the market, but
+      weight isn’t the only thing we care about. We also demand that the hammock
+      packs small and travels well. We believe the volume in your pack deserves
+      as much love as its weight.
+      <br /> <br />
+      You'll find no bulky metal parts or thick webbing here. Using actual
+      reserve parachute nylon and our button link system, we compress the
+      hammock into a very small stuff sack, keeping it as unnoticed in your pack
+      as it is on the scale.
+    </Info>
     <Hero data={secondData}>
       <StaticImage
         style={{
@@ -141,30 +148,34 @@ const IndexPage = () => (
         placeholder="blurred"
       />
     </Hero>
-    <Details divider={true} data={detailsData}>
-      <StaticImage
-        imgStyle={{ borderRadius: "20px" }}
-        src="../assets/images/home/SilPolyFabric.jpg"
-        alt="Hummingbird Hammocks"
-        placeholder="blurred"
-      />
-    </Details>
-    <Details order="2" data={detailsData2}>
-      <StaticImage
-        imgStyle={{ borderRadius: "20px" }}
-        src="../assets/images/home/Details.jpg"
-        alt="Hummingbird Hammocks"
-        placeholder="blurred"
-      />
-    </Details>
-    <Details divider={true} data={detailsData3}>
-      <StaticImage
-        imgStyle={{ borderRadius: "20px" }}
-        src="../assets/images/home/Details 2.jpg"
-        alt="Hummingbird Hammocks"
-        placeholder="blurred"
-      />
-    </Details>
+    <MainWrapper>
+      <Box m="20px 0">
+        <Details data={detailsData}>
+          <StaticImage
+            imgStyle={{ borderRadius: "20px" }}
+            src="../assets/images/home/SilPolyFabric.jpg"
+            alt="Hummingbird Hammocks"
+            placeholder="blurred"
+          />
+        </Details>
+        <Details order="2" data={detailsData2}>
+          <StaticImage
+            imgStyle={{ borderRadius: "20px" }}
+            src="../assets/images/home/Details.jpg"
+            alt="Hummingbird Hammocks"
+            placeholder="blurred"
+          />
+        </Details>
+        <Details data={detailsData3}>
+          <StaticImage
+            imgStyle={{ borderRadius: "20px" }}
+            src="../assets/images/home/Details 2.jpg"
+            alt="Hummingbird Hammocks"
+            placeholder="blurred"
+          />
+        </Details>
+      </Box>
+    </MainWrapper>
     <Hero data={fourthData}>
       <StaticImage
         style={{

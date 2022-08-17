@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react"
-import { styled, Typography, Divider, Box } from "@mui/material"
+import { styled, Typography, Divider, Box, useMediaQuery } from "@mui/material"
 import { useMutation, gql } from "@apollo/client"
 import { navigate } from "gatsby"
 import { useForm } from "react-hook-form"
@@ -17,9 +17,14 @@ import {
 const ForgetSection = styled("section")(({ theme }) => ({
   background: theme.palette.white,
   padding: "60px 15px",
+
+  [theme.breakpoints.down("md")]: {
+    padding: "50",
+  },
 }))
 
 const ForgetPage = () => {
+  const matches = useMediaQuery("(max-width:900px)")
   // something went wrong
   const [message, setMessage] = useState("")
 
@@ -63,7 +68,7 @@ const ForgetPage = () => {
       <Seo title="Forger Password" />
       <ForgetSection>
         <MainWrapper>
-          <Box padding="0 200px">
+          <Box padding={!matches ? "0 200px" : "0"}>
             {customerAccessToken ? (
               <Box
                 minHeight="450px"

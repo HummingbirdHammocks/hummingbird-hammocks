@@ -10,10 +10,12 @@ export const OnButton = styled(Button)(
     padding,
     hoverback,
     hovercolor,
+    hoverborder,
+    borderRadius,
   }) => ({
     border: border ? border : "1px solid #000",
     padding: padding ? padding : "8px 30px",
-    borderRadius: "40px",
+    borderRadius: borderRadius ? borderRadius : "40px",
     background: background ? background : "white",
     textTransform: "uppercase",
     color: color ? color : "black",
@@ -22,10 +24,12 @@ export const OnButton = styled(Button)(
     letterSpacing: "1px",
     fontSize: "14px",
     margin: margin ? margin : "0",
+    transition: "0.3s",
 
     "&:hover": {
-      background: hoverback ? hoverback : "black",
+      background: hoverback ? hoverback : "#34542a",
       color: hovercolor ? hovercolor : "white",
+      border: hoverborder ? hoverborder : "",
     },
   })
 )

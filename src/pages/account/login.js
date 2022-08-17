@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react"
-import { styled, Box, Typography, Divider } from "@mui/material"
+import { styled, Box, Typography, Divider, useMediaQuery } from "@mui/material"
 import { useMutation, gql } from "@apollo/client"
 import { useForm } from "react-hook-form"
 import { navigate } from "gatsby"
@@ -18,9 +18,14 @@ import {
 const LoginSection = styled("section")(({ theme }) => ({
   background: theme.palette.white,
   padding: "60px 15px",
+
+  [theme.breakpoints.down("md")]: {
+    padding: "50",
+  },
 }))
 
 const LoginPage = () => {
+  const matches = useMediaQuery("(max-width:900px)")
   // something went wrong
   const [message, setMessage] = useState("")
 
@@ -60,7 +65,7 @@ const LoginPage = () => {
       <Seo title="Login" />
       <LoginSection>
         <MainWrapper>
-          <Box padding="0 200px">
+          <Box padding={!matches ? "0 200px" : "0"}>
             {customerAccessToken ? (
               <Box
                 minHeight="450px"

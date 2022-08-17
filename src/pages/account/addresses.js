@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react"
-import { styled, Typography, Divider, Box } from "@mui/material"
+import { styled, Typography, Divider, Box, useMediaQuery } from "@mui/material"
 import { useMutation, gql, useQuery } from "@apollo/client"
 import { navigate } from "gatsby"
 import { useForm } from "react-hook-form"
@@ -18,15 +18,36 @@ import Select from "../../utils/country"
 const AddressSection = styled("section")(({ theme }) => ({
   background: theme.palette.white,
   padding: "60px 15px",
+
+  [theme.breakpoints.down("md")]: {
+    padding: "30px 0 50px 0",
+  },
 }))
 
-const AddressGrid = styled(Box)(() => ({
+const AddressGrid = styled(Box)(({ theme }) => ({
   display: "grid",
   gridTemplateColumns: "1fr 2fr",
   padding: "30px 0",
+
+  [theme.breakpoints.down("md")]: {
+    gridTemplateColumns: "1fr",
+    padding: "0",
+  },
+}))
+
+const CheckWidth = styled(Box)(({ theme }) => ({
+  display: "flex",
+  maxHeight: "40px",
+  margin: "20px 0",
+
+  "& input": {
+    width: "40px!important",
+    marginTop: "-1px",
+  },
 }))
 
 const AddressPage = () => {
+  const matches = useMediaQuery("(max-width:900px)")
   const [formType, setFormType] = useState("Add")
   const [message, setMessage] = useState("")
   const [formAddress, setFormAddress] = useState(null)
@@ -219,8 +240,14 @@ const AddressPage = () => {
       <Seo title="Account" />
       <AddressSection>
         <MainWrapper>
-          <Box pb="20px" justifyContent="space-between" display="flex">
-            <Typography variant="h2">Account Details</Typography>
+          <Box
+            pb="20px"
+            justifyContent="space-between"
+            display={matches ? "inline-block" : "flex"}
+          >
+            <Typography m={matches && "10px 0"} variant="h2">
+              Account Details
+            </Typography>
             <Box>
               <OnButton
                 hovercolor="black"
@@ -233,10 +260,12 @@ const AddressPage = () => {
               </OnButton>{" "}
               /{" "}
               <OnButton
-                hovercolor="black"
-                hoverback="white"
-                padding="0"
+                hovercolor="#d2cbcb"
+                background="#34542a"
+                padding="0 10px"
+                color="white"
                 border="0"
+                borderRadius="10px"
                 onClick={() => userLogout()}
               >
                 Logout
@@ -246,14 +275,17 @@ const AddressPage = () => {
 
           <Divider />
 
-          <Box padding="0 200px">
+          <Box padding={!matches ? "0 200px" : "0"}>
             <AddressGrid>
               {error && "Error"}
               {loading && <MiddleSpinner divMinHeight="460px" size={20} />}
 
               {data && (
                 <>
-                  <Box p="20px 30px" borderRight="1px solid #111">
+                  <Box
+                    p={matches ? "0" : "20px 30px"}
+                    borderRight={matches ? "0" : "1px solid #ead5d5"}
+                  >
                     <Typography m="20px 0" variant="h5">
                       Customer Addresses
                     </Typography>
@@ -273,7 +305,7 @@ const AddressPage = () => {
 
                         return (
                           <Box key={id}>
-                            <Typography variant="body1">
+                            <Typography mb="20px" variant="body1">
                               <b>
                                 {firstName.toLocaleUpperCase()}{" "}
                                 {lastName.toLocaleUpperCase()}{" "}
@@ -313,7 +345,10 @@ const AddressPage = () => {
                               Edit
                             </OnButton>
 
-                            <OnButton onClick={() => handleDeleteAddress(id)}>
+                            <OnButton
+                              sx={{ marginLeft: "10px" }}
+                              onClick={() => handleDeleteAddress(id)}
+                            >
                               Remove
                             </OnButton>
 
@@ -322,16 +357,22 @@ const AddressPage = () => {
                         )
                       })}
 
-                    <OnButton onClick={() => addAddress()}>
-                      Add new address
-                    </OnButton>
+                    <Box
+                      m={matches && "40px 0"}
+                      display={matches && "flex"}
+                      justifyContent="center"
+                    >
+                      <OnButton onClick={() => addAddress()}>
+                        Add new address
+                      </OnButton>
+                    </Box>
                   </Box>
                 </>
               )}
 
-              <Box p="20px">
+              <Box p={matches ? "0" : "20px"}>
                 {message ? <Typography variant="h2">{message}</Typography> : ""}
-                <Typography variant="h5">
+                <Typography mb="20px" variant="h5">
                   {formType === "Add" ? "Add New Address" : "Update Address"}
                 </Typography>
 
@@ -403,16 +444,18 @@ const AddressPage = () => {
                     })}
                   />
 
-                  <label htmlFor="checkDefaultAddress">
-                    Set as default address
-                  </label>
-                  <input
-                    type="checkbox"
-                    onChange={() =>
-                      setCheckDefaultAddress(!checkDefaultAddress)
-                    }
-                    value={checkDefaultAddress}
-                  />
+                  <CheckWidth>
+                    <input
+                      type="checkbox"
+                      onChange={() =>
+                        setCheckDefaultAddress(!checkDefaultAddress)
+                      }
+                      value={checkDefaultAddress}
+                    />
+                    <Typography variant="navUser">
+                      Set as default address
+                    </Typography>
+                  </CheckWidth>
 
                   <OnButton type="submit">
                     {formType === "Add" ? "Add New Address" : "Update Address"}

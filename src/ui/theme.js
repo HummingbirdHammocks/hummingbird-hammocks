@@ -68,7 +68,7 @@ const theme = {
     h2: {
       ...rawTheme.typography.h2,
       ...fontHeader,
-      fontSize: 28,
+      fontSize: 24,
       fontWeight: 400,
       letterSpacing: 2,
       lineHeight: 1.5,
@@ -148,6 +148,24 @@ const theme = {
       fontWeight: 500,
       fontFamily: rawTheme.typography.fontFamily,
       color: rawTheme.palette.dark,
+      textTransform: "uppercase",
+    },
+
+    collectionName: {
+      ...rawTheme.typography.navMenu,
+      fontSize: 12,
+      letterSpacing: 1,
+      fontWeight: 400,
+      fontFamily: rawTheme.typography.fontFamily,
+      color: rawTheme.palette.dark,
+      textTransform: "capitalize",
+    },
+
+    productDetails: {
+      color: rawTheme.palette.primary,
+      textTransform: "capitalize!important",
+      fontSize: 17,
+      fontFamily: rawTheme.typography.fontFamilySecondary,
     },
 
     footerMenu: {
@@ -155,6 +173,7 @@ const theme = {
       fontSize: 14,
       letterSpacing: 1,
       fontWeight: 500,
+      textTransform: "capitalize",
       fontFamily: rawTheme.typography.fontFamilySecondary,
       color: rawTheme.palette.white,
     },

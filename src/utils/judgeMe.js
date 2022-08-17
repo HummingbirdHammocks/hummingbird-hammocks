@@ -16,4 +16,15 @@ export default class JudgeMe {
       console.log(error)
     }
   }
+
+  async getPreviewBadge() {
+    const { data } = await axios.get(
+      `https://judge.me/api/v1/widgets/preview_badge?api_token=aDRUmgKuaN2wmnpgAdI9lTV-azU&shop_domain=${process.env.GATSBY_SHOPIFY_STORE_URL}&handle=${this.handle}`
+    )
+
+    return data
+  }
+  catch(error) {
+    console.log(error)
+  }
 }

@@ -15,8 +15,8 @@ export const Link = forwardRef(function Link(props, ref) {
 })
 
 export const LinkButton = styled(GatsbyLink)(
-  ({ theme, background, margin, borderColor, color }) => ({
-    border: borderColor ? `1px solid ${borderColor}` : "1px solid #fff",
+  ({ theme, background, margin, bordercolor, color }) => ({
+    border: bordercolor ? `1px solid ${bordercolor}` : "1px solid #fff",
     padding: "12px 40px",
     borderRadius: "20px",
     background: background ? background : "black",
@@ -38,5 +38,33 @@ export const LinkButton = styled(GatsbyLink)(
 )
 
 export const AnotherLink = styled(MuiLink)(({ theme }) => ({
-  fontFamily: theme.typography.fontFamilySecondary,
+  textDecoration: "none",
+  fontFamily: theme.typography.fontFamily,
+  textTransform: "uppercase",
+  fontSize: "14px",
+  letterSpacing: "1px",
+  fontWeight: "500",
 }))
+
+export const ButtonAnotherLink = styled("a")(
+  ({ theme, background, margin, bordercolor, color }) => ({
+    border: bordercolor ? `1px solid ${bordercolor}` : "1px solid #fff",
+    padding: "12px 40px",
+    borderRadius: "20px",
+    background: background ? background : "white",
+    textTransform: "uppercase",
+    color: color ? color : "black",
+    textDecoration: "none",
+    fontFamily: theme.typography.fontFamily,
+    letterSpacing: "1px",
+    fontSize: "14px",
+    margin: margin ? margin : "0",
+    transition: "0.3s",
+
+    "&:hover": {
+      background: "#34542a",
+      color: "#fff",
+      border: "1px solid #34542a",
+    },
+  })
+)

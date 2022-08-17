@@ -1,8 +1,12 @@
 import React from "react"
 import { styled, Box } from "@mui/material"
 
-const Wrapper = styled("section")(() => ({
+const Wrapper = styled("section")(({ theme }) => ({
   margin: "40px 200px",
+
+  [theme.breakpoints.down("md")]: {
+    margin: "40px 0",
+  },
 }))
 
 const VideoRelative = styled(Box)(() => ({

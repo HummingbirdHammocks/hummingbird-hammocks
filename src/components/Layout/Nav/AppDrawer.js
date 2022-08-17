@@ -11,12 +11,15 @@ import {
 } from "@mui/material"
 import { useNavContext } from "contexts"
 import { ChevronLeft, ExpandLess, ExpandMore } from "@mui/icons-material"
-import { Link } from "gatsby"
+import { StaticImage } from "gatsby-plugin-image"
 
-export const AppDrawer = () => {
+import { AnotherLink, Link } from "components"
+
+export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
   const { drawerOpen, setDrawerOpen } = useNavContext()
   const [nav1, setNav1] = useState(false)
   const [nav2, setNav2] = useState(false)
+  const [nav3, setNav3] = useState(false)
 
   return (
     <Drawer
@@ -30,95 +33,193 @@ export const AppDrawer = () => {
       <Box
         sx={{
           display: "flex",
-          alignItems: "center",
           padding: "0 8px",
-          justifyContent: "flex-end",
+          justifyContent: "space-between",
+          borderBottom: "1px solid #0c0a0a1f",
+          padding: "10px 0",
         }}
       >
-        <IconButton onClick={() => setDrawerOpen(!drawerOpen)} size="large">
-          <ChevronLeft />
-        </IconButton>
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          ml="20px"
+        >
+          <StaticImage
+            src="../../../assets/images/icon.png"
+            alt="Hummingbird Hammocks"
+            height={25}
+            placeholder="blurred"
+          />
+        </Box>
+
+        <Box mr="20px">
+          <IconButton onClick={() => setDrawerOpen(!drawerOpen)} size="large">
+            <ChevronLeft />
+          </IconButton>
+        </Box>
       </Box>
       <List>
-        <ListItem component={Link} to="/">
+        <ListItem
+          onClick={() => setDrawerOpen(false)}
+          component={Link}
+          to="/collections/hammocks"
+        >
           <Typography variant="navMenu">Hammocks</Typography>
         </ListItem>
-        <ListItem component={Link} to="/">
+        <ListItem
+          onClick={() => setDrawerOpen(false)}
+          component={Link}
+          to="/collections/tree-straps"
+        >
           <Typography variant="navMenu">Tree Straps</Typography>
         </ListItem>
-        <ListItem component={Link} to="/">
+        <ListItem
+          onClick={() => setDrawerOpen(false)}
+          component={Link}
+          to="/collections/shelter"
+        >
           <Typography variant="navMenu">Shelter</Typography>
         </ListItem>
 
         <ListItemButton onClick={() => setNav1(!nav1)}>
-          <Link style={{ textDecoration: "none" }} to="/">
-            <Typography variant="navMenu">More Gear</Typography>
-          </Link>
+          <Typography variant="navMenu">More Gear</Typography>
 
           {nav1 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Collapse in={nav1} timeout="auto" unmountOnExit>
           <List sx={{ pl: 4 }} component="div" disablePadding>
-            <ListItemButton>
-              <Link style={{ textDecoration: "none" }} to="/">
-                <Typography variant="navMenu">Accessorie</Typography>
-              </Link>
+            <ListItemButton onClick={() => setNav3(!nav3)}>
+              <Typography variant="navMenu">Accessories</Typography>
 
-              <ExpandLess />
+              {nav3 ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
-            <Collapse in={nav1} timeout="auto" unmountOnExit>
+            <Collapse in={nav3} timeout="auto" unmountOnExit>
               <List sx={{ pl: 4 }} component="div" disablePadding>
-                <ListItem component={Link} to="/">
+                <ListItem
+                  onClick={() => setDrawerOpen(false)}
+                  component={Link}
+                  to="/collections/hammock-accessories"
+                >
                   <Typography variant="navMenu">Hammock Accessories</Typography>
                 </ListItem>
-                <ListItem component={Link} to="/">
+                <ListItem
+                  onClick={() => setDrawerOpen(false)}
+                  component={Link}
+                  to="/collections/tree-strap-accessories"
+                >
                   <Typography variant="navMenu">
                     Tree Strap Accessories
                   </Typography>
                 </ListItem>
-                <ListItem component={Link} to="/">
+                <ListItem
+                  onClick={() => setDrawerOpen(false)}
+                  component={Link}
+                  to="/collections/shelter-accessories"
+                >
                   <Typography variant="navMenu">Shelter Accessories</Typography>
                 </ListItem>
               </List>
             </Collapse>
-            <ListItem component={Link} to="/">
+            <ListItem
+              onClick={() => setDrawerOpen(false)}
+              component={Link}
+              to="/collections/care-and-repair"
+            >
               <Typography variant="navMenu">Care & Repair</Typography>
             </ListItem>
-            <ListItem component={Link} to="/">
+            <ListItem
+              onClick={() => setDrawerOpen(false)}
+              component={Link}
+              to="/collections/merchandise"
+            >
               <Typography variant="navMenu">Apparel & Merch</Typography>
             </ListItem>
-            <ListItem component={Link} to="/">
+            <ListItem
+              onClick={() => setDrawerOpen(false)}
+              component={Link}
+              to="/collections/bargain-bin"
+            >
               <Typography variant="navMenu">Bargain Bin</Typography>
             </ListItem>
           </List>
         </Collapse>
 
         <ListItemButton onClick={() => setNav2(!nav2)}>
-          <Link style={{ textDecoration: "none" }} to="/">
-            <Typography variant="navMenu">Explore</Typography>
-          </Link>
+          <Typography variant="navMenu">Explore</Typography>
 
           {nav2 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Collapse in={nav2} timeout="auto" unmountOnExit>
           <List sx={{ pl: 4 }} component="div" disablePadding>
-            <ListItem component={Link} to="/">
+            <ListItem
+              onClick={() => setDrawerOpen(false)}
+              component={Link}
+              to="/collections/bargain-bin"
+            >
               <Typography variant="navMenu">Bargain Bin</Typography>
             </ListItem>
-            <ListItem component={Link} to="/">
+            <ListItem
+              onClick={() => setDrawerOpen(false)}
+              component={Link}
+              to="/contact-us/"
+            >
               <Typography variant="navMenu">Contact us</Typography>
             </ListItem>
-            <ListItem component={Link} to="/">
+            <ListItem
+              onClick={() => setDrawerOpen(false)}
+              component={AnotherLink}
+              href="https://help.hummingbirdhammocks.com/"
+            >
               <Typography variant="navMenu">Knowledgebase</Typography>
             </ListItem>
-            <ListItem component={Link} to="/">
+            <ListItem
+              onClick={() => setDrawerOpen(false)}
+              component={AnotherLink}
+              href="https://returns.hummingbirdhammocks.com/"
+            >
               <Typography variant="navMenu">Returns</Typography>
-            </ListItem>
-            <ListItem component={Link} to="/">
-              <Typography variant="navMenu">Outdoors Articles</Typography>
             </ListItem>
           </List>
         </Collapse>
+
+        {customerAccessToken ? (
+          <Box
+            m="10px 15px"
+            p="10px 15px"
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            border="1px solid #34542a"
+            borderRadius="10px"
+          >
+            <Box onClick={() => setDrawerOpen(false)}>
+              <Link style={{ display: "inline-block" }} to="/account">
+                <Typography variant="navMenu">
+                  {data?.customer?.firstName} {data?.customer?.lastName}
+                </Typography>
+                <br />
+                <Typography variant="navUser">View Profile</Typography>
+              </Link>
+            </Box>
+            <Box
+              onClick={() => {
+                userLogout()
+                setDrawerOpen(false)
+              }}
+            >
+              Logout
+            </Box>
+          </Box>
+        ) : (
+          <ListItem
+            onClick={() => setDrawerOpen(false)}
+            component={Link}
+            to="/account/login"
+          >
+            <Typography variant="navMenu">Login</Typography>
+          </ListItem>
+        )}
       </List>
     </Drawer>
   )

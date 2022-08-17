@@ -11,36 +11,52 @@ import {
   TableHead,
   TableRow,
   Paper,
+  useMediaQuery,
 } from "@mui/material"
 
 import { OnButton } from "components"
 
-const DetailsSection = styled(Box)(() => ({
+const DetailsSection = styled(Box)(({ theme }) => ({
   padding: "30px 0",
+
+  [theme.breakpoints.down("md")]: {
+    padding: "0",
+  },
 }))
 
-const DetailsGrid = styled(Box)(() => ({
+const DetailsGrid = styled(Box)(({ theme }) => ({
   display: "grid",
   gridTemplateColumns: "1fr 1fr",
+
+  [theme.breakpoints.down("md")]: {
+    gridTemplateColumns: "1fr",
+    padding: "0",
+  },
 }))
 
 export const OrderDetails = ({ data, userLogout, returnAccount }) => {
+  const matches = useMediaQuery("(max-width:900px)")
   const {
     name,
     processedAt,
     totalPrice,
-    subTotalPrice,
+    // subTotalPrice,
     financialStatus,
     fulfillmentStatus,
     lineItems,
     shippingAddress,
   } = data.node
 
-  console.log(lineItems)
   return (
-    <Box padding="0 200px">
-      <Box pb="20px" justifyContent="space-between" display="flex">
-        <Typography variant="h2">Account Details</Typography>
+    <Box padding={!matches ? "0 200px" : "0"}>
+      <Box
+        pb="20px"
+        justifyContent="space-between"
+        display={matches ? "inline-block" : "flex"}
+      >
+        <Typography m={matches && "10px 0"} variant="h2">
+          Account Details
+        </Typography>
         <Box>
           <OnButton
             hovercolor="black"
@@ -53,10 +69,12 @@ export const OrderDetails = ({ data, userLogout, returnAccount }) => {
           </OnButton>{" "}
           /{" "}
           <OnButton
-            hovercolor="black"
-            hoverback="white"
-            padding="0"
+            hovercolor="#d2cbcb"
+            background="#34542a"
+            padding="0 10px"
+            color="white"
             border="0"
+            borderRadius="10px"
             onClick={() => userLogout()}
           >
             Logout
@@ -66,14 +84,14 @@ export const OrderDetails = ({ data, userLogout, returnAccount }) => {
 
       <Divider />
 
-      <DetailsSection>
-        <Box>
+      <DetailsSection mt={matches && "30px"}>
+        <Box mb={matches && "30px"}>
           <Typography variant="h5">Order {name}</Typography>
-          <Typography mt="20px" variant="subtitle2">
+          <Typography m="15px 0 20px 0" variant="subtitle2">
             {processedAt}
           </Typography>
         </Box>
-        <TableContainer mt="15px" component={Paper}>
+        <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
@@ -126,7 +144,7 @@ export const OrderDetails = ({ data, userLogout, returnAccount }) => {
             </TableBody>
           </Table>
         </TableContainer>
-        <DetailsGrid m="60px 40px">
+        <DetailsGrid m={matches ? "40px 0" : "60px 40px"}>
           <Box>
             <Typography variant="h5">Order Status</Typography>
             <Typography mt="20px" variant="subtitle2">
@@ -136,9 +154,9 @@ export const OrderDetails = ({ data, userLogout, returnAccount }) => {
               <b>Fulfillment Status</b>: {fulfillmentStatus}
             </Typography>
           </Box>
-          <Box>
+          <Box mt={matches && "30px"}>
             <Typography variant="h5">SHIPPING ADDRESS</Typography>
-            <Typography mt="20px" variant="body1">
+            <Typography mt={matches ? "10px" : "20px"} variant="body1">
               <b>
                 {shippingAddress?.firstName.toLocaleUpperCase()}{" "}
                 {shippingAddress?.lastName.toLocaleUpperCase()}{" "}

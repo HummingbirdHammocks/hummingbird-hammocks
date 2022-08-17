@@ -15,6 +15,15 @@ const Color = ({ title }) => {
               placeholder="blurred"
             ></StaticImage>
           ),
+          "Deep Purple": (
+            <StaticImage
+              src="../assets/images/color/deep-purple.png"
+              alt={title}
+              placeholder="blurred"
+              imgStyle={{ borderRadius: "50%" }}
+              height={34}
+            ></StaticImage>
+          ),
           Ash: (
             <StaticImage
               src="../assets/images/color/slate-gray.png"
@@ -45,15 +54,6 @@ const Color = ({ title }) => {
           "Forest Green": (
             <StaticImage
               src="../assets/images/color/forest-green.png"
-              alt={title}
-              imgStyle={{ borderRadius: "50%" }}
-              height={34}
-              placeholder="blurred"
-            ></StaticImage>
-          ),
-          "Gray and Sunset Orange": (
-            <StaticImage
-              src="../assets/images/color/gray-and-sunset-orange.png"
               alt={title}
               imgStyle={{ borderRadius: "50%" }}
               height={34}

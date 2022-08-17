@@ -1,11 +1,16 @@
 import React from "react"
 import { Box, Typography, styled, useMediaQuery } from "@mui/material"
-import { LinkButton } from "components"
 
-const Wrapper = styled("section")(() => ({
+import { LinkButton, ButtonAnotherLink } from "components"
+
+const Wrapper = styled("section")(({ theme }) => ({
   display: "grid",
   minHeight: "600px",
   position: "relative",
+
+  [theme.breakpoints.down("md")]: {
+    minHeight: "inherit",
+  },
 }))
 
 const Middle = styled("div")(({ position, theme }) => ({
@@ -17,11 +22,12 @@ const Middle = styled("div")(({ position, theme }) => ({
 
   [theme.breakpoints.down("md")]: {
     position: "inherit",
+    display: "block",
   },
 }))
 
 export function Hero({ children, data }) {
-  const matches = useMediaQuery("(max-width:768px)")
+  const matches = useMediaQuery("(max-width:900px)")
   const { subtitle1, mainText, subtitle2, button, position } = data
 
   return (
@@ -61,7 +67,8 @@ export function Hero({ children, data }) {
                   : "center"
                 : "center"
             }
-            sx={{ maxWidth: "550px", mb: "17px", color: "#fff" }}
+            maxWidth={matches ? "100%" : "550px"}
+            sx={{ mb: "17px", color: "#fff" }}
             variant="h1"
           >
             {mainText}
@@ -76,6 +83,7 @@ export function Hero({ children, data }) {
                   : "center"
                 : "center"
             }
+            mb={matches && "40px"}
             variant="subtitle1"
           >
             {subtitle2}
@@ -92,18 +100,40 @@ export function Hero({ children, data }) {
                     : "center"
                   : "center"
               }
+              alignItems="center"
             >
-              {button.map(item => (
-                <LinkButton
-                  key={item.id}
-                  margin="10px"
-                  color={item.color ? item.color : "black"}
-                  background={item.background ? item.background : "white"}
-                  to={item.url}
-                >
-                  {item.text}
-                </LinkButton>
-              ))}
+              {button.map(item =>
+                item.type === "href" ? (
+                  <ButtonAnotherLink
+                    href={item.url}
+                    key={item.id}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    margin="10px"
+                    color={item.color}
+                    background={item.background}
+                    hoverback={item.hoverBack}
+                    hovercolor={item.hoverColor}
+                    hoverborder={item.hoverBorder}
+                  >
+                    <Typography textAlign="center" variant="subtitle2">
+                      {item.text}
+                    </Typography>
+                  </ButtonAnotherLink>
+                ) : (
+                  <LinkButton
+                    key={item.id}
+                    margin="10px"
+                    color={item.color ? item.color : "black"}
+                    background={item.background ? item.background : "white"}
+                    to={item.url}
+                  >
+                    <Typography textAlign="center" variant="subtitle2">
+                      {item.text}
+                    </Typography>
+                  </LinkButton>
+                )
+              )}
             </Box>
           )}
         </Box>

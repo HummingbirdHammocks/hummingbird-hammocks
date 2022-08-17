@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useContext } from "react"
-import { Box, Divider, styled, Typography, Checkbox } from "@mui/material"
+import {
+  Box,
+  Divider,
+  styled,
+  Typography,
+  Checkbox,
+  useMediaQuery,
+} from "@mui/material"
 
 import { CartContext } from "contexts"
 import { OnButton } from "components"
@@ -7,9 +14,21 @@ import { OnButton } from "components"
 const FBTSection = styled("section")(({ theme }) => ({
   background: theme.palette.white,
   padding: "60px 15px",
+
+  [theme.breakpoints.down("md")]: {
+    padding: "0",
+  },
+}))
+
+const ItemDetails = styled(Box)(({ theme }) => ({
+  ...theme.typography.footerMenu,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
 }))
 
 export const FBT = ({ currentVariant, product, fbtData }) => {
+  const matches = useMediaQuery("(max-width:900px)")
   const [data, setData] = useState(null)
   const [selectedVariant, setSelectedVariant] = useState(null)
 
@@ -89,13 +108,10 @@ export const FBT = ({ currentVariant, product, fbtData }) => {
 
       return newState
     })
-
-    console.log(selectedVariant)
   }
 
   const handleSelectChange = (itemIndex, value) => {
     let allVariants = selectedVariant
-    console.log(allVariants)
     let findVariant = data[itemIndex].variants.filter(({ id }) => id === value)
 
     allVariants[itemIndex] = findVariant[0]
@@ -113,33 +129,41 @@ export const FBT = ({ currentVariant, product, fbtData }) => {
       <Box mt="50px">
         {selectedVariant && (
           <>
-            <Box mb="70px" display="flex">
-              {selectedVariant.map((item, index) => {
-                if (item.selected) {
-                  return (
-                    <>
-                      <Box p="0 40px" key={item.id}>
-                        <img
-                          src={item.image.src}
-                          height="80px"
-                          alt={item.image.altText}
-                        />
-                      </Box>
-                      {index !== selectedVariant.length - 1 ? (
-                        <Box
-                          display="flex"
-                          alignItems="center"
-                          justifyContent="center"
-                        >
-                          +
+            <Box mb="70px" display={matches ? "block" : "flex"}>
+              <Box
+                display="flex"
+                flexWrap="wrap"
+                justifyContent="center"
+                mb={matches && "30px"}
+              >
+                {selectedVariant.map((item, index) => {
+                  if (item.selected) {
+                    return (
+                      <>
+                        <Box p={matches ? "0 10px" : "0 40px"} key={item.id}>
+                          <img
+                            src={item.image.src}
+                            height="80px"
+                            alt={item.image.altText}
+                          />
                         </Box>
-                      ) : (
-                        ""
-                      )}
-                    </>
-                  )
-                }
-              })}
+                        {index !== selectedVariant.length - 1 ? (
+                          <Box
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                          >
+                            +
+                          </Box>
+                        ) : (
+                          ""
+                        )}
+                      </>
+                    )
+                  }
+                })}
+              </Box>
+
               <Box>
                 <Typography pb="20px" variant="subtitle2">
                   Total price: $
@@ -160,15 +184,16 @@ export const FBT = ({ currentVariant, product, fbtData }) => {
                     onChange={() => handleCheckChange(index)}
                     checked={item.selected}
                   />
-                  <Box>
+                  <ItemDetails>
                     {index === 0 ? (
-                      <b>This Item: {data[index].title}</b>
+                      <b>This Item: {data[index].title} </b>
                     ) : (
-                      <> {data[index].title}</>
+                      <> {data[index].title} </>
                     )}{" "}
                     {data[index].variants.length >= 1 &&
                       data[index].variants[0]?.title !== "Default Title" && (
                         <select
+                          style={{ margin: "0 10px" }}
                           value={selectedVariant[index].id}
                           onChange={e =>
                             handleSelectChange(index, e.target.value)
@@ -191,7 +216,7 @@ export const FBT = ({ currentVariant, product, fbtData }) => {
                       ${selectedVariant[index]?.priceV2.amount}{" "}
                       {selectedVariant[index]?.priceV2.currencyCode}
                     </b>
-                  </Box>
+                  </ItemDetails>
                 </Box>
               ))}
             </Box>

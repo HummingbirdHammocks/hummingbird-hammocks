@@ -1,4 +1,5 @@
 require("dotenv").config()
+const queries = require("./src/utils/algolia/queries")
 
 module.exports = {
   siteMetadata: {
@@ -68,6 +69,15 @@ module.exports = {
         shopifyConnections: ["collections"],
         apiVersion: "2022-04",
         // downloadImages: true,
+      },
+    },
+    {
+      resolve: `gatsby-plugin-algolia`,
+      options: {
+        appId: process.env.GATSBY_ALGOLIA_APP_ID,
+        apiKey: process.env.GATSBY_ALGOLIA_ADMIN_KEY,
+        queries,
+        chunkSize: 10000, // default: 1000
       },
     },
   ],

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
-import { styled, Typography, Divider, Box } from "@mui/material"
+import { styled, Typography, Divider, Box, useMediaQuery } from "@mui/material"
 import { navigate } from "gatsby"
 import { useQuery, gql } from "@apollo/client"
 import { useLocation } from "@gatsbyjs/reach-router"
@@ -19,15 +19,25 @@ import { OrderHistory, OrderDetails } from "sections"
 const AccountSection = styled("section")(({ theme }) => ({
   background: theme.palette.white,
   padding: "60px 15px",
+
+  [theme.breakpoints.down("md")]: {
+    padding: "40px 0",
+  },
 }))
 
-const AccountGrid = styled(Box)(() => ({
+const AccountGrid = styled(Box)(({ theme }) => ({
   display: "grid",
   gridTemplateColumns: "1fr 2fr",
   padding: "30px 0",
+
+  [theme.breakpoints.down("md")]: {
+    gridTemplateColumns: "1fr",
+    padding: "0",
+  },
 }))
 
 const AccountPage = () => {
+  const matches = useMediaQuery("(max-width:900px)")
   const [accountDetails, setAccountDetails] = useState({
     open: false,
     index: null,
@@ -75,7 +85,7 @@ const AccountPage = () => {
       <AccountSection>
         <MainWrapper>
           {customerAccessToken && !accountDetails.open ? (
-            <Box padding="0 200px">
+            <Box padding={!matches ? "0 200px" : "0"}>
               {error && "Error"}
               {loading && <MiddleSpinner divMinHeight="460px" size={20} />}
               {data && (
@@ -83,10 +93,12 @@ const AccountPage = () => {
                   <Box pb="20px" justifyContent="space-between" display="flex">
                     <Typography variant="h2">Account Details</Typography>
                     <OnButton
-                      hovercolor="black"
-                      hoverback="white"
-                      padding="0"
+                      hovercolor="#d2cbcb"
+                      background="#34542a"
+                      padding="0 10px"
+                      color="white"
                       border="0"
+                      borderRadius="10px"
                       onClick={userLogout}
                     >
                       Logout
@@ -96,7 +108,10 @@ const AccountPage = () => {
                   <Divider />
 
                   <AccountGrid>
-                    <Box p="20px 0" borderRight="1px solid #111">
+                    <Box
+                      p="20px 0"
+                      borderRight={matches ? "0" : "1px solid #ead5d5"}
+                    >
                       <Typography variant="h5">{`${data.customer.firstName} ${data.customer.lastName}`}</Typography>
                       <Typography variant="body1">
                         {data.customer.email}
@@ -128,8 +143,10 @@ const AccountPage = () => {
                         <Link to="/account/addresses">{`View Addresses (${data.customer.addresses.edges.length})`}</Link>
                       </Typography>
                     </Box>
-                    <Box p="20px">
-                      <Typography variant="h5">Order History</Typography>
+                    <Box p={matches ? "0" : "20px"}>
+                      <Typography mb="20px" variant="h5">
+                        Order History
+                      </Typography>
                       <OrderHistory rows={data.customer.orders?.edges} />
                     </Box>
                   </AccountGrid>

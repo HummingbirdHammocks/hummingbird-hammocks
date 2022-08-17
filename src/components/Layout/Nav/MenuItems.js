@@ -50,11 +50,11 @@ const menuItems = [
   },
   {
     title: "Explore",
-    url: "/collections/",
+    url: "/explore/",
     submenu: [
       {
         title: "About us",
-        url: "/about-us",
+        url: "/explore",
       },
       {
         title: "Contact us",
@@ -62,16 +62,12 @@ const menuItems = [
       },
       {
         title: "Knowledgebase",
-        url: "/",
+        otherUrl: "https://help.hummingbirdhammocks.com/",
       },
 
       {
         title: "Returns",
-        url: "/",
-      },
-      {
-        title: "Outdoors Articles",
-        url: "/",
+        otherUrl: "https://returns.hummingbirdhammocks.com/",
       },
     ],
   },

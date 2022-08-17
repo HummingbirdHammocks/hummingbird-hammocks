@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
   styled,
   Grid,
@@ -7,6 +7,9 @@ import {
   Typography,
   Divider,
   Box,
+  useMediaQuery,
+  Collapse,
+  ListItemButton,
 } from "@mui/material"
 import { StaticImage } from "gatsby-plugin-image"
 import {
@@ -16,6 +19,8 @@ import {
   Pinterest,
   Instagram,
   Mail,
+  ExpandLess,
+  ExpandMore,
 } from "@mui/icons-material"
 
 import { MainWrapper, AnotherLink, Link } from "components"
@@ -25,9 +30,23 @@ const FooterSection = styled("footer")(({ theme }) => ({
   padding: "50px 0 20px 0",
 }))
 
-const Copyright = styled(Box)(() => ({
+const FooterGrid = styled(Box)(({ theme }) => ({
+  display: "grid",
+  paddingBottom: "30px",
+  gridTemplateColumns: "1fr 1fr 1fr 1.5fr",
+
+  [theme.breakpoints.down("md")]: {
+    gridTemplateColumns: "1fr",
+  },
+}))
+
+const Copyright = styled(Box)(({ theme }) => ({
   display: "flex",
   justifyContent: "space-between",
+
+  [theme.breakpoints.down("md")]: {
+    display: "block",
+  },
 }))
 
 const socials = [
@@ -70,172 +89,192 @@ const socials = [
 ]
 
 const customerSupport = [
-  { id: 1, name: "Get Help", url: "https://Example.com" },
-  { id: 2, name: "Manuals", url: "https://Example.com" },
-  { id: 3, name: "Knowledgebase", url: "https://Example.com" },
-  { id: 4, name: "Returns", url: "https://Example.com" },
-  { id: 5, name: "Keep Up To Date", url: "https://Example.com" },
+  {
+    id: 1,
+    name: "Get Help",
+    url: "https://help.hummingbirdhammocks.com/help/1694808310",
+  },
+  { id: 2, name: "Manuals", url: "https://help.hummingbirdhammocks.com/" },
+  {
+    id: 3,
+    name: "Knowledgebase",
+    url: "https://help.hummingbirdhammocks.com/",
+  },
+  { id: 4, name: "Returns", url: "https://returns.hummingbirdhammocks.com/" },
+  {
+    id: 5,
+    name: "Keep Up To Date",
+    url: "https://sendy.hummingbirdhammocks.com/subscription?f=iEAlSD21JUqD892PZzrOO1f1RJJ3rg76387TEzbKAkc1cDHlzWGLOQQZZVBe2763uKjfcZ",
+  },
+]
+
+const companyLink = [
+  { id: 1, name: "About", url: "/explore" },
+  { id: 2, name: "Affiliate Program", url: "/explore" },
+  { id: 3, name: "Pro Deal", url: "/professional-and-educational-discounts" },
+  { id: 4, name: "California Data Privacy", url: "/california-data-privacy" },
+  { id: 5, name: "Shipping Policy", url: "/shipping-policy" },
 ]
 
 const Footer = () => {
+  const matches = useMediaQuery("(max-width:768px)")
+  const [nav1, setNav1] = useState(false)
+  const [nav2, setNav2] = useState(false)
+
   return (
     <FooterSection>
       <MainWrapper>
-        <Grid
-          sx={{ pb: "30px" }}
-          container
-          spacing={4}
-          justifyContent="space-evenly"
-        >
+        <FooterGrid>
+          <Grid mb={matches && "40px"} mr={!matches && "80px"} item>
+            <Box
+              display={matches && "flex"}
+              justifyContent={matches && "center"}
+            >
+              <Box maxWidth={matches ? "250px" : "100%"}>
+                <Box mb="30px" display="flex" justifyContent="center">
+                  <StaticImage
+                    src="../../assets/images/footer-logo.png"
+                    alt="Hummingbird Hammocks"
+                    placeholder="blurred"
+                    height={130}
+                  />
+                </Box>
+
+                <List
+                  disablePadding
+                  sx={{ display: "flex", justifyContent: "center" }}
+                >
+                  {socials.map(social => (
+                    <ListItem sx={{ p: "5px" }} disablePadding key={social.id}>
+                      <AnotherLink
+                        color="white.main"
+                        href={social.url}
+                        underline="none"
+                      >
+                        {social.iconTag}
+                      </AnotherLink>
+                    </ListItem>
+                  ))}
+                </List>
+              </Box>
+            </Box>
+          </Grid>
           <Grid item>
-            <Box mb="30px" display="flex" justifyContent="center">
+            <List>
+              <ListItemButton
+                sx={{ opacity: "1!important", padding: "0 0 10px 0" }}
+                disabled={!matches ? true : false}
+                onClick={() => setNav1(!nav1)}
+              >
+                <Typography color="white.main" variant="h6">
+                  Customer Support
+                </Typography>
+
+                {matches ? nav1 ? <ExpandLess /> : <ExpandMore /> : ""}
+              </ListItemButton>
+
+              <Collapse in={matches ? nav1 : true} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  {customerSupport.map(customer => (
+                    <ListItem sx={{ p: "10px 0" }} key={customer.id}>
+                      <AnotherLink
+                        color="white.main"
+                        href={customer.url}
+                        underline="none"
+                      >
+                        <Typography variant="footerMenu">
+                          {customer.name}
+                        </Typography>
+                      </AnotherLink>
+                    </ListItem>
+                  ))}
+                </List>
+              </Collapse>
+            </List>
+          </Grid>
+          <Grid item>
+            <List>
+              <ListItemButton
+                sx={{ opacity: "1!important", padding: "0 0 10px 0" }}
+                disabled={!matches ? true : false}
+                onClick={() => setNav2(!nav2)}
+              >
+                <Typography color="white.main" variant="h6">
+                  Company
+                </Typography>
+
+                {matches ? nav2 ? <ExpandLess /> : <ExpandMore /> : ""}
+              </ListItemButton>
+
+              <Collapse in={matches ? nav2 : true} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  {companyLink.map(company => (
+                    <ListItem key={company.id} sx={{ p: "10px 0" }}>
+                      <Link
+                        sx={{
+                          fontSize: "14px",
+                        }}
+                        underline="none"
+                        color="white.main"
+                        to={company.url}
+                      >
+                        <Typography variant="footerMenu">
+                          {company.name}
+                        </Typography>
+                      </Link>
+                    </ListItem>
+                  ))}
+                </List>
+              </Collapse>
+            </List>
+          </Grid>
+
+          <Grid display="flex" item>
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              width="50%"
+            >
+              {/* <StaticImage
+                src="../../assets/images/ecology.png"
+                alt="Hummingbird Hammocks"
+                placeholder="blurred"
+                height={130}
+              /> */}
+              <a
+                href="https://ecologi.com/hummingbirdhammocks"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="View our Ecologi profile"
+                style={{ width: "100%", display: "inline-block" }}
+              >
+                <img
+                  style={{ width: "70%" }}
+                  alt="We plant trees with Ecologi"
+                  src="https://api.ecologi.com/badges/trees/60b8efa8e6e3c022ec95c2bb?white=true&treeOnly=true"
+                />
+              </a>
+            </Box>
+
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              width="50%"
+            >
               <StaticImage
-                src="../../assets/images/footer-logo.png"
+                src="../../assets/images/judge-me.png"
                 alt="Hummingbird Hammocks"
                 placeholder="blurred"
                 height={130}
               />
             </Box>
-
-            <List
-              disablePadding
-              sx={{ display: "flex", justifyContent: "center" }}
-            >
-              {socials.map(social => (
-                <ListItem sx={{ p: "5px" }} disablePadding key={social.id}>
-                  <AnotherLink
-                    color="white.main"
-                    href={social.url}
-                    underline="none"
-                  >
-                    {social.iconTag}
-                  </AnotherLink>
-                </ListItem>
-              ))}
-            </List>
           </Grid>
-          <Grid item>
-            <Typography color="white.main" variant="h6">
-              Customer Support
-            </Typography>
-            <List>
-              {customerSupport.map(customer => (
-                <ListItem sx={{ p: "10px" }} key={customer.id}>
-                  <AnotherLink
-                    sx={{ fontSize: "14px" }}
-                    color="white.main"
-                    href={customer.url}
-                    underline="none"
-                  >
-                    {customer.name}
-                  </AnotherLink>
-                </ListItem>
-              ))}
-            </List>
-          </Grid>
-          <Grid item>
-            <Typography color="white.main" variant="h6">
-              COMPANY
-            </Typography>
-            <List>
-              <ListItem sx={{ p: "10px" }}>
-                <Link
-                  sx={{
-                    fontSize: "14px",
-                  }}
-                  underline="none"
-                  color="white.main"
-                  to="/"
-                >
-                  <Typography variant="footerMenu">About</Typography>
-                </Link>
-              </ListItem>
-              <ListItem sx={{ p: "10px" }}>
-                <Link
-                  sx={{
-                    fontSize: "14px",
-                  }}
-                  underline="none"
-                  color="white.main"
-                  to="/"
-                >
-                  <Typography variant="footerMenu">Outdoor Articles</Typography>
-                </Link>
-              </ListItem>
-              <ListItem sx={{ p: "10px" }}>
-                <Link
-                  sx={{
-                    fontSize: "14px",
-                  }}
-                  underline="none"
-                  color="white.main"
-                  to="/"
-                >
-                  <Typography variant="footerMenu">
-                    Affiliate Program
-                  </Typography>
-                </Link>
-              </ListItem>
-              <ListItem sx={{ p: "10px" }}>
-                <Link
-                  sx={{
-                    fontSize: "14px",
-                  }}
-                  underline="none"
-                  color="white.main"
-                  to="/"
-                >
-                  <Typography variant="footerMenu">Pro Deal</Typography>
-                </Link>
-              </ListItem>
-              <ListItem sx={{ p: "10px" }}>
-                <Link
-                  sx={{
-                    fontSize: "14px",
-                  }}
-                  underline="none"
-                  color="white.main"
-                  to="/"
-                >
-                  <Typography variant="footerMenu">
-                    California Data Privacy
-                  </Typography>
-                </Link>
-              </ListItem>
-              <ListItem sx={{ p: "10px" }}>
-                <Link
-                  sx={{
-                    fontSize: "14px",
-                  }}
-                  underline="none"
-                  color="white.main"
-                  to="/"
-                >
-                  <Typography variant="footerMenu">Shipping Policy</Typography>
-                </Link>
-              </ListItem>
-            </List>
-          </Grid>
-          <Grid item>
-            <StaticImage
-              src="../../assets/images/ecology.png"
-              alt="Hummingbird Hammocks"
-              placeholder="blurred"
-              height={130}
-            />
-          </Grid>
-          <Grid item>
-            <StaticImage
-              src="../../assets/images/judge-me.png"
-              alt="Hummingbird Hammocks"
-              placeholder="blurred"
-              height={130}
-            />
-          </Grid>
-        </Grid>
+        </FooterGrid>
         <Divider sx={{ borderColor: "white.main" }} />
         <Copyright>
-          <Box pt="20px">
+          <Box textAlign={matches && "center"} pt="20px">
             <Typography color="white.main" variant="navUser">
               © 2022 Hummingbird Hammocks. |{" "}
               <Link
@@ -247,7 +286,7 @@ const Footer = () => {
                   },
                 }}
                 color="white.main"
-                to="/"
+                to="/privacy-policy"
               >
                 Privacy Policy
               </Link>{" "}
@@ -261,16 +300,15 @@ const Footer = () => {
                   },
                 }}
                 color="white.main"
-                to="/"
+                to="/terms-conditions"
               >
                 Terms & Conditions
               </Link>
               .
             </Typography>
           </Box>
-          <Box pt="20px">
+          <Box textAlign={matches && "center"} pt="20px">
             <svg
-              class="payment-icon"
               xmlns="http://www.w3.org/2000/svg"
               role="img"
               viewBox="0 0 38 24"
@@ -278,22 +316,22 @@ const Footer = () => {
               height="24"
               aria-labelledby="pi-amazon"
             >
-              <title id="pi-amazon">Amazon</title>
+              <title>Amazon</title>
               <path
                 d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"
                 fill="#000"
-                fill-rule="nonzero"
+                fillRule="nonzero"
                 opacity=".07"
               ></path>
               <path
                 d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32"
                 fill="#FFF"
-                fill-rule="nonzero"
+                fillRule="nonzero"
               ></path>
               <path
                 d="M25.26 16.23c-1.697 1.48-4.157 2.27-6.275 2.27-2.97 0-5.644-1.3-7.666-3.463-.16-.17-.018-.402.173-.27 2.183 1.504 4.882 2.408 7.67 2.408 1.88 0 3.95-.46 5.85-1.416.288-.145.53.222.248.47v.001zm.706-.957c-.216-.328-1.434-.155-1.98-.078-.167.024-.193-.148-.043-.27.97-.81 2.562-.576 2.748-.305.187.272-.047 2.16-.96 3.063-.14.138-.272.064-.21-.12.205-.604.664-1.96.446-2.29h-.001z"
                 fill="#F90"
-                fill-rule="nonzero"
+                fillRule="nonzero"
               ></path>
               <path
                 d="M21.814 15.291c-.574-.498-.676-.73-.993-1.205-.947 1.012-1.618 1.315-2.85 1.315-1.453 0-2.587-.938-2.587-2.818 0-1.467.762-2.467 1.844-2.955.94-.433 2.25-.51 3.25-.628v-.235c0-.43.033-.94-.208-1.31-.212-.333-.616-.47-.97-.47-.66 0-1.25.353-1.392 1.085-.03.163-.144.323-.3.33l-1.677-.187c-.14-.033-.296-.153-.257-.38.386-2.125 2.223-2.766 3.867-2.766.84 0 1.94.234 2.604.9.842.82.762 1.918.762 3.11v2.818c0 .847.335 1.22.65 1.676.113.164.138.36-.003.482-.353.308-.98.88-1.326 1.2a.367.367 0 0 1-.414.038zm-1.659-2.533c.34-.626.323-1.214.323-1.918v-.392c-1.25 0-2.57.28-2.57 1.82 0 .782.386 1.31 1.05 1.31.487 0 .922-.312 1.197-.82z"
@@ -301,7 +339,6 @@ const Footer = () => {
               ></path>
             </svg>{" "}
             <svg
-              class="payment-icon"
               xmlns="http://www.w3.org/2000/svg"
               role="img"
               viewBox="0 0 38 24"
@@ -309,7 +346,7 @@ const Footer = () => {
               height="24"
               aria-labelledby="pi-american_express"
             >
-              <title id="pi-american_express">American Express</title>
+              <title>American Express</title>
               <g fill="none">
                 <path
                   fill="#000"
@@ -327,7 +364,6 @@ const Footer = () => {
               </g>
             </svg>{" "}
             <svg
-              class="payment-icon"
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"
               role="img"
@@ -338,7 +374,7 @@ const Footer = () => {
               viewBox="0 0 165.521 105.965"
               aria-labelledby="pi-apple_pay"
             >
-              <title id="pi-apple_pay">Apple Pay</title>
+              <title>Apple Pay</title>
               <path
                 fill="#000"
                 d="M150.698 0H14.823c-.566 0-1.133 0-1.698.003-.477.004-.953.009-1.43.022-1.039.028-2.087.09-3.113.274a10.51 10.51 0 0 0-2.958.975 9.932 9.932 0 0 0-4.35 4.35 10.463 10.463 0 0 0-.975 2.96C.113 9.611.052 10.658.024 11.696a70.22 70.22 0 0 0-.022 1.43C0 13.69 0 14.256 0 14.823v76.318c0 .567 0 1.132.002 1.699.003.476.009.953.022 1.43.028 1.036.09 2.084.275 3.11a10.46 10.46 0 0 0 .974 2.96 9.897 9.897 0 0 0 1.83 2.52 9.874 9.874 0 0 0 2.52 1.83c.947.483 1.917.79 2.96.977 1.025.183 2.073.245 3.112.273.477.011.953.017 1.43.02.565.004 1.132.004 1.698.004h135.875c.565 0 1.132 0 1.697-.004.476-.002.952-.009 1.431-.02 1.037-.028 2.085-.09 3.113-.273a10.478 10.478 0 0 0 2.958-.977 9.955 9.955 0 0 0 4.35-4.35c.483-.947.789-1.917.974-2.96.186-1.026.246-2.074.274-3.11.013-.477.02-.954.022-1.43.004-.567.004-1.132.004-1.699V14.824c0-.567 0-1.133-.004-1.699a63.067 63.067 0 0 0-.022-1.429c-.028-1.038-.088-2.085-.274-3.112a10.4 10.4 0 0 0-.974-2.96 9.94 9.94 0 0 0-4.35-4.35A10.52 10.52 0 0 0 156.939.3c-1.028-.185-2.076-.246-3.113-.274a71.417 71.417 0 0 0-1.431-.022C151.83 0 151.263 0 150.698 0z"
@@ -375,7 +411,6 @@ const Footer = () => {
               </g>
             </svg>{" "}
             <svg
-              class="payment-icon"
               viewBox="0 0 38 24"
               width="38"
               height="24"
@@ -384,7 +419,7 @@ const Footer = () => {
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <title id="pi-discover">Discover</title>
+              <title>Discover</title>
               <path
                 fill="#000"
                 opacity=".07"
@@ -428,12 +463,12 @@ const Footer = () => {
                   y2="9.104"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop stop-color="#F89F20"></stop>
-                  <stop offset=".25" stop-color="#F79A20"></stop>
-                  <stop offset=".533" stop-color="#F68D20"></stop>
-                  <stop offset=".62" stop-color="#F58720"></stop>
-                  <stop offset=".723" stop-color="#F48120"></stop>
-                  <stop offset="1" stop-color="#F37521"></stop>
+                  <stop stopColor="#F89F20"></stop>
+                  <stop offset=".25" stopColor="#F79A20"></stop>
+                  <stop offset=".533" stopColor="#F68D20"></stop>
+                  <stop offset=".62" stopColor="#F58720"></stop>
+                  <stop offset=".723" stopColor="#F48120"></stop>
+                  <stop offset="1" stopColor="#F37521"></stop>
                 </linearGradient>
                 <linearGradient
                   id="pi-paint1_linear"
@@ -443,15 +478,14 @@ const Footer = () => {
                   y2="6.446"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop stop-color="#F58720"></stop>
-                  <stop offset=".359" stop-color="#E16F27"></stop>
-                  <stop offset=".703" stop-color="#D4602C"></stop>
-                  <stop offset=".982" stop-color="#D05B2E"></stop>
+                  <stop stopColor="#F58720"></stop>
+                  <stop offset=".359" stopColor="#E16F27"></stop>
+                  <stop offset=".703" stopColor="#D4602C"></stop>
+                  <stop offset=".982" stopColor="#D05B2E"></stop>
                 </linearGradient>
               </defs>
             </svg>{" "}
             <svg
-              class="payment-icon"
               width="38"
               height="24"
               role="img"
@@ -460,7 +494,7 @@ const Footer = () => {
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <title id="pi-metapay">Meta Pay</title>
+              <title>Meta Pay</title>
               <path
                 opacity=".07"
                 d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"
@@ -495,10 +529,10 @@ const Footer = () => {
                   y2="13.019"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop stop-color="#0064E1"></stop>
-                  <stop offset=".4" stop-color="#0064E1"></stop>
-                  <stop offset=".83" stop-color="#0073EE"></stop>
-                  <stop offset="1" stop-color="#0082FB"></stop>
+                  <stop stopColor="#0064E1"></stop>
+                  <stop offset=".4" stopColor="#0064E1"></stop>
+                  <stop offset=".83" stopColor="#0073EE"></stop>
+                  <stop offset="1" stopColor="#0082FB"></stop>
                 </linearGradient>
                 <linearGradient
                   id="pi-paint1_linear_1164_3"
@@ -508,13 +542,12 @@ const Footer = () => {
                   y2="11.089"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop stop-color="#0082FB"></stop>
-                  <stop offset="1" stop-color="#0064E0"></stop>
+                  <stop stopColor="#0082FB"></stop>
+                  <stop offset="1" stopColor="#0064E0"></stop>
                 </linearGradient>
               </defs>
             </svg>{" "}
             <svg
-              class="payment-icon"
               xmlns="http://www.w3.org/2000/svg"
               role="img"
               viewBox="0 0 38 24"
@@ -522,7 +555,7 @@ const Footer = () => {
               height="24"
               aria-labelledby="pi-google_pay"
             >
-              <title id="pi-google_pay">Google Pay</title>
+              <title>Google Pay</title>
               <path
                 d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"
                 fill="#000"
@@ -554,7 +587,6 @@ const Footer = () => {
               ></path>
             </svg>{" "}
             <svg
-              class="payment-icon"
               viewBox="0 0 38 24"
               xmlns="http://www.w3.org/2000/svg"
               role="img"
@@ -562,7 +594,7 @@ const Footer = () => {
               height="24"
               aria-labelledby="pi-master"
             >
-              <title id="pi-master">Mastercard</title>
+              <title>Mastercard</title>
               <path
                 opacity=".07"
                 d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"
@@ -579,7 +611,6 @@ const Footer = () => {
               ></path>
             </svg>{" "}
             <svg
-              class="payment-icon"
               viewBox="0 0 38 24"
               xmlns="http://www.w3.org/2000/svg"
               width="38"
@@ -587,7 +618,7 @@ const Footer = () => {
               role="img"
               aria-labelledby="pi-paypal"
             >
-              <title id="pi-paypal">PayPal</title>
+              <title>PayPal</title>
               <path
                 opacity=".07"
                 d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"
@@ -610,7 +641,6 @@ const Footer = () => {
               ></path>
             </svg>{" "}
             <svg
-              class="payment-icon"
               xmlns="http://www.w3.org/2000/svg"
               role="img"
               viewBox="0 0 38 24"
@@ -618,7 +648,7 @@ const Footer = () => {
               height="24"
               aria-labelledby="pi-shopify_pay"
             >
-              <title id="pi-shopify_pay">Shop Pay</title>
+              <title>Shop Pay</title>
               <path
                 opacity=".07"
                 d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"
@@ -634,7 +664,6 @@ const Footer = () => {
               ></path>
             </svg>{" "}
             <svg
-              class="payment-icon"
               viewBox="0 0 38 24"
               width="38"
               height="24"
@@ -642,10 +671,10 @@ const Footer = () => {
               role="img"
               aria-labelledby="pi-venmo"
             >
-              <title id="pi-venmo">Venmo</title>
-              <g fill="none" fill-rule="evenodd">
+              <title>Venmo</title>
+              <g fill="none" fillRule="evenodd">
                 <rect
-                  fill-opacity=".07"
+                  fillOpacity=".07"
                   fill="#000"
                   width="38"
                   height="24"
@@ -658,12 +687,11 @@ const Footer = () => {
                 <path
                   d="M24.675 8.36c0 3.064-2.557 7.045-4.633 9.84h-4.74L13.4 6.57l4.151-.402 1.005 8.275c.94-1.566 2.099-4.025 2.099-5.702 0-.918-.154-1.543-.394-2.058l3.78-.783c.437.738.634 1.499.634 2.46z"
                   fill="#FFF"
-                  fill-rule="nonzero"
+                  fillRule="nonzero"
                 ></path>
               </g>
             </svg>{" "}
             <svg
-              class="payment-icon"
               viewBox="0 0 38 24"
               xmlns="http://www.w3.org/2000/svg"
               role="img"
@@ -671,7 +699,7 @@ const Footer = () => {
               height="24"
               aria-labelledby="pi-visa"
             >
-              <title id="pi-visa">Visa</title>
+              <title>Visa</title>
               <path
                 opacity=".07"
                 d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"
