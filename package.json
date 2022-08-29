@@ -2,7 +2,7 @@
   "name": "hummingbird-hammocks",
   "private": true,
   "description": "A web app for Hummingbird Hammocks.",
-  "version": "1.0",
+  "version": "1.0.0",
   "author": "Md. Jahid Hasan <thejahid@icloud.com>",
   "dependencies": {
     "@algolia/autocomplete-js": "^1.7.1",
