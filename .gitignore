@@ -68,3 +68,15 @@ yarn-error.log
 .pnp.js
 # Yarn Integrity file
 .yarn-integrity
+
+# firebase
+firebase-servicekey.json
+.runtimeconfig.json
+.firebase
+firebase-debug.log
+ui-debug.log
+functions/.env
+functions/.env.local
+functions/.env.development
+functions/.env.production
+firebase-debug.1.log
