@@ -4,14 +4,14 @@ const queries = require("./src/utils/algolia/queries")
 module.exports = {
   siteMetadata: {
     title: `Hummingbird Hammocks`,
-    description: `google description goes here`,
-    keywords: `google keywords`,
-    siteName: `Example`,
-    siteUrl: `https://example.com/`,
-    author: `@hungryhipposolutions`,
-    phone: `+8801705916049`,
-    email: `example@email.com`,
-    address: `Address goes here`,
+    description: `Ultralight hammocks for camping and backpacking that are as tiny in your pack as they are on the scale. Hammocks, rain tarps, bug nets, tree straps, underquilts, and more designed to be as light and small as possible. Lighten your pack with Hummingbird Hammocks!`,
+    keywords: `hummingbird hammock, ultralight hammocks, camping hammocks, hammock straps, hammock shelter, parachute hammock, ultralight camping`,
+    siteName: `Hummingbird Hammocks`,
+    siteUrl: `https://hummingbirdhammocks.com/`,
+    author: `@HummingbirdHammocks`,
+    phone: `+17193772116`,
+    email: `support@hummingbirdhammocks.com`,
+    address: `18611 Cherry Springs Ranch Dr. Monument, CO 80132 USA`,
     privacyAccessibilityTermsUpdateDate: "15 May, 2022",
   },
   plugins: [
