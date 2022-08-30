@@ -48,7 +48,7 @@
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\"",
     "start": "gatsby develop",
     "serve": "gatsby serve",
-    "clean": "gatsby clean",
+    "clean": "gatsby clean && rimraf ./node_modules",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
   },
   "repository": {
