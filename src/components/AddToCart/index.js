@@ -9,6 +9,8 @@ const Wrapper = styled(Box)(() => ({
 }))
 
 const AddtoCartButton = styled(OnButton)(({ theme }) => ({
+  backgroundColor: "transparent",
+
   [theme.breakpoints.down("md")]: {
     padding: "5px 10px",
     fontSize: "13px",

@@ -1,13 +1,27 @@
 import React, { useState, useEffect, useContext } from "react"
 import { graphql, navigate } from "gatsby"
-import { styled, Box, Typography, useMediaQuery } from "@mui/material"
+import {
+  styled,
+  Box,
+  Typography,
+  useMediaQuery,
+  Tooltip,
+  Divider,
+} from "@mui/material"
 import { FreeMode, Navigation, Thumbs } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
-import { GatsbyImage, StaticImage } from "gatsby-plugin-image"
+import { GatsbyImage } from "gatsby-plugin-image"
 import { useLocation } from "@gatsbyjs/reach-router"
 import queryString from "query-string"
 
-import { Seo, Layout, MainWrapper, Link, AnotherLink } from "components"
+import {
+  Seo,
+  Layout,
+  MainWrapper,
+  Link,
+  AnotherLink,
+  Socials,
+} from "components"
 import { CartContext, RecentViewedContext } from "contexts"
 import Color from "utils/color"
 import {
@@ -21,11 +35,16 @@ import {
   DetailsImage,
   SPECS,
   SoldOutIcon,
+  Inventory,
 } from "sections"
 
 const TemplateSection = styled("section")(({ theme }) => ({
   background: theme.palette.white,
   padding: "60px 15px",
+
+  ".swiper-button-prev, .swiper-button-next": {
+    color: "#34542a",
+  },
 
   [theme.breakpoints.down("md")]: {
     padding: "60px 0",
@@ -55,7 +74,8 @@ const UpperLink = styled(Box)(({ theme }) => ({
 }))
 
 const ProductPage = ({ data, pageContext }) => {
-  const { title, handle, images, description, shopifyId } = data.shopifyProduct
+  const { title, handle, images, description, shopifyId, featuredImage } =
+    data.shopifyProduct
   const {
     metaDescription,
     metaTitle,
@@ -75,6 +95,7 @@ const ProductPage = ({ data, pageContext }) => {
   const { collection, next, prev } = pageContext
 
   const matches = useMediaQuery("(max-width:900px)")
+  const url = typeof window !== "undefined" ? window.location.href : ""
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null)
   const [product, setProduct] = useState(null)
@@ -151,6 +172,8 @@ const ProductPage = ({ data, pageContext }) => {
     getProductById(shopifyId).then(result => {
       setProduct(result)
 
+      console.log(result)
+
       if (result?.variants) {
         const resultVariant =
           result.variants.find(({ id }) => id === variantId) ||
@@ -163,7 +186,7 @@ const ProductPage = ({ data, pageContext }) => {
         setSelectedVariant(resultVariant)
         setSelectedVariantStatic(staticVariant)
 
-        console.log(staticVariant)
+        // console.log(staticVariant)
 
         let resultTitle = resultVariant?.title
 
@@ -187,8 +210,9 @@ const ProductPage = ({ data, pageContext }) => {
     })
   }, [variantId])
 
-  console.log(product)
-  console.log(variantSizeName)
+  // console.log(product)
+  // console.log(variantSizeName)
+  // console.log(selectedVariant)
 
   return (
     <Layout>
@@ -204,40 +228,45 @@ const ProductPage = ({ data, pageContext }) => {
               alignItems="center"
               sx={{ background: "#34542a", color: "#fff", padding: "3px 10px" }}
               justifyContent="center"
+              borderRadius="10px"
               order="2"
             >
-              {prev && (
-                <Typography variant="collectionName">
-                  <Link
-                    sx={{
-                      color: "#fff",
-                      textDecoration: "none",
-                      "&:hover": {
-                        opacity: "0.7",
-                      },
-                    }}
-                    to={`/products/${prev}`}
-                  >
-                    Prev
-                  </Link>
-                </Typography>
+              {prev.handle && (
+                <Tooltip title={prev.title}>
+                  <Typography variant="collectionName">
+                    <Link
+                      sx={{
+                        color: "#fff",
+                        textDecoration: "none",
+                        "&:hover": {
+                          opacity: "0.7",
+                        },
+                      }}
+                      to={`/products/${prev.handle}`}
+                    >
+                      Prev
+                    </Link>
+                  </Typography>
+                </Tooltip>
               )}
-              {prev && next && <Box m="0 10px">|</Box>}
-              {next && (
-                <Typography variant="collectionName">
-                  <Link
-                    sx={{
-                      color: "#fff",
-                      textDecoration: "none",
-                      "&:hover": {
-                        opacity: "0.7",
-                      },
-                    }}
-                    to={`/products/${next}`}
-                  >
-                    Next
-                  </Link>
-                </Typography>
+              {prev.handle && next.handle && <Box m="0 10px">|</Box>}
+              {next.handle && (
+                <Tooltip title={next.title}>
+                  <Typography variant="collectionName">
+                    <Link
+                      sx={{
+                        color: "#fff",
+                        textDecoration: "none",
+                        "&:hover": {
+                          opacity: "0.7",
+                        },
+                      }}
+                      to={`/products/${next.handle}`}
+                    >
+                      Next
+                    </Link>
+                  </Typography>
+                </Tooltip>
               )}
             </Box>
             <Box display="flex" alignItems="center" justifyContent="center">
@@ -306,18 +335,36 @@ const ProductPage = ({ data, pageContext }) => {
               <Box>
                 <Typography
                   textTransform="uppercase"
-                  sx={{ mb: "20px" }}
-                  variant="h2"
+                  sx={{
+                    mb: "20px",
+                    textDecoration: "underline #414042 1px",
+                    textUnderlineOffset: "20px",
+                  }}
+                  variant="h1"
+                  color="#414042"
                 >
                   {title}
                 </Typography>
+
+                {!!selectedVariant && (
+                  <Typography
+                    sx={{ m: "30px 0 20px 0", maxWidth: "550px" }}
+                    variant="h6"
+                    color="#414042"
+                  >
+                    ${selectedVariant.price} USD
+                  </Typography>
+                )}
+
                 <Typography
-                  sx={{ m: "20px 0", maxWidth: "550px" }}
+                  sx={{ m: "20px 0 20px 0", maxWidth: "550px" }}
                   variant="body1"
+                  color="#414042"
                 >
                   {description}
                 </Typography>
               </Box>
+
               <Box>
                 {product?.availableForSale && !!selectedVariant && (
                   <>
@@ -479,31 +526,34 @@ const ProductPage = ({ data, pageContext }) => {
                 )}
 
                 {!!selectedVariant && (
-                  <>
-                    <Box m="30px 0">
-                      <Typography variant="footerMenu">
-                        Price: {selectedVariant.priceV2.currencyCode} $
-                        {selectedVariant.price}
-                      </Typography>
-                    </Box>
-                    <ProductQuantityAdder
-                      variantId={selectedVariant.id}
-                      available={selectedVariant.available}
-                    />
-                  </>
+                  <Box m="30px 0">
+                    <Inventory handle={handle} id={selectedVariant?.id} />
+                  </Box>
                 )}
+
+                {!!selectedVariant && (
+                  <ProductQuantityAdder
+                    variantId={selectedVariant.id}
+                    available={selectedVariant.available}
+                  />
+                )}
+              </Box>
+              <Box>
+                <Socials
+                  title={metaTitle?.value || title}
+                  url={url}
+                  media={featuredImage?.originalSrc}
+                />
               </Box>
             </Box>
           </MainGridWrapper>
 
           {selectedVariant && metaFBT && (
-            <Box margin="100px 10px 10px 10px">
-              <FBT
-                fbtData={metaFBT.value}
-                product={product}
-                currentVariant={selectedVariant}
-              />
-            </Box>
+            <FBT
+              fbtData={metaFBT.value}
+              product={product}
+              currentVariant={selectedVariant}
+            />
           )}
 
           {/* Review */}
@@ -647,6 +697,7 @@ const ProductPage = ({ data, pageContext }) => {
 
           {recentViewedProducts.length > 1 && (
             <RecentViewed
+              title="RECENTLY VIEWED PRODUCTS"
               products={recentViewedProducts.slice(
                 1,
                 recentViewedProducts.length

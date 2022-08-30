@@ -24,10 +24,14 @@ import { Seo, Layout, MainWrapper, Link, OnButton } from "components"
 import { ProductCard } from "sections"
 import { RecentViewedContext } from "contexts"
 
-const Wrapper = styled("section")(() => ({
+const Wrapper = styled("section")(({ theme }) => ({
   display: "grid",
   minHeight: "340px",
   position: "relative",
+
+  [theme.breakpoints.down("md")]: {
+    minHeight: "inherit",
+  },
 }))
 
 const Middle = styled(Box)(() => ({
@@ -96,6 +100,10 @@ const CollectionsPage = ({ data }) => {
     ...products.map(i => Number(i.priceRangeV2.minVariantPrice.amount))
   )
 
+  const minHeightPrice = Math.min(
+    ...products.map(i => Number(i.priceRangeV2.minVariantPrice.amount))
+  )
+
   const [theProducts, setTheProducts] = useState(null)
   const [productTypeChecked, setProductTypeChecked] = useState([])
   // const [colorChecked, setColorChecked] = useState([])
@@ -106,7 +114,10 @@ const CollectionsPage = ({ data }) => {
     recentViewed: false,
   })
   const [filterOptions, setFilterOptions] = useState({ sort: "relevance" })
-  const [selectedPrice, setSelectedPrice] = useState([0, heightPrice])
+  const [selectedPrice, setSelectedPrice] = useState([
+    minHeightPrice,
+    heightPrice,
+  ])
 
   // Handle Collapse
   const handleCollapse = target => {
@@ -442,19 +453,23 @@ const CollectionsPage = ({ data }) => {
                 {collapse["price"] ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
               <Collapse
-                sx={{ m: "20px" }}
+                sx={{ m: "40px" }}
                 in={collapse["price"]}
                 timeout="auto"
                 unmountOnExit
               >
                 <Slider
-                  sx={{ mt: "15px" }}
+                  sx={{ m: "15px 0 40px 0" }}
                   value={selectedPrice}
                   onChange={handleChangePrice}
                   valueLabelDisplay="on"
-                  min={0}
+                  min={minHeightPrice}
                   size="small"
                   max={heightPrice}
+                  marks={[
+                    { value: minHeightPrice, label: `$${minHeightPrice}` },
+                    { value: heightPrice, label: `$${heightPrice}` },
+                  ]}
                 />
 
                 <OnButton onClick={handlePriceFilterClick}>Apply</OnButton>

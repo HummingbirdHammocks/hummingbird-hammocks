@@ -14,11 +14,11 @@ const ProductGrid = styled(Box)(({ theme }) => ({
   },
 }))
 
-export const RecentViewed = ({ products }) => {
+export const RecentViewed = ({ products, title }) => {
   return (
     <Wrapper>
       <Typography pb="30px" textAlign="center" variant="h5">
-        RECENTLY VIEWED PRODUCTS
+        {title}
       </Typography>
       <Divider />
       <ProductGrid>

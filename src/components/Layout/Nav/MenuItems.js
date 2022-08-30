@@ -64,10 +64,13 @@ const menuItems = [
         title: "Knowledgebase",
         otherUrl: "https://help.hummingbirdhammocks.com/",
       },
-
       {
         title: "Returns",
         otherUrl: "https://returns.hummingbirdhammocks.com/",
+      },
+      {
+        title: "Outdoor Articles",
+        url: "/blogs/news",
       },
     ],
   },

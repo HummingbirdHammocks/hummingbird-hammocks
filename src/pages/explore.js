@@ -1,8 +1,9 @@
-import React from "react"
+import React, { useContext } from "react"
 import { StaticImage } from "gatsby-plugin-image"
 
 import { Seo, Layout, MainWrapper } from "components"
-import { Hero, Info, Details } from "sections"
+import { Hero, Info, Details, RecentViewed } from "sections"
+import { ProductContext } from "contexts"
 
 const heroData = {
   position: "center",
@@ -40,6 +41,7 @@ const detailsData4 = {
 }
 
 const ExplorePage = () => {
+  const { featuredProducts } = useContext(ProductContext)
   return (
     <Layout>
       <Seo />
@@ -113,6 +115,11 @@ const ExplorePage = () => {
             placeholder="blurred"
           />
         </Details>
+
+        <RecentViewed
+          title="Featured Products"
+          products={featuredProducts.slice(0, 5)}
+        />
       </MainWrapper>
     </Layout>
   )

@@ -77,29 +77,15 @@ const ContactUsPage = () => (
       />
     </Hero>
     <Info title="CONTACT US">
-      It all began about 5 years ago. Chris Loidolt, a Certified Parachute
-      Rigger, sitting in a room full of top-quality parachute material decided
-      he wanted to relax in a hammock that afternoon. Flash forward to today and
-      that simple idea has led to an ultralight hammock company that is obsessed
-      with weight, quality, and thinking outside the box.
+      We know you don't want to talk to a robot. Our support team is completely
+      internal (and human), nothing is outsourced, and you won't be asked to
+      jump through a bunch of hoops. We offer informed and concise help so you
+      can get off the computer and back outside.
       <br />
       <br />
-      The use of real parachute materials, combined with the design and
-      construction techniques borrowed from the Parachute Industry Association
-      created a hammock that is stronger, far lighter, and much smaller packing
-      than any other hammock on the market.
-      <br />
-      <br />
-      He thought “cool, a new hammock”, and we thought “we want one”. Turns out,
-      everyone else wanted one too!
-      <br />
-      <br />
-      We are a family-run business, doing our best to create the best gear we
-      can and provide the kind of customer service we wish other companies
-      would. Our products are all meticulously designed, hand-made, packed with
-      love, and shipped to locations all over the globe. So order yourself one,
-      order a friend one, get outside and help us change the way the world hangs
-      out with nature.
+      If you have a question, need help with anything, or are just looking for
+      advice. Reach out to us below and we will get back to you as soon as
+      possible.
       <Box mt="40px" display="flex" justifyContent="center">
         <ButtonAnotherLink
           href="https://help.hummingbirdhammocks.com/help/1694808310"
