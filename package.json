@@ -2,7 +2,7 @@
   "name": "hummingbird-hammocks",
   "private": true,
   "description": "A web app for Hummingbird Hammocks.",
-  "version": "1.0",
+  "version": "1.0.0",
   "author": "Md. Jahid Hasan <thejahid@icloud.com>",
   "dependencies": {
     "@algolia/autocomplete-js": "^1.7.1",
@@ -50,7 +50,7 @@
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\"",
     "start": "gatsby develop",
     "serve": "gatsby serve",
-    "clean": "gatsby clean",
+    "clean": "gatsby clean && rimraf ./node_modules",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
   },
   "repository": {

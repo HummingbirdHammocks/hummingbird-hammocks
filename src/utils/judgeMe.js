@@ -8,7 +8,7 @@ export default class JudgeMe {
   async getReviewWidget() {
     try {
       const { data } = await axios.get(
-        `https://judge.me/api/v1/widgets/product_review?api_token=aDRUmgKuaN2wmnpgAdI9lTV-azU&shop_domain=${process.env.GATSBY_SHOPIFY_STORE_URL}&handle=${this.handle}`
+        `https://judge.me/api/v1/widgets/product_review?api_token=${process.env.JUDGE_ME_PRIVATE_API_TOKEN}&shop_domain=${process.env.GATSBY_SHOPIFY_STORE_URL}&handle=${this.handle}`
       )
 
       return data
@@ -19,7 +19,7 @@ export default class JudgeMe {
 
   async getPreviewBadge() {
     const { data } = await axios.get(
-      `https://judge.me/api/v1/widgets/preview_badge?api_token=aDRUmgKuaN2wmnpgAdI9lTV-azU&shop_domain=${process.env.GATSBY_SHOPIFY_STORE_URL}&handle=${this.handle}`
+      `https://judge.me/api/v1/widgets/preview_badge?api_token=${process.env.JUDGE_ME_PRIVATE_API_TOKEN}&shop_domain=${process.env.GATSBY_SHOPIFY_STORE_URL}&handle=${this.handle}`
     )
 
     return data
