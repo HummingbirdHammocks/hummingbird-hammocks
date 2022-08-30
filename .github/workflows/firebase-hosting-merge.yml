@@ -43,7 +43,7 @@ jobs:
             ${{ runner.os }}-gatsby-build-
 
       - uses: actions/checkout@v2
-      - run: npm ci && npm run build
+      - run: yarn && yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
