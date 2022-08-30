@@ -20,7 +20,7 @@ const rawTheme = createTheme({
     },
     titleBackground: "#1e1e1e99",
     blackTruffle: "#414042",
-    blackBackground: "#393939",
+    blackBackground: "#3939391a",
   },
   typography: {
     fontFamily: "'Poppins', sans-serif",
@@ -67,8 +67,9 @@ const theme = {
     },
     h2: {
       ...rawTheme.typography.h2,
+      fontFamily: rawTheme.typography.fontFamily,
       ...fontHeader,
-      fontSize: 24,
+      fontSize: 31,
       fontWeight: 400,
       letterSpacing: 2,
       lineHeight: 1.5,
@@ -176,6 +177,21 @@ const theme = {
       textTransform: "capitalize",
       fontFamily: rawTheme.typography.fontFamilySecondary,
       color: rawTheme.palette.white,
+    },
+
+    cartTitle: {
+      fontSize: 15,
+      letterSpacing: 1,
+      fontWeight: 500,
+      fontFamily: rawTheme.typography.fontFamily,
+      textTransform: "capitalize",
+    },
+    cartVariant: {
+      fontSize: 12,
+      letterSpacing: 1,
+      fontWeight: 500,
+      fontFamily: rawTheme.typography.fontFamilySecondary,
+      textTransform: "capitalize",
     },
     breakpoints: {
       values: {

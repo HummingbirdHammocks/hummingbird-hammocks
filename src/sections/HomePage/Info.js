@@ -1,5 +1,5 @@
 import React from "react"
-import { styled, Typography, Divider, Box } from "@mui/material"
+import { styled, Typography, Box } from "@mui/material"
 
 import { MainWrapper } from "../../components"
 
@@ -13,6 +13,7 @@ const InfoSection = styled("section")(({ theme }) => ({
   },
 
   "& a": {
+    color: "#34542a",
     wordBreak: "break-all",
   },
 }))

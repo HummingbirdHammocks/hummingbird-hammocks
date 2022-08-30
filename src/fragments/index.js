@@ -38,6 +38,7 @@ export const productFields = graphql`
     }
     featuredImage {
       altText
+      originalSrc
       gatsbyImageData(placeholder: BLURRED)
     }
   }

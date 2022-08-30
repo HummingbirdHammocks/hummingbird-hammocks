@@ -19,8 +19,12 @@ const Wrapper = styled("section")(({ theme }) => ({
     backgroundColor: "#132210!important",
   },
 
+  ".swiper-button-prev, .swiper-button-next": {
+    color: "#34542a",
+  },
+
   [theme.breakpoints.down("md")]: {
-    padding: "100px 10px 50px 10px",
+    padding: "70px 10px 50px 10px",
   },
 }))
 
@@ -40,8 +44,6 @@ const ImageBox = styled(Box)(() => ({
 }))
 
 const AbsoluteImage = styled(GatsbyImage)(({ theme }) => ({
-  position: "absolute",
-  top: 0,
   borderRadius: "20px",
 
   [theme.breakpoints.down("md")]: {
@@ -50,10 +52,7 @@ const AbsoluteImage = styled(GatsbyImage)(({ theme }) => ({
 }))
 
 const TextBox = styled(Box)(() => ({
-  position: "absolute",
-  bottom: 30,
-  left: "0",
-  right: "0",
+  marginTop: "40px",
   textAlign: "center",
 }))
 
@@ -97,20 +96,23 @@ export function FeaturedProduct() {
       >
         {featuredProducts.map(item => (
           <SwiperSlide key={item.shopifyId}>
-            <ImageBox minHeight={matches ? "350px" : "600px"}>
-              <AbsoluteImage
-                className="image-1"
-                image={item.featuredImage.gatsbyImageData}
-                alt={item.featuredImage.altText}
-                placeholder="blurred"
-              />
+            <ImageBox minHeight={!matches && "600px"}>
+              <Link to={`products/${item.handle}`}>
+                <AbsoluteImage
+                  className="image-1"
+                  image={item.featuredImage.gatsbyImageData}
+                  alt={item.featuredImage.altText}
+                  placeholder="blurred"
+                />
 
-              <AbsoluteImage
-                className="image-2"
-                image={item.images[1].gatsbyImageData}
-                alt={item.images[1].altText}
-                placeholder="blurred"
-              />
+                <AbsoluteImage
+                  className="image-2"
+                  image={item.images[1].gatsbyImageData}
+                  alt={item.images[1].altText}
+                  placeholder="blurred"
+                />
+              </Link>
+
               <TextBox>
                 <Link to={`products/${item.handle}`}>
                   <Typography

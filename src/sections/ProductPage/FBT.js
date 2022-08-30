@@ -13,10 +13,12 @@ import { OnButton } from "components"
 
 const FBTSection = styled("section")(({ theme }) => ({
   background: theme.palette.white,
+  marginTop: "100px",
   padding: "60px 15px",
 
   [theme.breakpoints.down("md")]: {
     padding: "0",
+    marginTop: "40px",
   },
 }))
 

@@ -155,9 +155,9 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
             <ListItem
               onClick={() => setDrawerOpen(false)}
               component={Link}
-              to="/collections/bargain-bin"
+              to="/explore"
             >
-              <Typography variant="navMenu">Bargain Bin</Typography>
+              <Typography variant="navMenu">About us</Typography>
             </ListItem>
             <ListItem
               onClick={() => setDrawerOpen(false)}
@@ -179,6 +179,13 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
               href="https://returns.hummingbirdhammocks.com/"
             >
               <Typography variant="navMenu">Returns</Typography>
+            </ListItem>
+            <ListItem
+              onClick={() => setDrawerOpen(false)}
+              component={Link}
+              to="/blogs/news"
+            >
+              <Typography variant="navMenu">Outdoor Articles</Typography>
             </ListItem>
           </List>
         </Collapse>

@@ -58,7 +58,7 @@ export const CartDrawer = () => {
         <Box display="flex" justifyContent="center" alignItems="center">
           <ShoppingCartOutlined sx={{ mr: "10px" }} />
           <Typography sx={{ mt: "2px" }} variant="navMenu">
-            {totalQuantity} Item
+            {totalQuantity} {totalQuantity > 1 ? "Items" : "Item"}
           </Typography>
         </Box>
         <Box>
@@ -129,10 +129,12 @@ export const CartDrawer = () => {
               width="76px"
             />
 
-            <Box flex="1 1 0">
-              <Typography fontSize="14px">{item.title}</Typography>
-
-              <Typography fontSize="12px" color="grey.600">
+            <Box pl="20px" flex="1 1 0">
+              <Typography variant="cartTitle" fontSize="14px">
+                {item.title}
+              </Typography>
+              <br />
+              <Typography variant="cartVariant" color="grey.600">
                 {item.variant.title === "Default Title"
                   ? ""
                   : item.variant.title}
@@ -143,8 +145,10 @@ export const CartDrawer = () => {
                 color="primary.main"
                 mt={0.5}
               >
-                {item.variant.priceV2.currencyCode}{" "}
-                {(item.quantity * item.variant.price).toFixed(2)}
+                <Typography variant="subtitle3">
+                  ${(item.quantity * item.variant.price).toFixed(2)}{" "}
+                  {item.variant.priceV2.currencyCode}
+                </Typography>
               </Box>
             </Box>
 

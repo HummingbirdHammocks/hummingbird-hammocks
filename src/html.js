@@ -55,6 +55,7 @@ export default function HTML(props) {
         style={{
           margin: "0",
           padding: "0",
+          backgroundColor: "#fdfdf5",
         }}
         {...props.bodyAttributes}
       >
