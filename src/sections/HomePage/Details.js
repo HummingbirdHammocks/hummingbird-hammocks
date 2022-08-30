@@ -22,7 +22,7 @@ const MainGridWrapper = styled("div")(({ theme, orderkey, titleFont }) => ({
   "& h2": {
     ...theme.typography.h2,
     textTransform: "uppercase",
-    fontSize: titleFont ? titleFont : "28px",
+    fontSize: titleFont ? titleFont : "31px",
   },
 
   "& p": {
@@ -113,7 +113,7 @@ export function Details({ data, children, order, divider, titleFont }) {
                   <LinkButton
                     bordercolor="#34542a"
                     color="black"
-                    background="white"
+                    background="transparent"
                     to={buttonLink}
                   >
                     {buttonText}

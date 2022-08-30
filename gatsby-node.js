@@ -1,5 +1,68 @@
 const path = require(`path`)
-const { nextTick } = require("process")
+const axios = require("axios")
+const { createRemoteFileNode } = require(`gatsby-source-filesystem`)
+
+const NODE_TYPE = "Articles"
+
+// called each time a node is created
+exports.onCreateNode = async ({
+  node, // the node that was just created
+  actions: { createNode, createNodeField },
+  createNodeId,
+  getCache,
+}) => {
+  if (node.internal.type === NODE_TYPE) {
+    const fileNode = await createRemoteFileNode({
+      // the url of the remote image to generate a node for
+      url: node.image.src,
+      parentNodeId: node.id,
+      createNode,
+      createNodeId,
+      getCache,
+    })
+
+    if (fileNode) {
+      createNodeField({ node, name: "localFile", value: fileNode.id })
+    }
+  }
+}
+
+exports.createSchemaCustomization = ({ actions }) => {
+  const { createTypes } = actions
+
+  createTypes(`
+    type Articles implements Node {
+      localFile: File @link(from: "fields.localFile")
+    }
+  `)
+}
+
+exports.sourceNodes = async ({
+  actions,
+  createNodeId,
+  createContentDigest,
+}) => {
+  const { createNode } = actions
+  const {
+    data: { articles },
+  } = await axios(
+    `https://${process.env.SHOPIFY_API_KEY}:${process.env.SHOPIFY_PASSWORD}@${process.env.GATSBY_SHOPIFY_SHOP_NAME}.myshopify.com/admin/api/2022-01/blogs/${process.env.SHOPIFY_BLOG_ID}/articles.json`
+  )
+
+  articles.forEach((node, index) => {
+    createNode({
+      ...node,
+      id: createNodeId(`${NODE_TYPE}-${node.id}`),
+      parent: null,
+      children: [],
+      internal: {
+        type: NODE_TYPE,
+        content: JSON.stringify(node),
+        contentDigest: createContentDigest(node),
+      },
+    })
+  })
+}
 
 // Absolute imports
 exports.onCreateWebpackConfig = ({ actions }) => {
@@ -28,6 +91,7 @@ exports.createPages = async ({ graphql, actions }) => {
         edges {
           next {
             handle
+            title
           }
           node {
             id
@@ -36,6 +100,21 @@ exports.createPages = async ({ graphql, actions }) => {
               handle
               title
             }
+          }
+          previous {
+            handle
+            title
+          }
+        }
+      }
+      allArticles {
+        edges {
+          node {
+            handle
+            id
+          }
+          next {
+            handle
           }
           previous {
             handle
@@ -60,8 +139,14 @@ exports.createPages = async ({ graphql, actions }) => {
               handle: node.collections[0].handle,
               title: node.collections[0].title,
             },
-        prev: previous?.handle,
-        next: next?.handle,
+        prev: {
+          handle: previous?.handle,
+          title: previous?.title,
+        },
+        next: {
+          handle: next?.handle,
+          title: next?.title,
+        },
       },
       component: path.resolve("./src/templates/ProductsTemplate/index.js"),
     })
@@ -75,6 +160,38 @@ exports.createPages = async ({ graphql, actions }) => {
         shopifyId: node.shopifyId,
       },
       component: path.resolve("./src/templates/CollectionsTemplate/index.js"),
+    })
+  })
+
+  // create blog pages with pagination
+  const articles = data.allArticles.edges
+  const articlesPerPage = 12
+  const numPages = Math.ceil(articles.length / articlesPerPage)
+
+  Array.from({ length: numPages }).forEach((_, i) => {
+    createPage({
+      path: i === 0 ? `/blogs/news` : `/blogs/news/${i + 1}`,
+      component: path.resolve("./src/templates/BlogTemplate/index.js"),
+      context: {
+        limit: articlesPerPage,
+        skip: i * articlesPerPage,
+        numPages,
+        currentPage: i + 1,
+      },
+    })
+  })
+
+  // create single articles pages
+  articles.forEach(({ node, previous, next }) => {
+    createPage({
+      path: `blogs/news/${node.handle}`,
+      context: {
+        id: node.id,
+        handle: node.handle,
+        prev: previous?.handle,
+        next: next?.handle,
+      },
+      component: path.resolve("./src/templates/ArticlesTemplate/index.js"),
     })
   })
 }

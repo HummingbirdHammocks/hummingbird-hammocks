@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react"
-import { Box, Typography, styled } from "@mui/material"
+import { Box, Typography, styled, Button } from "@mui/material"
+import { Add, Remove } from "@mui/icons-material"
 
 import { OnButton } from "components"
 import { CartContext } from "contexts"
@@ -16,17 +17,50 @@ const EmailBox = styled(Box)(() => ({
   display: "flex",
 
   "& input": {
-    width: "50%",
-    marginRight: "20px",
+    minHeight: "36px",
+    padding: "0 10px 0 5px",
   },
 }))
+
+const QuantityWrapper = styled(Box)(() => ({
+  margin: "10px 0",
+
+  "& .quantity": {
+    width: "47px",
+    height: "30px",
+    padding: "0 11px",
+    margin: "0 10px",
+    borderRadius: "10px",
+    textAlign: "center",
+  },
+
+  "& input[type=number]": {
+    appearance: "textfield",
+    background: "#fff",
+  },
+
+  "& input[type=number]::-webkit-outer-spin-button": {
+    appearance: "none",
+    margin: 0,
+  },
+
+  "& input[type=number]::-webkit-inner-spin-button ": {
+    appearance: "none",
+    margin: 0,
+  },
+}))
+
+const QuantityButton = styled(Button)({
+  minWidth: 0,
+  minHeight: 0,
+})
 
 export function ProductQuantityAdder({ variantId, available }) {
   const [quantity, setQuantity] = useState(1)
   const { updateLineItem } = useContext(CartContext)
 
   const handleQuantityChange = e => {
-    setQuantity(e.currentTarget.value)
+    setQuantity(Number(e.currentTarget.value))
   }
 
   const handleSubmit = async e => {
@@ -38,16 +72,41 @@ export function ProductQuantityAdder({ variantId, available }) {
     <Box>
       <Typography variant="navUser">Quantity</Typography>
       <form style={{ marginTop: "10px" }} onSubmit={handleSubmit}>
-        <Box>
+        <QuantityWrapper>
+          <QuantityButton
+            variant="outlined"
+            color="primary"
+            disabled={!available}
+            onClick={() => setQuantity(quantity - 1)}
+            sx={{
+              height: "32px",
+              width: "32px",
+              borderRadius: "300px",
+            }}
+          >
+            <Remove fontSize="small" />
+          </QuantityButton>
           <input
+            className="quantity"
             disabled={!available}
             type="number"
-            min="1"
-            step="1"
             value={quantity}
             onChange={handleQuantityChange}
           />
-        </Box>
+          <QuantityButton
+            variant="outlined"
+            color="primary"
+            disabled={!available}
+            onClick={() => setQuantity(quantity + 1)}
+            sx={{
+              height: "32px",
+              width: "32px",
+              borderRadius: "300px",
+            }}
+          >
+            <Add fontSize="small" />
+          </QuantityButton>
+        </QuantityWrapper>
 
         <OnButton
           margin="30px 0 0 0"

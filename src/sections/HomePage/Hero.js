@@ -43,6 +43,7 @@ export function Hero({ children, data }) {
         >
           <Typography
             sx={{ margin: "20px 10px;" }}
+            color={matches ? "black" : "white"}
             textAlign={
               !matches
                 ? position === "left"
@@ -57,6 +58,7 @@ export function Hero({ children, data }) {
             {subtitle1}
           </Typography>
           <Typography
+            color={matches ? "black" : "#fff"}
             textTransform="uppercase"
             textAlign={
               !matches
@@ -68,36 +70,38 @@ export function Hero({ children, data }) {
                 : "center"
             }
             maxWidth={matches ? "100%" : "550px"}
-            sx={{ mb: "17px", color: "#fff" }}
+            sx={{ mb: "17px" }}
             variant="h1"
           >
             {mainText}
           </Typography>
-          <Typography
-            textAlign={
-              !matches
-                ? position === "left"
-                  ? "left"
-                  : position === "right"
-                  ? "right"
-                  : "center"
-                : "center"
-            }
-            mb={matches && "40px"}
-            variant="subtitle1"
-          >
-            {subtitle2}
-          </Typography>
-          {button && (
-            <Box
-              display={!matches ? "flex" : "grid"}
-              justifyContent={
+          {subtitle2 && (
+            <Typography
+              color={matches ? "black" : "white"}
+              textAlign={
                 !matches
                   ? position === "left"
                     ? "left"
                     : position === "right"
                     ? "right"
                     : "center"
+                  : "center"
+              }
+              mb={matches && "40px"}
+              variant="subtitle1"
+            >
+              {subtitle2}
+            </Typography>
+          )}
+
+          {button && (
+            <Box
+              display="flex"
+              justifyContent={
+                position === "left"
+                  ? "left"
+                  : position === "right"
+                  ? "right"
                   : "center"
               }
               alignItems="center"
@@ -110,13 +114,29 @@ export function Hero({ children, data }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     margin="10px"
-                    color={item.color}
-                    background={item.background}
                     hoverback={item.hoverBack}
                     hovercolor={item.hoverColor}
                     hoverborder={item.hoverBorder}
+                    sx={{
+                      padding: matches ? "11px 22px" : "12px 40px",
+                      margin: matches ? "2px" : "10px",
+                    }}
+                    color={
+                      !matches ? (item.color ? item.color : "black") : "white"
+                    }
+                    background={
+                      !matches
+                        ? item.background
+                          ? item.background
+                          : "white"
+                        : "#383839"
+                    }
                   >
-                    <Typography textAlign="center" variant="subtitle2">
+                    <Typography
+                      color={matches && "#fff"}
+                      textAlign="center"
+                      variant="subtitle2"
+                    >
                       {item.text}
                     </Typography>
                   </ButtonAnotherLink>
@@ -124,11 +144,27 @@ export function Hero({ children, data }) {
                   <LinkButton
                     key={item.id}
                     margin="10px"
-                    color={item.color ? item.color : "black"}
-                    background={item.background ? item.background : "white"}
+                    color={
+                      !matches ? (item.color ? item.color : "black") : "white"
+                    }
+                    background={
+                      !matches
+                        ? item.background
+                          ? item.background
+                          : "white"
+                        : "#383839"
+                    }
                     to={item.url}
+                    sx={{
+                      padding: matches ? "11px 22px" : "12px 40px",
+                      margin: matches ? "2px" : "10px",
+                    }}
                   >
-                    <Typography textAlign="center" variant="subtitle2">
+                    <Typography
+                      color={matches && "#fff"}
+                      textAlign="center"
+                      variant="subtitle2"
+                    >
                       {item.text}
                     </Typography>
                   </LinkButton>

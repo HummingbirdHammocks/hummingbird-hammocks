@@ -16,6 +16,7 @@ import {
   CartContextProvider,
   UserContextProvider,
   RecentViewedContextProvider,
+  TopBannerProvider,
 } from "contexts"
 
 // Import Swiper styles
@@ -45,9 +46,11 @@ export const wrapRootElement = ({ element }) => (
         <RecentViewedContextProvider>
           <CartContextProvider>
             <ThemeProvider theme={theme}>
-              <NavProvider>
-                <UICartProvider>{element}</UICartProvider>{" "}
-              </NavProvider>
+              <TopBannerProvider>
+                <NavProvider>
+                  <UICartProvider>{element}</UICartProvider>
+                </NavProvider>
+              </TopBannerProvider>
             </ThemeProvider>
           </CartContextProvider>
         </RecentViewedContextProvider>

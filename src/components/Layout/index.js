@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { useMediaQuery } from "@mui/material"
+import { useMediaQuery, Box } from "@mui/material"
 import { useQuery, gql } from "@apollo/client"
 import { navigate } from "gatsby"
 
@@ -7,10 +7,13 @@ import Nav from "./Nav"
 import Footer from "./Footer"
 import { AppDrawer } from "./Nav/AppDrawer"
 import { CartDrawer } from "./Nav/CartDrawer"
-import { UserContext } from "contexts"
+import { TopBanner } from "./TopBanner"
+import { UserContext, useTopBannerContext } from "contexts"
 
 export const Layout = ({ children }) => {
-  const matches = useMediaQuery(theme => theme.breakpoints.up("sm"))
+  const matches = useMediaQuery("(max-width:900px)")
+
+  const { banner } = useTopBannerContext()
 
   const {
     store: { customerAccessToken },
@@ -30,18 +33,21 @@ export const Layout = ({ children }) => {
 
   return (
     <>
+      <TopBanner />
       <Nav
         customerAccessToken={customerAccessToken}
         loading={loading}
         data={data}
+        banner={banner}
       />
+
+      <Box style={{ marginTop: matches ? "0" : "54px" }}>{children}</Box>
       <AppDrawer
         customerAccessToken={customerAccessToken}
         data={data}
         userLogout={userLogout}
       />
       <CartDrawer />
-      <div style={{ marginTop: matches ? "64px" : "56px" }}>{children}</div>
       <Footer />
     </>
   )

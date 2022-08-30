@@ -23,7 +23,7 @@ import Search from "../../../utils/algolia/search"
 const Wrapper = styled("ul")(() => ({
   position: "absolute",
   minWidth: "260px",
-  zIndex: 1201,
+  zIndex: 1200,
   listStyle: "none",
   padding: "7px 0",
   borderRadius: "15px",
@@ -49,8 +49,8 @@ const ListBox = styled("li")(() => ({
   },
 }))
 
-function Nav({ customerAccessToken, data, loading }) {
-  const matches = useMediaQuery("(max-width:1100px)")
+function Nav({ customerAccessToken, data, loading, banner }) {
+  const matches = useMediaQuery("(max-width:900px)")
   const { checkout } = useContext(CartContext)
 
   const { cartOpen, setCartOpen } = useUICartContext()
@@ -67,6 +67,7 @@ function Nav({ customerAccessToken, data, loading }) {
     <>
       {matches ? (
         <AppbarMobile
+          banner={banner}
           customerAccessToken={customerAccessToken}
           loading={loading}
           data={data}
@@ -76,6 +77,7 @@ function Nav({ customerAccessToken, data, loading }) {
         />
       ) : (
         <AppbarDesktop
+          banner={banner}
           customerAccessToken={customerAccessToken}
           loading={loading}
           data={data}
@@ -97,28 +99,33 @@ const AppbarDesktop = ({
   customerAccessToken,
   data,
   loading,
+  banner,
 }) => {
-  const [scroll, setScroll] = useState(false)
+  // const [scroll, setScroll] = useState(false)
 
-  if (typeof window !== "undefined") {
-    //Nacbar Color on Scroll
-    window.onscroll = () => {
-      const scrollMe = window.scrollY
-      if (scrollMe >= 130) {
-        setScroll(true)
-      } else {
-        setScroll(false)
-      }
-    }
-  }
+  // if (typeof window !== "undefined") {
+  //   //Nacbar Color on Scroll
+  //   window.onscroll = () => {
+  //     const scrollMe = window.scrollY
+  //     if (scrollMe >= 130) {
+  //       setScroll(true)
+  //     } else {
+  //       setScroll(false)
+  //     }
+  //   }
+  // }
 
   return (
     <AppBar
+      position="absolute"
       sx={{
-        backgroundColor: scroll ? "rgba(255, 255, 255, 0.44)" : "#f0f0ea",
+        top: banner && "50px",
+        backgroundColor: "#fdfdf5",
         backdropFilter: "saturate(180%) blur(20px)",
         border: "1px solid rgba(255, 255, 255, 0.3)",
+        borderBottom: "2px solid rgb(65, 64, 66)",
         transition: "0.3s",
+        zIndex: "1200",
       }}
     >
       <MainWrapper>
@@ -178,11 +185,15 @@ const AppbarDesktop = ({
   )
 }
 
-const AppbarMobile = ({ cartQuantity, cartOpen, setCartOpen }) => {
+const AppbarMobile = ({ cartQuantity, cartOpen, setCartOpen, banner }) => {
   const { drawerOpen, setDrawerOpen } = useNavContext()
 
   return (
-    <AppBar color="secondary">
+    <AppBar
+      sx={{ marginTop: banner && "90px" }}
+      position="static"
+      color="secondary"
+    >
       <MainWrapper>
         <Toolbar sx={{ p: "0" }}>
           <IconButton onClick={() => setDrawerOpen(!drawerOpen)}>
