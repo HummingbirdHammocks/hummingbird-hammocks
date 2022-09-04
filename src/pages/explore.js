@@ -86,7 +86,7 @@ const ExplorePage = () => {
         <Details divider={true} data={detailsData}>
           <StaticImage
             imgStyle={{ borderRadius: "20px" }}
-            src="../assets/images/explore/conjumer.jpeg"
+            src="../assets/images/explore/conjumer.png"
             alt="DIRECT TO CONSUMER"
             placeholder="blurred"
           />
@@ -94,7 +94,7 @@ const ExplorePage = () => {
         <Details order="2" divider={true} data={detailsData2}>
           <StaticImage
             imgStyle={{ borderRadius: "20px" }}
-            src="../assets/images/explore/open-source-hardware.jpeg"
+            src="../assets/images/explore/open-source.png"
             alt={detailsData2.title}
             placeholder="blurred"
           />
@@ -102,7 +102,7 @@ const ExplorePage = () => {
         <Details divider={true} data={detailsData3}>
           <StaticImage
             imgStyle={{ borderRadius: "20px" }}
-            src="../assets/images/explore/two-trees-per-order.jpeg"
+            src="../assets/images/explore/two-tress.png"
             alt={detailsData3.title}
             placeholder="blurred"
           />
@@ -110,7 +110,7 @@ const ExplorePage = () => {
         <Details order="2" data={detailsData4}>
           <StaticImage
             imgStyle={{ borderRadius: "20px" }}
-            src="../assets/images/explore/lifetime-guarantee.jpeg"
+            src="../assets/images/explore/lifetime-guarantee.png"
             alt={detailsData4.title}
             placeholder="blurred"
           />
