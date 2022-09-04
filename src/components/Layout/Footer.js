@@ -53,37 +53,37 @@ const socials = [
   {
     id: 1,
     name: "Facebook",
-    url: "https://example.com",
+    url: "https://www.facebook.com/hummingbirdhammocks",
     iconTag: <Facebook />,
   },
   {
     id: 2,
     name: "Twitter",
-    url: "https://example.com",
+    url: "https://twitter.com/HHammocks",
     iconTag: <Twitter />,
   },
   {
     id: 3,
     name: "YouTube",
-    url: "https://example.com",
+    url: "https://www.youtube.com/c/HummingbirdhammocksLLC",
     iconTag: <YouTube />,
   },
   {
     id: 4,
     name: "Pinterest",
-    url: "https://example.com",
+    url: "https://www.pinterest.com/HHammocks/?autologin=true",
     iconTag: <Pinterest />,
   },
   {
     id: 5,
     name: "Instagram",
-    url: "https://example.com",
+    url: "https://www.instagram.com/hummingbirdhammocks/",
     iconTag: <Instagram />,
   },
   {
     id: 6,
     name: "Mail",
-    url: "https://example.com",
+    url: "support@hummingbirdhammocks.com",
     iconTag: <Mail />,
   },
 ]
