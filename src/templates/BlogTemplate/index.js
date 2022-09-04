@@ -95,7 +95,7 @@ const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
           <Box pr={matches ? "0" : "40px"}>
             <ArticlesGridWrapper>
               {allArticles.nodes.map(item => (
-                <BlogItem item={item} />
+                <BlogItem description item={item} />
               ))}
             </ArticlesGridWrapper>
             <Box m="50px 0" display="flex" justifyContent="center">

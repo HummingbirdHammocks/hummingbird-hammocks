@@ -41,7 +41,14 @@ export const Layout = ({ children }) => {
         banner={banner}
       />
 
-      <Box style={{ marginTop: matches ? "0" : "54px" }}>{children}</Box>
+      <Box
+        style={{
+          marginTop: matches ? "0" : "54px",
+          paddingTop: banner && !matches ? "54px" : "0",
+        }}
+      >
+        {children}
+      </Box>
       <AppDrawer
         customerAccessToken={customerAccessToken}
         data={data}

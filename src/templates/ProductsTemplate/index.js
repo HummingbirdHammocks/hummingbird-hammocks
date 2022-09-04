@@ -1,13 +1,6 @@
 import React, { useState, useEffect, useContext } from "react"
 import { graphql, navigate } from "gatsby"
-import {
-  styled,
-  Box,
-  Typography,
-  useMediaQuery,
-  Tooltip,
-  Divider,
-} from "@mui/material"
+import { styled, Box, Typography, useMediaQuery, Tooltip } from "@mui/material"
 import { FreeMode, Navigation, Thumbs } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { GatsbyImage } from "gatsby-plugin-image"
@@ -21,6 +14,7 @@ import {
   Link,
   AnotherLink,
   Socials,
+  SoldOutWrap,
 } from "components"
 import { CartContext, RecentViewedContext } from "contexts"
 import Color from "utils/color"
@@ -66,10 +60,32 @@ const MainGridWrapper = styled(Box)(({ theme }) => ({
 const UpperLink = styled(Box)(({ theme }) => ({
   display: "flex",
   justifyContent: "space-between",
-  margin: "10px 100px 70px 100px",
+  margin: "10px 50px 50px 50px",
 
   [theme.breakpoints.down("md")]: {
     margin: "0",
+  },
+}))
+
+const WrapSection = styled(Box)(({ theme }) => ({
+  margin: "10px 70px 0 70px",
+
+  [theme.breakpoints.down("md")]: {
+    margin: "0",
+  },
+}))
+
+const SoldOut = styled(Box)(({ theme }) => ({
+  background: "#f41901",
+  padding: "8px 10px",
+  color: theme.palette.white.main,
+  fontFamily: theme.typography.fontFamily,
+  borderRadius: "10px",
+  letterSpacing: "2px",
+
+  [theme.breakpoints.down("md")]: {
+    top: "70px",
+    right: "80px",
   },
 }))
 
@@ -222,488 +238,501 @@ const ProductPage = ({ data, pageContext }) => {
       />
       <TemplateSection>
         <MainWrapper>
-          <UpperLink>
-            <Box
-              display="inline-flex"
-              alignItems="center"
-              sx={{ background: "#34542a", color: "#fff", padding: "3px 10px" }}
-              justifyContent="center"
-              borderRadius="10px"
-              order="2"
-            >
-              {prev.handle && (
-                <Tooltip title={prev.title}>
-                  <Typography variant="collectionName">
-                    <Link
-                      sx={{
-                        color: "#fff",
-                        textDecoration: "none",
-                        "&:hover": {
-                          opacity: "0.7",
-                        },
-                      }}
-                      to={`/products/${prev.handle}`}
-                    >
-                      Prev
-                    </Link>
-                  </Typography>
-                </Tooltip>
-              )}
-              {prev.handle && next.handle && <Box m="0 10px">|</Box>}
-              {next.handle && (
-                <Tooltip title={next.title}>
-                  <Typography variant="collectionName">
-                    <Link
-                      sx={{
-                        color: "#fff",
-                        textDecoration: "none",
-                        "&:hover": {
-                          opacity: "0.7",
-                        },
-                      }}
-                      to={`/products/${next.handle}`}
-                    >
-                      Next
-                    </Link>
-                  </Typography>
-                </Tooltip>
-              )}
-            </Box>
-            <Box display="flex" alignItems="center" justifyContent="center">
-              <Typography variant="collectionName">
-                <Link to="/">HOME</Link> /{" "}
-                <Link to={`/collections/${collection.handle}`}>
-                  {collection.title}
-                </Link>{" "}
-                / <Link to={`/products/${handle}`}>{title}</Link>
-              </Typography>
-            </Box>
-          </UpperLink>
-          <MainGridWrapper>
-            <Box
-              justifyContent="center"
-              alignItems="center"
-              display={matches && "flex"}
-              m={matches && "40px 0"}
-            >
-              <Box width={matches ? "calc(100vw - 30px)" : "600px"}>
-                <Swiper
-                  onSwiper={setSwiper}
-                  spaceBetween={10}
-                  navigation={true}
-                  thumbs={{ swiper: thumbsSwiper }}
-                  modules={[Navigation, FreeMode, Thumbs]}
-                  className="mySwiper"
-                >
-                  {images.map(image => (
-                    <SwiperSlide key={image.id}>
-                      <GatsbyImage
-                        placeholder="blurred"
-                        imgStyle={{ borderRadius: "20px" }}
-                        image={image.gatsbyImageData}
-                        alt={image.altText}
-                      />
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-
-                <Swiper
-                  style={{ marginTop: "30px" }}
-                  onSwiper={setThumbsSwiper}
-                  spaceBetween={10}
-                  slidesPerView={4}
-                  freeMode={true}
-                  watchSlidesProgress={true}
-                  modules={[FreeMode, Thumbs]}
-                  className="mySwiper"
-                >
-                  {images.map(image => (
-                    <SwiperSlide key={image.id}>
-                      <GatsbyImage
-                        imgStyle={{ borderRadius: "10px" }}
-                        placeholder="blurred"
-                        image={image.gatsbyImageData}
-                        alt={image.altText}
-                      />
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
+          <WrapSection>
+            <UpperLink>
+              <Box
+                display="inline-flex"
+                alignItems="center"
+                sx={{
+                  background: "#34542a",
+                  color: "#fff",
+                  padding: "3px 10px",
+                }}
+                justifyContent="center"
+                borderRadius="10px"
+                order="2"
+              >
+                {prev.handle && (
+                  <Tooltip title={prev.title}>
+                    <Typography variant="collectionName">
+                      <Link
+                        sx={{
+                          color: "#fff",
+                          textDecoration: "none",
+                          "&:hover": {
+                            opacity: "0.7",
+                          },
+                        }}
+                        to={`/products/${prev.handle}`}
+                      >
+                        Prev
+                      </Link>
+                    </Typography>
+                  </Tooltip>
+                )}
+                {prev.handle && next.handle && <Box m="0 10px">|</Box>}
+                {next.handle && (
+                  <Tooltip title={next.title}>
+                    <Typography variant="collectionName">
+                      <Link
+                        sx={{
+                          color: "#fff",
+                          textDecoration: "none",
+                          "&:hover": {
+                            opacity: "0.7",
+                          },
+                        }}
+                        to={`/products/${next.handle}`}
+                      >
+                        Next
+                      </Link>
+                    </Typography>
+                  </Tooltip>
+                )}
               </Box>
-            </Box>
-
-            <Box margin={matches ? "0 0 50px 0" : "50px 0 0 0"}>
-              <Box>
-                <Typography
-                  textTransform="uppercase"
-                  sx={{
-                    mb: "20px",
-                    textDecoration: "underline #414042 1px",
-                    textUnderlineOffset: "20px",
-                  }}
-                  variant="h1"
-                  color="#414042"
-                >
-                  {title}
+              <Box display="flex" alignItems="center" justifyContent="center">
+                <Typography variant="collectionName">
+                  <Link to="/">HOME</Link> /{" "}
+                  <Link to={`/collections/${collection.handle}`}>
+                    {collection.title}
+                  </Link>{" "}
+                  / <Link to={`/products/${handle}`}>{title}</Link>
                 </Typography>
-
-                {!!selectedVariant && (
-                  <Typography
-                    sx={{ m: "30px 0 20px 0", maxWidth: "550px" }}
-                    variant="h6"
-                    color="#414042"
+              </Box>
+            </UpperLink>
+            <MainGridWrapper>
+              <Box
+                justifyContent="center"
+                alignItems="center"
+                display={matches && "flex"}
+                m={matches && "40px 0"}
+              >
+                <Box width={matches ? "calc(100vw - 30px)" : "600px"}>
+                  <Swiper
+                    onSwiper={setSwiper}
+                    spaceBetween={10}
+                    navigation={true}
+                    thumbs={{ swiper: thumbsSwiper }}
+                    modules={[Navigation, FreeMode, Thumbs]}
+                    className="mySwiper"
                   >
-                    ${selectedVariant.price} USD
-                  </Typography>
-                )}
+                    {images.map(image => (
+                      <SwiperSlide key={image.id}>
+                        <GatsbyImage
+                          placeholder="blurred"
+                          imgStyle={{ borderRadius: "20px" }}
+                          image={image.gatsbyImageData}
+                          alt={image.altText}
+                        />
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
 
-                <Typography
-                  sx={{ m: "20px 0 20px 0", maxWidth: "550px" }}
-                  variant="body1"
-                  color="#414042"
-                >
-                  {description}
-                </Typography>
+                  <Swiper
+                    style={{ marginTop: "30px" }}
+                    onSwiper={setThumbsSwiper}
+                    spaceBetween={10}
+                    slidesPerView={4}
+                    freeMode={true}
+                    watchSlidesProgress={true}
+                    modules={[FreeMode, Thumbs]}
+                    className="mySwiper"
+                  >
+                    {images.map(image => (
+                      <SwiperSlide key={image.id}>
+                        <GatsbyImage
+                          imgStyle={{ borderRadius: "10px" }}
+                          placeholder="blurred"
+                          image={image.gatsbyImageData}
+                          alt={image.altText}
+                        />
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                </Box>
               </Box>
 
-              <Box>
-                {product?.availableForSale && !!selectedVariant && (
-                  <>
-                    {product?.variants.length >= 1 && (
-                      <>
-                        {product.options.length === 2 &&
-                        product.options[0].name === "Color" ? (
-                          <>
-                            <Typography variant="navUser" m="20px 0">
-                              Color
-                            </Typography>
-                            <Box display="flex">
-                              {product?.options[0]?.values.map(
-                                (item, index) => {
-                                  return (
-                                    <Box
-                                      key={index}
-                                      margin="5px"
-                                      padding="5px"
-                                      position="relative"
-                                      sx={{
-                                        cursor: "pointer",
-                                      }}
-                                      border={
-                                        item.value === variantColorName
-                                          ? "1px solid #000"
-                                          : "1px solid #e2e2e2"
-                                      }
-                                      borderRadius="50%"
-                                      onClick={() =>
-                                        handleVariantColorChange(item.value)
-                                      }
-                                    >
-                                      <Color
-                                        key={item.value}
-                                        title={item.value}
-                                      />
-                                      {!product.variants[index].available && (
-                                        <SoldOutIcon />
-                                      )}
-                                    </Box>
-                                  )
-                                }
-                              )}
-                            </Box>
-
-                            <Typography variant="navUser" m="20px 0">
-                              Size
-                            </Typography>
-                            <Box display="flex">
-                              {product?.options[1]?.values.map(
-                                (item, index) => {
-                                  return (
-                                    <Box
-                                      margin="5px"
-                                      padding="15px"
-                                      sx={{ cursor: "pointer" }}
-                                      border={
-                                        item.value === variantSizeName
-                                          ? "1px solid #000"
-                                          : "1px solid #e2e2e2"
-                                      }
-                                      borderRadius="5px"
-                                      onClick={() =>
-                                        handleVariantSizeChange(item.value)
-                                      }
-                                    >
-                                      <div>{item.value}</div>
-                                      {!product.variants[index].available && (
-                                        <SoldOutIcon margin="2px" />
-                                      )}
-                                    </Box>
-                                  )
-                                }
-                              )}
-                            </Box>
-                          </>
-                        ) : product.options[0].name === "Color" &&
-                          product.options.length === 1 ? (
-                          <>
-                            <Typography variant="navUser" m="20px 0">
-                              Color
-                            </Typography>
-                            <Box display="flex">
-                              {product?.options[0]?.values.map(
-                                (item, index) => {
-                                  return (
-                                    <Box
-                                      key={index}
-                                      margin="5px"
-                                      padding="5px"
-                                      position="relative"
-                                      sx={{
-                                        cursor: "pointer",
-                                      }}
-                                      border={
-                                        item.value === variantColorName
-                                          ? "1px solid #000"
-                                          : "1px solid #e2e2e2"
-                                      }
-                                      borderRadius="50%"
-                                      onClick={() =>
-                                        handleVariantColorChange(item.value)
-                                      }
-                                    >
-                                      <Color
-                                        key={item.value}
-                                        title={item.value}
-                                      />
-                                      {!product.variants[index].available && (
-                                        <SoldOutIcon />
-                                      )}
-                                    </Box>
-                                  )
-                                }
-                              )}
-                            </Box>
-                          </>
-                        ) : product.options[0].name === "Title" ? (
-                          ""
-                        ) : (
-                          <>
-                            <Typography variant="navUser" m="20px 0">
-                              {product?.options[0].name}
-                            </Typography>
-                            <Box display="flex">
-                              {product?.options[0]?.values.map(
-                                (item, index) => {
-                                  return (
-                                    <Box
-                                      position="relative"
-                                      margin="5px"
-                                      padding="15px"
-                                      sx={{ cursor: "pointer" }}
-                                      border={
-                                        item.value === variantSizeName
-                                          ? "1px solid #000"
-                                          : "1px solid #e2e2e2"
-                                      }
-                                      borderRadius="5px"
-                                      onClick={() =>
-                                        handleVariantSizeChange(item.value)
-                                      }
-                                    >
-                                      <div>{item.value}</div>
-                                      {!product.variants[index].available && (
-                                        <SoldOutIcon margin="2px" />
-                                      )}
-                                    </Box>
-                                  )
-                                }
-                              )}
-                            </Box>
-                          </>
-                        )}
-                      </>
-                    )}
-                  </>
-                )}
-
-                {!!selectedVariant && (
-                  <Box m="30px 0">
-                    <Inventory handle={handle} id={selectedVariant?.id} />
+              <Box margin={matches ? "0 0 50px 0" : "50px 0 0 0"}>
+                {!selectedVariant?.available && (
+                  <Box margin="0 0 30px 0" display="flex">
+                    <SoldOut>Sold Out</SoldOut>
                   </Box>
                 )}
-
-                {!!selectedVariant && (
-                  <ProductQuantityAdder
-                    variantId={selectedVariant.id}
-                    available={selectedVariant.available}
-                  />
-                )}
-              </Box>
-              <Box>
-                <Socials
-                  title={metaTitle?.value || title}
-                  url={url}
-                  media={featuredImage?.originalSrc}
-                />
-              </Box>
-            </Box>
-          </MainGridWrapper>
-
-          {selectedVariant && metaFBT && (
-            <FBT
-              fbtData={metaFBT.value}
-              product={product}
-              currentVariant={selectedVariant}
-            />
-          )}
-
-          {/* Review */}
-          {/* <Reviews title={title} handle={handle} /> */}
-
-          {/* Main Product Details */}
-          {selectedVariantStatic && (
-            <SPECS metas={selectedVariantStatic.metafields} />
-          )}
-          {metaMain && metaIncluded && (
-            <ProductDetailsGrid
-              title="FEATURES"
-              body2Title="Included"
-              body1={metaMain.value}
-              body2={metaIncluded.value}
-            />
-          )}
-
-          {metaMaterials || metaManufacturing ? (
-            <ProductDetailsGrid
-              title="TRANSPARENCY"
-              body1Title={metaMaterials && "MATERIALS"}
-              body2Title={metaManufacturing && "MANUFACTURING"}
-              body1={metaMaterials?.value}
-              body2={metaManufacturing?.value}
-            />
-          ) : (
-            ""
-          )}
-
-          {metaManualUrl && metaOshwaId && (
-            <ProductDetailsGrid title="SUPPORT">
-              <>
                 <Box>
-                  <Typography variant="body1">
-                    <AnotherLink
-                      href={metaManualUrl.value}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Typography variant="productDetails">
-                        Online Manual
-                      </Typography>
-                    </AnotherLink>
-                    <br />
-                    {metaCareInstructions && (
-                      <>
-                        <AnotherLink
-                          href={metaCareInstructions.value}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <Typography variant="productDetails">
-                            Care Instructions
-                          </Typography>
-                        </AnotherLink>
-                        <br />
-                      </>
-                    )}
+                  <Typography
+                    textTransform="uppercase"
+                    sx={{
+                      mb: "20px",
+                      textDecoration: "underline #414042 1px",
+                      textUnderlineOffset: "20px",
+                    }}
+                    variant="h1"
+                    color="#414042"
+                  >
+                    {title}
+                  </Typography>
 
-                    {metaVideo?.value && (
-                      <>
-                        <AnotherLink
-                          href={metaVideo?.value}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <Typography variant="productDetails">
-                            Video Guide
-                          </Typography>
-                        </AnotherLink>
-                        <br />
-                      </>
-                    )}
+                  {!!selectedVariant && (
+                    <Typography
+                      sx={{ m: "30px 0 20px 0", maxWidth: "550px" }}
+                      variant="h6"
+                      color="#414042"
+                    >
+                      ${selectedVariant.price} USD
+                    </Typography>
+                  )}
 
-                    <AnotherLink
-                      href="https://help.hummingbirdhammocks.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Typography variant="productDetails">
-                        Knowledgebase
-                      </Typography>
-                    </AnotherLink>
-                    <br />
-                    <AnotherLink
-                      href="https://help.hummingbirdhammocks.com/help/1694808310"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Typography variant="productDetails">Get Help</Typography>
-                    </AnotherLink>
-                    <br />
+                  <Typography
+                    sx={{ m: "20px 0 20px 0", maxWidth: "550px" }}
+                    variant="body1"
+                    color="#414042"
+                  >
+                    {description}
                   </Typography>
                 </Box>
-                <Box mt={matches && "30px"}>
-                  <Typography variant="h5">Open Source</Typography>
-                  <br />
-                  <Typography variant="body1">
-                    OSHWA UID ${metaOshwaId.value} <br />
-                    <AnotherLink
-                      href={metaOshwaUrl.value}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Typography variant="productDetails">
-                        OSHWA Certification Listing
-                      </Typography>
-                    </AnotherLink>
-                    <br />
-                    <AnotherLink
-                      href={metaReository.value}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Typography variant="productDetails">
-                        Design Files
-                      </Typography>
-                    </AnotherLink>
-                  </Typography>
+
+                <Box>
+                  {product?.availableForSale && !!selectedVariant && (
+                    <>
+                      {product?.variants.length >= 1 && (
+                        <>
+                          {product.options.length === 2 &&
+                          product.options[0].name === "Color" ? (
+                            <>
+                              <Typography variant="navUser" m="20px 0">
+                                Color
+                              </Typography>
+                              <Box display="flex">
+                                {product?.options[0]?.values.map(
+                                  (item, index) => {
+                                    return (
+                                      <Box
+                                        key={index}
+                                        margin="5px"
+                                        padding="5px"
+                                        position="relative"
+                                        sx={{
+                                          cursor: "pointer",
+                                        }}
+                                        border={
+                                          item.value === variantColorName
+                                            ? "1px solid #000"
+                                            : "1px solid #e2e2e2"
+                                        }
+                                        borderRadius="50%"
+                                        onClick={() =>
+                                          handleVariantColorChange(item.value)
+                                        }
+                                      >
+                                        <Color
+                                          key={item.value}
+                                          title={item.value}
+                                        />
+                                        {!product.variants[index].available && (
+                                          <SoldOutIcon />
+                                        )}
+                                      </Box>
+                                    )
+                                  }
+                                )}
+                              </Box>
+
+                              <Typography variant="navUser" m="20px 0">
+                                Size
+                              </Typography>
+                              <Box display="flex">
+                                {product?.options[1]?.values.map(
+                                  (item, index) => {
+                                    return (
+                                      <Box
+                                        margin="5px"
+                                        padding="15px"
+                                        sx={{ cursor: "pointer" }}
+                                        border={
+                                          item.value === variantSizeName
+                                            ? "1px solid #000"
+                                            : "1px solid #e2e2e2"
+                                        }
+                                        borderRadius="5px"
+                                        onClick={() =>
+                                          handleVariantSizeChange(item.value)
+                                        }
+                                      >
+                                        <div>{item.value}</div>
+                                        {!product.variants[index].available && (
+                                          <SoldOutIcon margin="2px" />
+                                        )}
+                                      </Box>
+                                    )
+                                  }
+                                )}
+                              </Box>
+                            </>
+                          ) : product.options[0].name === "Color" &&
+                            product.options.length === 1 ? (
+                            <>
+                              <Typography variant="navUser" m="20px 0">
+                                Color
+                              </Typography>
+                              <Box display="flex">
+                                {product?.options[0]?.values.map(
+                                  (item, index) => {
+                                    return (
+                                      <Box
+                                        key={index}
+                                        margin="5px"
+                                        padding="5px"
+                                        position="relative"
+                                        sx={{
+                                          cursor: "pointer",
+                                        }}
+                                        border={
+                                          item.value === variantColorName
+                                            ? "1px solid #000"
+                                            : "1px solid #e2e2e2"
+                                        }
+                                        borderRadius="50%"
+                                        onClick={() =>
+                                          handleVariantColorChange(item.value)
+                                        }
+                                      >
+                                        <Color
+                                          key={item.value}
+                                          title={item.value}
+                                        />
+                                        {!product.variants[index].available && (
+                                          <SoldOutIcon />
+                                        )}
+                                      </Box>
+                                    )
+                                  }
+                                )}
+                              </Box>
+                            </>
+                          ) : product.options[0].name === "Title" ? (
+                            ""
+                          ) : (
+                            <>
+                              <Typography variant="navUser" m="20px 0">
+                                {product?.options[0].name}
+                              </Typography>
+                              <Box display="flex">
+                                {product?.options[0]?.values.map(
+                                  (item, index) => {
+                                    return (
+                                      <Box
+                                        position="relative"
+                                        margin="5px"
+                                        padding="15px"
+                                        sx={{ cursor: "pointer" }}
+                                        border={
+                                          item.value === variantSizeName
+                                            ? "1px solid #000"
+                                            : "1px solid #e2e2e2"
+                                        }
+                                        borderRadius="5px"
+                                        onClick={() =>
+                                          handleVariantSizeChange(item.value)
+                                        }
+                                      >
+                                        <div>{item.value}</div>
+                                        {!product.variants[index].available && (
+                                          <SoldOutIcon margin="2px" />
+                                        )}
+                                      </Box>
+                                    )
+                                  }
+                                )}
+                              </Box>
+                            </>
+                          )}
+                        </>
+                      )}
+                    </>
+                  )}
+
+                  {!!selectedVariant && (
+                    <Box m="30px 0">
+                      <Inventory handle={handle} id={selectedVariant?.id} />
+                    </Box>
+                  )}
+
+                  {!!selectedVariant && (
+                    <ProductQuantityAdder
+                      variantId={selectedVariant.id}
+                      available={selectedVariant.available}
+                    />
+                  )}
                 </Box>
+                <Box>
+                  <Socials
+                    title={metaTitle?.value || title}
+                    url={url}
+                    media={featuredImage?.originalSrc}
+                  />
+                </Box>
+              </Box>
+            </MainGridWrapper>
+
+            {selectedVariant && metaFBT && (
+              <FBT
+                fbtData={metaFBT.value}
+                product={product}
+                currentVariant={selectedVariant}
+              />
+            )}
+
+            {/* Review */}
+            {/* <Reviews title={title} handle={handle} /> */}
+
+            {/* Main Product Details */}
+            {selectedVariantStatic && (
+              <SPECS metas={selectedVariantStatic.metafields} />
+            )}
+            {metaMain && metaIncluded && (
+              <ProductDetailsGrid
+                title="FEATURES"
+                body2Title="Included"
+                body1={metaMain.value}
+                body2={metaIncluded.value}
+              />
+            )}
+
+            {metaMaterials || metaManufacturing ? (
+              <ProductDetailsGrid
+                title="TRANSPARENCY"
+                body1Title={metaMaterials && "MATERIALS"}
+                body2Title={metaManufacturing && "MANUFACTURING"}
+                body1={metaMaterials?.value}
+                body2={metaManufacturing?.value}
+              />
+            ) : (
+              ""
+            )}
+
+            {metaManualUrl && metaOshwaId && (
+              <ProductDetailsGrid title="SUPPORT">
+                <>
+                  <Box>
+                    <Typography variant="body1">
+                      <AnotherLink
+                        href={metaManualUrl.value}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Typography variant="productDetails">
+                          Online Manual
+                        </Typography>
+                      </AnotherLink>
+                      <br />
+                      {metaCareInstructions && (
+                        <>
+                          <AnotherLink
+                            href={metaCareInstructions.value}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <Typography variant="productDetails">
+                              Care Instructions
+                            </Typography>
+                          </AnotherLink>
+                          <br />
+                        </>
+                      )}
+
+                      {metaVideo?.value && (
+                        <>
+                          <AnotherLink
+                            href={metaVideo?.value}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <Typography variant="productDetails">
+                              Video Guide
+                            </Typography>
+                          </AnotherLink>
+                          <br />
+                        </>
+                      )}
+
+                      <AnotherLink
+                        href="https://help.hummingbirdhammocks.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Typography variant="productDetails">
+                          Knowledgebase
+                        </Typography>
+                      </AnotherLink>
+                      <br />
+                      <AnotherLink
+                        href="https://help.hummingbirdhammocks.com/help/1694808310"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Typography variant="productDetails">
+                          Get Help
+                        </Typography>
+                      </AnotherLink>
+                      <br />
+                    </Typography>
+                  </Box>
+                  <Box mt={matches && "30px"}>
+                    <Typography variant="h5">Open Source</Typography>
+                    <br />
+                    <Typography variant="body1">
+                      OSHWA UID ${metaOshwaId.value} <br />
+                      <AnotherLink
+                        href={metaOshwaUrl.value}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Typography variant="productDetails">
+                          OSHWA Certification Listing
+                        </Typography>
+                      </AnotherLink>
+                      <br />
+                      <AnotherLink
+                        href={metaReository.value}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Typography variant="productDetails">
+                          Design Files
+                        </Typography>
+                      </AnotherLink>
+                    </Typography>
+                  </Box>
+                </>
+              </ProductDetailsGrid>
+            )}
+
+            {details && (
+              <>
+                {details.details.map((item, index) => (
+                  <Details
+                    titleFont="20px"
+                    order={index % 2 === 0 && 2}
+                    data={{ title: item.title, htmlText: item.html_text }}
+                  >
+                    <DetailsImage title={item.title} src={item.image_url} />
+                  </Details>
+                ))}
               </>
-            </ProductDetailsGrid>
-          )}
+            )}
 
-          {details && (
-            <>
-              {details.details.map((item, index) => (
-                <Details
-                  titleFont="20px"
-                  order={index % 2 === 0 && 2}
-                  data={{ title: item.title, htmlText: item.html_text }}
-                >
-                  <DetailsImage title={item.title} src={item.image_url} />
-                </Details>
-              ))}
-            </>
-          )}
+            {metaVideo && <YouTubeEmbed url={metaVideo.value} title={title} />}
 
-          {metaVideo && <YouTubeEmbed url={metaVideo.value} title={title} />}
-
-          {recentViewedProducts.length > 1 && (
-            <RecentViewed
-              title="RECENTLY VIEWED PRODUCTS"
-              products={recentViewedProducts.slice(
-                1,
-                recentViewedProducts.length
-              )}
-            />
-          )}
+            {recentViewedProducts.length > 1 && (
+              <RecentViewed
+                title="RECENTLY VIEWED PRODUCTS"
+                products={recentViewedProducts.slice(
+                  1,
+                  recentViewedProducts.length
+                )}
+              />
+            )}
+          </WrapSection>
         </MainWrapper>
       </TemplateSection>
     </Layout>

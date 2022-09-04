@@ -16,6 +16,7 @@ import {
   Close,
   Delete,
 } from "@mui/icons-material"
+import window from "global"
 
 import { useUICartContext, CartContext } from "contexts"
 import { OnButton } from "components"
@@ -169,15 +170,30 @@ export const CartDrawer = () => {
         }}
         p="15px 25px 30px  25px"
       >
-        <OnButton
-          variant="outlined"
-          sx={{
-            height: 40,
-          }}
-          fullWidth
-        >
-          Proceed to Checkout
-        </OnButton>
+        {!checkout?.lineItems.length ? (
+          <OnButton
+            variant="outlined"
+            sx={{
+              height: 40,
+            }}
+            fullWidth
+          >
+            Your Cart is Empty!
+          </OnButton>
+        ) : (
+          <OnButton
+            variant="outlined"
+            sx={{
+              height: 40,
+            }}
+            fullWidth
+            onClick={() => {
+              window.location.href = checkout.webUrl
+            }}
+          >
+            Proceed to Checkout
+          </OnButton>
+        )}
       </Box>
     </Drawer>
   )

@@ -132,10 +132,10 @@ export function FeaturedProduct() {
                   {`$${item.priceRangeV2.minVariantPrice.amount} ${item.priceRangeV2.minVariantPrice.currencyCode}`}
                 </Typography>
 
-                <AddToCart
+                {/* <AddToCart
                   variantId={item.variants[0].shopifyId}
                   available={item.variants.availableForSale}
-                />
+                /> */}
               </TextBox>
             </ImageBox>
           </SwiperSlide>

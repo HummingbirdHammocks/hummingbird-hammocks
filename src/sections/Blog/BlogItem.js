@@ -4,7 +4,7 @@ import { Box, Typography, useMediaQuery } from "@mui/material"
 
 import { Link, LinkButton } from "components"
 
-export const BlogItem = ({ item }) => {
+export const BlogItem = ({ item, description }) => {
   const matches = useMediaQuery("(max-width:900px)")
   return (
     <Box key={item.id}>
@@ -21,13 +21,15 @@ export const BlogItem = ({ item }) => {
             {item.title}
           </Typography>
           <Typography variant="collectionName">{item.published_at}</Typography>
-          <Typography m="20px 0" variant="body1" color="black">
-            <div
-              dangerouslySetInnerHTML={{
-                __html: item.summary_html,
-              }}
-            />
-          </Typography>
+          {description && (
+            <Typography m="20px 0" variant="body1" color="black">
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: item.summary_html,
+                }}
+              />
+            </Typography>
+          )}
         </Link>
       </Box>
 
