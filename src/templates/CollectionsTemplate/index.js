@@ -106,14 +106,17 @@ const CollectionsPage = ({ data }) => {
 
   const [theProducts, setTheProducts] = useState(null)
   const [productTypeChecked, setProductTypeChecked] = useState([])
-  // const [colorChecked, setColorChecked] = useState([])
   const [collapse, setCollapse] = useState({
     collections: false,
     price: false,
     productType: false,
     recentViewed: false,
+    availability: false,
   })
-  const [filterOptions, setFilterOptions] = useState({ sort: "relevance" })
+  const [filterOptions, setFilterOptions] = useState({
+    sort: "relevance",
+    inStock: false,
+  })
   const [selectedPrice, setSelectedPrice] = useState([
     minHeightPrice,
     heightPrice,
@@ -145,6 +148,14 @@ const CollectionsPage = ({ data }) => {
     setFilterOptions({
       ...filterOptions,
       productType: newChecked.map(item => item),
+    })
+  }
+
+  //Handle Product In Stock Checked
+  const handleProductInStock = () => {
+    setFilterOptions({
+      ...filterOptions,
+      inStock: !filterOptions.inStock,
     })
   }
 
@@ -208,7 +219,9 @@ const CollectionsPage = ({ data }) => {
 
   // Product Filter by Availability
   const filterByAvailability = data => {
-    return data.filter(item => item.variants[0].availableForSale === true)
+    return data.filter(item =>
+      item.variants.some(i => i.availableForSale === true)
+    )
   }
 
   // Product Filter by Price
@@ -223,6 +236,8 @@ const CollectionsPage = ({ data }) => {
   // Filter Function
   const filterFunction = () => {
     let filterProducts = [...products]
+
+    console.log(products)
 
     // Filter for Product Type
     if (filterOptions?.productType?.length > 0) {
@@ -321,32 +336,54 @@ const CollectionsPage = ({ data }) => {
             All the filter option that selected
           
            */}
-            {filterOptions?.productType?.length > 0 && (
-              <Box
-                sx={{ background: "#e3e3e3", borderRadius: "20px" }}
-                padding="20px"
-              >
-                <Typography variant="h6">Selected Filters</Typography>
-                <List>
-                  {filterOptions?.productType?.map((item, index) => (
-                    <ListItem
-                      secondaryAction={
-                        <IconButton
-                          onClick={handleProductTypeToggle(item)}
-                          edge="end"
-                          aria-label="delete"
-                        >
-                          <Delete />
-                        </IconButton>
-                      }
-                      key={index}
-                    >
-                      <ListItemText primary={item} />
-                    </ListItem>
-                  ))}
-                </List>
-              </Box>
-            )}
+
+            <Box
+              sx={{
+                background: "#e3e3e3",
+                borderRadius: "20px",
+                display:
+                  filterOptions.inStock ||
+                  filterOptions?.productType?.length > 0
+                    ? "block"
+                    : "none",
+              }}
+              padding="20px"
+            >
+              <Typography variant="h6">Selected Filters</Typography>
+              <List>
+                {filterOptions?.productType?.map((item, index) => (
+                  <ListItem
+                    secondaryAction={
+                      <IconButton
+                        onClick={handleProductTypeToggle(item)}
+                        edge="end"
+                        aria-label="delete"
+                      >
+                        <Delete />
+                      </IconButton>
+                    }
+                    key={index}
+                  >
+                    <ListItemText primary={item} />
+                  </ListItem>
+                ))}
+                {filterOptions?.inStock && (
+                  <ListItem
+                    secondaryAction={
+                      <IconButton
+                        onClick={handleProductInStock}
+                        edge="end"
+                        aria-label="delete"
+                      >
+                        <Delete />
+                      </IconButton>
+                    }
+                  >
+                    <ListItemText primary="In Stock" />
+                  </ListItem>
+                )}
+              </List>
+            </Box>
 
             <List
               sx={{
@@ -432,6 +469,51 @@ const CollectionsPage = ({ data }) => {
                     </ListItem>
                   )
                 })}
+              </Collapse>
+              <Divider />
+
+              {/* 
+          
+              Product Availbility
+          
+            */}
+              <ListItemButton onClick={() => handleCollapse("availbility")}>
+                <ListItemText
+                  secondaryTypographyProps={{
+                    fontSize: 20,
+                    letterSpacing: 1.2,
+                    fontWeight: 400,
+                    textTransform: "uppercase",
+                    color: "#000",
+                  }}
+                  secondary="AVAILABILITY"
+                />
+                {collapse["availbility"] ? <ExpandLess /> : <ExpandMore />}
+              </ListItemButton>
+              <Collapse
+                in={collapse["availbility"]}
+                timeout="auto"
+                unmountOnExit
+              >
+                <ListItem m="20px" disablePadding>
+                  <ListItemButton
+                    onClick={handleProductInStock}
+                    role={undefined}
+                    dense
+                  >
+                    <ListItemIcon>
+                      <Checkbox
+                        edge="start"
+                        checked={filterOptions?.inStock}
+                        onClick={handleProductInStock}
+                        tabIndex={-1}
+                        disableRipple
+                        inputProps={{ "aria-labelledby": "controlled" }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText primary="In Stock" />
+                  </ListItemButton>
+                </ListItem>
               </Collapse>
               <Divider />
               {/*
