@@ -14,7 +14,6 @@ import {
   Link,
   AnotherLink,
   Socials,
-  SoldOutWrap,
 } from "components"
 import { CartContext, RecentViewedContext } from "contexts"
 import Color from "utils/color"
@@ -128,6 +127,8 @@ const ProductPage = ({ data, pageContext }) => {
   // Product Details
   let details
 
+  console.log(metaDetails)
+
   if (metaDetails?.value) details = JSON.parse(metaDetails.value)
 
   // Variants & Product Image
@@ -188,8 +189,6 @@ const ProductPage = ({ data, pageContext }) => {
     getProductById(shopifyId).then(result => {
       setProduct(result)
 
-      console.log(result)
-
       if (result?.variants) {
         const resultVariant =
           result.variants.find(({ id }) => id === variantId) ||
@@ -198,8 +197,6 @@ const ProductPage = ({ data, pageContext }) => {
         const staticVariant =
           data.shopifyProduct.variants.find(({ id }) => id === variantId) ||
           data.shopifyProduct.variants[0]
-
-        console.log(staticVariant)
 
         setSelectedVariant(resultVariant)
         setSelectedVariantStatic(staticVariant)
@@ -228,6 +225,7 @@ const ProductPage = ({ data, pageContext }) => {
     })
   }, [variantId])
 
+  console.log(details)
   // console.log(product)
   // console.log(variantSizeName)
   // console.log(selectedVariant)
