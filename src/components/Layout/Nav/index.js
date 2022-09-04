@@ -125,7 +125,7 @@ const AppbarDesktop = ({
         border: "1px solid rgba(255, 255, 255, 0.3)",
         borderBottom: "2px solid rgb(65, 64, 66)",
         transition: "0.3s",
-        zIndex: "1200",
+        zIndex: "1199",
       }}
     >
       <MainWrapper>

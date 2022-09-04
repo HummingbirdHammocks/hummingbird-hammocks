@@ -9,7 +9,7 @@ const TopBarWrapper = styled(Box)(({ theme }) => ({
   background: "rgb(41, 85, 36)",
   position: "fixed",
   top: 0,
-  zIndex: 1201,
+  zIndex: 1200,
   width: "100%",
 }))
 

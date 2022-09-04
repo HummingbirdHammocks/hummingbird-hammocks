@@ -3,7 +3,7 @@ import { StaticImage } from "gatsby-plugin-image"
 import { Box } from "@mui/material"
 
 import { Seo, Layout, MainWrapper } from "components"
-import { Hero, Info, Details, FeaturedProduct } from "sections"
+import { Hero, Info, Details, FeaturedProduct, OutDoorArticles } from "sections"
 
 const heroData = {
   position: "center",
@@ -187,6 +187,7 @@ const IndexPage = () => (
         placeholder="blurred"
       />
     </Hero>
+    <OutDoorArticles />
   </Layout>
 )
 
