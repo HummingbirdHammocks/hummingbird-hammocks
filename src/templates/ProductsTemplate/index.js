@@ -199,6 +199,8 @@ const ProductPage = ({ data, pageContext }) => {
           data.shopifyProduct.variants.find(({ id }) => id === variantId) ||
           data.shopifyProduct.variants[0]
 
+        console.log(staticVariant)
+
         setSelectedVariant(resultVariant)
         setSelectedVariantStatic(staticVariant)
 
@@ -365,6 +367,7 @@ const ProductPage = ({ data, pageContext }) => {
                       mb: "20px",
                       textDecoration: "underline #414042 1px",
                       textUnderlineOffset: "20px",
+                      lineHeight: "80px",
                     }}
                     variant="h1"
                     color="#414042"
@@ -586,9 +589,10 @@ const ProductPage = ({ data, pageContext }) => {
             {/* <Reviews title={title} handle={handle} /> */}
 
             {/* Main Product Details */}
-            {selectedVariantStatic && (
+            {selectedVariantStatic?.metafields.length < 1 && (
               <SPECS metas={selectedVariantStatic.metafields} />
             )}
+
             {metaMain && metaIncluded && (
               <ProductDetailsGrid
                 title="FEATURES"

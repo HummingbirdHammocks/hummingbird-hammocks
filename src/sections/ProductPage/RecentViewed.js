@@ -3,7 +3,9 @@ import { Typography, styled, Box, Divider } from "@mui/material"
 
 import { ProductCard } from "sections"
 
-const Wrapper = styled("section")(() => ({}))
+const Wrapper = styled("section")(() => ({
+  marginTop: "70px",
+}))
 
 const ProductGrid = styled(Box)(({ theme }) => ({
   display: "grid",
