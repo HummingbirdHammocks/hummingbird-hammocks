@@ -237,8 +237,6 @@ const CollectionsPage = ({ data }) => {
   const filterFunction = () => {
     let filterProducts = [...products]
 
-    console.log(products)
-
     // Filter for Product Type
     if (filterOptions?.productType?.length > 0) {
       filterProducts = filterByProductType(
@@ -269,6 +267,8 @@ const CollectionsPage = ({ data }) => {
     filterFunction()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterOptions])
+
+  console.log(filterOptions)
 
   return (
     <Layout>
@@ -343,6 +343,7 @@ const CollectionsPage = ({ data }) => {
                 borderRadius: "20px",
                 display:
                   filterOptions.inStock ||
+                  filterOptions.price ||
                   filterOptions?.productType?.length > 0
                     ? "block"
                     : "none",
@@ -367,6 +368,7 @@ const CollectionsPage = ({ data }) => {
                     <ListItemText primary={item} />
                   </ListItem>
                 ))}
+
                 {filterOptions?.inStock && (
                   <ListItem
                     secondaryAction={
@@ -380,6 +382,24 @@ const CollectionsPage = ({ data }) => {
                     }
                   >
                     <ListItemText primary="In Stock" />
+                  </ListItem>
+                )}
+
+                {filterOptions?.price && (
+                  <ListItem
+                    secondaryAction={
+                      <IconButton
+                        onClick={handleClearPriceFilterClick}
+                        edge="end"
+                        aria-label="delete"
+                      >
+                        <Delete />
+                      </IconButton>
+                    }
+                  >
+                    <ListItemText
+                      primary={`Price [$${selectedPrice[0]} - $${selectedPrice[1]}]`}
+                    />
                   </ListItem>
                 )}
               </List>
