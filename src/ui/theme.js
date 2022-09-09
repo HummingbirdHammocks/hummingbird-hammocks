@@ -159,7 +159,7 @@ const theme = {
       fontWeight: 400,
       fontFamily: rawTheme.typography.fontFamily,
       color: rawTheme.palette.dark,
-      textTransform: "capitalize",
+      textTransform: "uppercase",
     },
 
     productDetails: {
