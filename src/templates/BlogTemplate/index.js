@@ -15,6 +15,8 @@ import {
 } from "@mui/material"
 import { ExpandLess, ExpandMore } from "@mui/icons-material"
 
+import { useTopBannerContext } from "contexts"
+
 import { Seo, Layout, MainWrapper, Link, OnButton } from "components"
 
 import { BlogItem } from "sections"
@@ -59,7 +61,8 @@ const EmailBox = styled(Box)(() => ({
 
 const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
   const matches = useMediaQuery("(max-width:900px)")
-  console.log(articles)
+
+  const { banner } = useTopBannerContext()
 
   const [collapse, setCollapse] = useState(matches ? false : true)
 
@@ -77,7 +80,7 @@ const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
   return (
     <Layout>
       <Seo title="Outdoor Articles" />
-      <Box mt={matches ? "40px" : "130px"}>
+      <Box mt={matches ? "40px" : "70px"} pt={!banner ? "10px" : "0"}>
         <MainWrapper>
           <Typography
             sx={{ margin: "20px 10px" }}

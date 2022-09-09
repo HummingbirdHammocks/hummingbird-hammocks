@@ -19,7 +19,7 @@ import {
 import window from "global"
 
 import { useUICartContext, CartContext } from "contexts"
-import { OnButton } from "components"
+import { OnButton, LinkButton } from "components"
 
 export const CartDrawer = () => {
   const matches = useMediaQuery("(max-width:900px)")
@@ -181,18 +181,36 @@ export const CartDrawer = () => {
             Your Cart is Empty!
           </OnButton>
         ) : (
-          <OnButton
-            variant="outlined"
-            sx={{
-              height: 40,
-            }}
-            fullWidth
-            onClick={() => {
-              window.location.href = checkout.webUrl
-            }}
-          >
-            Proceed to Checkout
-          </OnButton>
+          <>
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              mb="10px"
+            >
+              <LinkButton
+                background="#34542a"
+                sx={{ width: "100%", textAlign: "center" }}
+                to="/cart"
+                onClick={() => setCartOpen(!cartOpen)}
+              >
+                Go to Cart Page
+              </LinkButton>
+            </Box>
+
+            <OnButton
+              variant="outlined"
+              sx={{
+                height: 40,
+              }}
+              fullWidth
+              onClick={() => {
+                window.location.href = checkout.webUrl
+              }}
+            >
+              Proceed to Checkout
+            </OnButton>
+          </>
         )}
       </Box>
     </Drawer>

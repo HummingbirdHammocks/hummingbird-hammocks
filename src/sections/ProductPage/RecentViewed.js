@@ -1,6 +1,7 @@
-import React from "react"
+import React, { useContext } from "react"
 import { Typography, styled, Box, Divider } from "@mui/material"
 
+import { RecentViewedContext } from "contexts"
 import { ProductCard } from "sections"
 
 const Wrapper = styled("section")(() => ({
@@ -16,7 +17,9 @@ const ProductGrid = styled(Box)(({ theme }) => ({
   },
 }))
 
-export const RecentViewed = ({ products, title }) => {
+export const RecentViewed = ({ title }) => {
+  const { recentViewedProducts } = useContext(RecentViewedContext)
+
   return (
     <Wrapper>
       <Typography pb="30px" textAlign="center" variant="h5">
@@ -27,7 +30,7 @@ export const RecentViewed = ({ products, title }) => {
         <ProductCard
           minHeight="220px"
           mdMinHeight="300px"
-          products={products}
+          products={recentViewedProducts.slice(1, recentViewedProducts.length)}
         />
       </ProductGrid>
     </Wrapper>

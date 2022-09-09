@@ -127,8 +127,6 @@ const ProductPage = ({ data, pageContext }) => {
   // Product Details
   let details
 
-  console.log(metaDetails)
-
   if (metaDetails?.value) details = JSON.parse(metaDetails.value)
 
   // Variants & Product Image
@@ -726,13 +724,7 @@ const ProductPage = ({ data, pageContext }) => {
             {metaVideo && <YouTubeEmbed url={metaVideo.value} title={title} />}
 
             {recentViewedProducts.length > 1 && (
-              <RecentViewed
-                title="RECENTLY VIEWED PRODUCTS"
-                products={recentViewedProducts.slice(
-                  1,
-                  recentViewedProducts.length
-                )}
-              />
+              <RecentViewed title="RECENTLY VIEWED PRODUCTS" />
             )}
           </WrapSection>
         </MainWrapper>
