@@ -40,12 +40,16 @@ export const OrderDetails = ({ data, userLogout, returnAccount }) => {
     name,
     processedAt,
     totalPrice,
-    // subTotalPrice,
+    subtotalPrice,
+    totalShippingPrice,
+    currentTotalTax,
     financialStatus,
     fulfillmentStatus,
     lineItems,
     shippingAddress,
   } = data.node
+
+  console.log(data.node)
 
   return (
     <Box padding={!matches ? "0 200px" : "0"}>
@@ -55,7 +59,7 @@ export const OrderDetails = ({ data, userLogout, returnAccount }) => {
         display={matches ? "inline-block" : "flex"}
       >
         <Typography m={matches && "10px 0"} variant="h2">
-          Account Details
+          Order Details
         </Typography>
         <Box>
           <OnButton
@@ -122,11 +126,11 @@ export const OrderDetails = ({ data, userLogout, returnAccount }) => {
                     <TableCell scope="row">{title}</TableCell>
                     <TableCell align="right">{variant.sku}</TableCell>
                     <TableCell align="right">
-                      {originalTotalPrice.amount}
+                      ${originalTotalPrice.amount}
                     </TableCell>
                     <TableCell align="right">{quantity}</TableCell>
                     <TableCell align="right">
-                      {discountedTotalPrice.amount}
+                      ${discountedTotalPrice.amount}
                     </TableCell>
                   </TableRow>
                 )
@@ -137,9 +141,39 @@ export const OrderDetails = ({ data, userLogout, returnAccount }) => {
                 }}
               >
                 <TableCell align="right" colSpan={4}>
-                  Subtotal
+                  Sub Total
                 </TableCell>
-                <TableCell align="right">{totalPrice}</TableCell>
+                <TableCell align="right">${subtotalPrice}</TableCell>
+              </TableRow>
+              <TableRow
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                }}
+              >
+                <TableCell align="right" colSpan={4}>
+                  Shipping
+                </TableCell>
+                <TableCell align="right">${totalShippingPrice}</TableCell>
+              </TableRow>
+              <TableRow
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                }}
+              >
+                <TableCell align="right" colSpan={4}>
+                  Total Tax
+                </TableCell>
+                <TableCell align="right">${currentTotalTax.amount}</TableCell>
+              </TableRow>
+              <TableRow
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                }}
+              >
+                <TableCell align="right" colSpan={4}>
+                  Total
+                </TableCell>
+                <TableCell align="right">${totalPrice}</TableCell>
               </TableRow>
             </TableBody>
           </Table>

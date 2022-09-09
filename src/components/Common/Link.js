@@ -30,7 +30,7 @@ export const LinkButton = styled(GatsbyLink)(
     transition: "0.3s",
 
     "&:hover": {
-      background: "transparant",
+      background: "#34542a",
       color: "#fff",
       border: "1px solid #34542a",
     },

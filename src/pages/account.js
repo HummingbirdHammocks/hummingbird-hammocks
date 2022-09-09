@@ -217,6 +217,10 @@ const CUSTOMER_INFO = gql`
               name
               zip
             }
+            currentTotalTax {
+              amount
+            }
+            totalShippingPrice
             lineItems(first: 10) {
               edges {
                 node {

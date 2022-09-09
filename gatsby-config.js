@@ -1,7 +1,8 @@
 require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
-});
-const queries = require("./src/utils/algolia/queries")
+})
+const productsQueries = require("./src/utils/algolia/productsQueries")
+const articlesQueries = require("./src/utils/algolia/articlesQueries")
 
 module.exports = {
   siteMetadata: {
@@ -78,7 +79,7 @@ module.exports = {
       options: {
         appId: process.env.GATSBY_ALGOLIA_APP_ID,
         apiKey: process.env.GATSBY_ALGOLIA_ADMIN_KEY,
-        queries,
+        productsQueries,
         chunkSize: 10000, // default: 1000
       },
     },
