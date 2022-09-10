@@ -59,7 +59,7 @@ export default function Search() {
               return <ProductItem hit={item} components={components} />
             },
             noResults() {
-              return "No Matching Posts"
+              return "No Matching Products!"
             },
           },
         },
