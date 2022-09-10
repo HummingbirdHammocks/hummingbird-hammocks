@@ -41,3 +41,12 @@ body.dark {
 .aa-SubmitIcon {
   color: #414042;
 }
+
+.articles .aa-DetachedSearchButtonPlaceholder {
+  display: block;
+  font-family: "Poppins", sans-serif;
+}
+
+.articles .aa-DetachedSearchButton {
+  border: 1px solid #ccc;
+}

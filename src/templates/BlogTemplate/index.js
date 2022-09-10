@@ -16,10 +16,9 @@ import {
 import { ExpandLess, ExpandMore } from "@mui/icons-material"
 
 import { useTopBannerContext } from "contexts"
-
 import { Seo, Layout, MainWrapper, Link, OnButton } from "components"
-
 import { BlogItem } from "sections"
+import ArtclesSearch from "../../utils/algolia/articlesSearch"
 
 const ArticlesWrapper = styled(Box)(({ theme }) => ({
   padding: "0 15px 10px 15px",
@@ -113,6 +112,9 @@ const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
             pl={matches ? "0" : "30px"}
             borderLeft={matches ? "0" : "1px solid #cccc"}
           >
+            <Box className="articles">
+              <ArtclesSearch />
+            </Box>
             <Box>
               <ListItemButton onClick={() => setCollapse(!collapse)}>
                 <ListItemText

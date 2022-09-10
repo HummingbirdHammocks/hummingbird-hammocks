@@ -2,7 +2,6 @@ const query = `{
   allArticles {
     nodes {
       title
-      handle
       id
       tags
       localFile {
@@ -10,9 +9,23 @@ const query = `{
           gatsbyImageData(height: 96, width: 96)
         }
       }
+      handle
     }
   }
-  `
+  allShopifyProduct {
+    nodes {
+      id
+      title
+      description
+      featuredImage {
+        gatsbyImageData
+        altText
+      }
+      handle
+    }
+  }
+}
+`
 
 const flatten = arr =>
   arr.map(({ data, ...rest }) => ({
@@ -25,6 +38,12 @@ const settings = {
 }
 
 const queries = [
+  {
+    query: query,
+    transformer: ({ data }) => flatten(data.allShopifyProduct.nodes),
+    indexName: `dev_products`,
+    settings: settings,
+  },
   {
     query: query,
     transformer: ({ data }) => flatten(data.allArticles.nodes),
