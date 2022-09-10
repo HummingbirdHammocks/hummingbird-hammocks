@@ -4,7 +4,7 @@ import { Navigation, Autoplay, Pagination } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { GatsbyImage } from "gatsby-plugin-image"
 
-import { AddToCart, Link } from "components"
+import { Link } from "components"
 import { ProductContext } from "contexts"
 
 const Wrapper = styled("section")(({ theme }) => ({

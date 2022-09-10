@@ -74,8 +74,8 @@ export function OutDoorArticles() {
         </Typography>
 
         <BlogGrid>
-          {data.allArticles.nodes.map(item => (
-            <BlogItem item={item} />
+          {data.allArticles.nodes.map((item, index) => (
+            <BlogItem key={index} item={item} />
           ))}
         </BlogGrid>
       </MainWrapper>
