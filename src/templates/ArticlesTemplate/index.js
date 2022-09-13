@@ -81,7 +81,7 @@ const Content = styled(Box)(({ theme }) => ({
 const Articles = ({ data: { articles }, pageContext: { next, prev } }) => {
   const matches = useMediaQuery("(max-width:900px)")
 
-  const { title, published_at, author, body_html, handle, localFile } = articles
+  const { title, published_at, /* author, */ body_html, /* handle, */ localFile } = articles
   const url = typeof window !== "undefined" ? window.location.href : ""
 
   return (

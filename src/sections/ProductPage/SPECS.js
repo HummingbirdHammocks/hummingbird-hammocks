@@ -3,7 +3,7 @@ import { Box, Typography, useMediaQuery } from "@mui/material"
 
 import { ProductDetailsGrid } from "sections"
 
-export const SPECS = ({ metas }) => {
+export const Specs = ({ metas }) => {
   const matches = useMediaQuery("(max-width:900px)")
   const width = []
   const length = []

@@ -39,12 +39,12 @@ const ForgetPage = () => {
     logout,
   } = useContext(UserContext)
 
-  const [forgetPassword, { loading, error }] = useMutation(
+  const [forgetPassword, { /* loading, */ error }] = useMutation(
     CUSTOMER_PASSWORD_FORGET
   )
 
   const handleForgetPassword = async ({ email }) => {
-    const { data } = await forgetPassword({
+    /* const { data } = */ await forgetPassword({
       variables: {
         email,
       },
@@ -92,7 +92,7 @@ const ForgetPage = () => {
                   <Box>
                     <Typography>Reset Password</Typography>
                     <SimpleForm onSubmit={handleSubmit(handleForgetPassword)}>
-                      <label for="email">Email</label>
+                      <label htmlFor="email">Email</label>
                       <input
                         {...register("email", {
                           required: true,

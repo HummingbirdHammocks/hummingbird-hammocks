@@ -1,12 +1,12 @@
 import React from "react"
 import { useQuery, gql } from "@apollo/client"
-import { Typography, Box } from "@mui/material"
+import { Typography } from "@mui/material"
 
 import { MiddleSpinner } from "components"
 
 export const Inventory = ({ handle, id }) => {
   // Get Variants Quantity
-  const { data, loading, error } = useQuery(VARIANT_INFO, {
+  const { data, loading/* , error */ } = useQuery(VARIANT_INFO, {
     variables: {
       handle,
     },

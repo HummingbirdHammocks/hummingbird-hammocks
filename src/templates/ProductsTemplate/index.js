@@ -19,14 +19,14 @@ import { CartContext, RecentViewedContext } from "contexts"
 import Color from "utils/color"
 import {
   ProductQuantityAdder,
-  FBT,
+  Fbt,
   ProductDetailsGrid,
   RecentViewed,
   // Reviews,
   YouTubeEmbed,
   Details,
   DetailsImage,
-  SPECS,
+  Specs,
   SoldOutIcon,
   Inventory,
 } from "sections"
@@ -574,7 +574,7 @@ const ProductPage = ({ data, pageContext }) => {
             </MainGridWrapper>
 
             {selectedVariant && metaFBT && (
-              <FBT
+              <Fbt
                 fbtData={metaFBT.value}
                 product={product}
                 currentVariant={selectedVariant}
@@ -586,7 +586,7 @@ const ProductPage = ({ data, pageContext }) => {
 
             {/* Main Product Details */}
             {selectedVariantStatic?.metafields.length < 1 && (
-              <SPECS metas={selectedVariantStatic.metafields} />
+              <Specs metas={selectedVariantStatic.metafields} />
             )}
 
             {metaMain && metaIncluded && (

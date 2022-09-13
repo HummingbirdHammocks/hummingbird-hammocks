@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { GatsbyImage } from "gatsby-plugin-image"
 import { Box, Typography, styled } from "@mui/material"
 
-import { Link, AddToCart, MiddleSpinner, SoldOutWrap } from "components"
+import { Link, MiddleSpinner, SoldOutWrap } from "components"
 // import JudgeMe from "utils/judgeMe"
 import { useEffect } from "react"
 

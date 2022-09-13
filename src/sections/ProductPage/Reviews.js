@@ -13,7 +13,8 @@ export const Reviews = ({ handle, title }) => {
 
   useEffect(() => {
     setReviews(reviewWidget.getReviewWidget().then(data => setReviews(data)))
-  }, [])
+  }, [reviewWidget])
+
   return (
     <Wrapper>
       {reviews && (

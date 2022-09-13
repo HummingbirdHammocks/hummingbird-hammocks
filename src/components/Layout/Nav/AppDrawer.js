@@ -33,7 +33,6 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
       <Box
         sx={{
           display: "flex",
-          padding: "0 8px",
           justifyContent: "space-between",
           borderBottom: "1px solid #0c0a0a1f",
           padding: "10px 0",

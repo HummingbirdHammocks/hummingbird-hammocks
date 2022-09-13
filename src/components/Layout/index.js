@@ -20,7 +20,7 @@ export const Layout = ({ children }) => {
     logout,
   } = useContext(UserContext)
 
-  const { data, loading, error } = useQuery(CUSTOMER_NAME, {
+  const { data, loading/* , error */ } = useQuery(CUSTOMER_NAME, {
     variables: {
       customerAccessToken,
     },

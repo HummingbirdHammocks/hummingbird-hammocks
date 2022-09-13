@@ -39,7 +39,7 @@ const RegisterPage = () => {
     logout,
   } = useContext(UserContext)
 
-  const [customerRegister, { loading, error }] = useMutation(CUSTOMER_REGISTER)
+  const [customerRegister/* , { loading, error } */] = useMutation(CUSTOMER_REGISTER)
 
   const handleRegister = async ({ firstName, lastName, email, password }) => {
     const { data } = await customerRegister({
@@ -93,7 +93,7 @@ const RegisterPage = () => {
                 <Box padding="30px" justifyContent="center" display="flex">
                   <Box>
                     <SimpleForm onSubmit={handleSubmit(handleRegister)}>
-                      <label for="firstName">First Name</label>
+                      <label htmlFor="firstName">First Name</label>
                       <input
                         {...register("firstName", {
                           required: true,
@@ -101,9 +101,9 @@ const RegisterPage = () => {
                       />
                       {errors.firstName?.type === "required" &&
                         "First Name is required!"}
-                      <label for="lastName">Last Name</label>
+                      <label htmlFor="lastName">Last Name</label>
                       <input {...register("lastName")} />
-                      <label for="email">Email</label>
+                      <label htmlFor="email">Email</label>
                       <input
                         {...register("email", {
                           required: true,
@@ -119,7 +119,7 @@ const RegisterPage = () => {
                       )}
                       {errors.email?.type === "required" &&
                         "Email is required!"}
-                      <label for="password">Password</label>
+                      <label htmlFor="password">Password</label>
                       <input
                         {...register("password", {
                           required: true,

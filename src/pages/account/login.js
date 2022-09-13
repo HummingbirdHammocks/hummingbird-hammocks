@@ -41,7 +41,7 @@ const LoginPage = () => {
     logout,
   } = useContext(UserContext)
 
-  const [customerLogin, { loading, error }] = useMutation(CUSTOMER_LOGIN)
+  const [customerLogin, { loading/* , error */ }] = useMutation(CUSTOMER_LOGIN)
 
   const handleLogin = async ({ email, password }) => {
     const { data } = await customerLogin({
@@ -88,7 +88,7 @@ const LoginPage = () => {
                 <Box padding="30px" justifyContent="center" display="flex">
                   <Box>
                     <SimpleForm onSubmit={handleSubmit(handleLogin)}>
-                      <label for="email">Email</label>
+                      <label htmlFor="email">Email</label>
                       <input
                         {...register("email", {
                           required: true,
@@ -104,7 +104,7 @@ const LoginPage = () => {
                       )}
                       {errors.email?.type === "required" &&
                         "Email is required!"}
-                      <label for="password">Password</label>
+                      <label htmlFor="password">Password</label>
                       <input
                         {...register("password", {
                           required: true,

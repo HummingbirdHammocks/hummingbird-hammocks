@@ -29,7 +29,7 @@ const ItemDetails = styled(Box)(({ theme }) => ({
   alignItems: "center",
 }))
 
-export const FBT = ({ currentVariant, product, fbtData }) => {
+export const Fbt = ({ currentVariant, product, fbtData }) => {
   const matches = useMediaQuery("(max-width:900px)")
   const [data, setData] = useState(null)
   const [selectedVariant, setSelectedVariant] = useState(null)
@@ -57,7 +57,7 @@ export const FBT = ({ currentVariant, product, fbtData }) => {
           setAllData()
         }
       })
-    })
+    }, [fbtData, getProductById, product]);
 
     function setAllData() {
       items = [product].concat(items)
@@ -75,15 +75,15 @@ export const FBT = ({ currentVariant, product, fbtData }) => {
 
       variants[0] = firstVariant[0].available
         ? {
-            ...firstVariant[0],
-            selected: true,
-          }
+          ...firstVariant[0],
+          selected: true,
+        }
         : items[0].variants.length >= 1
-        ? {
+          ? {
             ...items[0].variants[0],
             selected: true,
           }
-        : { ...product.variants[0], selected: false }
+          : { ...product.variants[0], selected: false }
 
       setData(items)
       setSelectedVariant(variants)
@@ -163,6 +163,7 @@ export const FBT = ({ currentVariant, product, fbtData }) => {
                       </>
                     )
                   }
+                  return null;
                 })}
               </Box>
 
