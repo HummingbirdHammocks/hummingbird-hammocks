@@ -110,7 +110,7 @@ const customerSupport = [
 
 const companyLink = [
   { id: 1, name: "About", url: "/explore" },
-  { id: 2, name: "Affiliate Program", url: "/explore" },
+  { id: 2, name: "Affiliate Program", url: "/affiliate-program" },
   { id: 3, name: "Pro Deal", url: "/professional-and-educational-discounts" },
   { id: 4, name: "California Data Privacy", url: "/california-data-privacy" },
   { id: 5, name: "Shipping Policy", url: "/shipping-policy" },

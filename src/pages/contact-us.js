@@ -113,7 +113,7 @@ const ContactUsPage = () => (
           />
         </GridItem>
         <GridItem
-          buttonLink="/"
+          buttonLink="/affiliate-program"
           buttonText="Get Started"
           title="AFFILIATE PROGRAM"
           subText="We are a small team that relies heavily on our faithful community spreading the news about what we do. Join our team and earn commissions on the future happy campers you send our way!"
