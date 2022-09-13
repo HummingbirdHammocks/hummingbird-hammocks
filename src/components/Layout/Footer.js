@@ -236,12 +236,6 @@ const Footer = () => {
               alignItems="center"
               width="50%"
             >
-              {/* <StaticImage
-                src="../../assets/images/ecology.png"
-                alt="Hummingbird Hammocks"
-                placeholder="blurred"
-                height={130}
-              /> */}
               <a
                 href="https://ecologi.com/hummingbirdhammocks"
                 target="_blank"
