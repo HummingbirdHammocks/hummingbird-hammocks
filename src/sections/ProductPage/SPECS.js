@@ -11,6 +11,8 @@ export const Specs = ({ metas }) => {
   let height
   let weightRating
 
+  console.log(metas)
+
   for (let i = 0; i < metas.length; i++) {
     if (metas[i].key === "width") {
       width.push(metas[i].value)
