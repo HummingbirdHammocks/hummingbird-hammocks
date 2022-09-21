@@ -252,6 +252,7 @@ const Footer = () => {
               alignItems="center"
               width="50%"
             >
+              {/* <div className="jdgm-medals-wrapper"></div> */}
               <StaticImage
                 src="../../assets/images/judge-me.png"
                 alt="Hummingbird Hammocks"
