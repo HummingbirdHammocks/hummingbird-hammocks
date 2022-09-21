@@ -60,7 +60,7 @@ export function FeaturedProduct() {
   const { featuredProducts } = useContext(ProductContext)
   const matches = useMediaQuery("(max-width:1100px)")
 
-  console.log(featuredProducts)
+  /* console.log(featuredProducts) */
 
   return (
     <Wrapper>
