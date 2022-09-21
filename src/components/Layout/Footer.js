@@ -101,11 +101,6 @@ const customerSupport = [
     url: "https://help.hummingbirdhammocks.com/",
   },
   { id: 4, name: "Returns", url: "https://returns.hummingbirdhammocks.com/" },
-  {
-    id: 5,
-    name: "Keep Up To Date",
-    url: "https://sendy.hummingbirdhammocks.com/subscription?f=iEAlSD21JUqD892PZzrOO1f1RJJ3rg76387TEzbKAkc1cDHlzWGLOQQZZVBe2763uKjfcZ",
-  },
 ]
 
 const companyLink = [
@@ -270,7 +265,7 @@ const Footer = () => {
         <Copyright>
           <Box textAlign={matches && "center"} pt="20px">
             <Typography color="white.main" variant="navUser">
-              © 2022 Hummingbird Hammocks. |{" "}
+              © {new Date().getFullYear()} Hummingbird Hammocks |{" "}
               <Link
                 sx={{
                   textDecoration: "none",
@@ -298,7 +293,6 @@ const Footer = () => {
               >
                 Terms & Conditions
               </Link>
-              .
             </Typography>
           </Box>
           <Box textAlign={matches && "center"} pt="20px">
