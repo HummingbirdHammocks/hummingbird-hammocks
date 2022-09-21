@@ -60,6 +60,8 @@ export function FeaturedProduct() {
   const { featuredProducts } = useContext(ProductContext)
   const matches = useMediaQuery("(max-width:1100px)")
 
+  console.log(featuredProducts)
+
   return (
     <Wrapper>
       <Swiper
@@ -98,19 +100,29 @@ export function FeaturedProduct() {
           <SwiperSlide key={item.shopifyId}>
             <ImageBox minHeight={!matches && "600px"}>
               <Link to={`products/${item.handle}`}>
-                <AbsoluteImage
-                  className="image-1"
-                  image={item.featuredImage.gatsbyImageData}
-                  alt={item.featuredImage.altText}
-                  placeholder="blurred"
-                />
-
-                <AbsoluteImage
-                  className="image-2"
-                  image={item.images[1].gatsbyImageData}
-                  alt={item.images[1].altText}
-                  placeholder="blurred"
-                />
+                {item.featuredImage &&
+                  <AbsoluteImage
+                    className="image-1"
+                    image={item.featuredImage.gatsbyImageData}
+                    alt={item.featuredImage.altText}
+                    placeholder="blurred"
+                  />
+                }
+                {item.images[1] ? (
+                  <AbsoluteImage
+                    className="image-2"
+                    image={item.images[1].gatsbyImageData}
+                    alt={item.images[1].altText}
+                    placeholder="blurred"
+                  />
+                ) : (
+                  <AbsoluteImage
+                    className="image-2"
+                    image={item.featuredImage.gatsbyImageData}
+                    alt={item.featuredImage.altText}
+                    placeholder="blurred"
+                  />
+                )}
               </Link>
 
               <TextBox>
