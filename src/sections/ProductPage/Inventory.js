@@ -32,7 +32,7 @@ export const Inventory = ({ handle, id }) => {
           ) : inventory?.quantityAvailable > 20 ? (
             ""
           ) : (
-            <Typography sx={{ fontStyle: "italic" }}>0 Item left</Typography>
+            <Typography sx={{ fontStyle: "italic" }}>Out Of Stock</Typography>
           )}
         </>
       )}
