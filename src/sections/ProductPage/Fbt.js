@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react"
+import { useTheme } from '@mui/material/styles';
 import {
   Box,
   Divider,
-  styled,
   Typography,
   Checkbox,
   useMediaQuery,
@@ -11,25 +11,8 @@ import {
 import { CartContext } from "contexts"
 import { OnButton } from "components"
 
-const FBTSection = styled("section")(({ theme }) => ({
-  background: theme.palette.white,
-  marginTop: "100px",
-  padding: "60px 15px",
-
-  [theme.breakpoints.down("md")]: {
-    padding: "0",
-    marginTop: "40px",
-  },
-}))
-
-const ItemDetails = styled(Box)(({ theme }) => ({
-  ...theme.typography.footerMenu,
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-}))
-
 export const Fbt = ({ currentVariant, product, fbtData }) => {
+  const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
   const [data, setData] = useState(null)
   const [selectedVariant, setSelectedVariant] = useState(null)
@@ -123,7 +106,17 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
   }
 
   return (
-    <FBTSection>
+    <Box
+      sx={{
+        background: theme.palette.white,
+        marginTop: "100px",
+        padding: "60px 15px",
+
+        [theme.breakpoints.down("md")]: {
+          padding: "0",
+          marginTop: "40px",
+        },
+      }}>
       <Typography pb="20px" variant="h5">
         FREQUENTLY BOUGHT TOGETHER
       </Typography>
@@ -187,7 +180,13 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
                     onChange={() => handleCheckChange(index)}
                     checked={item.selected}
                   />
-                  <ItemDetails>
+                  <Box
+                    sx={{
+                      ...theme.typography.footerMenu,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}>
                     {index === 0 ? (
                       <b>This Item: {data[index].title} </b>
                     ) : (
@@ -219,13 +218,13 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
                       ${selectedVariant[index]?.priceV2.amount}{" "}
                       {selectedVariant[index]?.priceV2.currencyCode}
                     </b>
-                  </ItemDetails>
+                  </Box>
                 </Box>
               ))}
             </Box>
           </>
         )}
       </Box>
-    </FBTSection>
+    </Box>
   )
 }

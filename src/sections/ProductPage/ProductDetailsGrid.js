@@ -1,26 +1,6 @@
 import React from "react"
-import { styled, Box, Divider, Typography, useMediaQuery } from "@mui/material"
-
-const Wrapper = styled("section")(({ theme }) => ({
-  padding: "10px",
-
-  [theme.breakpoints.down("md")]: {
-    padding: "0",
-  },
-}))
-
-const DetailsWrap = styled(Box)(({ theme }) => ({
-  display: "grid",
-  gridTemplateColumns: "1fr 1fr 1fr",
-
-  "& p": {
-    ...theme.typography.body1,
-  },
-
-  [theme.breakpoints.down("md")]: {
-    gridTemplateColumns: "1fr",
-  },
-}))
+import { useTheme } from '@mui/material/styles';
+import { Box, Divider, Typography, useMediaQuery } from "@mui/material"
 
 export const ProductDetailsGrid = ({
   title,
@@ -30,11 +10,32 @@ export const ProductDetailsGrid = ({
   body2,
   children,
 }) => {
+  const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
   return (
-    <Wrapper>
+    <Box sx={{
+      padding: "10px",
+
+      [theme.breakpoints.down("md")]: {
+        padding: "0",
+      },
+    }}>
       <Divider />
-      <DetailsWrap p={matches ? "40px 0" : "40px 10px"}>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr 1fr",
+
+          "& p": {
+            ...theme.typography.body1,
+          },
+
+          p: matches ? "40px 0" : "40px 10px",
+
+          [theme.breakpoints.down("md")]: {
+            gridTemplateColumns: "1fr",
+          },
+        }}>
         <Typography mb={matches && "30px"} variant="h5">
           {title}
         </Typography>
@@ -53,7 +54,7 @@ export const ProductDetailsGrid = ({
             <div dangerouslySetInnerHTML={{ __html: body2 }} />
           </Box>
         )}
-      </DetailsWrap>
-    </Wrapper>
+      </Box>
+    </Box >
   )
 }

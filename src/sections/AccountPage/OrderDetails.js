@@ -1,6 +1,6 @@
 import React from "react"
+import { useTheme } from '@mui/material/styles';
 import {
-  styled,
   Typography,
   Divider,
   Box,
@@ -16,24 +16,6 @@ import {
 
 import { OnButton } from "components"
 
-const DetailsSection = styled(Box)(({ theme }) => ({
-  padding: "30px 0",
-
-  [theme.breakpoints.down("md")]: {
-    padding: "0",
-  },
-}))
-
-const DetailsGrid = styled(Box)(({ theme }) => ({
-  display: "grid",
-  gridTemplateColumns: "1fr 1fr",
-
-  [theme.breakpoints.down("md")]: {
-    gridTemplateColumns: "1fr",
-    padding: "0",
-  },
-}))
-
 export const OrderDetails = ({ data, userLogout, returnAccount }) => {
   const matches = useMediaQuery("(max-width:900px)")
   const {
@@ -48,6 +30,8 @@ export const OrderDetails = ({ data, userLogout, returnAccount }) => {
     lineItems,
     shippingAddress,
   } = data.node
+
+  const theme = useTheme();
 
   console.log(data.node)
 
@@ -88,7 +72,15 @@ export const OrderDetails = ({ data, userLogout, returnAccount }) => {
 
       <Divider />
 
-      <DetailsSection mt={matches && "30px"}>
+      <Box
+        sx={{
+          padding: "30px 0",
+          mt: matches && "30px",
+
+          [theme.breakpoints.down("md")]: {
+            padding: "0",
+          },
+        }}>
         <Box mb={matches && "30px"}>
           <Typography variant="h5">Order {name}</Typography>
           <Typography m="15px 0 20px 0" variant="subtitle2">
@@ -178,7 +170,17 @@ export const OrderDetails = ({ data, userLogout, returnAccount }) => {
             </TableBody>
           </Table>
         </TableContainer>
-        <DetailsGrid m={matches ? "40px 0" : "60px 40px"}>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            m: matches ? "40px 0" : "60px 40px",
+
+            [theme.breakpoints.down("md")]: {
+              gridTemplateColumns: "1fr",
+              padding: "0",
+            },
+          }}>
           <Box>
             <Typography variant="h5">Order Status</Typography>
             <Typography mt="20px" variant="subtitle2">
@@ -210,8 +212,8 @@ export const OrderDetails = ({ data, userLogout, returnAccount }) => {
               {shippingAddress?.phone}
             </Typography>
           </Box>
-        </DetailsGrid>
-      </DetailsSection>
+        </Box>
+      </Box>
     </Box>
   )
 }

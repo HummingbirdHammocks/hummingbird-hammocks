@@ -1,24 +1,25 @@
 import React from "react"
-import { styled, Box } from "@mui/material"
-
-const Wrapper = styled("section")(({ theme }) => ({
-  margin: "40px 200px",
-
-  [theme.breakpoints.down("md")]: {
-    margin: "40px 0",
-  },
-}))
-
-const VideoRelative = styled(Box)(() => ({
-  position: "relative",
-  width: "100%",
-  paddingBottom: "56.25%",
-}))
+import { useTheme } from '@mui/material/styles';
+import { Box } from "@mui/material"
 
 export const YouTubeEmbed = ({ url, title }) => {
+  const theme = useTheme();
+
   return (
-    <Wrapper>
-      <VideoRelative>
+    <Box
+      sx={{
+        margin: "40px 200px",
+
+        [theme.breakpoints.down("md")]: {
+          margin: "40px 0",
+        },
+      }}>
+      <Box
+        sx={{
+          position: "relative",
+          width: "100%",
+          paddingBottom: "56.25%",
+        }}>
         <iframe
           style={{
             position: "absolute",
@@ -36,7 +37,7 @@ export const YouTubeEmbed = ({ url, title }) => {
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
         />
-      </VideoRelative>
-    </Wrapper>
+      </Box>
+    </Box >
   )
 }

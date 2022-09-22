@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react"
-import { styled } from "@mui/material"
+import { Box } from "@mui/material"
 
 import JudgeMe from "utils/judgeMe"
-
-const Wrapper = styled("section")(() => ({
-  padding: "10px",
-}))
 
 export const Reviews = ({ handle, title }) => {
   const [reviews, setReviews] = useState(null)
@@ -16,7 +12,7 @@ export const Reviews = ({ handle, title }) => {
   }, [reviewWidget])
 
   return (
-    <Wrapper>
+    <Box sx={{ padding: "10px" }}>
       {reviews && (
         <div
           className="jdgm-widget jdgm-review-widget jdgm-outside-widget"
@@ -26,6 +22,6 @@ export const Reviews = ({ handle, title }) => {
           <div dangerouslySetInnerHTML={{ __html: reviews.widget }} />
         </div>
       )}
-    </Wrapper>
+    </Box>
   )
 }
