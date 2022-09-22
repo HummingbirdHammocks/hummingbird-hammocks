@@ -1,12 +1,9 @@
 import React, { useContext } from "react"
-import { Typography, styled, Box, Divider } from "@mui/material"
+import { Box, Typography, styled, Divider } from "@mui/material"
 
 import { RecentViewedContext } from "contexts"
 import { ProductCard } from "sections"
 
-const Wrapper = styled("section")(() => ({
-  marginTop: "70px",
-}))
 
 const ProductGrid = styled(Box)(({ theme }) => ({
   display: "grid",
@@ -21,7 +18,7 @@ export const RecentViewed = ({ title }) => {
   const { recentViewedProducts } = useContext(RecentViewedContext)
 
   return (
-    <Wrapper>
+    <Box sx={{marginTop: "70px",}}>
       <Typography pb="30px" textAlign="center" variant="h5">
         {title}
       </Typography>
@@ -33,6 +30,6 @@ export const RecentViewed = ({ title }) => {
           products={recentViewedProducts.slice(1, recentViewedProducts.length)}
         />
       </ProductGrid>
-    </Wrapper>
+    </Box>
   )
 }

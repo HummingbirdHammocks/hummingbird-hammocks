@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react"
-import { Box, Typography, styled, IconButton, TextField, Stack } from "@mui/material"
+import { Box, Typography, Button, TextField, Stack } from "@mui/material"
 import { Add, Remove } from "@mui/icons-material"
 
 import { OnButton } from "components"
@@ -23,14 +23,15 @@ export function ProductQuantityAdder({ variantId, available }) {
       <Typography variant="navUser">Quantity</Typography>
       <form style={{ marginTop: "10px" }} onSubmit={handleSubmit}>
         <Stack direction="row" spacing={2}>
-          <IconButton
+          <Button
             color="primary"
+            variant="outlined"
             disabled={!available}
             onClick={() => setQuantity(quantity - 1)}
             sx={{ height: "57px", width: "57px" }}
           >
-            <Remove />
-          </IconButton>
+            <Add />
+          </Button>
           <TextField
             disabled={!available}
             type="number"
@@ -38,14 +39,15 @@ export function ProductQuantityAdder({ variantId, available }) {
             onChange={handleQuantityChange}
             sx={{ width: "80px" }}
           />
-          <IconButton
+          <Button
             color="primary"
+            variant="outlined"
             disabled={!available}
             onClick={() => setQuantity(quantity + 1)}
             sx={{ height: "57px", width: "57px" }}
           >
-            <Add />
-          </IconButton>
+            <Remove />
+          </Button>
         </Stack>
 
         <OnButton
