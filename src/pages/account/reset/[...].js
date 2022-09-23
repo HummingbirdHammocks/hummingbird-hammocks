@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react"
-import { useTheme, Typography, Divider, Box, useMediaQuery } from "@mui/material"
+import toast from "react-toastify"
+import { useTheme, Typography, Divider, Box, Stack, TextField, useMediaQuery } from "@mui/material"
 import { useMutation, gql } from "@apollo/client"
 import { navigate } from "gatsby"
 import { useForm } from "react-hook-form"
@@ -55,13 +56,13 @@ const ResetPage = ({ params }) => {
       handleCustomerAccessToken(
         data.customerResetByUrl.customerAccessToken.accessToken
       )
-      setMessage("Password Reset Done! You'll logged in automatically in 3s...")
+      toast.success("Password Reset Succesfully! You'll logged in automatically in 3s...")
 
       setTimeout(function () {
         navigate("/account/")
       }, 3000)
     } else {
-      setMessage("Somthing went wrong!")
+      toast.error("Oops, something went wrong!")
     }
   }
 
@@ -93,31 +94,40 @@ const ResetPage = ({ params }) => {
               </Box>
             ) : (
               <>
-                <Typography paddingBottom="30px" variant="h2">
-                  Password Reset
-                </Typography>
+                <Stack spacing={2} direction="row" justifyContent="space-between" sx={{ paddingBottom: "30px" }}>
+                  <Typography variant="h2">
+                    Password Reset
+                  </Typography>
+                  <OnButton
+                    hovercolor="#d2cbcb"
+                    background="#34542a"
+                    padding="0 10px"
+                    color="white"
+                    border="0"
+                    borderRadius="10px"
+                    onClick={() => navigate("/account/login")}
+                  >
+                    Login
+                  </OnButton>
+                </Stack>
                 <Divider />
 
                 <Box padding="30px" justifyContent="center" display="flex">
                   <Box>
                     <SimpleForm onSubmit={handleSubmit(handlePasswordReset)}>
-                      <label htmlFor="password">Enter New Password</label>
-                      <input
-                        {...register("password", {
-                          required: true,
-                          maxLength: 30,
-                        })}
-                      />
-                      {message ? <h4>{message}</h4> : ""}
-                      <OnButton type="submit">Submit</OnButton>
+                      <Stack spacing={2} sx={{ width: "400px" }}>
+                        <TextField
+                          fullWidth
+                          label="New Password"
+                          {...register("password", {
+                            required: true,
+                            maxLength: 30,
+                          })}
+                        />
+                        {message ? <h4>{message}</h4> : ""}
+                        <OnButton type="submit">Change Password</OnButton>
+                      </Stack>
                     </SimpleForm>
-
-                    <Box mt="20px">
-                      <Typography variant="body1">
-                        <b>Remembered Your Login?</b>{" "}
-                        <Link to="/account/register">Sign In &#8594;</Link>
-                      </Typography>
-                    </Box>
                   </Box>
                 </Box>
               </>
