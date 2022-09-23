@@ -21,5 +21,5 @@ export function fToNow(date) {
 }
 
 export function fShopify(date) {
-  return format(new Date(date), "yyyy-MM-dd'T'HH:mm:ss.000'Z'");
+  return (new Date(date)).toLocaleString({ dateStyle: "short", timeStyle: "short" });
 }
