@@ -90,10 +90,17 @@ const RegisterPage = () => {
                   <Typography variant="h2">
                     Create Account
                   </Typography>
-                  <Typography variant="body1">
-                    <b>Already Have An Account?</b>{" "}
-                    <Link to="/account/login">Sign In &#8594;</Link>
-                  </Typography>
+                  <OnButton
+                    hovercolor="#d2cbcb"
+                    background="#34542a"
+                    padding="0 10px"
+                    color="white"
+                    border="0"
+                    borderRadius="10px"
+                    onClick={() => navigate("/account/login")}
+                  >
+                    Login
+                  </OnButton>
                 </Stack>
                 <Divider />
 

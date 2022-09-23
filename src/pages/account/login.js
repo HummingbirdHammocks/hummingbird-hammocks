@@ -85,10 +85,17 @@ const LoginPage = () => {
                   <Typography variant="h2">
                     Account Login
                   </Typography>
-                  <Typography variant="body1">
-                    <b>Need An Account?</b>{" "}
-                    <Link to="/account/register">Sign Up &#8594;</Link>
-                  </Typography>
+                  <OnButton
+                    hovercolor="#d2cbcb"
+                    background="#34542a"
+                    padding="0 10px"
+                    color="white"
+                    border="0"
+                    borderRadius="10px"
+                    onClick={() => navigate("/account/register")}
+                  >
+                    Sign Up
+                  </OnButton>
                 </Stack>
                 <Divider />
 

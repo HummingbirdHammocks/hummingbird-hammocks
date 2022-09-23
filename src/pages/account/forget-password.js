@@ -88,10 +88,17 @@ const ForgetPage = () => {
                   <Typography variant="h2">
                     Password Recovery
                   </Typography>
-                  <Typography variant="body1">
-                    <b>Remembered Your Password?</b>{" "}
-                    <Link to="/account/login">Login &#8594;</Link>
-                  </Typography>
+                  <OnButton
+                    hovercolor="#d2cbcb"
+                    background="#34542a"
+                    padding="0 10px"
+                    color="white"
+                    border="0"
+                    borderRadius="10px"
+                    onClick={() => navigate("/account/login")}
+                  >
+                    Login
+                  </OnButton>
                 </Stack>
                 <Divider />
 
