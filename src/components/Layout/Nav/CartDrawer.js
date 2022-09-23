@@ -24,7 +24,7 @@ export const CartDrawer = () => {
   const { cartOpen, setCartOpen } = useUICartContext()
   const { checkout, updateLineItem, removeLineItem } = useContext(CartContext)
 
-  console.log(checkout)
+  /* console.log(checkout) */
 
   let totalQuantity = 0
 
