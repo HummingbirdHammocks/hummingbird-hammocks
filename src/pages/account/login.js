@@ -1,4 +1,5 @@
-import React, { useState, useContext } from "react"
+import React, { useContext } from "react"
+import { toast } from 'react-toastify';
 import { useTheme, Box, Typography, Divider, TextField, Stack, useMediaQuery } from "@mui/material"
 import { useMutation, gql } from "@apollo/client"
 import { useForm } from "react-hook-form"
@@ -19,8 +20,6 @@ import {
 const LoginPage = () => {
   const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
-  // something went wrong
-  const [message, setMessage] = useState("")
 
   const {
     register,
@@ -34,7 +33,7 @@ const LoginPage = () => {
     logout,
   } = useContext(UserContext)
 
-  const [customerLogin, { loading/* , error */ }] = useMutation(CUSTOMER_LOGIN)
+  const [customerLogin, { loading, error }] = useMutation(CUSTOMER_LOGIN)
 
   const handleLogin = async ({ email, password }) => {
     const { data } = await customerLogin({
@@ -47,11 +46,15 @@ const LoginPage = () => {
     })
 
     setValue(data.customerAccessTokenCreate.customerAccessToken.accessToken)
+    toast.success("Login Success!")
     navigate("/account")
   }
 
   // if (loading) return "Submitting..."
-  // if (error) return `Submission error! ${error.message}`
+  if (error) {
+    console.log(error)
+    toast.error("Oops! Something went wrong. Please try again.")
+  }
 
   return (
     <Layout>
@@ -131,7 +134,6 @@ const LoginPage = () => {
                         {errors.password?.type === "required" &&
                           "Password is required!"}
 
-                        {message ? <h4>{message}</h4> : ""}
                         {loading ? (
                           <MiddleSpinner />
                         ) : (

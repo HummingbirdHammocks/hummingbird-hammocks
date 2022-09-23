@@ -1,4 +1,5 @@
-import React, { useState, useContext } from "react"
+import React, { useContext } from "react"
+import { toast } from 'react-toastify';
 import { useTheme, Typography, Divider, Box, Stack, TextField, useMediaQuery } from "@mui/material"
 import { useMutation, gql } from "@apollo/client"
 import { navigate } from "gatsby"
@@ -9,7 +10,6 @@ import {
   Seo,
   Layout,
   MainWrapper,
-  Link,
   OnButton,
   SimpleForm,
 } from "components"
@@ -18,8 +18,6 @@ import {
 const RegisterPage = () => {
   const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
-  // something went wrong
-  const [message, setMessage] = useState("")
 
   const {
     register,
@@ -47,11 +45,13 @@ const RegisterPage = () => {
     })
 
     if (data.customerCreate.customer === null) {
-      setMessage(data.customerCreate.customerUserErrors[0].message)
+      console.log(data.customerCreate.customerUserErrors[0].message)
+      toast.error(data.customerCreate.customerUserErrors[0].message)
     } else {
-      setMessage(
-        "Account Create Successful. You're redirect to Log in page within 3 seconds"
-      )
+      toast.success("Account Created! You'll be redirected to the login page in 3s...", {
+        autoClose: 3000,
+        hideProgressBar: false,
+      })
       setTimeout(function () {
         navigate("/account/login")
       }, 3000)
@@ -150,7 +150,6 @@ const RegisterPage = () => {
                         {errors.password?.type === "required" &&
                           "Password is required!"}
 
-                        {message ? <h4>{message}</h4> : ""}
                         <OnButton type="submit">Create Account</OnButton>
                       </Stack>
                     </SimpleForm>

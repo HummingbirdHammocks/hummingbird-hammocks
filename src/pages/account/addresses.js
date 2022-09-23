@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react"
+import { toast } from "react-toastify"
 import { useTheme, Typography, Divider, Box, useMediaQuery } from "@mui/material"
 import { useMutation, gql, useQuery } from "@apollo/client"
 import { navigate } from "gatsby"
@@ -20,7 +21,6 @@ const AddressPage = () => {
   const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
   const [formType, setFormType] = useState("Add")
-  const [message, setMessage] = useState("")
   const [formAddress, setFormAddress] = useState(null)
   const [checkDefaultAddress, setCheckDefaultAddress] = useState(false)
 
@@ -89,11 +89,11 @@ const AddressPage = () => {
     })
       .then(result => {
         refetch()
-        setMessage("Delete Successful!")
+        toast.success("Address Deleted Successfully!")
       })
       .catch(error => {
         console.log(error)
-        setMessage("Something went wrong!")
+        toast.error("Oops! Something went wrong. Please try again.")
       })
   }
 
@@ -140,15 +140,16 @@ const AddressPage = () => {
                   refetch()
                 })
                 .catch(error => {
-                  setMessage("Something went wrong!")
+                  console.log(error)
+                  toast.error("Oops! Something went wrong. Please try again.")
                 })
 
             refetch()
-            setMessage("Your New Address Added Successful!")
+            toast.success("Address Added Successfully!")
           })
           .catch(error => {
             console.log(error)
-            setMessage("Something went wrong!")
+            toast.error("Oops! Something went wrong. Please try again.")
           })
       }
 
@@ -182,15 +183,16 @@ const AddressPage = () => {
                   refetch()
                 })
                 .catch(error => {
-                  setMessage("Something went wrong!")
+                  console.log(error)
+                  toast.error("Oops! Something went wrong. Please try again.")
                 })
 
             refetch()
-            setMessage("Your Address Update Successful!")
+            toast.success("Address Updated Successfully!")
           })
           .catch(error => {
             console.log(error)
-            setMessage("Something went wrong!")
+            toast.error("Oops! Something went wrong. Please try again.")
           })
       }
     } catch (error) {
@@ -204,7 +206,7 @@ const AddressPage = () => {
 
   useEffect(() => {
     reset(formAddress)
-  }, [formAddress, message])
+  }, [formAddress])
 
   return (
     <Layout>
@@ -360,7 +362,6 @@ const AddressPage = () => {
               )}
 
               <Box p={matches ? "0" : "20px"}>
-                {message ? <Typography variant="h2">{message}</Typography> : ""}
                 <Typography mb="20px" variant="h5">
                   {formType === "Add" ? "Add New Address" : "Update Address"}
                 </Typography>

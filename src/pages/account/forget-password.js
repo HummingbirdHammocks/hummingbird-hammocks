@@ -1,4 +1,5 @@
-import React, { useState, useContext } from "react"
+import React, { useContext } from "react"
+import { toast } from 'react-toastify';
 import { useTheme, Typography, Divider, Box, Stack, TextField, useMediaQuery } from "@mui/material"
 import { useMutation, gql } from "@apollo/client"
 import { navigate } from "gatsby"
@@ -18,8 +19,6 @@ import {
 const ForgetPage = () => {
   const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
-  // something went wrong
-  const [message, setMessage] = useState("")
 
   const {
     register,
@@ -44,15 +43,17 @@ const ForgetPage = () => {
   })
 
     if (!error) {
-      setMessage(
-        "We've sent you an email with a link to update your password. You're redirect to Log in page within 3 seconds"
-      )
+      toast.success("Password Reset Email Sent! You'll be redirected to the login page in 3s...", {
+        autoClose: 3000,
+        hideProgressBar: false,
+      })
 
       setTimeout(function () {
         navigate("/account/login")
       }, 5000)
     } else {
-      setMessage("Something went wrong!")
+      console.log(error)
+      toast.error("Oops! Something went wrong. Please try again.")
     }
   }
 
@@ -122,8 +123,6 @@ const ForgetPage = () => {
                       )}
                       {errors.email?.type === "required" &&
                         "Email is required!"}
-
-                      {message ? <h4>{message}</h4> : ""}
                       <Typography>
                         We will send you an email to reset your password.
                       </Typography>

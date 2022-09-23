@@ -51,7 +51,7 @@ const CartPage = () => {
                 margin: "0",
               },
             }}>
-            <Box mt={matches ? "40px" : "70px"} pt={!banner ? "10px" : "0"}>
+            <Box mt={matches ? "40px" : "70px"} pt={!banner ? "10px" : "50px"}>
               <MainWrapper>
                 <Typography
                   sx={{ margin: "20px 10px" }}

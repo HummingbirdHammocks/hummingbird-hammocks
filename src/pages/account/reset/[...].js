@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react"
-import toast from "react-toastify"
+import React, { useContext } from "react"
+import { toast } from "react-toastify"
 import { useTheme, Typography, Divider, Box, Stack, TextField, useMediaQuery } from "@mui/material"
 import { useMutation, gql } from "@apollo/client"
 import { navigate } from "gatsby"
@@ -10,7 +10,6 @@ import {
   Seo,
   Layout,
   MainWrapper,
-  Link,
   OnButton,
   SimpleForm,
 } from "components"
@@ -19,8 +18,6 @@ import {
 const ResetPage = ({ params }) => {
   const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
-  // something went wrong
-  const [message, setMessage] = useState("")
 
   const {
     register,
@@ -56,7 +53,10 @@ const ResetPage = ({ params }) => {
       handleCustomerAccessToken(
         data.customerResetByUrl.customerAccessToken.accessToken
       )
-      toast.success("Password Reset Succesfully! You'll logged in automatically in 3s...")
+      toast.success("Password Reset Succesfully! You'll logged in automatically in 3s...", {
+        autoClose: 3000,
+        hideProgressBar: false,
+      })
 
       setTimeout(function () {
         navigate("/account/")
@@ -124,7 +124,6 @@ const ResetPage = ({ params }) => {
                             maxLength: 30,
                           })}
                         />
-                        {message ? <h4>{message}</h4> : ""}
                         <OnButton type="submit">Change Password</OnButton>
                       </Stack>
                     </SimpleForm>
