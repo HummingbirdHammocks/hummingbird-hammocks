@@ -1,9 +1,11 @@
 import React from "react"
-import { useTheme, Box, Typography, useMediaQuery } from "@mui/material"
+import { useTheme, Box, Tooltip, Typography, useMediaQuery } from "@mui/material"
 import { graphql } from "gatsby"
 import { GatsbyImage } from "gatsby-plugin-image"
 
 import { Seo, Layout, MainWrapper, Link, Socials } from "components"
+
+import { fShopify } from '../../utils/formatTime'
 
 
 const Articles = ({ data: { articles }, pageContext: { next, prev } }) => {
@@ -15,7 +17,7 @@ const Articles = ({ data: { articles }, pageContext: { next, prev } }) => {
 
   return (
     <Layout>
-      <Seo title="Article" />
+      <Seo title={title} />
       <Box
         sx={{
           display: "grid",
@@ -76,37 +78,41 @@ const Articles = ({ data: { articles }, pageContext: { next, prev } }) => {
             order="2"
           >
             {prev && (
-              <Typography variant="collectionName">
-                <Link
-                  sx={{
-                    color: "#fff",
-                    textDecoration: "none",
-                    "&:hover": {
-                      opacity: "0.7",
-                    },
-                  }}
-                  to={`/blogs/news/${prev}`}
-                >
-                  Prev
-                </Link>
-              </Typography>
+              <Tooltip title={prev.title}>
+                <Typography variant="collectionName">
+                  <Link
+                    sx={{
+                      color: "#fff",
+                      textDecoration: "none",
+                      "&:hover": {
+                        opacity: "0.7",
+                      },
+                    }}
+                    to={`/blogs/news/${prev.handle}`}
+                  >
+                    Prev
+                  </Link>
+                </Typography>
+              </Tooltip>
             )}
             {prev && next && <Box m="0 10px">|</Box>}
             {next && (
-              <Typography variant="collectionName">
-                <Link
-                  sx={{
-                    color: "#fff",
-                    textDecoration: "none",
-                    "&:hover": {
-                      opacity: "0.7",
-                    },
-                  }}
-                  to={`/blogs/news/${next}`}
-                >
-                  Next
-                </Link>
-              </Typography>
+              <Tooltip title={next.title}>
+                <Typography variant="collectionName">
+                  <Link
+                    sx={{
+                      color: "#fff",
+                      textDecoration: "none",
+                      "&:hover": {
+                        opacity: "0.7",
+                      },
+                    }}
+                    to={`/blogs/news/${next.handle}`}
+                  >
+                    Next
+                  </Link>
+                </Typography>
+              </Tooltip>
             )}
           </Box>
 
@@ -117,7 +123,7 @@ const Articles = ({ data: { articles }, pageContext: { next, prev } }) => {
                 <Link to={`/blogs/news/`}>OUTDOOR ARTICLES</Link>{" "}
               </Typography>
               <br />
-              <Typography variant="collectionName">{published_at}</Typography>
+              <Typography variant="collectionName">{fShopify(published_at)}</Typography>
             </Box>
           </Box>
         </Box>

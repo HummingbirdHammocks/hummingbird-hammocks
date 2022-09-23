@@ -115,9 +115,11 @@ exports.createPages = async ({ graphql, actions }) => {
           }
           next {
             handle
+            title
           }
           previous {
             handle
+            title
           }
         }
       }
@@ -132,13 +134,13 @@ exports.createPages = async ({ graphql, actions }) => {
         id: node.id,
         collection: node.collections[1]?.handle
           ? {
-              handle: node.collections[1].handle,
-              title: node.collections[1].title,
-            }
+            handle: node.collections[1].handle,
+            title: node.collections[1].title,
+          }
           : {
-              handle: node.collections[0].handle,
-              title: node.collections[0].title,
-            },
+            handle: node.collections[0].handle,
+            title: node.collections[0].title,
+          },
         prev: {
           handle: previous?.handle,
           title: previous?.title,
@@ -188,8 +190,14 @@ exports.createPages = async ({ graphql, actions }) => {
       context: {
         id: node.id,
         handle: node.handle,
-        prev: previous?.handle,
-        next: next?.handle,
+        prev: {
+          handle: previous?.handle,
+          title: previous?.title,
+        },
+        next: {
+          handle: next?.handle,
+          title: next?.title,
+        },
       },
       component: path.resolve("./src/templates/ArticlesTemplate/index.js"),
     })
