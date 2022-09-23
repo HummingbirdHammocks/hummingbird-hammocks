@@ -1,6 +1,6 @@
 import React from "react"
 import { StaticImage } from "gatsby-plugin-image"
-import { useTheme, Stack } from "@mui/material"
+import { Stack } from "@mui/material"
 
 import { Seo, Layout, MainWrapper } from "components"
 import { Hero, Info, Details, FeaturedProduct, OutDoorArticles } from "sections"
@@ -101,7 +101,6 @@ const detailsData3 = {
 }
 
 const IndexPage = () => {
-  const theme = useTheme()
   return (
     <Layout>
       <Seo />

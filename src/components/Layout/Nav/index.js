@@ -342,7 +342,6 @@ const Dropdown = ({ submenus, dropdown, depthLevel }) => {
   return (
     <DropdownWrapper
       sx={{
-        position: "absolute",
         minWidth: "260px",
         zIndex: 1200,
         listStyle: "none",

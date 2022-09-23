@@ -10,7 +10,6 @@ import {
   Seo,
   Layout,
   MainWrapper,
-  Link,
   OnButton,
   SimpleForm,
 } from "components"

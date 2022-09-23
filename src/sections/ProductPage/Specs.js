@@ -1,5 +1,5 @@
 import React from "react"
-import { Grid, Typography, useMediaQuery } from "@mui/material"
+import { Grid, Typography } from "@mui/material"
 
 import { ProductDetailsGrid } from "sections"
 

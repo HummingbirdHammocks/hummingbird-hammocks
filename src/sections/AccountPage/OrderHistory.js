@@ -8,7 +8,6 @@ import {
   TableRow,
   Paper,
   IconButton,
-  useMediaQuery,
 } from "@mui/material"
 import { Pageview } from "@mui/icons-material"
 import { navigate } from "gatsby"
@@ -17,7 +16,6 @@ import { useLocation } from "@gatsbyjs/reach-router"
 import { fShopify } from "../../utils/formatTime"
 
 export const OrderHistory = ({ rows }) => {
-  const matches = useMediaQuery("(max-width:900px)")
   // Variants & Product Image
   const { pathname } = useLocation()
 

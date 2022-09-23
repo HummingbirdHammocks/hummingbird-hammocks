@@ -1,5 +1,5 @@
 import React from "react"
-import { useTheme, Paper, Box, Grid, Stack, Divider, Typography } from "@mui/material"
+import { useTheme, Paper, Grid, Divider, Typography } from "@mui/material"
 
 import { ThruHikerForm } from "./ThruHikerForm";
 import { OrderOptions } from "./OrderOptions";
