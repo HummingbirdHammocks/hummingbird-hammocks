@@ -1,10 +1,10 @@
 import React, { useContext } from "react"
+import { useTheme } from '@mui/material/styles';
 import {
   Box,
   Divider,
   Typography,
   Button,
-  styled,
   IconButton,
   useMediaQuery,
 } from "@mui/material"
@@ -14,33 +14,9 @@ import { useTopBannerContext, CartContext, RecentViewedContext } from "contexts"
 import { Seo, Layout, MainWrapper, OnButton, Link } from "components"
 import { RecentViewed } from "sections"
 
-const QuantityButton = styled(Button)({
-  minWidth: 0,
-  minHeight: 0,
-})
-
-const WrapSection = styled(Box)(({ theme }) => ({
-  margin: "10px 70px 10px 70px",
-
-  [theme.breakpoints.down("md")]: {
-    margin: "0",
-  },
-}))
-
-const GridWrapper = styled(Box)(({ theme }) => ({
-  margin: "50px",
-  display: "grid",
-  position: "relative",
-  gridTemplateColumns: "2.5fr 1fr",
-  gridGap: "40px",
-
-  [theme.breakpoints.down("md")]: {
-    gridTemplateColumns: "1fr",
-    margin: "0",
-  },
-}))
 
 const CartPage = () => {
+  const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
   const { banner } = useTopBannerContext()
   const { checkout, updateLineItem, removeLineItem } = useContext(CartContext)
@@ -67,7 +43,14 @@ const CartPage = () => {
 
       <Box>
         <MainWrapper>
-          <WrapSection>
+          <Box
+            sx={{
+              margin: "10px 70px 10px 70px",
+
+              [theme.breakpoints.down("md")]: {
+                margin: "0",
+              },
+            }}>
             <Box mt={matches ? "40px" : "70px"} pt={!banner ? "10px" : "0"}>
               <MainWrapper>
                 <Typography
@@ -86,7 +69,19 @@ const CartPage = () => {
               </MainWrapper>
             </Box>
             {checkout?.lineItems.length >= 1 && (
-              <GridWrapper>
+              <Box
+                sx={{
+                  margin: "50px",
+                  display: "grid",
+                  position: "relative",
+                  gridTemplateColumns: "2.5fr 1fr",
+                  gridGap: "40px",
+
+                  [theme.breakpoints.down("md")]: {
+                    gridTemplateColumns: "1fr",
+                    margin: "0",
+                  },
+                }}>
                 <Box m="0 40px">
                   {checkout.lineItems.map((item, index) => (
                     <>
@@ -129,7 +124,7 @@ const CartPage = () => {
                           </Box>
                           <br />
                           <Box display="flex" alignItems="center">
-                            <QuantityButton
+                            <Button
                               variant="outlined"
                               color="primary"
                               onClick={() =>
@@ -145,7 +140,7 @@ const CartPage = () => {
                               }}
                             >
                               <Add fontSize="small" />
-                            </QuantityButton>
+                            </Button>
                             <Box
                               fontWeight={600}
                               mr="15px"
@@ -154,7 +149,7 @@ const CartPage = () => {
                             >
                               {item.quantity}
                             </Box>
-                            <QuantityButton
+                            <Button
                               variant="outlined"
                               color="primary"
                               onClick={() =>
@@ -169,7 +164,7 @@ const CartPage = () => {
                               }}
                             >
                               <Remove fontSize="small" />
-                            </QuantityButton>
+                            </Button>
                           </Box>
                           <br />
                           <Box
@@ -226,9 +221,9 @@ const CartPage = () => {
                     Proceed to Checkout
                   </OnButton>
                 </Box>
-              </GridWrapper>
+              </Box>
             )}
-          </WrapSection>
+          </Box>
           {recentViewedProducts.length > 1 && (
             <RecentViewed title="YOU MAY ALSO BE INTERESTED IN" />
           )}

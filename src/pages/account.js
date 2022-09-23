@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react"
-import { styled, Typography, Divider, Box, useMediaQuery } from "@mui/material"
+import { useTheme } from '@mui/material/styles';
+import { Typography, Divider, Box, useMediaQuery } from "@mui/material"
 import { navigate } from "gatsby"
 import { useQuery, gql } from "@apollo/client"
 import { useLocation } from "@gatsbyjs/reach-router"
@@ -16,27 +17,9 @@ import {
 } from "components"
 import { OrderHistory, OrderDetails } from "sections"
 
-const AccountSection = styled("section")(({ theme }) => ({
-  background: theme.palette.white,
-  padding: "60px 15px",
-
-  [theme.breakpoints.down("md")]: {
-    padding: "40px 0",
-  },
-}))
-
-const AccountGrid = styled(Box)(({ theme }) => ({
-  display: "grid",
-  gridTemplateColumns: "1fr 2fr",
-  padding: "30px 0",
-
-  [theme.breakpoints.down("md")]: {
-    gridTemplateColumns: "1fr",
-    padding: "0",
-  },
-}))
 
 const AccountPage = () => {
+  const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
   const [accountDetails, setAccountDetails] = useState({
     open: false,
@@ -82,7 +65,15 @@ const AccountPage = () => {
   return (
     <Layout>
       <Seo title="Account" />
-      <AccountSection>
+      <Box
+        sx={{
+          background: theme.palette.white,
+          padding: "60px 15px",
+
+          [theme.breakpoints.down("md")]: {
+            padding: "40px 0",
+          },
+        }}>
         <MainWrapper>
           {customerAccessToken && !accountDetails.open ? (
             <Box padding={!matches ? "0 200px" : "0"}>
@@ -107,7 +98,17 @@ const AccountPage = () => {
 
                   <Divider />
 
-                  <AccountGrid>
+                  <Box
+                    sx={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 2fr",
+                      padding: "30px 0",
+
+                      [theme.breakpoints.down("md")]: {
+                        gridTemplateColumns: "1fr",
+                        padding: "0",
+                      },
+                    }}>
                     <Box
                       p="20px 0"
                       borderRight={matches ? "0" : "1px solid #ead5d5"}
@@ -149,7 +150,7 @@ const AccountPage = () => {
                       </Typography>
                       <OrderHistory rows={data.customer.orders?.edges} />
                     </Box>
-                  </AccountGrid>
+                  </Box>
                 </>
               )}
             </Box>
@@ -173,7 +174,7 @@ const AccountPage = () => {
             </Box>
           )}
         </MainWrapper>
-      </AccountSection>
+      </Box>
     </Layout>
   )
 }
