@@ -68,7 +68,7 @@ const ResetPage = ({ params }) => {
 
   return (
     <Layout>
-      <Seo title="Forgot Password" />
+      <Seo title="Password Reset" />
       <Box
         sx={{
           background: theme.palette.white,
@@ -95,7 +95,7 @@ const ResetPage = ({ params }) => {
             ) : (
               <>
                 <Typography paddingBottom="30px" variant="h2">
-                  Reset Account Password
+                  Password Reset
                 </Typography>
                 <Divider />
 

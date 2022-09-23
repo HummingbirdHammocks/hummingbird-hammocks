@@ -5,7 +5,6 @@ import {
   Toolbar,
   Typography,
   useMediaQuery,
-  styled,
   Button,
   IconButton,
   Badge,
@@ -20,34 +19,6 @@ import { MainWrapper, Link, MiddleSpinner, AnotherLink } from "components"
 import { useNavContext, useUICartContext, CartContext } from "contexts"
 import Search from "../../../utils/algolia/search"
 
-const Wrapper = styled("ul")(() => ({
-  position: "absolute",
-  minWidth: "260px",
-  zIndex: 1200,
-  listStyle: "none",
-  padding: "7px 0",
-  borderRadius: "15px",
-  backgroundColor: "white",
-  border: "1px solid rgba(255, 255, 255, 0.3)",
-  boxShadow:
-    "0 10px 15px -3px rgba(46, 41, 51, 0.08), 0 4px 6px -2px rgba(71, 63, 79, 0.16)",
-}))
-
-const ListBox = styled("li")(() => ({
-  padding: "15px 10px",
-
-  "& .arrow": {
-    "&:after": {
-      content: `""`,
-      display: "inline-block",
-      marginLeft: "0.28em",
-      verticalAlign: "0.09em",
-      borderTop: "0.42em solid",
-      borderRight: "0.42em solid transparent",
-      borderLeft: "0.42em solid transparent",
-    },
-  },
-}))
 
 function Nav({ customerAccessToken, data, loading, banner }) {
   const matches = useMediaQuery("(max-width:900px)")
@@ -190,7 +161,9 @@ const AppbarMobile = ({ cartQuantity, cartOpen, setCartOpen, banner }) => {
 
   return (
     <AppBar
-      sx={{ marginTop: banner && "90px" }}
+      sx={{
+        marginTop: banner && "90px",
+      }}
       position="static"
       color="secondary"
     >
@@ -265,7 +238,25 @@ const MenuItems = ({ items, depthLevel }) => {
   }
 
   return (
-    <ListBox ref={ref} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+    <Box
+      ref={ref}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      sx={{
+        padding: "15px 10px",
+
+        "& .arrow": {
+          "&:after": {
+            content: `""`,
+            display: "inline-block",
+            marginLeft: "0.28em",
+            verticalAlign: "0.09em",
+            borderTop: "0.42em solid",
+            borderRight: "0.42em solid transparent",
+            borderLeft: "0.42em solid transparent",
+          },
+        },
+      }}>
       {items.submenu ? (
         <>
           <Link
@@ -338,7 +329,7 @@ const MenuItems = ({ items, depthLevel }) => {
           )}
         </>
       )}
-    </ListBox>
+    </Box>
   )
 }
 
@@ -347,17 +338,29 @@ const Dropdown = ({ submenus, dropdown, depthLevel }) => {
   const dropdownClass = depthLevel > 1 ? true : false
 
   return (
-    <Wrapper
+    <Box
       sx={{
+        position: "absolute",
+        minWidth: "260px",
+        zIndex: 1200,
+        listStyle: "none",
+        padding: "7px 0",
+        borderRadius: "15px",
+        backgroundColor: "white",
+        border: "1px solid rgba(255, 255, 255, 0.3)",
+        boxShadow:
+          "0 10px 15px -3px rgba(46, 41, 51, 0.08), 0 4px 6px -2px rgba(71, 63, 79, 0.16)",
         display: !dropdown ? "none" : "block",
         position: !dropdownClass ? "" : "absolute",
         left: !dropdownClass ? "" : "100%",
         top: !dropdownClass ? "" : "10px",
       }}
     >
-      {submenus.map((submenu, index) => (
-        <MenuItems items={submenu} key={index} depthLevel={depthLevel} />
-      ))}
-    </Wrapper>
+      {
+        submenus.map((submenu, index) => (
+          <MenuItems items={submenu} key={index} depthLevel={depthLevel} />
+        ))
+      }
+    </Box >
   )
 }

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react"
 import { useTheme } from '@mui/material/styles';
-import { Box, Typography, Divider, useMediaQuery } from "@mui/material"
+import { Box, Paper, Typography, Divider, TextField, Stack, useMediaQuery } from "@mui/material"
 import { useMutation, gql } from "@apollo/client"
 import { useForm } from "react-hook-form"
 import { navigate } from "gatsby"
@@ -81,17 +81,28 @@ const LoginPage = () => {
                 <OnButton onClick={() => logout()}>Logout</OnButton>
               </Box>
             ) : (
-              <>
-                <Typography paddingBottom="30px" variant="h2">
-                  Customer Login
-                </Typography>
-                <Divider />
-
-                <Box padding="30px" justifyContent="center" display="flex">
-                  <Box>
-                    <SimpleForm onSubmit={handleSubmit(handleLogin)}>
-                      <label htmlFor="email">Email</label>
-                      <input
+              <Paper sx={{ padding: 2 }}>
+                <Stack
+                  direction="column"
+                  justifyContent="center"
+                  alignItems="center"
+                  spacing={2}
+                >
+                  <Typography paddingBottom="30px" variant="h2">
+                    Account Login
+                  </Typography>
+                  <SimpleForm onSubmit={handleSubmit(handleLogin)}>
+                    <Stack
+                      direction="column"
+                      justifyContent="center"
+                      alignItems="center"
+                      spacing={2}
+                      sx={{ minWidth: "300px" }}
+                    >
+                      <TextField
+                        fullWidth
+                        label="Email"
+                        id="email"
                         {...register("email", {
                           required: true,
                           pattern: {
@@ -106,8 +117,10 @@ const LoginPage = () => {
                       )}
                       {errors.email?.type === "required" &&
                         "Email is required!"}
-                      <label htmlFor="password">Password</label>
-                      <input
+                      <TextField
+                        fullWidth
+                        label="Password"
+                        id="Password"
                         {...register("password", {
                           required: true,
                           maxLength: 30,
@@ -120,24 +133,24 @@ const LoginPage = () => {
                       {loading ? (
                         <MiddleSpinner />
                       ) : (
-                        <OnButton type="submit">Sign In</OnButton>
+                        <OnButton fullWidth type="submit">Sign In</OnButton>
                       )}
-                    </SimpleForm>
+                    </Stack>
+                  </SimpleForm>
 
-                    <Box mt="20px">
-                      <Typography variant="body1" mb="10px">
-                        <Link to="/account/forget-password">
-                          Forgot your password?
-                        </Link>
-                      </Typography>
-                      <Typography variant="body1">
-                        <b>New Customer?</b>{" "}
-                        <Link to="/account/register">Sign Up &#8594;</Link>
-                      </Typography>
-                    </Box>
+                  <Box mt="20px">
+                    <Typography variant="body1" mb="10px">
+                      <Link to="/account/forget-password">
+                        Forgot your password?
+                      </Link>
+                    </Typography>
+                    <Typography variant="body1">
+                      <b>New Customer?</b>{" "}
+                      <Link to="/account/register">Sign Up &#8594;</Link>
+                    </Typography>
                   </Box>
-                </Box>
-              </>
+                </Stack>
+              </Paper>
             )}
           </Box>
         </MainWrapper>

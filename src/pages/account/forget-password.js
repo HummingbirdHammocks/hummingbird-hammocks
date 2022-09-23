@@ -59,7 +59,7 @@ const ForgetPage = () => {
 
   return (
     <Layout>
-      <Seo title="Forger Password" />
+      <Seo title="Password Recovery" />
       <Box
         sx={{
           background: theme.palette.white,
@@ -79,14 +79,14 @@ const ForgetPage = () => {
                 display="flex"
               >
                 <Typography variant="h1">
-                  You"re already Logged in! Please Logout First:
+                  You're already Logged in! Please Logout First:
                 </Typography>
                 <OnButton onClick={() => logout()}>Logout</OnButton>
               </Box>
             ) : (
               <>
                 <Typography paddingBottom="30px" variant="h2">
-                  Forget Password
+                  Password Recovery
                 </Typography>
                 <Divider />
 

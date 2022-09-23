@@ -30,6 +30,15 @@ const rawTheme = createTheme({
     fontWeightMedium: 700,
     fontFamilySecondary: "'Montserrat', sans-serif",
   },
+  components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: 20,
+        },
+      },
+    },
+  },
 })
 
 const fontHeader = {
