@@ -145,7 +145,7 @@ const ProductPage = ({ data, pageContext }) => {
         setSelectedVariant(resultVariant)
         setSelectedVariantStatic(staticVariant)
 
-        // console.log(staticVariant)
+        console.log(staticVariant)
 
         let resultTitle = resultVariant?.title
 
@@ -170,9 +170,9 @@ const ProductPage = ({ data, pageContext }) => {
   }, [variantId])
 
   /* console.log(details) */
-  console.log(product)
-  console.log(variantSizeName)
-  console.log(selectedVariant)
+  /* console.log(product) */
+  /* console.log(variantSizeName) */
+  /* console.log(selectedVariant) */
 
   return (
     <Layout>
@@ -587,13 +587,13 @@ const ProductPage = ({ data, pageContext }) => {
             {/* <Reviews title={title} handle={handle} /> */}
 
             {/* Main Product Details */}
-            {selectedVariantStatic?.metafields.length < 1 && (
+            {selectedVariantStatic?.metafields.length > 1 && (
               <Specs metas={selectedVariantStatic.metafields} top={true} />
             )}
 
             {metaMain && metaIncluded && (
               <ProductDetailsGrid
-                top={!selectedVariantStatic?.metafields.length < 1 && true}
+                top={!selectedVariantStatic?.metafields.length > 1 && true}
                 title="FEATURES"
                 body2Title="Included"
                 body1={metaMain.value}
