@@ -17,18 +17,14 @@ import {
 import window from "global"
 
 import { useUICartContext, CartContext } from "contexts"
-import { OnButton, LinkButton } from "components"
+import { OnButton, LinkButton, Link } from "components"
 
 export const CartDrawer = () => {
   const matches = useMediaQuery("(max-width:900px)")
   const { cartOpen, setCartOpen } = useUICartContext()
   const { checkout, updateLineItem, removeLineItem } = useContext(CartContext)
 
-  // const [open, setOpen] = useState(true)
-
-  // const handleClick = () => {
-  //   setOpen(!open)
-  // }
+  console.log(checkout)
 
   let totalQuantity = 0
 
@@ -52,6 +48,7 @@ export const CartDrawer = () => {
       }}
       anchor="right"
       open={cartOpen}
+      onClose={() => setCartOpen(!cartOpen)}
     >
       <Box display="flex" justifyContent="space-between" padding="16px 25px">
         <Box display="flex" justifyContent="center" alignItems="center">
@@ -100,9 +97,9 @@ export const CartDrawer = () => {
               >
                 <Add fontSize="small" />
               </IconButton>
-              <Box fontWeight={600} fontSize="15px" my="3px">
+              <Typography fontWeight={600} fontSize="15px" my="3px">
                 {item.quantity}
-              </Box>
+              </Typography>
               <IconButton
                 variant="outlined"
                 color="primary"
@@ -121,17 +118,40 @@ export const CartDrawer = () => {
               </IconButton>
             </Box>
 
-            <img
-              alt={item.variant.image.altText}
-              src={item.variant.image.src}
-              height="76px"
-              width="76px"
-            />
+            <Link
+              sx={{
+                textDecoration: "none",
+                "&:hover": {
+                  opacity: "0.7",
+                },
+              }}
+              to={`/products/${item.variant.product.handle}`}
+              onClick={() => setCartOpen(!cartOpen)}
+            >
+
+              <img
+                alt={item.variant.image.altText}
+                src={item.variant.image.src}
+                height="76px"
+                width="76px"
+              />
+            </Link>
 
             <Box pl="20px" flex="1 1 0">
-              <Typography variant="cartTitle" fontSize="14px">
-                {item.title}
-              </Typography>
+              <Link
+                sx={{
+                  textDecoration: "none",
+                  "&:hover": {
+                    opacity: "0.7",
+                  },
+                }}
+                to={`/products/${item.variant.product.handle}`}
+                onClick={() => setCartOpen(!cartOpen)}
+              >
+                <Typography variant="cartTitle" fontSize="14px">
+                  {item.title}
+                </Typography>
+              </Link>
               <br />
               <Typography variant="cartVariant" color="grey.600">
                 {item.variant.title === "Default Title"
