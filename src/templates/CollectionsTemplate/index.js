@@ -205,7 +205,7 @@ const CollectionsPage = ({ data }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterOptions])
 
-  console.log(filterOptions)
+  /* console.log(filterOptions) */
 
   return (
     <Layout>

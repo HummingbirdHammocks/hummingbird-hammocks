@@ -9,6 +9,7 @@ import {
   IconButton,
   Badge,
   Box,
+  styled
 } from "@mui/material"
 import { StaticImage } from "gatsby-plugin-image"
 import MenuIcon from "@mui/icons-material/Menu"
@@ -19,6 +20,34 @@ import { MainWrapper, Link, MiddleSpinner, AnotherLink } from "components"
 import { useNavContext, useUICartContext, CartContext } from "contexts"
 import Search from "../../../utils/algolia/search"
 
+const DropdownWrapper = styled("ul")(() => ({
+  position: "absolute",
+  minWidth: "260px",
+  zIndex: 1200,
+  listStyle: "none",
+  padding: "7px 0",
+  borderRadius: "15px",
+  backgroundColor: "white",
+  border: "1px solid rgba(255, 255, 255, 0.3)",
+  boxShadow:
+    "0 10px 15px -3px rgba(46, 41, 51, 0.08), 0 4px 6px -2px rgba(71, 63, 79, 0.16)",
+}))
+
+const ListBox = styled("li")(() => ({
+  padding: "15px 10px",
+
+  "& .arrow": {
+    "&:after": {
+      content: `""`,
+      display: "inline-block",
+      marginLeft: "0.28em",
+      verticalAlign: "0.09em",
+      borderTop: "0.42em solid",
+      borderRight: "0.42em solid transparent",
+      borderLeft: "0.42em solid transparent",
+    },
+  },
+}))
 
 function Nav({ customerAccessToken, data, loading, banner }) {
   const matches = useMediaQuery("(max-width:1280px)")
@@ -80,6 +109,7 @@ const AppbarDesktop = ({
         top: banner && "50px",
         backgroundColor: "#fdfdf5",
         backdropFilter: "saturate(180%) blur(20px)",
+        borderRadius: 0,
         border: "1px solid rgba(255, 255, 255, 0.3)",
         borderBottom: "2px solid rgb(65, 64, 66)",
         transition: "0.3s",
@@ -170,11 +200,6 @@ const AppbarMobile = ({ cartQuantity, cartOpen, setCartOpen }) => {
           <IconButton sx={{ ml: "auto" }}>
             <Search />
           </IconButton>
-          <IconButton>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
-              <path d="M500 10a207 207 0 01188 125c11 25 16 51 16 79v41h163v613c1 33-11 62-35 86s-53 36-87 36H255c-34 0-63-12-87-36-23-24-35-53-35-86V255h163v-41A207 207 0 01421 26c25-11 51-16 79-16zm286 858V337H214v531c0 11 4 20 12 28s18 12 29 12h490c11 0 21-4 29-12s12-17 12-28zM500 92c-34 0-63 12-87 36s-36 52-36 86v41h246v-41c0-34-12-63-36-86-24-24-53-36-87-36z"></path>
-            </svg>
-          </IconButton>
           <IconButton color="white" onClick={() => setCartOpen(!cartOpen)}>
             <Badge badgeContent={cartQuantity} color="error">
               <ShoppingCartOutlined />
@@ -215,7 +240,7 @@ const MenuItems = ({ items, depthLevel }) => {
   }
 
   return (
-    <Box
+    <ListBox
       ref={ref}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -306,7 +331,7 @@ const MenuItems = ({ items, depthLevel }) => {
           )}
         </>
       )}
-    </Box>
+    </ListBox>
   )
 }
 
@@ -315,7 +340,7 @@ const Dropdown = ({ submenus, dropdown, depthLevel }) => {
   const dropdownClass = depthLevel > 1 ? true : false
 
   return (
-    <Box
+    <DropdownWrapper
       sx={{
         position: "absolute",
         minWidth: "260px",
@@ -338,6 +363,6 @@ const Dropdown = ({ submenus, dropdown, depthLevel }) => {
           <MenuItems items={submenu} key={index} depthLevel={depthLevel} />
         ))
       }
-    </Box >
+    </DropdownWrapper >
   )
 }
