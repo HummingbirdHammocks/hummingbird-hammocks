@@ -185,8 +185,8 @@ export const CartDrawer = () => {
         sx={{
           backgroundColor: "rgba(255, 255, 255, 0.44)",
           backdropFilter: "saturate(180%) blur(20px)",
+          padding: "15px 25px 30px  25px"
         }}
-        p="15px 25px 30px  25px"
       >
         {!checkout?.lineItems.length ? (
           <OnButton
@@ -195,6 +195,7 @@ export const CartDrawer = () => {
               height: 40,
             }}
             fullWidth
+            disabled
           >
             Your Cart is Empty!
           </OnButton>
