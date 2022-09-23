@@ -8,36 +8,27 @@ export const YouTubeEmbed = ({ url, title }) => {
   return (
     <Box
       sx={{
-        margin: "40px 200px",
-
-        [theme.breakpoints.down("md")]: {
-          margin: "40px 0",
-        },
+        position: "relative",
+        width: "100%",
+        paddingBottom: "56.25%",
       }}>
-      <Box
-        sx={{
-          position: "relative",
+      <iframe
+        style={{
+          position: "absolute",
+          top: "0",
+          left: "0",
           width: "100%",
-          paddingBottom: "56.25%",
-        }}>
-        <iframe
-          style={{
-            position: "absolute",
-            top: "0",
-            left: "0",
-            width: "100%",
-            height: "100%",
-            border: "0",
-            borderRadius: "20px",
-          }}
-          src={`https://www.youtube.com/embed/${url
-            .split("v=")[1]
-            .substring(0, 11)}`}
-          title={title}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-        />
-      </Box>
-    </Box >
+          height: "100%",
+          border: "0",
+          borderRadius: "20px",
+        }}
+        src={`https://www.youtube.com/embed/${url
+          .split("v=")[1]
+          .substring(0, 11)}`}
+        title={title}
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      />
+    </Box>
   )
 }

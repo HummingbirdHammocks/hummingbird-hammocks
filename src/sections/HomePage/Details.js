@@ -1,5 +1,5 @@
 import React from "react"
-import { Box, Grid, Stack, Typography, useMediaQuery } from "@mui/material"
+import { Box, Grid, Stack, Typography } from "@mui/material"
 
 import { LinkButton, ButtonAnotherLink } from "components"
 
@@ -25,23 +25,23 @@ export function Details({ data, children }) {
             spacing={2}>
             <Typography
               textTransform="uppercase"
-              sx={{ mb: "30px" }}
+              sx={{ mb: 2 }}
               variant="h2"
             >
               {title}
             </Typography>
             {subText && (
               <Typography
-                sx={{ mt: "30px", maxWidth: "1200px" }}
+                sx={{ mt: 2, maxWidth: "1200px" }}
                 variant="body1"
               >
                 {subText}
               </Typography>
             )}
 
-            <Box sx={{ mb: "30px" }}>
+            <Typography compoent="span" sx={{ mb: "30px" }}>
               {htmlText && <div dangerouslySetInnerHTML={{ __html: htmlText }} />}
-            </Box>
+            </Typography>
 
             {buttonText && (
               <Box>

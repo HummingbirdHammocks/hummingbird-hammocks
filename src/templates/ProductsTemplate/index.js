@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react"
 import { graphql, navigate } from "gatsby"
 import { useTheme } from '@mui/material/styles';
-import { Box, Typography, Divider, useMediaQuery, Tooltip } from "@mui/material"
+import { Box, Grid, Stack, Typography, Divider, useMediaQuery, Tooltip } from "@mui/material"
 import { FreeMode, Navigation, Thumbs } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { GatsbyImage } from "gatsby-plugin-image"
@@ -273,25 +273,15 @@ const ProductPage = ({ data, pageContext }) => {
                 </Typography>
               </Box>
             </Box>
-            <Box
-              sx={{
-                display: "grid",
-                position: "relative",
-                gridTemplateColumns: "repeat(2, 1fr)",
-                gridGap: "20px",
-                margin: "auto",
 
-                [theme.breakpoints.down("md")]: {
-                  gridTemplateColumns: "1fr",
-                },
-              }}>
-              <Box
-                justifyContent="center"
-                alignItems="center"
-                display={matches && "flex"}
-                m={matches && "40px 0"}
-              >
-                <Box width={matches ? "calc(100vw - 30px)" : "600px"}>
+            <Grid container spacing={4}>
+              <Grid item xs={12} md={6}>
+                <Box
+                  justifyContent="center"
+                  alignItems="center"
+                  display={matches && "flex"}
+                  m={matches && "40px 0"}
+                >
                   <Swiper
                     onSwiper={setSwiper}
                     spaceBetween={10}
@@ -334,246 +324,257 @@ const ProductPage = ({ data, pageContext }) => {
                     ))}
                   </Swiper>
                 </Box>
-              </Box>
+              </Grid>
 
-              <Box margin={matches ? "0 0 50px 0" : "50px 0 0 0"}>
-                {!selectedVariant?.available && (
-                  <Box margin="0 0 30px 0" display="flex">
-                    <Box
-                      sx={{
-                        background: "#f41901",
-                        padding: "8px 10px",
-                        color: theme.palette.white.main,
-                        fontFamily: theme.typography.fontFamily,
-                        borderRadius: "10px",
-                        letterSpacing: "2px",
-
-                        [theme.breakpoints.down("md")]: {
-                          top: "70px",
-                          right: "80px",
-                        },
-                      }}
-                    >
-                      Sold Out
-                    </Box>
-                  </Box>
-                )}
-                <Box>
-                  <Typography
-                    textTransform="uppercase"
-                    sx={{
-                      mb: "20px",
-                      lineHeight: "80px",
-                    }}
-                    variant="h1"
-                    color="#414042"
-                  >
-                    {title}
-                  </Typography>
-
-                  <Divider />
-
-                  {!!selectedVariant && (
+              <Grid item xs={12} md={6}>
+                <Box margin={matches ? "0 0 50px 0" : "50px 0 0 0"}>
+                  <Box>
                     <Typography
-                      sx={{ m: "30px 0 20px 0", maxWidth: "550px" }}
-                      variant="h5"
+                      textTransform="uppercase"
+                      sx={{
+                        mb: "20px",
+                        lineHeight: "80px",
+                      }}
+                      variant="h1"
                       color="#414042"
                     >
-                      ${selectedVariant.price} USD
+                      {title}
+                      <Divider />
                     </Typography>
-                  )}
 
-                  <Typography
-                    sx={{ m: "20px 0 20px 0", maxWidth: "550px" }}
-                    variant="body1"
-                    color="#414042"
-                  >
-                    {description}
-                  </Typography>
-                </Box>
 
-                <Box>
-                  {product?.availableForSale && !!selectedVariant && (
-                    <>
-                      {product?.variants.length >= 1 && (
-                        <>
-                          {product.options.length === 2 &&
-                            product.options[0].name === "Color" ? (
-                            <>
-                              <Typography variant="navUser" m="20px 0">
-                                Color
-                              </Typography>
-                              <Box display="flex">
-                                {product?.options[0]?.values.map(
-                                  (item, index) => {
-                                    return (
-                                      <Box
-                                        key={index}
-                                        margin="5px"
-                                        padding="5px"
-                                        position="relative"
-                                        sx={{
-                                          cursor: "pointer",
-                                        }}
-                                        border={
-                                          item.value === variantColorName
-                                            ? "1px solid #000"
-                                            : "1px solid #e2e2e2"
-                                        }
-                                        borderRadius="50%"
-                                        onClick={() =>
-                                          handleVariantColorChange(item.value)
-                                        }
-                                      >
-                                        <Color
-                                          key={item.value}
-                                          title={item.value}
-                                        />
-                                        {!product.variants[index].available && (
-                                          <SoldOutIcon />
-                                        )}
-                                      </Box>
-                                    )
-                                  }
-                                )}
-                              </Box>
 
-                              <Typography variant="navUser" m="20px 0">
-                                Size
-                              </Typography>
-                              <Box display="flex">
-                                {product?.options[1]?.values.map(
-                                  (item, index) => {
-                                    return (
-                                      <Box
-                                        margin="5px"
-                                        padding="15px"
-                                        sx={{ cursor: "pointer" }}
-                                        border={
-                                          item.value === variantSizeName
-                                            ? "1px solid #000"
-                                            : "1px solid #e2e2e2"
-                                        }
-                                        borderRadius="5px"
-                                        onClick={() =>
-                                          handleVariantSizeChange(item.value)
-                                        }
-                                      >
-                                        <div>{item.value}</div>
-                                        {!product.variants[index].available && (
-                                          <SoldOutIcon margin="2px" />
-                                        )}
-                                      </Box>
-                                    )
-                                  }
-                                )}
-                              </Box>
-                            </>
-                          ) : product.options[0].name === "Color" &&
-                            product.options.length === 1 ? (
-                            <>
-                              <Typography variant="navUser" m="20px 0">
-                                Color
-                              </Typography>
-                              <Box display="flex">
-                                {product?.options[0]?.values.map(
-                                  (item, index) => {
-                                    return (
-                                      <Box
-                                        key={index}
-                                        margin="5px"
-                                        padding="5px"
-                                        position="relative"
-                                        sx={{
-                                          cursor: "pointer",
-                                        }}
-                                        border={
-                                          item.value === variantColorName
-                                            ? "1px solid #000"
-                                            : "1px solid #e2e2e2"
-                                        }
-                                        borderRadius="50%"
-                                        onClick={() =>
-                                          handleVariantColorChange(item.value)
-                                        }
-                                      >
-                                        <Color
-                                          key={item.value}
-                                          title={item.value}
-                                        />
-                                        {!product.variants[index].available && (
-                                          <SoldOutIcon />
-                                        )}
-                                      </Box>
-                                    )
-                                  }
-                                )}
-                              </Box>
-                            </>
-                          ) : product.options[0].name === "Title" ? (
-                            ""
-                          ) : (
-                            <>
-                              <Typography variant="navUser" m="20px 0">
-                                {product?.options[0].name}
-                              </Typography>
-                              <Box display="flex">
-                                {product?.options[0]?.values.map(
-                                  (item, index) => {
-                                    return (
-                                      <Box
-                                        position="relative"
-                                        margin="5px"
-                                        padding="15px"
-                                        sx={{ cursor: "pointer" }}
-                                        border={
-                                          item.value === variantSizeName
-                                            ? "1px solid #000"
-                                            : "1px solid #e2e2e2"
-                                        }
-                                        borderRadius="5px"
-                                        onClick={() =>
-                                          handleVariantSizeChange(item.value)
-                                        }
-                                      >
-                                        <div>{item.value}</div>
-                                        {!product.variants[index].available && (
-                                          <SoldOutIcon margin="2px" />
-                                        )}
-                                      </Box>
-                                    )
-                                  }
-                                )}
-                              </Box>
-                            </>
-                          )}
-                        </>
-                      )}
-                    </>
-                  )}
+                    {!!selectedVariant && (
+                      <Stack
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        spacing={2}
+                      >
+                        <Typography
+                          variant="h5"
+                          color="#414042"
+                          sx={{
+                            paddingTop: 1,
+                            paddingBottom: 1,
+                          }}
+                        >
+                          ${selectedVariant.price} USD
+                        </Typography>
+                        {!selectedVariant?.available && (
+                          <Box
+                            sx={{
+                              background: "#f41901",
+                              padding: "8px 10px",
+                              color: theme.palette.white.main,
+                              fontFamily: theme.typography.fontFamily,
+                              borderRadius: "10px",
+                              letterSpacing: "2px",
 
-                  {!!selectedVariant && (
-                    <Box m="30px 0">
-                      <Inventory handle={handle} id={selectedVariant?.id} />
-                    </Box>
-                  )}
+                              [theme.breakpoints.down("md")]: {
+                                top: "70px",
+                                right: "80px",
+                              },
+                            }}
+                          >
+                            Sold Out
+                          </Box>
+                        )}
+                      </Stack>
+                    )}
 
-                  {!!selectedVariant && (
-                    <ProductQuantityAdder
-                      variantId={selectedVariant.id}
-                      available={selectedVariant.available}
+                    <Typography
+                      sx={{ m: "20px 0 20px 0", maxWidth: "550px" }}
+                      variant="body1"
+                      color="#414042"
+                    >
+                      {description}
+                    </Typography>
+                  </Box>
+
+                  <Box>
+                    {product?.availableForSale && !!selectedVariant && (
+                      <>
+                        {product?.variants.length >= 1 && (
+                          <>
+                            {product.options.length === 2 &&
+                              product.options[0].name === "Color" ? (
+                              <>
+                                <Typography variant="navUser" m="20px 0">
+                                  Color
+                                </Typography>
+                                <Box display="flex">
+                                  {product?.options[0]?.values.map(
+                                    (item, index) => {
+                                      return (
+                                        <Box
+                                          key={index}
+                                          margin="5px"
+                                          padding="5px"
+                                          position="relative"
+                                          sx={{
+                                            cursor: "pointer",
+                                          }}
+                                          border={
+                                            item.value === variantColorName
+                                              ? "1px solid #000"
+                                              : "1px solid #e2e2e2"
+                                          }
+                                          borderRadius="50%"
+                                          onClick={() =>
+                                            handleVariantColorChange(item.value)
+                                          }
+                                        >
+                                          <Color
+                                            key={item.value}
+                                            title={item.value}
+                                          />
+                                          {!product.variants[index].available && (
+                                            <SoldOutIcon />
+                                          )}
+                                        </Box>
+                                      )
+                                    }
+                                  )}
+                                </Box>
+
+                                <Typography variant="navUser" m="20px 0">
+                                  Size
+                                </Typography>
+                                <Box display="flex">
+                                  {product?.options[1]?.values.map(
+                                    (item, index) => {
+                                      return (
+                                        <Box
+                                          margin="5px"
+                                          padding="15px"
+                                          sx={{ cursor: "pointer" }}
+                                          border={
+                                            item.value === variantSizeName
+                                              ? "1px solid #000"
+                                              : "1px solid #e2e2e2"
+                                          }
+                                          borderRadius="5px"
+                                          onClick={() =>
+                                            handleVariantSizeChange(item.value)
+                                          }
+                                        >
+                                          <div>{item.value}</div>
+                                          {!product.variants[index].available && (
+                                            <SoldOutIcon margin="2px" />
+                                          )}
+                                        </Box>
+                                      )
+                                    }
+                                  )}
+                                </Box>
+                              </>
+                            ) : product.options[0].name === "Color" &&
+                              product.options.length === 1 ? (
+                              <>
+                                <Typography variant="navUser" m="20px 0">
+                                  Color
+                                </Typography>
+                                <Box display="flex">
+                                  {product?.options[0]?.values.map(
+                                    (item, index) => {
+                                      return (
+                                        <Box
+                                          key={index}
+                                          margin="5px"
+                                          padding="5px"
+                                          position="relative"
+                                          sx={{
+                                            cursor: "pointer",
+                                          }}
+                                          border={
+                                            item.value === variantColorName
+                                              ? "1px solid #000"
+                                              : "1px solid #e2e2e2"
+                                          }
+                                          borderRadius="50%"
+                                          onClick={() =>
+                                            handleVariantColorChange(item.value)
+                                          }
+                                        >
+                                          <Color
+                                            key={item.value}
+                                            title={item.value}
+                                          />
+                                          {!product.variants[index].available && (
+                                            <SoldOutIcon />
+                                          )}
+                                        </Box>
+                                      )
+                                    }
+                                  )}
+                                </Box>
+                              </>
+                            ) : product.options[0].name === "Title" ? (
+                              ""
+                            ) : (
+                              <>
+                                <Typography variant="navUser" m="20px 0">
+                                  {product?.options[0].name}
+                                </Typography>
+                                <Box display="flex">
+                                  {product?.options[0]?.values.map(
+                                    (item, index) => {
+                                      return (
+                                        <Box
+                                          position="relative"
+                                          margin="5px"
+                                          padding="15px"
+                                          sx={{ cursor: "pointer" }}
+                                          border={
+                                            item.value === variantSizeName
+                                              ? "1px solid #000"
+                                              : "1px solid #e2e2e2"
+                                          }
+                                          borderRadius="5px"
+                                          onClick={() =>
+                                            handleVariantSizeChange(item.value)
+                                          }
+                                        >
+                                          <div>{item.value}</div>
+                                          {!product.variants[index].available && (
+                                            <SoldOutIcon margin="2px" />
+                                          )}
+                                        </Box>
+                                      )
+                                    }
+                                  )}
+                                </Box>
+                              </>
+                            )}
+                          </>
+                        )}
+                      </>
+                    )}
+
+                    {!!selectedVariant && (
+                      <Box m="30px 0">
+                        <Inventory handle={handle} id={selectedVariant?.id} />
+                      </Box>
+                    )}
+
+                    {!!selectedVariant && (
+                      <ProductQuantityAdder
+                        variantId={selectedVariant.id}
+                        available={selectedVariant.available}
+                      />
+                    )}
+                  </Box>
+                  <Box>
+                    <Socials
+                      title={metaTitle?.value || title}
+                      url={url}
+                      media={featuredImage?.originalSrc}
                     />
-                  )}
+                  </Box>
                 </Box>
-                <Box>
-                  <Socials
-                    title={metaTitle?.value || title}
-                    url={url}
-                    media={featuredImage?.originalSrc}
-                  />
-                </Box>
-              </Box>
-            </Box>
+              </Grid>
+            </Grid>
 
             {selectedVariant && metaFBT && (
               <Fbt
