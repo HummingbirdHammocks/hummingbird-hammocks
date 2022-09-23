@@ -12,7 +12,7 @@ export const RecentViewed = ({ title }) => {
 
   return (
     <Box sx={{ marginTop: "70px", }}>
-      <Typography pb="30px" textAlign="center" variant="h5">
+      <Typography pb="30px" textAlign="center" variant="h4">
         {title}
       </Typography>
       <Divider />

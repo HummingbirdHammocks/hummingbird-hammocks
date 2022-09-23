@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react"
+import { toast } from 'react-toastify'
 import { useTheme } from '@mui/material/styles';
 import {
   Box,
@@ -82,6 +83,7 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
         await updateLineItem({ variantId: selectedVariant[i].id, quantity: 1 })
       }
     }
+    toast.success(`${selectedVariant.length} items added to cart`)
   }
 
   const handleCheckChange = itemIndex => {
@@ -111,14 +113,8 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
   return (
     <Paper
       sx={{
-        background: theme.palette.white,
         marginTop: "100px",
         padding: 4,
-
-        [theme.breakpoints.down("md")]: {
-          padding: "0",
-          marginTop: "40px",
-        },
       }}>
       <Typography pb="20px" variant="h5">
         FREQUENTLY BOUGHT TOGETHER
@@ -126,8 +122,8 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
       <Divider />
       <Box mt="50px">
         {selectedVariant && (
-          <Grid container>
-            <Grid item xs={12} md={6}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} lg={6}>
               <Box mb="70px" display={matches ? "block" : "flex"}>
                 <Box
                   display="flex"
@@ -139,7 +135,7 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
                     if (item.selected) {
                       return (
                         <>
-                          <Box p={matches ? "0 10px" : "0 40px"} key={item.id}>
+                          <Box p={2} key={item.id}>
                             <img
                               src={item.image.src}
                               height="120px"
@@ -166,7 +162,7 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
               </Box>
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} lg={6}>
               <>
                 {selectedVariant.map((item, index) => (
                   <Box key={item.id} display="flex">

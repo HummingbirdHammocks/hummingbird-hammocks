@@ -36,7 +36,7 @@ export const ProductDetailsGrid = ({
             gridTemplateColumns: "1fr",
           },
         }}>
-        <Typography mb={matches && "30px"} variant="h5">
+        <Typography mb={matches && "30px"} variant="h4">
           {title}
         </Typography>
         {body1 && (

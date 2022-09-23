@@ -717,7 +717,10 @@ const ProductPage = ({ data, pageContext }) => {
                     order={index % 2 === 0 && 2}
                     data={{ title: item.title, htmlText: item.html_text }}
                   >
-                    <DetailsImage title={item.title} src={item.image_url} />
+                    <DetailsImage
+                      title={item.title}
+                      src={item.image_url}
+                    />
                   </Details>
                 ))}
               </>
