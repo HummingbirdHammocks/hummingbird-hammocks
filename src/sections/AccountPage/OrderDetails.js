@@ -1,6 +1,6 @@
 import React from "react"
-import { useTheme } from '@mui/material/styles';
 import {
+  useTheme,
   Typography,
   Divider,
   Box,

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react"
-import { useTheme } from '@mui/material/styles';
 import { graphql } from "gatsby"
 import {
+  useTheme,
   Box,
   Typography,
   List,

@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
-import { useTheme } from '@mui/material/styles';
-import { Typography, Divider, Box, Grid, useMediaQuery } from "@mui/material"
+import { useTheme, Typography, Divider, Box, Grid, useMediaQuery } from "@mui/material"
 import { navigate } from "gatsby"
 import { useQuery, gql } from "@apollo/client"
 import { useLocation } from "@gatsbyjs/reach-router"

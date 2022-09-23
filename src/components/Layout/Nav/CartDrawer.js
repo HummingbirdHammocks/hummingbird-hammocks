@@ -128,7 +128,6 @@ export const CartDrawer = () => {
               to={`/products/${item.variant.product.handle}`}
               onClick={() => setCartOpen(!cartOpen)}
             >
-
               <img
                 alt={item.variant.image.altText}
                 src={item.variant.image.src}

@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from "react"
-import { useTheme } from '@mui/material/styles';
-import { Typography, Divider, Box, useMediaQuery } from "@mui/material"
+import { useTheme, Typography, Divider, Box, useMediaQuery } from "@mui/material"
 import { useMutation, gql, useQuery } from "@apollo/client"
 import { navigate } from "gatsby"
 import { useForm } from "react-hook-form"

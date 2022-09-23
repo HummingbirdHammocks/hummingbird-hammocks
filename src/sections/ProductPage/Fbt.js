@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react"
 import { toast } from 'react-toastify'
-import { useTheme } from '@mui/material/styles';
 import {
+  useTheme,
   Box,
   Divider,
   Typography,

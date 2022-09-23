@@ -1,6 +1,5 @@
 import React, { useContext } from "react"
-import { useTheme } from '@mui/material/styles';
-import { Box, Typography, Divider } from "@mui/material"
+import { useTheme, Box, Typography, Divider } from "@mui/material"
 
 import { RecentViewedContext } from "contexts"
 import { ProductCard } from "sections"

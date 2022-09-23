@@ -1,7 +1,6 @@
 import React from "react"
 import { StaticImage } from "gatsby-plugin-image"
-import { useTheme } from '@mui/material/styles';
-import { Box, Typography } from "@mui/material"
+import { useTheme, Box, Typography } from "@mui/material"
 
 import {
   Seo,

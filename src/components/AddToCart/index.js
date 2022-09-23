@@ -1,6 +1,5 @@
 import React, { useContext } from "react"
-import { useTheme } from '@mui/material/styles';
-import { Box, Button } from "@mui/material"
+import { useTheme, Box, Button } from "@mui/material"
 import { CartContext } from "contexts"
 
 export const AddToCart = ({ variantId, available }) => {

@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
-import { useTheme } from '@mui/material/styles';
 import {
+  useTheme,
   Box,
   Divider,
   Typography,
@@ -12,7 +12,7 @@ import { Add, Remove, Delete } from "@mui/icons-material"
 
 import { useTopBannerContext, CartContext, RecentViewedContext } from "contexts"
 import { Seo, Layout, MainWrapper, OnButton, Link } from "components"
-import { RecentViewed } from "sections"
+import { RecentViewed, CartExtras } from "sections"
 
 
 const CartPage = () => {
@@ -93,17 +93,37 @@ const CartPage = () => {
                         borderBottom="1px solid #4f4c4c00"
                         display="flex"
                       >
-                        <img
-                          alt={item.variant.image.altText}
-                          src={item.variant.image.src}
-                          height="130px"
-                          width="130px"
-                        />
+                        <Link
+                          sx={{
+                            textDecoration: "none",
+                            "&:hover": {
+                              opacity: "0.7",
+                            },
+                          }}
+                          to={`/products/${item.variant.product.handle}`}
+                        >
+                          <img
+                            alt={item.variant.image.altText}
+                            src={item.variant.image.src}
+                            height="130px"
+                            width="130px"
+                          />
+                        </Link>
 
                         <Box pl="20px" flex="1 1 0">
-                          <Typography variant="cartTitle" fontSize="14px">
-                            {item.title}
-                          </Typography>
+                          <Link
+                            sx={{
+                              textDecoration: "none",
+                              "&:hover": {
+                                opacity: "0.7",
+                              },
+                            }}
+                            to={`/products/${item.variant.product.handle}`}
+                          >
+                            <Typography variant="cartTitle" fontSize="14px">
+                              {item.title}
+                            </Typography>
+                          </Link>
                           <br />
                           <Typography variant="cartVariant" color="grey.600">
                             {item.variant.title === "Default Title"
@@ -208,7 +228,7 @@ const CartPage = () => {
                   </Typography>
 
                   <OnButton
-                    variant="outlined"
+                    variant="contained"
                     sx={{
                       mt: "10px",
                       height: 40,
@@ -224,6 +244,7 @@ const CartPage = () => {
               </Box>
             )}
           </Box>
+          <CartExtras />
           {recentViewedProducts.length > 1 && (
             <RecentViewed title="YOU MAY ALSO BE INTERESTED IN" />
           )}

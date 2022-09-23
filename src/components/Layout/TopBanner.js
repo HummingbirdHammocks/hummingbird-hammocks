@@ -1,6 +1,5 @@
 import React from "react"
-import { useTheme } from '@mui/material/styles';
-import { useMediaQuery, Box, Typography } from "@mui/material"
+import { useTheme, useMediaQuery, Box, Typography } from "@mui/material"
 import { Close } from "@mui/icons-material"
 
 import { useTopBannerContext } from "contexts"

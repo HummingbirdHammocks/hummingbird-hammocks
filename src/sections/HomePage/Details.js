@@ -1,6 +1,5 @@
 import React from "react"
-import { useTheme } from '@mui/material';
-import { Box, Grid, Stack, Typography } from "@mui/material"
+import { useTheme, Box, Grid, Stack, Typography } from "@mui/material"
 
 import { LinkButton, ButtonAnotherLink } from "components"
 

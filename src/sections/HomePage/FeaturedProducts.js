@@ -1,6 +1,5 @@
 import React, { useContext } from "react"
-import { useTheme } from '@mui/material/styles';
-import { styled, Box, Typography, useMediaQuery } from "@mui/material"
+import { useTheme, styled, Box, Typography, useMediaQuery } from "@mui/material"
 import { Navigation, Autoplay, Pagination } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { GatsbyImage } from "gatsby-plugin-image"

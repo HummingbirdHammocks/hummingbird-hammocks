@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react"
 import { graphql, navigate } from "gatsby"
-import { useTheme } from '@mui/material/styles';
-import { Box, Grid, Stack, Typography, Divider, useMediaQuery, Tooltip } from "@mui/material"
+import { useTheme, Box, Grid, Stack, Typography, Divider, useMediaQuery, Tooltip } from "@mui/material"
 import { FreeMode, Navigation, Thumbs } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { GatsbyImage } from "gatsby-plugin-image"

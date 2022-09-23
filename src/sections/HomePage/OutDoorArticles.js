@@ -1,6 +1,5 @@
 import React from "react"
-import { useTheme } from '@mui/material/styles';
-import { Typography, Box } from "@mui/material"
+import { useTheme, Typography, Box } from "@mui/material"
 import { useStaticQuery, graphql } from "gatsby"
 
 import { MainWrapper } from "components"
