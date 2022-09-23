@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react"
-import { styled, Typography, Divider, Box, useMediaQuery } from "@mui/material"
+import { useTheme } from '@mui/material/styles';
+import { Typography, Divider, Box, useMediaQuery } from "@mui/material"
 import { useMutation, gql, useQuery } from "@apollo/client"
 import { navigate } from "gatsby"
 import { useForm } from "react-hook-form"
@@ -15,38 +16,9 @@ import {
 } from "components"
 import Select from "../../utils/country"
 
-const AddressSection = styled("section")(({ theme }) => ({
-  background: theme.palette.white,
-  padding: "60px 15px",
-
-  [theme.breakpoints.down("md")]: {
-    padding: "30px 0 50px 0",
-  },
-}))
-
-const AddressGrid = styled(Box)(({ theme }) => ({
-  display: "grid",
-  gridTemplateColumns: "1fr 2fr",
-  padding: "30px 0",
-
-  [theme.breakpoints.down("md")]: {
-    gridTemplateColumns: "1fr",
-    padding: "0",
-  },
-}))
-
-const CheckWidth = styled(Box)(({ theme }) => ({
-  display: "flex",
-  maxHeight: "40px",
-  margin: "20px 0",
-
-  "& input": {
-    width: "40px!important",
-    marginTop: "-1px",
-  },
-}))
 
 const AddressPage = () => {
+  const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
   const [formType, setFormType] = useState("Add")
   const [message, setMessage] = useState("")
@@ -76,10 +48,10 @@ const AddressPage = () => {
     CUSTOMER_ADDRESS,
     variables
   )
-  const [deleteAddress, {}] = useMutation(CUSTOMER_DELETE_ADDRESS)
-  const [customerAddressCreate, {}] = useMutation(CUSTOMER_CREATE_ADDRESS)
-  const [customerAddressUpdate, {}] = useMutation(CUSTOMER_EDIT_ADDRESS)
-  const [customerDefaultAddressUpdate, {}] = useMutation(
+  const [deleteAddress, { }] = useMutation(CUSTOMER_DELETE_ADDRESS)
+  const [customerAddressCreate, { }] = useMutation(CUSTOMER_CREATE_ADDRESS)
+  const [customerAddressUpdate, { }] = useMutation(CUSTOMER_EDIT_ADDRESS)
+  const [customerDefaultAddressUpdate, { }] = useMutation(
     CUSTOMER_EDIT_DEFAULT_ADDRESS
   )
 
@@ -238,7 +210,15 @@ const AddressPage = () => {
   return (
     <Layout>
       <Seo title="Account" />
-      <AddressSection>
+      <Box
+        sx={{
+          background: theme.palette.white,
+          padding: "60px 15px",
+
+          [theme.breakpoints.down("md")]: {
+            padding: "30px 0 50px 0",
+          },
+        }}>
         <MainWrapper>
           <Box
             pb="20px"
@@ -276,7 +256,17 @@ const AddressPage = () => {
           <Divider />
 
           <Box padding={!matches ? "0 200px" : "0"}>
-            <AddressGrid>
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: "1fr 2fr",
+                padding: "30px 0",
+
+                [theme.breakpoints.down("md")]: {
+                  gridTemplateColumns: "1fr",
+                  padding: "0",
+                },
+              }}>
               {error && "Error"}
               {loading && <MiddleSpinner divMinHeight="460px" size={20} />}
 
@@ -444,7 +434,17 @@ const AddressPage = () => {
                     })}
                   />
 
-                  <CheckWidth>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      maxHeight: "40px",
+                      margin: "20px 0",
+
+                      "& input": {
+                        width: "40px!important",
+                        marginTop: "-1px",
+                      },
+                    }}>
                     <input
                       type="checkbox"
                       onChange={() =>
@@ -455,17 +455,17 @@ const AddressPage = () => {
                     <Typography variant="navUser">
                       Set as default address
                     </Typography>
-                  </CheckWidth>
+                  </Box>
 
                   <OnButton type="submit">
                     {formType === "Add" ? "Add New Address" : "Update Address"}
                   </OnButton>
                 </SimpleForm>
               </Box>
-            </AddressGrid>
+            </Box>
           </Box>
         </MainWrapper>
-      </AddressSection>
+      </Box>
     </Layout>
   )
 }

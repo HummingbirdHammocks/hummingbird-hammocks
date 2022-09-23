@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react"
-import { styled, Typography, Divider, Box, useMediaQuery } from "@mui/material"
+import { useTheme } from '@mui/material/styles';
+import { Typography, Divider, Box, useMediaQuery } from "@mui/material"
 import { useMutation, gql } from "@apollo/client"
 import { navigate } from "gatsby"
 import { useForm } from "react-hook-form"
@@ -14,16 +15,9 @@ import {
   SimpleForm,
 } from "components"
 
-const ResetSection = styled("section")(({ theme }) => ({
-  background: theme.palette.white,
-  padding: "60px 15px",
-
-  [theme.breakpoints.down("md")]: {
-    padding: "50",
-  },
-}))
 
 const ResetPage = ({ params }) => {
+  const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
   // something went wrong
   const [message, setMessage] = useState("")
@@ -74,8 +68,16 @@ const ResetPage = ({ params }) => {
 
   return (
     <Layout>
-      <Seo title="Forger Password" />
-      <ResetSection>
+      <Seo title="Forgot Password" />
+      <Box
+        sx={{
+          background: theme.palette.white,
+          padding: "60px 15px",
+
+          [theme.breakpoints.down("md")]: {
+            padding: "50",
+          },
+        }}>
         <MainWrapper>
           <Box padding={!matches ? "0 200px" : "0"}>
             {customerAccessToken ? (
@@ -113,7 +115,7 @@ const ResetPage = ({ params }) => {
 
                     <Box mt="20px">
                       <Typography variant="body1">
-                        <b>Already Customer?</b>{" "}
+                        <b>Remembered Your Login?</b>{" "}
                         <Link to="/account/register">Sign In &#8594;</Link>
                       </Typography>
                     </Box>
@@ -123,7 +125,7 @@ const ResetPage = ({ params }) => {
             )}
           </Box>
         </MainWrapper>
-      </ResetSection>
+      </Box>
     </Layout>
   )
 }

@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react"
-import { styled, Typography, Divider, Box, useMediaQuery } from "@mui/material"
+import { useTheme } from '@mui/material/styles';
+import { Typography, Divider, Box, useMediaQuery } from "@mui/material"
 import { useMutation, gql } from "@apollo/client"
 import { navigate } from "gatsby"
 import { useForm } from "react-hook-form"
@@ -14,16 +15,9 @@ import {
   SimpleForm,
 } from "components"
 
-const ForgetSection = styled("section")(({ theme }) => ({
-  background: theme.palette.white,
-  padding: "60px 15px",
-
-  [theme.breakpoints.down("md")]: {
-    padding: "50",
-  },
-}))
 
 const ForgetPage = () => {
+  const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
   // something went wrong
   const [message, setMessage] = useState("")
@@ -45,10 +39,10 @@ const ForgetPage = () => {
 
   const handleForgetPassword = async ({ email }) => {
     /* const { data } = */ await forgetPassword({
-      variables: {
-        email,
-      },
-    })
+    variables: {
+      email,
+    },
+  })
 
     if (!error) {
       setMessage(
@@ -66,7 +60,15 @@ const ForgetPage = () => {
   return (
     <Layout>
       <Seo title="Forger Password" />
-      <ForgetSection>
+      <Box
+        sx={{
+          background: theme.palette.white,
+          padding: "60px 15px",
+
+          [theme.breakpoints.down("md")]: {
+            padding: "50",
+          },
+        }}>
         <MainWrapper>
           <Box padding={!matches ? "0 200px" : "0"}>
             {customerAccessToken ? (
@@ -128,7 +130,7 @@ const ForgetPage = () => {
             )}
           </Box>
         </MainWrapper>
-      </ForgetSection>
+      </Box>
     </Layout>
   )
 }

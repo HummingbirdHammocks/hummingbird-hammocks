@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react"
-import { styled, Typography, Divider, Box, useMediaQuery } from "@mui/material"
+import { useTheme } from '@mui/material/styles';
+import { Typography, Divider, Box, useMediaQuery } from "@mui/material"
 import { useMutation, gql } from "@apollo/client"
 import { navigate } from "gatsby"
 import { useForm } from "react-hook-form"
@@ -14,16 +15,9 @@ import {
   SimpleForm,
 } from "components"
 
-const RegisterSection = styled("section")(({ theme }) => ({
-  background: theme.palette.white,
-  padding: "60px 15px",
-
-  [theme.breakpoints.down("md")]: {
-    padding: "50",
-  },
-}))
 
 const RegisterPage = () => {
+  const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
   // something went wrong
   const [message, setMessage] = useState("")
@@ -68,7 +62,15 @@ const RegisterPage = () => {
   return (
     <Layout>
       <Seo title="Register" />
-      <RegisterSection>
+      <Box
+        sx={{
+          background: theme.palette.white,
+          padding: "60px 15px",
+
+          [theme.breakpoints.down("md")]: {
+            padding: "50",
+          },
+        }}>
         <MainWrapper>
           <Box padding={!matches ? "0 200px" : "0"}>
             {customerAccessToken ? (
@@ -79,7 +81,7 @@ const RegisterPage = () => {
                 display="flex"
               >
                 <Typography variant="h1">
-                  You already Logged in! Please Logout First:
+                  You're already Logged in! Please Logout First:
                 </Typography>
                 <OnButton onClick={() => logout()}>Logout</OnButton>
               </Box>
@@ -135,7 +137,7 @@ const RegisterPage = () => {
 
                     <Box mt="20px">
                       <Typography variant="body1">
-                        <b>Already Member?</b>{" "}
+                        <b>Already Have An Account?</b>{" "}
                         <Link to="/account/login">Sign In &#8594;</Link>
                       </Typography>
                     </Box>
@@ -145,7 +147,7 @@ const RegisterPage = () => {
             )}
           </Box>
         </MainWrapper>
-      </RegisterSection>
+      </Box>
     </Layout>
   )
 }

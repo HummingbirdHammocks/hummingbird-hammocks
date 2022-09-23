@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react"
-import { styled, Box, Typography, Divider, useMediaQuery } from "@mui/material"
+import { useTheme } from '@mui/material/styles';
+import { Box, Typography, Divider, useMediaQuery } from "@mui/material"
 import { useMutation, gql } from "@apollo/client"
 import { useForm } from "react-hook-form"
 import { navigate } from "gatsby"
@@ -15,16 +16,9 @@ import {
   MiddleSpinner,
 } from "components"
 
-const LoginSection = styled("section")(({ theme }) => ({
-  background: theme.palette.white,
-  padding: "60px 15px",
-
-  [theme.breakpoints.down("md")]: {
-    padding: "50",
-  },
-}))
 
 const LoginPage = () => {
+  const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
   // something went wrong
   const [message, setMessage] = useState("")
@@ -63,7 +57,15 @@ const LoginPage = () => {
   return (
     <Layout>
       <Seo title="Login" />
-      <LoginSection>
+      <Box
+        sx={{
+          background: theme.palette.white,
+          padding: "60px 15px",
+
+          [theme.breakpoints.down("md")]: {
+            padding: "50",
+          },
+        }}>
         <MainWrapper>
           <Box padding={!matches ? "0 200px" : "0"}>
             {customerAccessToken ? (
@@ -74,7 +76,7 @@ const LoginPage = () => {
                 display="flex"
               >
                 <Typography variant="h1">
-                  You already Logged in! Please Logout First:
+                  You're already Logged in! Please log out First:
                 </Typography>
                 <OnButton onClick={() => logout()}>Logout</OnButton>
               </Box>
@@ -125,7 +127,7 @@ const LoginPage = () => {
                     <Box mt="20px">
                       <Typography variant="body1" mb="10px">
                         <Link to="/account/forget-password">
-                          Forget Password?
+                          Forgot your password?
                         </Link>
                       </Typography>
                       <Typography variant="body1">
@@ -139,7 +141,7 @@ const LoginPage = () => {
             )}
           </Box>
         </MainWrapper>
-      </LoginSection>
+      </Box>
     </Layout>
   )
 }
