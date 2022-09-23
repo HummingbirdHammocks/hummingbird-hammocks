@@ -5,6 +5,9 @@ import {
   Divider,
   Typography,
   Checkbox,
+  Grid,
+  Stack,
+  Paper,
   useMediaQuery,
 } from "@mui/material"
 
@@ -106,11 +109,11 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
   }
 
   return (
-    <Box
+    <Paper
       sx={{
         background: theme.palette.white,
         marginTop: "100px",
-        padding: "60px 15px",
+        padding: 4,
 
         [theme.breakpoints.down("md")]: {
           padding: "0",
@@ -123,108 +126,118 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
       <Divider />
       <Box mt="50px">
         {selectedVariant && (
-          <>
-            <Box mb="70px" display={matches ? "block" : "flex"}>
-              <Box
-                display="flex"
-                flexWrap="wrap"
-                justifyContent="center"
-                mb={matches && "30px"}
-              >
-                {selectedVariant.map((item, index) => {
-                  if (item.selected) {
-                    return (
-                      <>
-                        <Box p={matches ? "0 10px" : "0 40px"} key={item.id}>
-                          <img
-                            src={item.image.src}
-                            height="80px"
-                            alt={item.image.altText}
-                          />
-                        </Box>
-                        {index !== selectedVariant.length - 1 ? (
-                          <Box
-                            display="flex"
-                            alignItems="center"
-                            justifyContent="center"
-                          >
-                            +
+          <Grid container>
+            <Grid item xs={12} md={6}>
+              <Box mb="70px" display={matches ? "block" : "flex"}>
+                <Box
+                  display="flex"
+                  flexWrap="wrap"
+                  justifyContent="center"
+                  mb={matches && "30px"}
+                >
+                  {selectedVariant.map((item, index) => {
+                    if (item.selected) {
+                      return (
+                        <>
+                          <Box p={matches ? "0 10px" : "0 40px"} key={item.id}>
+                            <img
+                              src={item.image.src}
+                              height="120px"
+                              alt={item.image.altText}
+                            />
                           </Box>
-                        ) : (
-                          ""
-                        )}
-                      </>
-                    )
-                  }
-                  return null;
-                })}
-              </Box>
-
-              <Box>
-                <Typography pb="20px" variant="subtitle2">
-                  Total price: $
-                  {Number(
-                    selectedVariant
-                      .map(item => item.selected && Number(item.priceV2.amount))
-                      .reduce((prev, curr) => prev + curr, 0)
-                  ).toFixed(2)}
-                </Typography>
-                <OnButton onClick={handleSubmit}>Add to Cart</OnButton>
-              </Box>
-            </Box>
-
-            <Box>
-              {selectedVariant.map((item, index) => (
-                <Box key={item.id} display="flex">
-                  <Checkbox
-                    onChange={() => handleCheckChange(index)}
-                    checked={item.selected}
-                  />
-                  <Box
-                    sx={{
-                      ...theme.typography.footerMenu,
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}>
-                    {index === 0 ? (
-                      <b>This Item: {data[index].title} </b>
-                    ) : (
-                      <> {data[index].title} </>
-                    )}{" "}
-                    {data[index].variants.length >= 1 &&
-                      data[index].variants[0]?.title !== "Default Title" && (
-                        <select
-                          style={{ margin: "0 10px" }}
-                          value={selectedVariant[index].id}
-                          onChange={e =>
-                            handleSelectChange(index, e.target.value)
-                          }
-                        >
-                          {data[index].variants.map(i => {
-                            return (
-                              <option
-                                // selected={currentVariant.id === i.id}
-                                key={i.id}
-                                value={i.id}
-                              >
-                                {i.title}
-                              </option>
-                            )
-                          })}
-                        </select>
-                      )}{" "}
-                    <b>
-                      ${selectedVariant[index]?.priceV2.amount}{" "}
-                      {selectedVariant[index]?.priceV2.currencyCode}
-                    </b>
-                  </Box>
+                          {index !== selectedVariant.length - 1 ? (
+                            <Box
+                              display="flex"
+                              alignItems="center"
+                              justifyContent="center"
+                            >
+                              +
+                            </Box>
+                          ) : (
+                            ""
+                          )}
+                        </>
+                      )
+                    }
+                    return null;
+                  })}
                 </Box>
-              ))}
-            </Box>
-          </>
+              </Box>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <>
+                {selectedVariant.map((item, index) => (
+                  <Box key={item.id} display="flex">
+                    <Checkbox
+                      onChange={() => handleCheckChange(index)}
+                      checked={item.selected}
+                    />
+                    <Box
+                      sx={{
+                        ...theme.typography.footerMenu,
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}>
+                      {index === 0 ? (
+                        <b>This Item: {data[index].title} </b>
+                      ) : (
+                        <> {data[index].title} </>
+                      )}{" "}
+                      {data[index].variants.length >= 1 &&
+                        data[index].variants[0]?.title !== "Default Title" && (
+                          <select
+                            style={{ margin: "0 10px" }}
+                            value={selectedVariant[index].id}
+                            onChange={e =>
+                              handleSelectChange(index, e.target.value)
+                            }
+                          >
+                            {data[index].variants.map(i => {
+                              return (
+                                <option
+                                  // selected={currentVariant.id === i.id}
+                                  key={i.id}
+                                  value={i.id}
+                                >
+                                  {i.title}
+                                </option>
+                              )
+                            })}
+                          </select>
+                        )}{" "}
+                      <b>
+                        ${selectedVariant[index]?.priceV2.amount}{" "}
+                        {selectedVariant[index]?.priceV2.currencyCode}
+                      </b>
+                    </Box>
+                  </Box>
+                ))}
+                {/* <Divider /> */}
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  spacing={2}
+                  sx={{ mt: 2 }}
+                >
+                  <Typography variant="subtitle2">
+                    Total price: $
+                    {Number(
+                      selectedVariant
+                        .map(item => item.selected && Number(item.priceV2.amount))
+                        .reduce((prev, curr) => prev + curr, 0)
+                    ).toFixed(2)}
+                  </Typography>
+                  <OnButton onClick={handleSubmit}>Add to Cart</OnButton>
+                </Stack>
+              </>
+            </Grid>
+          </Grid>
         )}
       </Box>
-    </Box>
+    </Paper >
   )
 }

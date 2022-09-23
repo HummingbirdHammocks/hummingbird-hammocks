@@ -22,42 +22,44 @@ export function ProductQuantityAdder({ variantId, available }) {
     <Box>
       <Typography variant="navUser">Quantity</Typography>
       <form style={{ marginTop: "10px" }} onSubmit={handleSubmit}>
-        <Stack direction="row" spacing={2}>
-          <Button
-            color="primary"
-            variant="outlined"
-            disabled={!available}
-            onClick={() => setQuantity(quantity - 1)}
-            sx={{ height: "57px", width: "57px" }}
-          >
-            <Add />
-          </Button>
-          <TextField
-            disabled={!available}
-            type="number"
-            value={quantity}
-            onChange={handleQuantityChange}
-            sx={{ width: "80px" }}
-          />
-          <Button
-            color="primary"
-            variant="outlined"
-            disabled={!available}
-            onClick={() => setQuantity(quantity + 1)}
-            sx={{ height: "57px", width: "57px" }}
-          >
-            <Remove />
-          </Button>
-        </Stack>
+        <Stack direction={{ xs: 'column', sm: 'row', md: 'column', lg: 'row' }} spacing={2}>
+          <Stack direction="row" spacing={2}>
+            <Button
+              color="primary"
+              variant="outlined"
+              disabled={!available}
+              onClick={() => setQuantity(quantity - 1)}
+              sx={{ height: "57px", width: "57px" }}
+            >
+              <Remove />
+            </Button>
+            <TextField
+              disabled={!available}
+              type="number"
+              value={quantity}
+              onChange={handleQuantityChange}
+              sx={{ width: "80px" }}
+            />
+            <Button
+              color="primary"
+              variant="outlined"
+              disabled={!available}
+              onClick={() => setQuantity(quantity + 1)}
+              sx={{ height: "57px", width: "57px" }}
+            >
+              <Add />
+            </Button>
+          </Stack>
 
-        <OnButton
-          margin="30px 0 0 0"
-          type="submit"
-          border={!available && "1px solid #aeaeae"}
-          disabled={!available}
-        >
-          {!available ? "Sold Out" : "Add to Cart"}
-        </OnButton>
+          <OnButton
+            margin="30px 0 0 0"
+            type="submit"
+            border={!available && "1px solid #aeaeae"}
+            disabled={!available}
+          >
+            {!available ? "Sold Out" : "Add to Cart"}
+          </OnButton>
+        </Stack>
       </form>
       {!available && (
         <Box

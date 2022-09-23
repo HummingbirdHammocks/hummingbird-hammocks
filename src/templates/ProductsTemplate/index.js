@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react"
 import { graphql, navigate } from "gatsby"
 import { useTheme } from '@mui/material/styles';
-import { Box, Typography, useMediaQuery, Tooltip } from "@mui/material"
+import { Box, Typography, Divider, useMediaQuery, Tooltip } from "@mui/material"
 import { FreeMode, Navigation, Thumbs } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { GatsbyImage } from "gatsby-plugin-image"
@@ -171,9 +171,9 @@ const ProductPage = ({ data, pageContext }) => {
   }, [variantId])
 
   console.log(details)
-  // console.log(product)
-  // console.log(variantSizeName)
-  // console.log(selectedVariant)
+  console.log(product)
+  console.log(variantSizeName)
+  console.log(selectedVariant)
 
   return (
     <Layout>
@@ -363,8 +363,6 @@ const ProductPage = ({ data, pageContext }) => {
                     textTransform="uppercase"
                     sx={{
                       mb: "20px",
-                      textDecoration: "underline #414042 1px",
-                      textUnderlineOffset: "20px",
                       lineHeight: "80px",
                     }}
                     variant="h1"
@@ -373,10 +371,12 @@ const ProductPage = ({ data, pageContext }) => {
                     {title}
                   </Typography>
 
+                  <Divider />
+
                   {!!selectedVariant && (
                     <Typography
                       sx={{ m: "30px 0 20px 0", maxWidth: "550px" }}
-                      variant="h6"
+                      variant="h5"
                       color="#414042"
                     >
                       ${selectedVariant.price} USD
