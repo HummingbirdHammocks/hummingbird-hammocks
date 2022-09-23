@@ -1,39 +1,39 @@
 import React from "react"
-import { Box, Typography, styled, useMediaQuery } from "@mui/material"
+import { useTheme } from '@mui/material/styles';
+import { Box, Typography, useMediaQuery } from "@mui/material"
 
 import { LinkButton, ButtonAnotherLink } from "components"
 
-const Wrapper = styled("section")(({ theme }) => ({
-  display: "grid",
-  minHeight: "600px",
-  position: "relative",
-
-  [theme.breakpoints.down("md")]: {
-    minHeight: "inherit",
-  },
-}))
-
-const Middle = styled("div")(({ position, theme }) => ({
-  position: "absolute",
-  display: "flex",
-  left: position === "left" ? "30%" : position === "right" ? "67%" : "50%",
-  top: "50%",
-  transform: "translate(-50%, -50%)",
-
-  [theme.breakpoints.down("md")]: {
-    position: "inherit",
-    display: "block",
-  },
-}))
-
 export function Hero({ children, data }) {
+  const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
   const { subtitle1, mainText, subtitle2, button, position } = data
 
   return (
-    <Wrapper>
+    <Box
+      sx={{
+        display: "grid",
+        minHeight: "600px",
+        position: "relative",
+
+        [theme.breakpoints.down("md")]: {
+          minHeight: "inherit",
+        },
+      }}>
       {children}
-      <Middle position={!matches ? position : "center"}>
+      <Box
+        sx={{
+          position: !matches ? "absolute" : "center",
+          display: "flex",
+          left: position === "left" ? "30%" : position === "right" ? "67%" : "50%",
+          top: "50%",
+          transform: "translate(-50%, -50%)",
+
+          [theme.breakpoints.down("md")]: {
+            position: "inherit",
+            display: "block",
+          },
+        }}>
         <Box
           borderRadius={matches ? "0" : "20px"}
           sx={{
@@ -49,8 +49,8 @@ export function Hero({ children, data }) {
                 ? position === "left"
                   ? "left"
                   : position === "right"
-                  ? "right"
-                  : "center"
+                    ? "right"
+                    : "center"
                 : "center"
             }
             variant="subtitle1"
@@ -65,8 +65,8 @@ export function Hero({ children, data }) {
                 ? position === "left"
                   ? "left"
                   : position === "right"
-                  ? "right"
-                  : "center"
+                    ? "right"
+                    : "center"
                 : "center"
             }
             maxWidth={matches ? "100%" : "550px"}
@@ -83,8 +83,8 @@ export function Hero({ children, data }) {
                   ? position === "left"
                     ? "left"
                     : position === "right"
-                    ? "right"
-                    : "center"
+                      ? "right"
+                      : "center"
                   : "center"
               }
               mb={matches && "40px"}
@@ -101,8 +101,8 @@ export function Hero({ children, data }) {
                 position === "left"
                   ? "left"
                   : position === "right"
-                  ? "right"
-                  : "center"
+                    ? "right"
+                    : "center"
               }
               alignItems="center"
             >
@@ -173,7 +173,7 @@ export function Hero({ children, data }) {
             </Box>
           )}
         </Box>
-      </Middle>
-    </Wrapper>
+      </Box>
+    </Box>
   )
 }

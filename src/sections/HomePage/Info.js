@@ -1,26 +1,28 @@
 import React from "react"
-import { styled, Typography, Box } from "@mui/material"
+import { useTheme } from '@mui/material/styles';
+import { Typography, Box } from "@mui/material"
 
 import { MainWrapper } from "../../components"
 
-const InfoSection = styled("section")(({ theme }) => ({
-  background: theme.palette.white,
-  padding: "60px 15px",
-
-  [theme.breakpoints.down("md")]: {
-    padding: "50px 0",
-    wordBreak: "break-word",
-  },
-
-  "& a": {
-    color: "#34542a",
-    wordBreak: "break-all",
-  },
-}))
-
 export function Info({ title, titleAlign, children, subTextAlign }) {
+  const theme = useTheme();
+
   return (
-    <InfoSection>
+    <Box
+      sx={{
+        background: theme.palette.white,
+        padding: "60px 15px",
+
+        [theme.breakpoints.down("md")]: {
+          padding: "50px 0",
+          wordBreak: "break-word",
+        },
+
+        "& a": {
+          color: "#34542a",
+          wordBreak: "break-all",
+        },
+      }}>
       <MainWrapper>
         {title && (
           <>
@@ -50,6 +52,6 @@ export function Info({ title, titleAlign, children, subTextAlign }) {
           </Typography>
         </Box>
       </MainWrapper>
-    </InfoSection>
+    </Box>
   )
 }

@@ -4,8 +4,6 @@ import {
   Box,
   Divider,
   Typography,
-  Button,
-  styled,
   IconButton,
   useMediaQuery,
 } from "@mui/material"
@@ -59,7 +57,7 @@ export const CartDrawer = () => {
         <Box display="flex" justifyContent="center" alignItems="center">
           <ShoppingCartOutlined sx={{ mr: "10px" }} />
           <Typography sx={{ mt: "2px" }} variant="navMenu">
-            {totalQuantity} {totalQuantity > 1 ? "Items" : "Item"}
+            {totalQuantity} {(totalQuantity > 1 || totalQuantity === 0) ? "Items" : "Item"}
           </Typography>
         </Box>
         <Box>
@@ -86,7 +84,7 @@ export const CartDrawer = () => {
               alignItems="center"
               flexDirection="column"
             >
-              <QuantityButton
+              <IconButton
                 variant="outlined"
                 color="primary"
                 onClick={() =>
@@ -101,11 +99,11 @@ export const CartDrawer = () => {
                 }}
               >
                 <Add fontSize="small" />
-              </QuantityButton>
+              </IconButton>
               <Box fontWeight={600} fontSize="15px" my="3px">
                 {item.quantity}
               </Box>
-              <QuantityButton
+              <IconButton
                 variant="outlined"
                 color="primary"
                 onClick={() =>
@@ -120,7 +118,7 @@ export const CartDrawer = () => {
                 }}
               >
                 <Remove fontSize="small" />
-              </QuantityButton>
+              </IconButton>
             </Box>
 
             <img
@@ -216,8 +214,3 @@ export const CartDrawer = () => {
     </Drawer>
   )
 }
-
-const QuantityButton = styled(Button)({
-  minWidth: 0,
-  minHeight: 0,
-})

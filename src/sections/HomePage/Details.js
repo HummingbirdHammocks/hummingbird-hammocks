@@ -1,17 +1,8 @@
 import React from "react"
+import { useTheme } from '@mui/material/styles';
 import { styled, Box, Typography, useMediaQuery, Divider } from "@mui/material"
 
 import { LinkButton, ButtonAnotherLink } from "components"
-
-const DetailsSection = styled("section")(({ theme }) => ({
-  background: theme.palette.white,
-  padding: "80px 15px",
-  whiteSpace: "pre-wrap",
-
-  [theme.breakpoints.down("md")]: {
-    padding: "40px 0",
-  },
-}))
 
 const MainGridWrapper = styled("div")(({ theme, orderkey, titleFont }) => ({
   display: "grid",
@@ -51,24 +42,22 @@ const MainGridWrapper = styled("div")(({ theme, orderkey, titleFont }) => ({
   },
 }))
 
-const TextContent = styled("div")(({ theme }) => ({
-  padding: "0 60px",
-  position: "relative",
-  top: "50%",
-  transform: "translateY(-50%)",
-  maxWidth: "500px",
-
-  [theme.breakpoints.down("md")]: {
-    padding: "0",
-  },
-}))
-
 export function Details({ data, children, order, divider, titleFont }) {
+  const theme = useTheme();
   const { title, subText, htmlText, buttonText, buttonLink, hrefLink } = data
   const matches = useMediaQuery("(max-width:900px)")
 
   return (
-    <DetailsSection>
+    <Box
+      sx={{
+        background: theme.palette.white,
+        padding: "80px 15px",
+        whiteSpace: "pre-wrap",
+
+        [theme.breakpoints.down("md")]: {
+          padding: "40px 0",
+        },
+      }}>
       <MainGridWrapper titleFont={titleFont} orderkey={order}>
         <Box
           display={matches && "flex"}
@@ -79,7 +68,18 @@ export function Details({ data, children, order, divider, titleFont }) {
         </Box>
 
         <Box display={matches && "flex"} marginBottom={matches ? "50px" : "0"}>
-          <TextContent>
+          <Box
+            sx={{
+              padding: "0 60px",
+              position: "relative",
+              top: "50%",
+              transform: "translateY(-50%)",
+              maxWidth: "500px",
+
+              [theme.breakpoints.down("md")]: {
+                padding: "0",
+              },
+            }}>
             <Typography
               textTransform="uppercase"
               sx={{ mb: "30px" }}
@@ -121,10 +121,10 @@ export function Details({ data, children, order, divider, titleFont }) {
                 )}
               </Box>
             )}
-          </TextContent>
+          </Box>
         </Box>
       </MainGridWrapper>
       {matches === divider && <Divider />}
-    </DetailsSection>
+    </Box>
   )
 }

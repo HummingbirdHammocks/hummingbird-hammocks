@@ -1,10 +1,10 @@
 import React, { useState } from "react"
+import { useTheme } from '@mui/material/styles';
 import { graphql, navigate } from "gatsby"
 import {
   Box,
   Typography,
   Divider,
-  styled,
   useMediaQuery,
   Pagination,
   List,
@@ -20,45 +20,8 @@ import { Seo, Layout, MainWrapper, Link, OnButton } from "components"
 import { BlogItem } from "sections"
 import ArtclesSearch from "../../utils/algolia/articlesSearch"
 
-const ArticlesWrapper = styled(Box)(({ theme }) => ({
-  padding: "0 15px 10px 15px",
-  margin: "50px 0",
-  display: "grid",
-  gridTemplateColumns: "3fr 1fr",
-
-  [theme.breakpoints.down("md")]: {
-    gridTemplateColumns: "repeat(1, 1fr)",
-    padding: "0",
-  },
-}))
-
-const ArticlesGridWrapper = styled(Box)(({ theme }) => ({
-  display: "grid",
-  position: "relative",
-  gridTemplateColumns: "repeat(3, 1fr)",
-  gridGap: "40px",
-
-  [theme.breakpoints.down("md")]: {
-    gridTemplateColumns: "repeat(1, 1fr)",
-  },
-}))
-
-const Subscribe = styled(Box)(() => ({
-  padding: "30px 15px",
-  marginTop: "20px",
-  borderTop: "1px solid #ccc",
-}))
-
-const EmailBox = styled(Box)(() => ({
-  display: "flex",
-
-  "& input": {
-    width: "50%",
-    marginRight: "20px",
-  },
-}))
-
 const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
+  const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
 
   const { banner } = useTopBannerContext()
@@ -93,13 +56,34 @@ const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
       </Box>
 
       <MainWrapper>
-        <ArticlesWrapper>
+        <Box
+          sx={{
+            padding: "0 15px 10px 15px",
+            margin: "50px 0",
+            display: "grid",
+            gridTemplateColumns: "3fr 1fr",
+
+            [theme.breakpoints.down("md")]: {
+              gridTemplateColumns: "repeat(1, 1fr)",
+              padding: "0",
+            },
+          }}>
           <Box pr={matches ? "0" : "40px"}>
-            <ArticlesGridWrapper>
+            <Box
+              sx={{
+                display: "grid",
+                position: "relative",
+                gridTemplateColumns: "repeat(3, 1fr)",
+                gridGap: "40px",
+
+                [theme.breakpoints.down("md")]: {
+                  gridTemplateColumns: "repeat(1, 1fr)",
+                },
+              }}>
               {allArticles.nodes.map(item => (
                 <BlogItem description item={item} />
               ))}
-            </ArticlesGridWrapper>
+            </Box>
             <Box m="50px 0" display="flex" justifyContent="center">
               <Pagination
                 count={numberOfPages}
@@ -141,20 +125,33 @@ const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
                 ))}
               </List>
             </Collapse>
-            <Subscribe>
+            <Box
+              sx={{
+                padding: "30px 15px",
+                marginTop: "20px",
+                borderTop: "1px solid #ccc",
+              }}>
               <Typography variant="h6">SUBSCRIBE</Typography>
               <Typography mb="20px" variant="body1">
                 Sign up to get the latest on sales, new releases and more …
               </Typography>
-              <EmailBox>
+              <Box
+                sx={{
+                  display: "flex",
+
+                  "& input": {
+                    width: "50%",
+                    marginRight: "20px",
+                  },
+                }}>
                 <input placeholder="Email Address" type="Email Address" />
                 <OnButton padding="4px 20px" type="submit">
                   Sign Up
                 </OnButton>
-              </EmailBox>
-            </Subscribe>
+              </Box>
+            </Box>
           </Box>
-        </ArticlesWrapper>
+        </Box>
       </MainWrapper>
     </Layout>
   )

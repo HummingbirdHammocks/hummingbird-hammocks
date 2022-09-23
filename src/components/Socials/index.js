@@ -4,11 +4,6 @@ import { Facebook, Twitter, Pinterest, Mail } from "@mui/icons-material"
 
 import { AnotherLink } from "components"
 
-const Wrapper = styled(Box)(() => ({
-  marginTop: "30px",
-  display: "flex",
-}))
-
 const SocialItem = styled(Box)(({ color }) => ({
   borderRadius: "50%",
   padding: "10px 10px 7px 10px",
@@ -31,7 +26,11 @@ const SocialItem = styled(Box)(({ color }) => ({
 
 export const Socials = ({ title, url, media }) => {
   return (
-    <Wrapper>
+    <Box
+      sx={{
+        marginTop: "30px",
+        display: "flex",
+      }}>
       <SocialItem color="#09aeec">
         <AnotherLink
           href={`https://twitter.com/intent/tweet?text=${title}&url=${url}`}
@@ -68,6 +67,6 @@ export const Socials = ({ title, url, media }) => {
           <Mail />
         </AnotherLink>
       </SocialItem>
-    </Wrapper>
+    </Box>
   )
 }

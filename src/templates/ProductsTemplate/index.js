@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react"
 import { graphql, navigate } from "gatsby"
-import { styled, Box, Typography, useMediaQuery, Tooltip } from "@mui/material"
+import { useTheme } from '@mui/material/styles';
+import { Box, Typography, useMediaQuery, Tooltip } from "@mui/material"
 import { FreeMode, Navigation, Thumbs } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { GatsbyImage } from "gatsby-plugin-image"
@@ -31,62 +32,6 @@ import {
   Inventory,
 } from "sections"
 
-const TemplateSection = styled("section")(({ theme }) => ({
-  background: theme.palette.white,
-  padding: "60px 15px",
-
-  ".swiper-button-prev, .swiper-button-next": {
-    color: "#34542a",
-  },
-
-  [theme.breakpoints.down("md")]: {
-    padding: "60px 0",
-  },
-}))
-
-const MainGridWrapper = styled(Box)(({ theme }) => ({
-  display: "grid",
-  position: "relative",
-  gridTemplateColumns: "repeat(2, 1fr)",
-  gridGap: "20px",
-  margin: "auto",
-
-  [theme.breakpoints.down("md")]: {
-    gridTemplateColumns: "1fr",
-  },
-}))
-
-const UpperLink = styled(Box)(({ theme }) => ({
-  display: "flex",
-  justifyContent: "space-between",
-  margin: "10px 50px 50px 50px",
-
-  [theme.breakpoints.down("md")]: {
-    margin: "0",
-  },
-}))
-
-const WrapSection = styled(Box)(({ theme }) => ({
-  margin: "10px 70px 0 70px",
-
-  [theme.breakpoints.down("md")]: {
-    margin: "0",
-  },
-}))
-
-const SoldOut = styled(Box)(({ theme }) => ({
-  background: "#f41901",
-  padding: "8px 10px",
-  color: theme.palette.white.main,
-  fontFamily: theme.typography.fontFamily,
-  borderRadius: "10px",
-  letterSpacing: "2px",
-
-  [theme.breakpoints.down("md")]: {
-    top: "70px",
-    right: "80px",
-  },
-}))
 
 const ProductPage = ({ data, pageContext }) => {
   const { title, handle, images, description, shopifyId, featuredImage } =
@@ -108,6 +53,8 @@ const ProductPage = ({ data, pageContext }) => {
     metaReository,
   } = data
   const { collection, next, prev } = pageContext
+
+  const theme = useTheme();
 
   const matches = useMediaQuery("(max-width:900px)")
   const url = typeof window !== "undefined" ? window.location.href : ""
@@ -234,10 +181,38 @@ const ProductPage = ({ data, pageContext }) => {
         title={metaTitle?.value || title}
         description={metaDescription?.value || description}
       />
-      <TemplateSection>
+      <Box
+        sx={{
+          background: theme.palette.white,
+          padding: "60px 15px",
+
+          ".swiper-button-prev, .swiper-button-next": {
+            color: "#34542a",
+          },
+
+          [theme.breakpoints.down("md")]: {
+            padding: "60px 0",
+          },
+        }}>
         <MainWrapper>
-          <WrapSection>
-            <UpperLink>
+          <Box
+            sx={{
+              margin: "10px 70px 0 70px",
+
+              [theme.breakpoints.down("md")]: {
+                margin: "0",
+              },
+            }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                margin: "10px 50px 50px 50px",
+
+                [theme.breakpoints.down("md")]: {
+                  margin: "0",
+                },
+              }}>
               <Box
                 display="inline-flex"
                 alignItems="center"
@@ -297,8 +272,19 @@ const ProductPage = ({ data, pageContext }) => {
                   / <Link to={`/products/${handle}`}>{title}</Link>
                 </Typography>
               </Box>
-            </UpperLink>
-            <MainGridWrapper>
+            </Box>
+            <Box
+              sx={{
+                display: "grid",
+                position: "relative",
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gridGap: "20px",
+                margin: "auto",
+
+                [theme.breakpoints.down("md")]: {
+                  gridTemplateColumns: "1fr",
+                },
+              }}>
               <Box
                 justifyContent="center"
                 alignItems="center"
@@ -353,7 +339,23 @@ const ProductPage = ({ data, pageContext }) => {
               <Box margin={matches ? "0 0 50px 0" : "50px 0 0 0"}>
                 {!selectedVariant?.available && (
                   <Box margin="0 0 30px 0" display="flex">
-                    <SoldOut>Sold Out</SoldOut>
+                    <Box
+                      sx={{
+                        background: "#f41901",
+                        padding: "8px 10px",
+                        color: theme.palette.white.main,
+                        fontFamily: theme.typography.fontFamily,
+                        borderRadius: "10px",
+                        letterSpacing: "2px",
+
+                        [theme.breakpoints.down("md")]: {
+                          top: "70px",
+                          right: "80px",
+                        },
+                      }}
+                    >
+                      Sold Out
+                    </Box>
                   </Box>
                 )}
                 <Box>
@@ -396,7 +398,7 @@ const ProductPage = ({ data, pageContext }) => {
                       {product?.variants.length >= 1 && (
                         <>
                           {product.options.length === 2 &&
-                          product.options[0].name === "Color" ? (
+                            product.options[0].name === "Color" ? (
                             <>
                               <Typography variant="navUser" m="20px 0">
                                 Color
@@ -571,7 +573,7 @@ const ProductPage = ({ data, pageContext }) => {
                   />
                 </Box>
               </Box>
-            </MainGridWrapper>
+            </Box>
 
             {selectedVariant && metaFBT && (
               <Fbt
@@ -726,9 +728,9 @@ const ProductPage = ({ data, pageContext }) => {
             {recentViewedProducts.length > 1 && (
               <RecentViewed title="RECENTLY VIEWED PRODUCTS" />
             )}
-          </WrapSection>
+          </Box>
         </MainWrapper>
-      </TemplateSection>
+      </Box>
     </Layout>
   )
 }

@@ -1,23 +1,10 @@
 import React, { useContext } from "react"
-import { styled, Box } from "@mui/material"
+import { useTheme } from '@mui/material/styles';
+import { Box, Button } from "@mui/material"
 import { CartContext } from "contexts"
 
-import { OnButton } from "components"
-
-const Wrapper = styled(Box)(() => ({
-  padding: "10px 0",
-}))
-
-const AddtoCartButton = styled(OnButton)(({ theme }) => ({
-  backgroundColor: "transparent",
-
-  [theme.breakpoints.down("md")]: {
-    padding: "5px 10px",
-    fontSize: "13px",
-  },
-}))
-
 export const AddToCart = ({ variantId, available }) => {
+  const theme = useTheme();
   const { updateLineItem } = useContext(CartContext)
 
   const handleSubmit = async () => {
@@ -25,8 +12,25 @@ export const AddToCart = ({ variantId, available }) => {
   }
 
   return (
-    <Wrapper justifyContent="center" display="flex">
-      <AddtoCartButton onClick={handleSubmit}>Add to Cart</AddtoCartButton>
-    </Wrapper>
+    <Box
+      justifyContent="center"
+      display="flex"
+      sx={{
+        padding: "10px 0",
+      }}>
+      <Button
+        onClick={handleSubmit}
+        sx={{
+          backgroundColor: "transparent",
+
+          [theme.breakpoints.down("md")]: {
+            padding: "5px 10px",
+            fontSize: "13px",
+          },
+        }}
+      >
+        Add to Cart
+      </Button>
+    </Box>
   )
 }

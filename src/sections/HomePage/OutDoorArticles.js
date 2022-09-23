@@ -1,40 +1,10 @@
 import React from "react"
-import { styled, Typography, Box } from "@mui/material"
+import { useTheme } from '@mui/material/styles';
+import { Typography, Box } from "@mui/material"
 import { useStaticQuery, graphql } from "gatsby"
 
 import { MainWrapper } from "components"
 import { BlogItem } from "sections"
-
-const ArticleSection = styled("section")(({ theme }) => ({
-  background: theme.palette.white,
-  padding: "60px 15px",
-
-  [theme.breakpoints.down("md")]: {
-    padding: "50px 0",
-    wordBreak: "break-word",
-  },
-
-  "& a": {
-    color: "#34542a",
-    wordBreak: "break-all",
-  },
-}))
-
-const BlogGrid = styled(Box)(({ theme }) => ({
-  display: "grid",
-  position: "relative",
-  gridTemplateColumns: "repeat(3, 1fr)",
-  gridGap: "40px",
-  margin: "90px 100px 50px 100px",
-
-  [theme.breakpoints.down("lg")]: {
-    margin: "60px 0 50px 0",
-  },
-
-  [theme.breakpoints.down("md")]: {
-    gridTemplateColumns: "repeat(1, 1fr)",
-  },
-}))
 
 export function OutDoorArticles() {
   const data = useStaticQuery(graphql`
@@ -56,8 +26,24 @@ export function OutDoorArticles() {
     }
   `)
 
+  const theme = useTheme();
+
   return (
-    <ArticleSection>
+    <Box
+      sx={{
+        background: theme.palette.white,
+        padding: "60px 15px",
+
+        [theme.breakpoints.down("md")]: {
+          padding: "50px 0",
+          wordBreak: "break-word",
+        },
+
+        "& a": {
+          color: "#34542a",
+          wordBreak: "break-all",
+        },
+      }}>
       <MainWrapper>
         <Typography
           sx={{
@@ -73,12 +59,27 @@ export function OutDoorArticles() {
           Outdoor Articles
         </Typography>
 
-        <BlogGrid>
+        <Box
+          sx={{
+            display: "grid",
+            position: "relative",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gridGap: "40px",
+            margin: "90px 100px 50px 100px",
+
+            [theme.breakpoints.down("lg")]: {
+              margin: "60px 0 50px 0",
+            },
+
+            [theme.breakpoints.down("md")]: {
+              gridTemplateColumns: "repeat(1, 1fr)",
+            },
+          }}>
           {data.allArticles.nodes.map((item, index) => (
             <BlogItem key={index} item={item} />
           ))}
-        </BlogGrid>
+        </Box>
       </MainWrapper>
-    </ArticleSection>
+    </Box>
   )
 }

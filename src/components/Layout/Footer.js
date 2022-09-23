@@ -1,6 +1,6 @@
 import React, { useState } from "react"
+import { useTheme } from '@mui/material/styles';
 import {
-  styled,
   Grid,
   List,
   ListItem,
@@ -24,30 +24,6 @@ import {
 } from "@mui/icons-material"
 
 import { MainWrapper, AnotherLink, Link } from "components"
-
-const FooterSection = styled("footer")(({ theme }) => ({
-  background: theme.palette.darkGreen.main,
-  padding: "50px 0 20px 0",
-}))
-
-const FooterGrid = styled(Box)(({ theme }) => ({
-  display: "grid",
-  paddingBottom: "30px",
-  gridTemplateColumns: "1fr 1fr 1fr 1.5fr",
-
-  [theme.breakpoints.down("md")]: {
-    gridTemplateColumns: "1fr",
-  },
-}))
-
-const Copyright = styled(Box)(({ theme }) => ({
-  display: "flex",
-  justifyContent: "space-between",
-
-  [theme.breakpoints.down("md")]: {
-    display: "block",
-  },
-}))
 
 const socials = [
   {
@@ -112,14 +88,28 @@ const companyLink = [
 ]
 
 const Footer = () => {
+  const theme = useTheme();
   const matches = useMediaQuery("(max-width:768px)")
   const [nav1, setNav1] = useState(false)
   const [nav2, setNav2] = useState(false)
 
   return (
-    <FooterSection>
+    <Box
+      sx={{
+        background: theme.palette.darkGreen.main,
+        padding: "50px 0 20px 0",
+      }}>
       <MainWrapper>
-        <FooterGrid>
+        <Box
+          sx={{
+            display: "grid",
+            paddingBottom: "30px",
+            gridTemplateColumns: "1fr 1fr 1fr 1.5fr",
+
+            [theme.breakpoints.down("md")]: {
+              gridTemplateColumns: "1fr",
+            },
+          }}>
           <Grid mb={matches && "40px"} mr={!matches && "80px"} item>
             <Box
               display={matches && "flex"}
@@ -261,9 +251,17 @@ const Footer = () => {
               />
             </Box>
           </Grid>
-        </FooterGrid>
+        </Box>
         <Divider sx={{ borderColor: "white.main" }} />
-        <Copyright>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+
+            [theme.breakpoints.down("md")]: {
+              display: "block",
+            },
+          }}>
           <Box textAlign={matches && "center"} pt="20px">
             <Typography color="white.main" variant="navUser">
               © {new Date().getFullYear()} Hummingbird Hammocks |{" "}
@@ -703,9 +701,9 @@ const Footer = () => {
               ></path>
             </svg>
           </Box>
-        </Copyright>
+        </Box>
       </MainWrapper>
-    </FooterSection>
+    </Box>
   )
 }
 

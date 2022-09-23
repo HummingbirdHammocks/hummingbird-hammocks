@@ -1,54 +1,39 @@
 import React from "react"
-import { useMediaQuery, styled, Box, Typography } from "@mui/material"
+import { useTheme } from '@mui/material/styles';
+import { useMediaQuery, Box, Typography } from "@mui/material"
 import { Close } from "@mui/icons-material"
 
 import { useTopBannerContext } from "contexts"
 import { MainWrapper, AnotherLink } from "components"
 
-const TopBarWrapper = styled(Box)(({ theme }) => ({
-  background: "rgb(41, 85, 36)",
-  position: "fixed",
-  top: 0,
-  zIndex: 1200,
-  width: "100%",
-}))
-
-const TopBarContent = styled(Box)(({ theme }) => ({
-  minHeight: "50px",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-
-  [theme.breakpoints.down("md")]: {
-    minHeight: "90px",
-  },
-}))
-
-const CloseTopBar = styled(Box)(({ theme }) => ({
-  position: "absolute",
-  top: "12px",
-  right: "20px",
-  cursor: "pointer",
-
-  "&:hover": {
-    opacity: 0.7,
-  },
-
-  [theme.breakpoints.down("md")]: {
-    right: "7px",
-  },
-}))
-
 export const TopBanner = () => {
+  const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
   const { banner, setBanner } = useTopBannerContext()
 
   return (
     <>
       {banner && (
-        <TopBarWrapper>
+        <Box
+          sx={{
+            background: "rgb(41, 85, 36)",
+            position: "fixed",
+            top: 0,
+            zIndex: 1200,
+            width: "100%",
+          }}>
           <MainWrapper>
-            <TopBarContent>
+            <Box
+              sx={{
+                minHeight: "50px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+
+                [theme.breakpoints.down("md")]: {
+                  minHeight: "90px",
+                },
+              }}>
               <Box display={!matches && "flex"} textAlign="center">
                 <Typography
                   pb={matches && "10px"}
@@ -74,12 +59,28 @@ export const TopBanner = () => {
                   CURRENT SUSPENSION LIST
                 </AnotherLink>
               </Box>
-            </TopBarContent>
+            </Box>
           </MainWrapper>
-          <CloseTopBar onClick={() => setBanner(false)}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "12px",
+              right: "20px",
+              cursor: "pointer",
+
+              "&:hover": {
+                opacity: 0.7,
+              },
+
+              [theme.breakpoints.down("md")]: {
+                right: "7px",
+              },
+            }}
+            onClick={() => setBanner(false)}
+          >
             <Close color="white" />
-          </CloseTopBar>
-        </TopBarWrapper>
+          </Box>
+        </Box>
       )}
     </>
   )

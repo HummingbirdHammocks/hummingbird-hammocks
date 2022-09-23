@@ -1,4 +1,5 @@
 import React, { useContext } from "react"
+import { useTheme } from '@mui/material/styles';
 import { styled, Box, Typography, useMediaQuery } from "@mui/material"
 import { Navigation, Autoplay, Pagination } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -6,42 +7,6 @@ import { GatsbyImage } from "gatsby-plugin-image"
 
 import { Link } from "components"
 import { ProductContext } from "contexts"
-
-const Wrapper = styled("section")(({ theme }) => ({
-  padding: "100px 15px",
-  position: "relative",
-
-  "& .swiper-pagination": {
-    bottom: "-3px!important",
-  },
-
-  "& .swiper-pagination-bullet": {
-    backgroundColor: "#132210!important",
-  },
-
-  ".swiper-button-prev, .swiper-button-next": {
-    color: "#34542a",
-  },
-
-  [theme.breakpoints.down("md")]: {
-    padding: "70px 10px 50px 10px",
-  },
-}))
-
-const ImageBox = styled(Box)(() => ({
-  "& .image-2": {
-    display: "none",
-  },
-
-  "&:hover": {
-    "& .image-2": {
-      display: "block",
-    },
-    "& .image-1": {
-      display: "none",
-    },
-  },
-}))
 
 const AbsoluteImage = styled(GatsbyImage)(({ theme }) => ({
   borderRadius: "20px",
@@ -51,19 +16,35 @@ const AbsoluteImage = styled(GatsbyImage)(({ theme }) => ({
   },
 }))
 
-const TextBox = styled(Box)(() => ({
-  marginTop: "40px",
-  textAlign: "center",
-}))
-
 export function FeaturedProduct() {
+  const theme = useTheme();
   const { featuredProducts } = useContext(ProductContext)
   const matches = useMediaQuery("(max-width:1100px)")
 
   /* console.log(featuredProducts) */
 
   return (
-    <Wrapper>
+    <Box
+      sx={{
+        padding: "100px 15px",
+        position: "relative",
+
+        "& .swiper-pagination": {
+          bottom: "-3px!important",
+        },
+
+        "& .swiper-pagination-bullet": {
+          backgroundColor: "#132210!important",
+        },
+
+        ".swiper-button-prev, .swiper-button-next": {
+          color: "#34542a",
+        },
+
+        [theme.breakpoints.down("md")]: {
+          padding: "70px 10px 50px 10px",
+        },
+      }}>
       <Swiper
         slidesPerView={1}
         spaceBetween={30}
@@ -98,7 +79,23 @@ export function FeaturedProduct() {
       >
         {featuredProducts.map(item => (
           <SwiperSlide key={item.shopifyId}>
-            <ImageBox minHeight={!matches && "600px"}>
+            <Box
+              sx={{
+                minHeight: !matches && "600px",
+
+                "& .image-2": {
+                  display: "none",
+                },
+
+                "&:hover": {
+                  "& .image-2": {
+                    display: "block",
+                  },
+                  "& .image-1": {
+                    display: "none",
+                  },
+                },
+              }}>
               <Link to={`products/${item.handle}`}>
                 {item.featuredImage &&
                   <AbsoluteImage
@@ -125,7 +122,11 @@ export function FeaturedProduct() {
                 )}
               </Link>
 
-              <TextBox>
+              <Box
+                sx={{
+                  marginTop: "40px",
+                  textAlign: "center",
+                }}>
                 <Link to={`products/${item.handle}`}>
                   <Typography
                     textAlign={"center"}
@@ -148,11 +149,11 @@ export function FeaturedProduct() {
                   variantId={item.variants[0].shopifyId}
                   available={item.variants.availableForSale}
                 /> */}
-              </TextBox>
-            </ImageBox>
+              </Box>
+            </Box>
           </SwiperSlide>
         ))}
       </Swiper>
-    </Wrapper>
+    </Box>
   )
 }

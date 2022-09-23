@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext } from "react"
+import { useTheme } from '@mui/material/styles';
 import { graphql } from "gatsby"
 import {
   Box,
   Typography,
-  styled,
   List,
   ListItem,
   Collapse,
@@ -24,71 +24,8 @@ import { Seo, Layout, MainWrapper, Link, OnButton } from "components"
 import { ProductCard } from "sections"
 import { RecentViewedContext } from "contexts"
 
-const Wrapper = styled("section")(({ theme }) => ({
-  display: "grid",
-  minHeight: "340px",
-  position: "relative",
-
-  [theme.breakpoints.down("md")]: {
-    minHeight: "inherit",
-  },
-}))
-
-const Middle = styled(Box)(() => ({
-  position: "absolute",
-  display: "flex",
-  left: "50%",
-  top: "50%",
-  transform: "translate(-50%, -50%)",
-  zIndex: "100",
-}))
-
-const Gradient = styled(Box)(() => ({
-  background: "rgba(0,0,0,.6)",
-  position: "absolute",
-  inset: "0 0 0 0",
-}))
-
-const ProductWrapper = styled(Box)(({ theme }) => ({
-  padding: "0 15px 10px 15px",
-  display: "grid",
-  gridTemplateColumns: "1fr 3fr",
-
-  [theme.breakpoints.down("md")]: {
-    gridTemplateColumns: "repeat(1, 1fr)",
-    padding: "0",
-  },
-}))
-
-const ProductGridContent = styled(Box)(({ theme }) => ({
-  padding: "10px 50px",
-
-  [theme.breakpoints.down("md")]: {
-    padding: "0",
-  },
-}))
-
-const ProductGridWrapper = styled(Box)(({ theme }) => ({
-  display: "grid",
-  position: "relative",
-  gridTemplateColumns: "repeat(2, 1fr)",
-  gridGap: "20px",
-  margin: "auto",
-
-  [theme.breakpoints.down("md")]: {
-    gridTemplateColumns: "repeat(1, 1fr)",
-  },
-}))
-
-const FilterGridWrapper = styled(Box)(({ theme }) => ({
-  padding: "20px 15px",
-
-  [theme.breakpoints.down("md")]: {
-    padding: "0",
-  },
-}))
-
 const CollectionsPage = ({ data }) => {
+  const theme = useTheme();
   const { title, image, products, description } = data.shopifyCollection
   const { collections } = data.allShopifyCollection
   const { recentViewedProducts } = useContext(RecentViewedContext)
@@ -273,13 +210,30 @@ const CollectionsPage = ({ data }) => {
   return (
     <Layout>
       <Seo title={title} description={description} />
-      <Wrapper>
+      <Box
+        sx={{
+          display: "grid",
+          minHeight: "340px",
+          position: "relative",
+
+          [theme.breakpoints.down("md")]: {
+            minHeight: "inherit",
+          },
+        }}>
         <GatsbyImage
           placeholder="blurred"
           image={image.gatsbyImageData}
           alt={title}
         />
-        <Middle>
+        <Box
+          sx={{
+            position: "absolute",
+            display: "flex",
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: "100",
+          }}>
           <Box>
             <Typography
               sx={{ margin: "20px 10px" }}
@@ -290,9 +244,14 @@ const CollectionsPage = ({ data }) => {
               {title}
             </Typography>
           </Box>
-        </Middle>
-        <Gradient />
-      </Wrapper>
+        </Box>
+        <Box
+          sx={{
+            background: "rgba(0,0,0,.6)",
+            position: "absolute",
+            inset: "0 0 0 0",
+          }} />
+      </Box>
       <MainWrapper>
         <Box
           m="30px"
@@ -329,8 +288,25 @@ const CollectionsPage = ({ data }) => {
         </Box>
 
         <Divider color="#e2dfd9" />
-        <ProductWrapper>
-          <FilterGridWrapper>
+        <Box
+          sx={{
+            padding: "0 15px 10px 15px",
+            display: "grid",
+            gridTemplateColumns: "1fr 3fr",
+
+            [theme.breakpoints.down("md")]: {
+              gridTemplateColumns: "repeat(1, 1fr)",
+              padding: "0",
+            },
+          }}>
+          <Box
+            sx={{
+              padding: "20px 15px",
+
+              [theme.breakpoints.down("md")]: {
+                padding: "0",
+              },
+            }}>
             {/* 
           
             All the filter option that selected
@@ -343,8 +319,8 @@ const CollectionsPage = ({ data }) => {
                 borderRadius: "20px",
                 display:
                   filterOptions.inStock ||
-                  filterOptions.price ||
-                  filterOptions?.productType?.length > 0
+                    filterOptions.price ||
+                    filterOptions?.productType?.length > 0
                     ? "block"
                     : "none",
               }}
@@ -621,21 +597,39 @@ const CollectionsPage = ({ data }) => {
                 )}
               </Collapse>
             </List>
-          </FilterGridWrapper>
+          </Box>
 
-          <ProductGridContent>
+          <Box
+            sx={{
+              padding: "10px 50px",
+
+              [theme.breakpoints.down("md")]: {
+                padding: "0",
+              },
+            }}>
             {/*  
           
              Showing Product
           
             */}
-            <ProductGridWrapper>
+            <Box
+              sx={{
+                display: "grid",
+                position: "relative",
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gridGap: "20px",
+                margin: "auto",
+
+                [theme.breakpoints.down("md")]: {
+                  gridTemplateColumns: "repeat(1, 1fr)",
+                },
+              }}>
               {theProducts && (
                 <ProductCard mdMinHeight="250px" products={theProducts} />
               )}
-            </ProductGridWrapper>
-          </ProductGridContent>
-        </ProductWrapper>
+            </Box>
+          </Box>
+        </Box>
       </MainWrapper>
     </Layout>
   )

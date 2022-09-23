@@ -1,84 +1,14 @@
 import React from "react"
-import { Box, Typography, styled, useMediaQuery } from "@mui/material"
+import { useTheme } from '@mui/material/styles';
+import { Box, Typography, useMediaQuery } from "@mui/material"
 import { graphql } from "gatsby"
 import { GatsbyImage } from "gatsby-plugin-image"
 
 import { Seo, Layout, MainWrapper, Link, Socials } from "components"
 
-const Wrapper = styled("section")(({ theme }) => ({
-  display: "grid",
-  position: "relative",
-
-  [theme.breakpoints.down("md")]: {
-    minHeight: "inherit",
-  },
-}))
-
-const Gradient = styled(Box)(() => ({
-  background: "rgba(0,0,0,.2)",
-  position: "absolute",
-  inset: "0 0 0 0",
-}))
-
-const Middle = styled(Box)(() => ({
-  position: "absolute",
-  display: "flex",
-  left: "50%",
-  top: "50%",
-  transform: "translate(-50%, -50%)",
-  zIndex: "100",
-}))
-
-const UpperLink = styled(Box)(({ theme }) => ({
-  display: "flex",
-  justifyContent: "space-between",
-  margin: "40px 300px 70px 300px",
-
-  [theme.breakpoints.down("md")]: {
-    margin: "0",
-  },
-}))
-
-const Content = styled(Box)(({ theme }) => ({
-  margin: "40px 300px 70px 300px",
-
-  "& h2": {
-    ...theme.typography.h2,
-    textTransform: "uppercase",
-  },
-
-  "& a": {
-    textDecoration: "none",
-  },
-
-  "& span": {
-    ...theme.typography.body1,
-  },
-
-  "& h2 a span": {
-    fontSize: "22px",
-    color: "black",
-  },
-
-  "& p": {
-    ...theme.typography.body1,
-  },
-
-  "& table": {
-    ...theme.typography.body1,
-  },
-
-  "& img": {
-    borderRadius: "20px",
-    width: "100%",
-  },
-
-  [theme.breakpoints.down("md")]: {
-    margin: "0",
-  },
-}))
 
 const Articles = ({ data: { articles }, pageContext: { next, prev } }) => {
+  const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
 
   const { title, published_at, /* author, */ body_html, /* handle, */ localFile } = articles
@@ -87,13 +17,29 @@ const Articles = ({ data: { articles }, pageContext: { next, prev } }) => {
   return (
     <Layout>
       <Seo title="Article" />
-      <Wrapper>
+      <Box
+        sx={{
+          display: "grid",
+          position: "relative",
+
+          [theme.breakpoints.down("md")]: {
+            minHeight: "inherit",
+          },
+        }}>
         <GatsbyImage
           placeholder="blurred"
           alt={title}
           image={localFile.childImageSharp.gatsbyImageData}
         />
-        <Middle>
+        <Box
+          sx={{
+            position: "absolute",
+            display: "flex",
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: "100",
+          }}>
           <Box>
             <Typography
               sx={{ margin: "20px 10px" }}
@@ -104,11 +50,25 @@ const Articles = ({ data: { articles }, pageContext: { next, prev } }) => {
               {title}
             </Typography>
           </Box>
-        </Middle>
-        <Gradient />
-      </Wrapper>
+        </Box>
+        <Box
+          sx={{
+            background: "rgba(0,0,0,.2)",
+            position: "absolute",
+            inset: "0 0 0 0",
+          }} />
+      </Box>
       <MainWrapper>
-        <UpperLink>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            margin: "40px 300px 70px 300px",
+
+            [theme.breakpoints.down("md")]: {
+              margin: "0",
+            },
+          }}>
           <Box
             display="inline-flex"
             alignItems="center"
@@ -161,14 +121,52 @@ const Articles = ({ data: { articles }, pageContext: { next, prev } }) => {
               <Typography variant="collectionName">{published_at}</Typography>
             </Box>
           </Box>
-        </UpperLink>
-        <Content>
+        </Box>
+        <Box
+          sx={{
+            margin: "40px 300px 70px 300px",
+
+            "& h2": {
+              ...theme.typography.h2,
+              textTransform: "uppercase",
+            },
+
+            "& a": {
+              textDecoration: "none",
+            },
+
+            "& span": {
+              ...theme.typography.body1,
+            },
+
+            "& h2 a span": {
+              fontSize: "22px",
+              color: "black",
+            },
+
+            "& p": {
+              ...theme.typography.body1,
+            },
+
+            "& table": {
+              ...theme.typography.body1,
+            },
+
+            "& img": {
+              borderRadius: "20px",
+              width: "100%",
+            },
+
+            [theme.breakpoints.down("md")]: {
+              margin: "0",
+            },
+          }}>
           <div
             dangerouslySetInnerHTML={{
               __html: body_html,
             }}
           />
-        </Content>
+        </Box>
         <Box
           m={matches ? "0 0 60px 0" : "10px 300px 70px 300px"}
           display="flex"
