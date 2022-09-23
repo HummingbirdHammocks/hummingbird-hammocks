@@ -16,7 +16,6 @@ export const TopBanner = () => {
         <Box
           sx={{
             background: "rgb(41, 85, 36)",
-            position: "fixed",
             top: 0,
             zIndex: 1200,
             width: "100%",

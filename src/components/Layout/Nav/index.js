@@ -21,7 +21,7 @@ import Search from "../../../utils/algolia/search"
 
 
 function Nav({ customerAccessToken, data, loading, banner }) {
-  const matches = useMediaQuery("(max-width:900px)")
+  const matches = useMediaQuery("(max-width:1280px)")
   const { checkout } = useContext(CartContext)
 
   const { cartOpen, setCartOpen } = useUICartContext()
@@ -72,19 +72,6 @@ const AppbarDesktop = ({
   loading,
   banner,
 }) => {
-  // const [scroll, setScroll] = useState(false)
-
-  // if (typeof window !== "undefined") {
-  //   //Nacbar Color on Scroll
-  //   window.onscroll = () => {
-  //     const scrollMe = window.scrollY
-  //     if (scrollMe >= 130) {
-  //       setScroll(true)
-  //     } else {
-  //       setScroll(false)
-  //     }
-  //   }
-  // }
 
   return (
     <AppBar
@@ -151,13 +138,12 @@ const AppbarDesktop = ({
   )
 }
 
-const AppbarMobile = ({ cartQuantity, cartOpen, setCartOpen, banner }) => {
+const AppbarMobile = ({ cartQuantity, cartOpen, setCartOpen }) => {
   const { drawerOpen, setDrawerOpen } = useNavContext()
 
   return (
     <AppBar
       sx={{
-        marginTop: banner && "90px",
         borderRadius: 0,
       }}
       position="static"

@@ -11,7 +11,7 @@ import { TopBanner } from "./TopBanner"
 import { UserContext, useTopBannerContext } from "contexts"
 
 export const Layout = ({ children }) => {
-  const matches = useMediaQuery("(max-width:900px)")
+  const matches = useMediaQuery("(max-width:1280px)")
 
   const { banner } = useTopBannerContext()
 
@@ -43,8 +43,7 @@ export const Layout = ({ children }) => {
 
       <Box
         style={{
-          marginTop: matches ? "0" : "54px",
-          paddingTop: banner && !matches ? "54px" : "0",
+          marginTop: matches ? "0" : "70px",
           minHeight: banner ? "calc(100vh - 500px)" : "calc(100vh - 450px)",
         }}
       >
