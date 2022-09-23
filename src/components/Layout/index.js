@@ -45,6 +45,7 @@ export const Layout = ({ children }) => {
         style={{
           marginTop: matches ? "0" : "54px",
           paddingTop: banner && !matches ? "54px" : "0",
+          minHeight: banner ? "calc(100vh - 500px)" : "calc(100vh - 450px)",
         }}
       >
         {children}

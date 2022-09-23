@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react"
-import { useTheme, Typography, Divider, Box, useMediaQuery } from "@mui/material"
+import { useTheme, Typography, Divider, Box, Stack, TextField, useMediaQuery } from "@mui/material"
 import { useMutation, gql } from "@apollo/client"
 import { navigate } from "gatsby"
 import { useForm } from "react-hook-form"
@@ -86,60 +86,68 @@ const RegisterPage = () => {
               </Box>
             ) : (
               <>
-                <Typography paddingBottom="30px" variant="h2">
-                  Create Account
-                </Typography>
+                <Stack spacing={2} direction="row" justifyContent="space-between" sx={{ paddingBottom: "30px" }}>
+                  <Typography variant="h2">
+                    Create Account
+                  </Typography>
+                  <Typography variant="body1">
+                    <b>Already Have An Account?</b>{" "}
+                    <Link to="/account/login">Sign In &#8594;</Link>
+                  </Typography>
+                </Stack>
                 <Divider />
 
                 <Box padding="30px" justifyContent="center" display="flex">
                   <Box>
                     <SimpleForm onSubmit={handleSubmit(handleRegister)}>
-                      <label htmlFor="firstName">First Name</label>
-                      <input
-                        {...register("firstName", {
-                          required: true,
-                        })}
-                      />
-                      {errors.firstName?.type === "required" &&
-                        "First Name is required!"}
-                      <label htmlFor="lastName">Last Name</label>
-                      <input {...register("lastName")} />
-                      <label htmlFor="email">Email</label>
-                      <input
-                        {...register("email", {
-                          required: true,
-                          pattern: {
-                            value:
-                              /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                            message: "Please enter a valid email",
-                          },
-                        })}
-                      />
-                      {errors.email?.message && (
-                        <div>{errors.email?.message}</div>
-                      )}
-                      {errors.email?.type === "required" &&
-                        "Email is required!"}
-                      <label htmlFor="password">Password</label>
-                      <input
-                        {...register("password", {
-                          required: true,
-                          maxLength: 30,
-                        })}
-                      />
-                      {errors.password?.type === "required" &&
-                        "Password is required!"}
+                      <Stack spacing={2} sx={{ width: "400px" }}>
+                        <TextField
+                          fullWidth
+                          label="First Name"
+                          {...register("firstName", {
+                            required: true,
+                          })}
+                        />
+                        {errors.firstName?.type === "required" &&
+                          "First Name is required!"}
+                        <TextField
+                          fullWidth
+                          label="Last Name"
+                          {...register("lastName")}
+                        />
+                        <TextField
+                          fullWidth
+                          label="Email"
+                          {...register("email", {
+                            required: true,
+                            pattern: {
+                              value:
+                                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                              message: "Please enter a valid email",
+                            },
+                          })}
+                        />
+                        {errors.email?.message && (
+                          <div>{errors.email?.message}</div>
+                        )}
+                        {errors.email?.type === "required" &&
+                          "Email is required!"}
+                        <TextField
+                          fullWidth
+                          label="Password"
+                          {...register("password", {
+                            required: true,
+                            maxLength: 30,
+                          })}
+                        />
+                        {errors.password?.type === "required" &&
+                          "Password is required!"}
 
-                      {message ? <h4>{message}</h4> : ""}
-                      <OnButton type="submit">Sign Up</OnButton>
+                        {message ? <h4>{message}</h4> : ""}
+                        <OnButton type="submit">Create Account</OnButton>
+                      </Stack>
                     </SimpleForm>
 
-                    <Box mt="20px">
-                      <Typography variant="body1">
-                        <b>Already Have An Account?</b>{" "}
-                        <Link to="/account/login">Sign In &#8594;</Link>
-                      </Typography>
-                    </Box>
                   </Box>
                 </Box>
               </>

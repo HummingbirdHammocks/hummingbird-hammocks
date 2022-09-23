@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react"
-import { useTheme, Typography, Divider, Box, useMediaQuery } from "@mui/material"
+import { useTheme, Typography, Divider, Box, Stack, TextField, useMediaQuery } from "@mui/material"
 import { useMutation, gql } from "@apollo/client"
 import { navigate } from "gatsby"
 import { useForm } from "react-hook-form"
@@ -84,17 +84,23 @@ const ForgetPage = () => {
               </Box>
             ) : (
               <>
-                <Typography paddingBottom="30px" variant="h2">
-                  Password Recovery
-                </Typography>
+                <Stack spacing={2} direction="row" justifyContent="space-between" sx={{ paddingBottom: "30px" }}>
+                  <Typography variant="h2">
+                    Password Recovery
+                  </Typography>
+                  <Typography variant="body1">
+                    <b>Remembered Your Password?</b>{" "}
+                    <Link to="/account/login">Login &#8594;</Link>
+                  </Typography>
+                </Stack>
                 <Divider />
 
                 <Box padding="30px" justifyContent="center" display="flex">
-                  <Box>
-                    <Typography>Reset Password</Typography>
-                    <SimpleForm onSubmit={handleSubmit(handleForgetPassword)}>
-                      <label htmlFor="email">Email</label>
-                      <input
+                  <SimpleForm onSubmit={handleSubmit(handleForgetPassword)}>
+                    <Stack spacing={2} sx={{ width: "400px" }}>
+                      <TextField
+                        fullWidth
+                        label="Email"
                         {...register("email", {
                           required: true,
                           pattern: {
@@ -115,15 +121,9 @@ const ForgetPage = () => {
                         We will send you an email to reset your password.
                       </Typography>
                       <OnButton type="submit">Submit</OnButton>
-                    </SimpleForm>
+                    </Stack>
+                  </SimpleForm>
 
-                    <Box mt="20px">
-                      <Typography variant="body1">
-                        <b>Already Customer?</b>{" "}
-                        <Link to="/account/register">Sign In &#8594;</Link>
-                      </Typography>
-                    </Box>
-                  </Box>
                 </Box>
               </>
             )}

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react"
-import { useTheme, Box, Paper, Typography, TextField, Stack, useMediaQuery } from "@mui/material"
+import { useTheme, Box, Typography, Divider, TextField, Stack, useMediaQuery } from "@mui/material"
 import { useMutation, gql } from "@apollo/client"
 import { useForm } from "react-hook-form"
 import { navigate } from "gatsby"
@@ -80,76 +80,69 @@ const LoginPage = () => {
                 <OnButton onClick={() => logout()}>Logout</OnButton>
               </Box>
             ) : (
-              <Paper sx={{ padding: 2 }}>
-                <Stack
-                  direction="column"
-                  justifyContent="center"
-                  alignItems="center"
-                  spacing={2}
-                >
-                  <Typography paddingBottom="30px" variant="h2">
+              <>
+                <Stack spacing={2} direction="row" justifyContent="space-between" sx={{ paddingBottom: "30px" }}>
+                  <Typography variant="h2">
                     Account Login
                   </Typography>
-                  <SimpleForm onSubmit={handleSubmit(handleLogin)}>
-                    <Stack
-                      direction="column"
-                      justifyContent="center"
-                      alignItems="center"
-                      spacing={2}
-                      sx={{ minWidth: "300px" }}
-                    >
-                      <TextField
-                        fullWidth
-                        label="Email"
-                        id="email"
-                        {...register("email", {
-                          required: true,
-                          pattern: {
-                            value:
-                              /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                            message: "Please enter a valid email",
-                          },
-                        })}
-                      />
-                      {errors.email?.message && (
-                        <div>{errors.email?.message}</div>
-                      )}
-                      {errors.email?.type === "required" &&
-                        "Email is required!"}
-                      <TextField
-                        fullWidth
-                        label="Password"
-                        id="Password"
-                        {...register("password", {
-                          required: true,
-                          maxLength: 30,
-                        })}
-                      />
-                      {errors.password?.type === "required" &&
-                        "Password is required!"}
-
-                      {message ? <h4>{message}</h4> : ""}
-                      {loading ? (
-                        <MiddleSpinner />
-                      ) : (
-                        <OnButton fullWidth type="submit">Sign In</OnButton>
-                      )}
-                    </Stack>
-                  </SimpleForm>
-
-                  <Box mt="20px">
-                    <Typography variant="body1" mb="10px">
-                      <Link to="/account/forget-password">
-                        Forgot your password?
-                      </Link>
-                    </Typography>
-                    <Typography variant="body1">
-                      <b>New Customer?</b>{" "}
-                      <Link to="/account/register">Sign Up &#8594;</Link>
-                    </Typography>
-                  </Box>
+                  <Typography variant="body1">
+                    <b>Need An Account?</b>{" "}
+                    <Link to="/account/register">Sign Up &#8594;</Link>
+                  </Typography>
                 </Stack>
-              </Paper>
+                <Divider />
+
+                <Box padding="30px" justifyContent="center" display="flex">
+                  <Box>
+                    <SimpleForm onSubmit={handleSubmit(handleLogin)}>
+                      <Stack spacing={2} sx={{ width: "400px" }}>
+                        <TextField
+                          fullWidth
+                          label="Email"
+                          {...register("email", {
+                            required: true,
+                            pattern: {
+                              value:
+                                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                              message: "Please enter a valid email",
+                            },
+                          })}
+                        />
+                        {errors.email?.message && (
+                          <div>{errors.email?.message}</div>
+                        )}
+                        {errors.email?.type === "required" &&
+                          "Email is required!"}
+                        <TextField
+                          fullWidth
+                          label="Password"
+                          {...register("password", {
+                            required: true,
+                            maxLength: 30,
+                          })}
+                        />
+                        {errors.password?.type === "required" &&
+                          "Password is required!"}
+
+                        {message ? <h4>{message}</h4> : ""}
+                        {loading ? (
+                          <MiddleSpinner />
+                        ) : (
+                          <OnButton type="submit">Sign In</OnButton>
+                        )}
+                      </Stack>
+                    </SimpleForm>
+
+                    <Box mt="20px">
+                      <Typography variant="body1" mb="10px">
+                        <Link to="/account/forget-password">
+                          Forgot your password?
+                        </Link>
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              </>
             )}
           </Box>
         </MainWrapper>
