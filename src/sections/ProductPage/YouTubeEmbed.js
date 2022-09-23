@@ -1,9 +1,7 @@
 import React from "react"
-import { useTheme } from '@mui/material/styles';
 import { Box } from "@mui/material"
 
 export const YouTubeEmbed = ({ url, title }) => {
-  const theme = useTheme();
 
   return (
     <Box
@@ -11,6 +9,7 @@ export const YouTubeEmbed = ({ url, title }) => {
         position: "relative",
         width: "100%",
         paddingBottom: "56.25%",
+        marginTop: "70px",
       }}>
       <iframe
         style={{

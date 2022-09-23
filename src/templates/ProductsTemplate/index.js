@@ -170,7 +170,7 @@ const ProductPage = ({ data, pageContext }) => {
     })
   }, [variantId])
 
-  console.log(details)
+  /* console.log(details) */
   console.log(product)
   console.log(variantSizeName)
   console.log(selectedVariant)
@@ -275,7 +275,7 @@ const ProductPage = ({ data, pageContext }) => {
             </Box>
 
             <Grid container spacing={4}>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} lg={6}>
                 <Box
                   justifyContent="center"
                   alignItems="center"
@@ -326,7 +326,7 @@ const ProductPage = ({ data, pageContext }) => {
                 </Box>
               </Grid>
 
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} lg={6}>
                 <Box margin={matches ? "0 0 50px 0" : "50px 0 0 0"}>
                   <Box>
                     <Typography
@@ -589,11 +589,12 @@ const ProductPage = ({ data, pageContext }) => {
 
             {/* Main Product Details */}
             {selectedVariantStatic?.metafields.length < 1 && (
-              <Specs metas={selectedVariantStatic.metafields} />
+              <Specs metas={selectedVariantStatic.metafields} top={true} />
             )}
 
             {metaMain && metaIncluded && (
               <ProductDetailsGrid
+                top={!selectedVariantStatic?.metafields.length < 1 && true}
                 title="FEATURES"
                 body2Title="Included"
                 body1={metaMain.value}
@@ -615,98 +616,96 @@ const ProductPage = ({ data, pageContext }) => {
 
             {metaManualUrl && metaOshwaId && (
               <ProductDetailsGrid title="SUPPORT">
-                <>
-                  <Box>
-                    <Typography variant="body1">
-                      <AnotherLink
-                        href={metaManualUrl.value}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Typography variant="productDetails">
-                          Online Manual
-                        </Typography>
-                      </AnotherLink>
-                      <br />
-                      {metaCareInstructions && (
-                        <>
-                          <AnotherLink
-                            href={metaCareInstructions.value}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <Typography variant="productDetails">
-                              Care Instructions
-                            </Typography>
-                          </AnotherLink>
-                          <br />
-                        </>
-                      )}
-
-                      {metaVideo?.value && (
-                        <>
-                          <AnotherLink
-                            href={metaVideo?.value}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <Typography variant="productDetails">
-                              Video Guide
-                            </Typography>
-                          </AnotherLink>
-                          <br />
-                        </>
-                      )}
-
-                      <AnotherLink
-                        href="https://help.hummingbirdhammocks.com/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Typography variant="productDetails">
-                          Knowledgebase
-                        </Typography>
-                      </AnotherLink>
-                      <br />
-                      <AnotherLink
-                        href="https://help.hummingbirdhammocks.com/help/1694808310"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Typography variant="productDetails">
-                          Get Help
-                        </Typography>
-                      </AnotherLink>
-                      <br />
-                    </Typography>
-                  </Box>
-                  <Box mt={matches && "30px"}>
-                    <Typography variant="h5">Open Source</Typography>
+                <Grid item xs={12} lg={4}>
+                  <Typography variant="body1">
+                    <AnotherLink
+                      href={metaManualUrl.value}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Typography variant="productDetails">
+                        Online Manual
+                      </Typography>
+                    </AnotherLink>
                     <br />
-                    <Typography variant="body1">
-                      {`OSHWA UID ${metaOshwaId.value}`} <br />
-                      <AnotherLink
-                        href={metaOshwaUrl.value}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Typography variant="productDetails">
-                          OSHWA Certification Listing
-                        </Typography>
-                      </AnotherLink>
-                      <br />
-                      <AnotherLink
-                        href={metaReository.value}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Typography variant="productDetails">
-                          Design Files
-                        </Typography>
-                      </AnotherLink>
-                    </Typography>
-                  </Box>
-                </>
+                    {metaCareInstructions && (
+                      <>
+                        <AnotherLink
+                          href={metaCareInstructions.value}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Typography variant="productDetails">
+                            Care Instructions
+                          </Typography>
+                        </AnotherLink>
+                        <br />
+                      </>
+                    )}
+
+                    {metaVideo?.value && (
+                      <>
+                        <AnotherLink
+                          href={metaVideo?.value}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Typography variant="productDetails">
+                            Video Guide
+                          </Typography>
+                        </AnotherLink>
+                        <br />
+                      </>
+                    )}
+
+                    <AnotherLink
+                      href="https://help.hummingbirdhammocks.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Typography variant="productDetails">
+                        Knowledgebase
+                      </Typography>
+                    </AnotherLink>
+                    <br />
+                    <AnotherLink
+                      href="https://help.hummingbirdhammocks.com/help/1694808310"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Typography variant="productDetails">
+                        Get Help
+                      </Typography>
+                    </AnotherLink>
+                    <br />
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} lg={4}>
+                  <Typography variant="h5">Open Source</Typography>
+                  <br />
+                  <Typography variant="body1">
+                    {`OSHWA UID ${metaOshwaId.value}`} <br />
+                    <AnotherLink
+                      href={metaOshwaUrl.value}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Typography variant="productDetails">
+                        OSHWA Certification Listing
+                      </Typography>
+                    </AnotherLink>
+                    <br />
+                    <AnotherLink
+                      href={metaReository.value}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Typography variant="productDetails">
+                        Design Files
+                      </Typography>
+                    </AnotherLink>
+                  </Typography>
+                </Grid>
               </ProductDetailsGrid>
             )}
 
@@ -734,8 +733,8 @@ const ProductPage = ({ data, pageContext }) => {
             )}
           </Box>
         </MainWrapper>
-      </Box>
-    </Layout>
+      </Box >
+    </Layout >
   )
 }
 

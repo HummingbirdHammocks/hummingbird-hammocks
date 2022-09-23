@@ -20,15 +20,12 @@ export const RecentViewed = ({ title }) => {
         sx={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr",
-          marginTop: "70px",
 
           [theme.breakpoints.down("md")]: {
             gridTemplateColumns: "1fr",
           },
         }}>
         <ProductCard
-          minHeight="220px"
-          mdMinHeight="300px"
           products={recentViewedProducts.slice(1, recentViewedProducts.length)}
         />
       </Box>

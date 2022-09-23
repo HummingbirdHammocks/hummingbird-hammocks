@@ -1,23 +1,29 @@
 import React from "react"
+import { useTheme } from '@mui/material';
 import { Box, Grid, Stack, Typography } from "@mui/material"
 
 import { LinkButton, ButtonAnotherLink } from "components"
 
 export function Details({ data, children }) {
+  const theme = useTheme();
   const { title, subText, htmlText, buttonText, buttonLink, hrefLink } = data
 
   return (
     <Box
       sx={{
         margin: 4,
+
+        [theme.breakpoints.down("sm")]: {
+          margin: 0,
+        },
       }}>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} lg={6}>
           {children}
         </Grid>
 
 
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} lg={6}>
           <Stack
             sx={{
               margin: 4,

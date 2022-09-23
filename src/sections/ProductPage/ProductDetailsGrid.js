@@ -1,6 +1,6 @@
 import React from "react"
 import { useTheme } from '@mui/material/styles';
-import { Box, Divider, Typography, useMediaQuery } from "@mui/material"
+import { Box, Grid, Divider, Typography, useMediaQuery } from "@mui/material"
 
 export const ProductDetailsGrid = ({
   title,
@@ -9,6 +9,7 @@ export const ProductDetailsGrid = ({
   body1,
   body2,
   children,
+  top
 }) => {
   const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
@@ -20,41 +21,45 @@ export const ProductDetailsGrid = ({
         padding: "0",
       },
     }}>
-      <Divider />
-      <Box
+      {!top && <Divider />}
+      <Grid
+        container
+        spacing={2}
         sx={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr 1fr",
-
-          "& p": {
-            ...theme.typography.body1,
-          },
-
-          p: matches ? "40px 0" : "40px 10px",
+          padding: "40px 10px",
 
           [theme.breakpoints.down("md")]: {
-            gridTemplateColumns: "1fr",
+            padding: "40px 0",
           },
         }}>
-        <Typography mb={matches && "30px"} variant="h4">
-          {title}
-        </Typography>
+        <Grid item xs={12} lg={4}>
+          <Typography mb={matches && "30px"} variant="h4">
+            {title}
+          </Typography>
+        </Grid>
         {body1 && (
-          <Box mb={matches && "30px"}>
-            {body1Title && <Typography variant="h5">{body1Title}</Typography>}
-
-            <div dangerouslySetInnerHTML={{ __html: body1 }} />
-          </Box>
+          <Grid item xs={12} lg={4}>
+            <Box mb={matches && "30px"}>
+              {body1Title && <Typography variant="h5">{body1Title}</Typography>}
+              <Typography component="span">
+                <div dangerouslySetInnerHTML={{ __html: body1 }} />
+              </Typography>
+            </Box>
+          </Grid>
         )}
         {children}
 
         {body2Title && (
-          <Box mb={matches && "30px"}>
-            <Typography variant="h5">{body2Title}</Typography>
-            <div dangerouslySetInnerHTML={{ __html: body2 }} />
-          </Box>
+          <Grid item xs={12} lg={4}>
+            <Box mb={matches && "30px"}>
+              <Typography variant="h5">{body2Title}</Typography>
+              <Typography component="span">
+                <div dangerouslySetInnerHTML={{ __html: body2 }} />
+              </Typography>
+            </Box>
+          </Grid>
         )}
-      </Box>
+      </Grid>
     </Box >
   )
 }
