@@ -1,6 +1,6 @@
 import React from "react"
 import { StaticImage } from "gatsby-plugin-image"
-import { Box } from "@mui/material"
+import { useTheme, Stack } from "@mui/material"
 
 import { Seo, Layout, MainWrapper } from "components"
 import { Hero, Info, Details, FeaturedProduct, OutDoorArticles } from "sections"
@@ -100,95 +100,105 @@ const detailsData3 = {
   buttonLink: "/products/warbler-bug-net",
 }
 
-const IndexPage = () => (
-  <Layout>
-    <Seo />
-    <Hero data={heroData}>
-      <StaticImage
-        style={{
-          gridArea: "1/1",
-        }}
-        layout="fullWidth"
-        alt="Ultralight Hammock"
-        src="../assets/images/home/hero-back.jpg"
-        placeholder="blurred"
-      />
-    </Hero>
-    <Info title="MORE THAN JUST ULTRALIGHT">
-      Our gear weighs about 30% less than anything else on the market, but
-      weight isn’t the only thing we care about. We also demand that the hammock
-      packs small and travels well. We believe the volume in your pack deserves
-      as much love as its weight.
-      <br /> <br />
-      You'll find no bulky metal parts or thick webbing here. Using actual
-      reserve parachute nylon and our button link system, we compress the
-      hammock into a very small stuff sack, keeping it as unnoticed in your pack
-      as it is on the scale.
-    </Info>
-    <Hero data={secondData}>
-      <StaticImage
-        style={{
-          gridArea: "1/1",
-        }}
-        layout="fullWidth"
-        alt="Ultralight Hammock"
-        src="../assets/images/home/hammocks fabric.jpg"
-        placeholder="blurred"
-      />
-    </Hero>
-    <FeaturedProduct />
-    <Hero data={thirdData}>
-      <StaticImage
-        style={{
-          gridArea: "1/1",
-        }}
-        layout="fullWidth"
-        alt="Ultralight Hammock"
-        src="../assets/images/home/ecology.jpg"
-        placeholder="blurred"
-      />
-    </Hero>
-    <MainWrapper>
-      <Box m="20px 0">
-        <Details data={detailsData}>
-          <StaticImage
-            imgStyle={{ borderRadius: "20px" }}
-            src="../assets/images/home/SilPolyFabric.jpg"
-            alt="Hummingbird Hammocks"
-            placeholder="blurred"
-          />
-        </Details>
-        <Details order="2" data={detailsData2}>
-          <StaticImage
-            imgStyle={{ borderRadius: "20px" }}
-            src="../assets/images/home/Details.jpg"
-            alt="Hummingbird Hammocks"
-            placeholder="blurred"
-          />
-        </Details>
-        <Details data={detailsData3}>
-          <StaticImage
-            imgStyle={{ borderRadius: "20px" }}
-            src="../assets/images/home/Details 2.jpg"
-            alt="Hummingbird Hammocks"
-            placeholder="blurred"
-          />
-        </Details>
-      </Box>
-    </MainWrapper>
-    <Hero data={fourthData}>
-      <StaticImage
-        style={{
-          gridArea: "1/1",
-        }}
-        layout="fullWidth"
-        alt="Ultralight Hammock"
-        src="../assets/images/home/Hammocks Back.jpg"
-        placeholder="blurred"
-      />
-    </Hero>
-    <OutDoorArticles />
-  </Layout>
-)
+const IndexPage = () => {
+  const theme = useTheme()
+  return (
+    <Layout>
+      <Seo />
+      <Hero data={heroData}>
+        <StaticImage
+          style={{
+            gridArea: "1/1",
+          }}
+          layout="fullWidth"
+          alt="Ultralight Hammock"
+          src="../assets/images/home/hero-back.jpg"
+          placeholder="blurred"
+        />
+      </Hero>
+      <Info title="MORE THAN JUST ULTRALIGHT">
+        Our gear weighs about 30% less than anything else on the market, but
+        weight isn’t the only thing we care about. We also demand that the hammock
+        packs small and travels well. We believe the volume in your pack deserves
+        as much love as its weight.
+        <br /> <br />
+        You'll find no bulky metal parts or thick webbing here. Using actual
+        reserve parachute nylon and our button link system, we compress the
+        hammock into a very small stuff sack, keeping it as unnoticed in your pack
+        as it is on the scale.
+      </Info>
+      <Hero data={secondData}>
+        <StaticImage
+          style={{
+            gridArea: "1/1",
+          }}
+          layout="fullWidth"
+          alt="Ultralight Hammock"
+          src="../assets/images/home/hammocks fabric.jpg"
+          placeholder="blurred"
+        />
+      </Hero>
+      <FeaturedProduct />
+      <Hero data={thirdData}>
+        <StaticImage
+          style={{
+            gridArea: "1/1",
+          }}
+          layout="fullWidth"
+          alt="Ultralight Hammock"
+          src="../assets/images/home/ecology.jpg"
+          placeholder="blurred"
+        />
+      </Hero>
+      <MainWrapper>
+        <Stack
+          justifyContent="center"
+          alignItems="center"
+          sx={{
+            marginTop: 4,
+            marginBottom: 4,
+          }}
+        >
+          <Details data={detailsData}>
+            <StaticImage
+              imgStyle={{ borderRadius: "20px" }}
+              src="../assets/images/home/SilPolyFabric.jpg"
+              alt="Hummingbird Hammocks"
+              placeholder="blurred"
+            />
+          </Details>
+          <Details order="2" data={detailsData2}>
+            <StaticImage
+              imgStyle={{ borderRadius: "20px" }}
+              src="../assets/images/home/Details.jpg"
+              alt="Hummingbird Hammocks"
+              placeholder="blurred"
+            />
+          </Details>
+          <Details data={detailsData3}>
+            <StaticImage
+              imgStyle={{ borderRadius: "20px" }}
+              src="../assets/images/home/Details 2.jpg"
+              alt="Hummingbird Hammocks"
+              placeholder="blurred"
+            />
+          </Details>
+        </Stack>
+      </MainWrapper>
+      <Hero data={fourthData}>
+        <StaticImage
+          style={{
+            gridArea: "1/1",
+          }}
+          layout="fullWidth"
+          alt="Ultralight Hammock"
+          src="../assets/images/home/Hammocks Back.jpg"
+          placeholder="blurred"
+        />
+      </Hero>
+      <OutDoorArticles />
+    </Layout>
+  )
+}
 
 export default IndexPage

@@ -29,6 +29,7 @@ export function Hero({ children, data }) {
           transform: "translate(-50%, -50%)",
 
           [theme.breakpoints.down("md")]: {
+            left: "50%",
             position: "inherit",
             display: "block",
           },
@@ -97,11 +98,13 @@ export function Hero({ children, data }) {
             <Box
               display="flex"
               justifyContent={
-                position === "left"
-                  ? "left"
-                  : position === "right"
-                    ? "right"
-                    : "center"
+                !matches
+                  ? position === "left"
+                    ? "left"
+                    : position === "right"
+                      ? "right"
+                      : "center"
+                  : "center"
               }
               alignItems="center"
             >

@@ -16,7 +16,7 @@ export function Details({ data, children }) {
           margin: 0,
         },
       }}>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} justifyContent="center">
         <Grid item xs={12} lg={6}>
           {children}
         </Grid>
