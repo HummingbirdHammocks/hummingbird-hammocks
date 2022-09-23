@@ -683,7 +683,7 @@ const ProductPage = ({ data, pageContext }) => {
                     <Typography variant="h5">Open Source</Typography>
                     <br />
                     <Typography variant="body1">
-                      OSHWA UID ${metaOshwaId.value} <br />
+                      {`OSHWA UID ${metaOshwaId.value}`} <br />
                       <AnotherLink
                         href={metaOshwaUrl.value}
                         target="_blank"

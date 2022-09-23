@@ -1,5 +1,6 @@
 import React from "react"
 import { ThemeProvider } from "@mui/material"
+import { ToastContainer } from 'react-toastify';
 import fetch from "isomorphic-fetch"
 import {
   ApolloClient,
@@ -26,6 +27,8 @@ import "swiper/css/pagination"
 import "swiper/css/thumbs"
 import "swiper/css/free-mode"
 
+import 'react-toastify/dist/ReactToastify.css';
+
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: new createHttpLink({
@@ -49,6 +52,9 @@ export const wrapRootElement = ({ element }) => (
               <TopBannerProvider>
                 <NavProvider>
                   <UICartProvider>{element}</UICartProvider>
+                  <ToastContainer
+                    pauseOnFocusLoss={false}
+                  />
                 </NavProvider>
               </TopBannerProvider>
             </ThemeProvider>
