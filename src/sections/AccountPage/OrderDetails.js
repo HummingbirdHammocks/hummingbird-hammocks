@@ -4,17 +4,22 @@ import {
   Typography,
   Divider,
   Box,
+  Grid,
+  Stack,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  Chip,
   Paper,
   useMediaQuery,
 } from "@mui/material"
 
 import { OnButton } from "components"
+
+import { fShopify } from "../../utils/formatTime";
 
 export const OrderDetails = ({ data, userLogout, returnAccount }) => {
   const matches = useMediaQuery("(max-width:900px)")
@@ -42,9 +47,14 @@ export const OrderDetails = ({ data, userLogout, returnAccount }) => {
         justifyContent="space-between"
         display={matches ? "inline-block" : "flex"}
       >
-        <Typography m={matches && "10px 0"} variant="h2">
-          Order Details
-        </Typography>
+        <Box>
+          <Typography variant="h2">
+            Order {name} Details
+          </Typography>
+          <Typography variant="subtitle2">
+            {fShopify(processedAt)}
+          </Typography>
+        </Box>
         <Box>
           <OnButton
             hovercolor="black"
@@ -72,6 +82,11 @@ export const OrderDetails = ({ data, userLogout, returnAccount }) => {
 
       <Divider />
 
+      <Stack direction="row" spacing={2} sx={{ marginTop: 2 }}>
+        <Chip label={financialStatus} />
+        <Chip label={fulfillmentStatus} variant="outlined" />
+      </Stack>
+
       <Box
         sx={{
           padding: "30px 0",
@@ -81,17 +96,11 @@ export const OrderDetails = ({ data, userLogout, returnAccount }) => {
             padding: "0",
           },
         }}>
-        <Box mb={matches && "30px"}>
-          <Typography variant="h5">Order {name}</Typography>
-          <Typography m="15px 0 20px 0" variant="subtitle2">
-            {processedAt}
-          </Typography>
-        </Box>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>Product</TableCell>
+                <TableCell>Item</TableCell>
                 <TableCell align="right">SKU</TableCell>
                 <TableCell align="right">Price</TableCell>
                 <TableCell align="right">Quantity</TableCell>
@@ -170,27 +179,8 @@ export const OrderDetails = ({ data, userLogout, returnAccount }) => {
             </TableBody>
           </Table>
         </TableContainer>
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            m: matches ? "40px 0" : "60px 40px",
-
-            [theme.breakpoints.down("md")]: {
-              gridTemplateColumns: "1fr",
-              padding: "0",
-            },
-          }}>
-          <Box>
-            <Typography variant="h5">Order Status</Typography>
-            <Typography mt="20px" variant="subtitle2">
-              <b>Payment Status</b>: {financialStatus}
-            </Typography>
-            <Typography variant="subtitle2">
-              <b>Fulfillment Status</b>: {fulfillmentStatus}
-            </Typography>
-          </Box>
-          <Box mt={matches && "30px"}>
+        <Grid container spacing={2} sx={{ marginTop: 4 }}>
+          <Grid item xs={12} md={6}>
             <Typography variant="h5">SHIPPING ADDRESS</Typography>
             <Typography mt={matches ? "10px" : "20px"} variant="body1">
               <b>
@@ -211,8 +201,8 @@ export const OrderDetails = ({ data, userLogout, returnAccount }) => {
               <br />
               {shippingAddress?.phone}
             </Typography>
-          </Box>
-        </Box>
+          </Grid>
+        </Grid>
       </Box>
     </Box>
   )

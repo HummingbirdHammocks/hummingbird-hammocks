@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react"
 import { useTheme } from '@mui/material/styles';
-import { Typography, Divider, Box, useMediaQuery } from "@mui/material"
+import { Typography, Divider, Box, Grid, useMediaQuery } from "@mui/material"
 import { navigate } from "gatsby"
 import { useQuery, gql } from "@apollo/client"
 import { useLocation } from "@gatsbyjs/reach-router"
@@ -98,21 +98,8 @@ const AccountPage = () => {
 
                   <Divider />
 
-                  <Box
-                    sx={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 2fr",
-                      padding: "30px 0",
-
-                      [theme.breakpoints.down("md")]: {
-                        gridTemplateColumns: "1fr",
-                        padding: "0",
-                      },
-                    }}>
-                    <Box
-                      p="20px 0"
-                      borderRight={matches ? "0" : "1px solid #ead5d5"}
-                    >
+                  <Grid container spacing={2} sx={{ paddingTop: 4, paddingBottom: 4 }}>
+                    <Grid item xs={12} lg={4}>
                       <Typography variant="h5">{`${data.customer.firstName} ${data.customer.lastName}`}</Typography>
                       <Typography variant="body1">
                         {data.customer.email}
@@ -143,14 +130,14 @@ const AccountPage = () => {
                       <Typography mt="20px" variant="body1">
                         <Link to="/account/addresses">{`View Addresses (${data.customer.addresses.edges.length})`}</Link>
                       </Typography>
-                    </Box>
-                    <Box p={matches ? "0" : "20px"}>
-                      <Typography mb="20px" variant="h5">
+                    </Grid>
+                    <Grid item xs={12} lg={8}>
+                      <Typography mb="20px" variant="h4">
                         Order History
                       </Typography>
                       <OrderHistory rows={data.customer.orders?.edges} />
-                    </Box>
-                  </Box>
+                    </Grid>
+                  </Grid>
                 </>
               )}
             </Box>
@@ -167,15 +154,15 @@ const AccountPage = () => {
               alignItems="center"
               display="flex"
             >
-              <Typography variant="h1">You need to login first!</Typography>
+              <Typography variant="h1">You need to log in first!</Typography>
               <OnButton>
                 <Link to="/account/login">Go to Log In</Link>
               </OnButton>
             </Box>
           )}
         </MainWrapper>
-      </Box>
-    </Layout>
+      </Box >
+    </Layout >
   )
 }
 

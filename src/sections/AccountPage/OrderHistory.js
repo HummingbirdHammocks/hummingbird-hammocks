@@ -7,10 +7,14 @@ import {
   TableHead,
   TableRow,
   Paper,
+  IconButton,
   useMediaQuery,
 } from "@mui/material"
+import { Pageview } from "@mui/icons-material"
 import { navigate } from "gatsby"
 import { useLocation } from "@gatsbyjs/reach-router"
+
+import { fShopify } from "../../utils/formatTime"
 
 export const OrderHistory = ({ rows }) => {
   const matches = useMediaQuery("(max-width:900px)")
@@ -24,16 +28,17 @@ export const OrderHistory = ({ rows }) => {
   }
 
   return (
-    <Paper sx={{ maxWidth: matches ? 350 : 550 }}>
+    <Paper>
       <TableContainer>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
               <TableCell>Order</TableCell>
-              <TableCell align="right">Date</TableCell>
-              <TableCell align="right">Payment Status</TableCell>
-              <TableCell align="right">Fulfillment Status</TableCell>
+              <TableCell align="center">Date</TableCell>
+              <TableCell align="center">Payment Status</TableCell>
+              <TableCell align="center">Fulfillment Status</TableCell>
               <TableCell align="right">Total</TableCell>
+              <TableCell align="center">View</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -62,11 +67,18 @@ export const OrderHistory = ({ rows }) => {
                   >
                     {name}
                   </TableCell>
-                  <TableCell align="right">{processedAt}</TableCell>
+                  <TableCell align="right">{fShopify(processedAt)}</TableCell>
                   <TableCell align="right">{financialStatus}</TableCell>
                   <TableCell align="right">{fulfillmentStatus}</TableCell>
                   <TableCell align="right">
                     {currencyCode} {totalPrice}
+                  </TableCell>
+                  <TableCell align="right">
+                    <IconButton
+                      onClick={() => handleOrderDetails(name)}
+                    >
+                      <Pageview />
+                    </IconButton>
                   </TableCell>
                 </TableRow>
               )
