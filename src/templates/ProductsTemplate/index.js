@@ -14,6 +14,8 @@ import {
   Link,
   AnotherLink,
   Socials,
+  ProductReviewWidget,
+  ProductPreviewBadge
 } from "components"
 import { CartContext, RecentViewedContext } from "contexts"
 import Color from "utils/color"
@@ -22,7 +24,6 @@ import {
   Fbt,
   ProductDetailsGrid,
   RecentViewed,
-  // Reviews,
   YouTubeEmbed,
   Details,
   DetailsImage,
@@ -583,9 +584,6 @@ const ProductPage = ({ data, pageContext }) => {
               />
             )}
 
-            {/* Review */}
-            {/* <Reviews title={title} handle={handle} /> */}
-
             {/* Main Product Details */}
             {selectedVariantStatic?.metafields.length > 1 && (
               <Specs metas={selectedVariantStatic.metafields} top={true} />
@@ -723,6 +721,10 @@ const ProductPage = ({ data, pageContext }) => {
                 ))}
               </>
             )}
+
+            {/* Review */}
+            <ProductReviewWidget title={title} handle={handle} />
+            <ProductPreviewBadge title={title} handle={handle} />
 
             {metaVideo && <YouTubeEmbed url={metaVideo.value} title={title} />}
 

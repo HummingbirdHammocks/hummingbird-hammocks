@@ -1,30 +1,35 @@
 import axios from "axios"
+import { toast } from "react-toastify"
 
-export default class JudgeMe {
-  constructor(handle) {
-    this.handle = handle
+
+export async function getProductReviewWidget(handle) {
+  if (!handle) {
+    toast.error("Error getting reviews, handle is required")
+    return false
   }
 
-  async getReviewWidget() {
-    try {
-      const { data } = await axios.get(
-        `https://judge.me/api/v1/widgets/product_review?api_token=${process.env.JUDGE_ME_PRIVATE_API_TOKEN}&shop_domain=${process.env.GATSBY_SHOPIFY_STORE_URL}&handle=${this.handle}`
-      )
+  const url = `https://judge.me/api/v1/widgets/product_review?api_token=${process.env.GATSBY_JUDGE_ME_PUBLIC_API_TOKEN}&shop_domain=${process.env.GATSBY_SHOPIFY_STORE_URL}&handle=${handle}`
 
-      return data
-    } catch (error) {
-      console.log(error)
-    }
+  return await axios.get(url)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.log("getProductReviewWidget", error)
+      toast.error("Error getting reviews, please try again")
+    });
+}
+
+export async function getProductPreviewBadge(handle) {
+  if (!handle) {
+    toast.error("Error getting reviews, handle is required")
+    return false
   }
 
-  async getPreviewBadge() {
-    const { data } = await axios.get(
-      `https://judge.me/api/v1/widgets/preview_badge?api_token=${process.env.JUDGE_ME_PRIVATE_API_TOKEN}&shop_domain=${process.env.GATSBY_SHOPIFY_STORE_URL}&handle=${this.handle}`
-    )
+  const url = `https://judge.me/api/v1/widgets/preview_badge?api_token=${process.env.GATSBY_JUDGE_ME_PUBLIC_API_TOKEN}&shop_domain=${process.env.GATSBY_SHOPIFY_STORE_URL}&handle=${handle}`
 
-    return data
-  }
-  catch(error) {
-    console.log(error)
-  }
+  return await axios.get(url)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.log("getProductPreviewBadge", error)
+      toast.error("Error getting reviews, please try again")
+    });
 }

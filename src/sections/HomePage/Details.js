@@ -10,7 +10,8 @@ export function Details({ data, children }) {
   return (
     <Box
       sx={{
-        margin: 4,
+        marginTop: 4,
+        marginBottom: 4,
 
         [theme.breakpoints.down("sm")]: {
           margin: 0,
@@ -39,12 +40,13 @@ export function Details({ data, children }) {
               <Typography
                 sx={{ mt: 2, maxWidth: "1200px" }}
                 variant="body1"
+                component={"span"}
               >
                 {subText}
               </Typography>
             )}
 
-            <Typography compoent="span" sx={{ mb: "30px" }}>
+            <Typography component="span" sx={{ mb: "30px" }}>
               {htmlText && <div dangerouslySetInnerHTML={{ __html: htmlText }} />}
             </Typography>
 

@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react"
 import { Box } from "@mui/material"
 
-import JudgeMe from "utils/judgeMe"
+import { getProductPreviewBadge } from "utils/judgeMe"
 
-export const Reviews = ({ handle, title }) => {
+export const ProductPreviewBadge = ({ handle, title }) => {
   const [reviews, setReviews] = useState(null)
-  let reviewWidget = new JudgeMe(handle)
 
   useEffect(() => {
-    setReviews(reviewWidget.getReviewWidget().then(data => setReviews(data)))
-  }, [reviewWidget])
+    setReviews(getProductPreviewBadge(handle).then(data => setReviews(data)))
+  }, [handle])
 
   return (
     <Box sx={{ padding: "10px" }}>

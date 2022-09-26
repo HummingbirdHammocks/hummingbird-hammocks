@@ -26,7 +26,7 @@ export const YouTubeEmbed = ({ url, title }) => {
           .substring(0, 11)}`}
         title={title}
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
+        allowFullscreen
       />
     </Box>
   )
