@@ -11,6 +11,9 @@ export default function HTML(props) {
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
+        <script>jdgm = window.jdgm || { };jdgm.SHOP_DOMAIN = 'hummingbird-hammocks.myshopify.com';jdgm.PLATFORM = 'shopify';jdgm.PUBLIC_TOKEN = 'Yc8UD8ErSdTRRpdNomoaN6i1MQo';</script>
+        <script data-cfasync='false' type='text/javascript' async src='https://cdn.judge.me/widget_preloader.js'></script>
+        <script data-cfasync='false' type='text/javascript' async src='https://cdn.judge.me/assets/installed.js'></script>
         {props.headComponents}
       </head>
       <body

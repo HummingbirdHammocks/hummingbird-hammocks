@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "hummingbird-hammocks",
     "public": "public",
     "ignore": [
       "firebase.json",
