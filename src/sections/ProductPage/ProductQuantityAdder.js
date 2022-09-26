@@ -54,7 +54,7 @@ export function ProductQuantityAdder({ variantId, available }) {
           <OnButton
             margin="30px 0 0 0"
             type="submit"
-            border={!available && "1px solid #aeaeae"}
+            border={!available ? "1px solid #aeaeae" : ""}
             disabled={!available}
           >
             {!available ? "Sold Out" : "Add to Cart"}
