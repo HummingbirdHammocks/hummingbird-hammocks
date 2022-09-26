@@ -20,14 +20,14 @@ export default function Search() {
       detachedMediaQuery={""}
       getSources={({ query }) => [
         {
-          sourceId: "dev_products",
+          sourceId: process.env.GATSBY_ALGOLIA_PRODUCTS_INDEX_NAME,
           getItems() {
             return getAlgoliaResults({
               searchClient,
               queries: [
                 {
                   clickAnalytics: true,
-                  indexName: "dev_products",
+                  indexName: process.env.GATSBY_ALGOLIA_PRODUCTS_INDEX_NAME,
                   query,
                 },
               ],

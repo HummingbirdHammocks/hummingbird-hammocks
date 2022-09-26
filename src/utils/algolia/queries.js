@@ -41,13 +41,13 @@ const queries = [
   {
     query: query,
     transformer: ({ data }) => flatten(data.allShopifyProduct.nodes),
-    indexName: `dev_products`,
+    indexName: process.env.GATSBY_ALGOLIA_PRODUCTS_INDEX_NAME,
     settings: settings,
   },
   {
     query: query,
     transformer: ({ data }) => flatten(data.allArticles.nodes),
-    indexName: `dev_articles`,
+    indexName: process.env.GATSBY_ALGOLIA_ARTICLES_INDEX_NAME,
     settings: settings,
   },
 ]
