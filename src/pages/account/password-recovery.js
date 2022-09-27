@@ -1,9 +1,11 @@
 import React, { useContext } from "react"
 import { toast } from 'react-toastify';
-import { useTheme, Typography, Divider, Box, Stack, TextField, useMediaQuery } from "@mui/material"
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import { useMutation, gql } from "@apollo/client"
 import { navigate } from "gatsby"
-import { useForm } from "react-hook-form"
+import { LoadingButton } from '@mui/lab';
+import { useTheme, Typography, Divider, Box, Stack, TextField, useMediaQuery } from "@mui/material"
 
 import { UserContext } from "contexts"
 import {
@@ -11,35 +13,31 @@ import {
   Layout,
   MainWrapper,
   OnButton,
-  SimpleForm,
 } from "components"
 
+const validationSchema = yup.object({
+  email: yup
+    .string()
+    .trim()
+    .email('Please enter a valid email address')
+    .required('Email is required.'),
+});
 
-const ForgetPage = () => {
+const PasswordRecovery = () => {
   const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useForm()
+  const initialValues = {
+    email: '',
+  };
 
-  const {
-    store: { customerAccessToken },
-    logout,
-  } = useContext(UserContext)
-
-  const [forgetPassword, { /* loading, */ error }] = useMutation(
-    CUSTOMER_PASSWORD_FORGET
-  )
-
-  const handleForgetPassword = async ({ email }) => {
-    /* const { data } = */ await forgetPassword({
-    variables: {
-      email,
-    },
-  })
+  const onSubmit = async ({ email }) => {
+    console.log(email)
+    await forgetPassword({
+      variables: {
+        email: email,
+      },
+    })
 
     if (!error) {
       toast.success("Password Reset Email Sent! You'll be redirected to the login page in 3s...", {
@@ -54,7 +52,22 @@ const ForgetPage = () => {
       console.log(error)
       toast.error("Oops! Something went wrong. Please try again.")
     }
-  }
+  };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema: validationSchema,
+    onSubmit,
+  });
+
+  const {
+    store: { customerAccessToken },
+    logout,
+  } = useContext(UserContext)
+
+  const [forgetPassword, { /* loading, */ error }] = useMutation(
+    CUSTOMER_PASSWORD_FORGET
+  )
 
   return (
     <Layout>
@@ -103,31 +116,26 @@ const ForgetPage = () => {
                 <Divider />
 
                 <Box padding="30px" justifyContent="center" display="flex">
-                  <SimpleForm onSubmit={handleSubmit(handleForgetPassword)}>
+                  <form onSubmit={formik.handleSubmit}>
                     <Stack spacing={2} sx={{ width: "400px" }}>
                       <TextField
+                        label="Email *"
+                        variant="outlined"
+                        name={'email'}
                         fullWidth
-                        label="Email"
-                        {...register("email", {
-                          required: true,
-                          pattern: {
-                            value:
-                              /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                            message: "Please enter a valid email",
-                          },
-                        })}
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        error={formik.touched.email && Boolean(formik.errors.email)}
+                        helperText={formik.touched.email && formik.errors.email}
                       />
-                      {errors.email?.message && (
-                        <div>{errors.email?.message}</div>
-                      )}
-                      {errors.email?.type === "required" &&
-                        "Email is required!"}
                       <Typography>
                         We will send you an email to reset your password.
                       </Typography>
-                      <OnButton type="submit">Submit</OnButton>
+                      <LoadingButton size={'large'} variant={'contained'} type={'submit'} loading={formik.isSubmitting}>
+                        Submit
+                      </LoadingButton>
                     </Stack>
-                  </SimpleForm>
+                  </form>
 
                 </Box>
               </>
@@ -139,7 +147,7 @@ const ForgetPage = () => {
   )
 }
 
-export default ForgetPage
+export default PasswordRecovery
 
 const CUSTOMER_PASSWORD_FORGET = gql`
   mutation customerRecover($email: String!) {

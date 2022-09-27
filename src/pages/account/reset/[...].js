@@ -1,9 +1,12 @@
 import React, { useContext } from "react"
 import { toast } from "react-toastify"
-import { useTheme, Typography, Divider, Box, Stack, TextField, useMediaQuery } from "@mui/material"
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import { useMutation, gql } from "@apollo/client"
 import { navigate } from "gatsby"
-import { useForm } from "react-hook-form"
+import { useTheme, Typography, Divider, Box, Stack, TextField, IconButton, InputAdornment, useMediaQuery } from "@mui/material"
+import { LoadingButton } from '@mui/lab';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 import { UserContext } from "contexts"
 import {
@@ -11,25 +14,51 @@ import {
   Layout,
   MainWrapper,
   OnButton,
-  SimpleForm,
 } from "components"
 
+const validationSchema = yup.object({
+  newPassword: yup
+    .string()
+    .trim()
+    .required('Please specify your password')
+    .min(8, 'The password should have at minimum length of 8'),
+  repeatPassword: yup
+    .string()
+    .trim()
+    .required('Please specify your password')
+    .oneOf([yup.ref('newPassword'), null], 'Passwords must match'),
+});
 
 const ResetPage = ({ params }) => {
   const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useForm()
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPasswordConfirmation, setShowPasswordConfirmation] = React.useState(false);
 
   const {
     store: { customerAccessToken },
     setValue,
     logout,
   } = useContext(UserContext)
+
+  const initialValues = {
+    newPassword: '',
+    repeatPassword: '',
+  };
+
+  const onSubmit = async (values, { resetForm }) => {
+    const response = await handlePasswordReset(values.newPassword)
+    if (response) {
+      resetForm({})
+    }
+  };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema: validationSchema,
+    onSubmit,
+  });
 
   const resetUrl = `https://hummingbirdhammocks.com/account/reset/${params["*"]}`
 
@@ -114,19 +143,64 @@ const ResetPage = ({ params }) => {
 
                 <Box padding="30px" justifyContent="center" display="flex">
                   <Box>
-                    <SimpleForm onSubmit={handleSubmit(handlePasswordReset)}>
+                    <form onSubmit={formik.handleSubmit}>
                       <Stack spacing={2} sx={{ width: "400px" }}>
                         <TextField
+                          label="New Password *"
+                          variant="outlined"
+                          name={'newPassword'}
+                          type={showPassword ? 'text' : 'password'}
                           fullWidth
-                          label="New Password"
-                          {...register("password", {
-                            required: true,
-                            maxLength: 30,
-                          })}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton onClick={() => setShowPassword((show) => !show)} edge="end">
+                                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                          value={formik.values.newPassword}
+                          onChange={formik.handleChange}
+                          error={
+                            formik.touched.newPassword &&
+                            Boolean(formik.errors.newPassword)
+                          }
+                          helperText={
+                            formik.touched.newPassword && formik.errors.newPassword
+                          }
                         />
-                        <OnButton type="submit">Change Password</OnButton>
+                        <TextField
+                          label="Confirm Password *"
+                          variant="outlined"
+                          name={'repeatPassword'}
+                          type={showPasswordConfirmation ? 'text' : 'password'}
+                          fullWidth
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton onClick={() => setShowPasswordConfirmation((show) => !show)} edge="end">
+                                  {showPasswordConfirmation ? <Visibility /> : <VisibilityOff />}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                          value={formik.values.repeatPassword}
+                          onChange={formik.handleChange}
+                          error={
+                            formik.touched.repeatPassword &&
+                            Boolean(formik.errors.repeatPassword)
+                          }
+                          helperText={
+                            formik.touched.repeatPassword &&
+                            formik.errors.repeatPassword
+                          }
+                        />
+                        <LoadingButton size={'large'} variant={'contained'} type={'submit'} loading={formik.isSubmitting}>
+                          Change Password
+                        </LoadingButton>
                       </Stack>
-                    </SimpleForm>
+                    </form>
                   </Box>
                 </Box>
               </>

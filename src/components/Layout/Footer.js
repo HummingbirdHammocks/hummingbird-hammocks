@@ -23,7 +23,7 @@ import {
   ExpandMore,
 } from "@mui/icons-material"
 
-import { MainWrapper, AnotherLink, Link } from "components"
+import { MainWrapper, AnotherLink, Link, VerifiedReviewsCountBadge } from "components"
 
 const socials = [
   {
@@ -242,13 +242,14 @@ const Footer = () => {
               alignItems="center"
               width="50%"
             >
-              {/* <div className="jdgm-medals-wrapper"></div> */}
-              <StaticImage
+              <div className="jdgm-medals-wrapper"></div>
+              <VerifiedReviewsCountBadge />
+              {/* <StaticImage
                 src="../../assets/images/judge-me.png"
                 alt="Hummingbird Hammocks"
                 placeholder="blurred"
                 height={130}
-              />
+              /> */}
             </Box>
           </Grid>
         </Box>

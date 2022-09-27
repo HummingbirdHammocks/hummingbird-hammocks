@@ -47,3 +47,15 @@ export async function getProductPreviewBadge(handle) {
       toast.error("Error getting reviews, please try again")
     });
 }
+
+export async function getVerifiedReviewsCountBadge() {
+
+  const url = `https://judge.me/api/v1/widgets/verified_badge?api_token=${process.env.GATSBY_JUDGE_ME_PUBLIC_API_TOKEN}&shop_domain=${process.env.GATSBY_SHOPIFY_STORE_URL}`
+
+  return await axios.get(url)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.log("getVerifiedReviewsCountBadge", error)
+      toast.error("Error getting reviews, please try again")
+    });
+}

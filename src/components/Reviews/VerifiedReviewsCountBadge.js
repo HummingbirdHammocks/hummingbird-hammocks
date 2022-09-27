@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react"
 import { Box } from "@mui/material"
 
 /* import { useImportScript } from 'hooks'; */
-import { getProductReviewWidget } from "utils/judgeMe"
+import { getVerifiedReviewsCountBadge } from "utils/judgeMe"
 
-export const ProductReviewWidget = ({ handle, title }) => {
+export const VerifiedReviewsCountBadge = () => {
   const [reviews, setReviews] = useState(null)
 
   useEffect(() => {
-    setReviews(getProductReviewWidget(handle).then(data => setReviews(data)))
-  }, [handle])
+    setReviews(getVerifiedReviewsCountBadge().then(data => setReviews(data)))
+  }, [])
 
   return (
     <Box sx={{ padding: "10px" }}>
@@ -17,7 +17,7 @@ export const ProductReviewWidget = ({ handle, title }) => {
         <div
           className="jdgm-widget jdgm-review-widget jdgm-outside-widget"
           data-id={reviews.product_external_id}
-          data-product-title={title}
+          data-product-title={"Hummingbird Hammocks Verified Reviews"}
         >
           <div dangerouslySetInnerHTML={{ __html: reviews.widget }} />
         </div>

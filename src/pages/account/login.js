@@ -1,9 +1,12 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { toast } from 'react-toastify';
-import { useTheme, Box, Typography, Divider, TextField, Stack, useMediaQuery } from "@mui/material"
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import { useMutation, gql } from "@apollo/client"
-import { useForm } from "react-hook-form"
 import { navigate } from "gatsby"
+import { useTheme, Box, Typography, Divider, TextField, Stack, InputAdornment, IconButton, useMediaQuery } from "@mui/material"
+import { LoadingButton } from '@mui/lab';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 import { UserContext } from "contexts"
 import {
@@ -12,30 +15,32 @@ import {
   MainWrapper,
   Link,
   OnButton,
-  SimpleForm,
-  MiddleSpinner,
 } from "components"
 
+const validationSchema = yup.object({
+  email: yup
+    .string()
+    .trim()
+    .email('Please enter a valid email address')
+    .required('Email is required.'),
+  password: yup
+    .string()
+    .required('Please specify your password')
+    .min(8, 'The password should have at minimum length of 8'),
+});
 
 const LoginPage = () => {
   const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useForm()
+  const [showPassword, setShowPassword] = useState(false);
 
-  const {
-    setValue,
-    store: { customerAccessToken },
-    logout,
-  } = useContext(UserContext)
+  const initialValues = {
+    email: '',
+    password: '',
+  };
 
-  const [customerLogin, { loading, error }] = useMutation(CUSTOMER_LOGIN)
-
-  const handleLogin = async ({ email, password }) => {
+  const onSubmit = async ({ email, password }) => {
     const { data } = await customerLogin({
       variables: {
         input: {
@@ -48,7 +53,25 @@ const LoginPage = () => {
     setValue(data.customerAccessTokenCreate.customerAccessToken.accessToken)
     toast.success("Login Success!")
     navigate("/account")
-  }
+  };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema: validationSchema,
+    onSubmit,
+  });
+
+  const {
+    setValue,
+    store: { customerAccessToken },
+    logout,
+  } = useContext(UserContext)
+
+  const [customerLogin, { loading, error }] = useMutation(CUSTOMER_LOGIN)
+
+  const handleShowPassword = () => {
+    setShowPassword((show) => !show);
+  };
 
   // if (loading) return "Submitting..."
   if (error) {
@@ -104,47 +127,47 @@ const LoginPage = () => {
 
                 <Box padding="30px" justifyContent="center" display="flex">
                   <Box>
-                    <SimpleForm onSubmit={handleSubmit(handleLogin)}>
+                    <form onSubmit={formik.handleSubmit}>
                       <Stack spacing={2} sx={{ width: "400px" }}>
                         <TextField
+                          label="Email *"
+                          variant="outlined"
+                          name={'email'}
                           fullWidth
-                          label="Email"
-                          {...register("email", {
-                            required: true,
-                            pattern: {
-                              value:
-                                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                              message: "Please enter a valid email",
-                            },
-                          })}
+                          value={formik.values.email}
+                          onChange={formik.handleChange}
+                          error={formik.touched.email && Boolean(formik.errors.email)}
+                          helperText={formik.touched.email && formik.errors.email}
                         />
-                        {errors.email?.message && (
-                          <div>{errors.email?.message}</div>
-                        )}
-                        {errors.email?.type === "required" &&
-                          "Email is required!"}
                         <TextField
+                          label="Password *"
+                          variant="outlined"
+                          name={'password'}
+                          type={showPassword ? 'text' : 'password'}
                           fullWidth
-                          label="Password"
-                          {...register("password", {
-                            required: true,
-                            maxLength: 30,
-                          })}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton onClick={handleShowPassword} edge="end">
+                                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                          value={formik.values.password}
+                          onChange={formik.handleChange}
+                          error={formik.touched.password && Boolean(formik.errors.password)}
+                          helperText={formik.touched.password && formik.errors.password}
                         />
-                        {errors.password?.type === "required" &&
-                          "Password is required!"}
-
-                        {loading ? (
-                          <MiddleSpinner />
-                        ) : (
-                          <OnButton type="submit">Sign In</OnButton>
-                        )}
+                        <LoadingButton size={'large'} variant={'contained'} type={'submit'} loading={formik.isSubmitting}>
+                          Login
+                        </LoadingButton>
                       </Stack>
-                    </SimpleForm>
+                    </form>
 
                     <Box mt="20px">
                       <Typography variant="body1" mb="10px">
-                        <Link to="/account/forget-password">
+                        <Link to="/account/password-recovery">
                           Forgot your password?
                         </Link>
                       </Typography>

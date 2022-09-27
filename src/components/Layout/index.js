@@ -5,6 +5,7 @@ import { navigate } from "gatsby"
 
 import Nav from "./Nav"
 import Footer from "./Footer"
+import { ReviewWidgetScripts } from "utils/judgeMe"
 import { AppDrawer } from "./Nav/AppDrawer"
 import { CartDrawer } from "./Nav/CartDrawer"
 import { TopBanner } from "./TopBanner"
@@ -33,6 +34,7 @@ export const Layout = ({ children }) => {
 
   return (
     <>
+      <ReviewWidgetScripts />
       <TopBanner />
       <Nav
         customerAccessToken={customerAccessToken}
