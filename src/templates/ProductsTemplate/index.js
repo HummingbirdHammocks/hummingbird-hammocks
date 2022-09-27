@@ -723,9 +723,7 @@ const ProductPage = ({ data, pageContext }) => {
             )}
 
             {/* Review */}
-            <div class="jdgm-medals-wrapper"></div>
             <ProductReviewWidget title={title} handle={handle} />
-            <ProductPreviewBadge title={title} handle={handle} />
 
             {metaVideo && <YouTubeEmbed url={metaVideo.value} title={title} />}
 
