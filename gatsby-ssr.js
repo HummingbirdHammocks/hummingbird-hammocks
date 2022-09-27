@@ -10,6 +10,8 @@ import {
 } from "@apollo/client"
 
 import theme from "./src/ui/theme"
+import "./src/ui/style.css";
+
 import {
   ProductContextProvider,
   NavProvider,

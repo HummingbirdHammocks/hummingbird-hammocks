@@ -1,0 +1,23 @@
+/* JudgeMe Reviews */
+.jdgm-write-rev-link {
+  border-radius: 20px;
+}
+.jdgm-rev-widg {
+  border-radius: 20px;
+}
+.jdgm-sort-dropdown {
+  border-radius: 20px;
+}
+.jdgm-medals {
+  background: #fdfdf5 !important;
+  border: none !important;
+}
+#judgeme_product_reviews {
+  max-width: 1200px;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.jdgm-verified-badge {
+  margin: "0px !important";
+}

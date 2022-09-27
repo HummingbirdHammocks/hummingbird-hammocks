@@ -14,13 +14,7 @@ export const VerifiedReviewsCountBadge = () => {
   return (
     <Box sx={{ padding: "10px" }}>
       {reviews && (
-        <div
-          className="jdgm-widget jdgm-review-widget jdgm-outside-widget"
-          data-id={reviews.product_external_id}
-          data-product-title={"Hummingbird Hammocks Verified Reviews"}
-        >
-          <div dangerouslySetInnerHTML={{ __html: reviews.widget }} />
-        </div>
+        <div dangerouslySetInnerHTML={{ __html: reviews.verified_badge }} />
       )}
     </Box>
   )

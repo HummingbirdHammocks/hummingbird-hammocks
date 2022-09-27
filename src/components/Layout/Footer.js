@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import {
   useTheme,
   Grid,
+  Stack,
   List,
   ListItem,
   Typography,
@@ -100,51 +101,43 @@ const Footer = () => {
         padding: "50px 0 20px 0",
       }}>
       <MainWrapper>
-        <Box
-          sx={{
-            display: "grid",
-            paddingBottom: "30px",
-            gridTemplateColumns: "1fr 1fr 1fr 1.5fr",
-
-            [theme.breakpoints.down("md")]: {
-              gridTemplateColumns: "1fr",
-            },
-          }}>
-          <Grid mb={matches && "40px"} mr={!matches && "80px"} item>
-            <Box
-              display={matches && "flex"}
-              justifyContent={matches && "center"}
-            >
-              <Box maxWidth={matches ? "250px" : "100%"}>
-                <Box mb="30px" display="flex" justifyContent="center">
-                  <StaticImage
-                    src="../../assets/images/footer-logo.png"
-                    alt="Hummingbird Hammocks"
-                    placeholder="blurred"
-                    height={130}
-                  />
-                </Box>
-
-                <List
-                  disablePadding
-                  sx={{ display: "flex", justifyContent: "center" }}
-                >
-                  {socials.map(social => (
-                    <ListItem sx={{ p: "5px" }} disablePadding key={social.id}>
-                      <AnotherLink
-                        color="white.main"
-                        href={social.url}
-                        underline="none"
-                      >
-                        {social.iconTag}
-                      </AnotherLink>
-                    </ListItem>
-                  ))}
-                </List>
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="flex-start"
+          spacing={4}
+        >
+          <Grid item xs={12} md={4} lg={3} justifyContent={"center"}>
+            <Box>
+              <Box mb="30px" display="flex" justifyContent="center">
+                <StaticImage
+                  src="../../assets/images/footer-logo.png"
+                  alt="Hummingbird Hammocks"
+                  placeholder="blurred"
+                  height={130}
+                />
               </Box>
+
+              <List
+                disablePadding
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
+                {socials.map(social => (
+                  <ListItem sx={{ p: "5px" }} disablePadding key={social.id}>
+                    <AnotherLink
+                      color="white.main"
+                      href={social.url}
+                      underline="none"
+                    >
+                      {social.iconTag}
+                    </AnotherLink>
+                  </ListItem>
+                ))}
+              </List>
             </Box>
           </Grid>
-          <Grid item>
+          <Grid item xs={12} sm={6} md={4} lg={3} justifyContent={"center"}>
             <List>
               <ListItemButton
                 sx={{ opacity: "1!important", padding: "0 0 10px 0" }}
@@ -177,7 +170,7 @@ const Footer = () => {
               </Collapse>
             </List>
           </Grid>
-          <Grid item>
+          <Grid item xs={12} sm={6} md={4} lg={2} justifyContent={"center"}>
             <List>
               <ListItemButton
                 sx={{ opacity: "1!important", padding: "0 0 10px 0" }}
@@ -214,45 +207,40 @@ const Footer = () => {
             </List>
           </Grid>
 
-          <Grid display="flex" item>
-            <Box
-              display="flex"
+          <Grid item xs={12} lg={4} justifyContent={"center"}>
+            <Stack
+              direction="row"
               justifyContent="center"
               alignItems="center"
-              width="50%"
+              spacing={2}
             >
-              <a
-                href="https://ecologi.com/hummingbirdhammocks"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="View our Ecologi profile"
-                style={{ width: "100%", display: "inline-block" }}
-              >
-                <img
-                  style={{ width: "70%" }}
-                  alt="We plant trees with Ecologi"
-                  src="https://api.ecologi.com/badges/trees/60b8efa8e6e3c022ec95c2bb?white=true&treeOnly=true"
-                />
-              </a>
-            </Box>
-
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              width="50%"
-            >
-              <div className="jdgm-medals-wrapper"></div>
-              <VerifiedReviewsCountBadge />
-              {/* <StaticImage
-                src="../../assets/images/judge-me.png"
-                alt="Hummingbird Hammocks"
-                placeholder="blurred"
-                height={130}
-              /> */}
-            </Box>
+              <Box sx={{ maxWidth: "150px" }}>
+                <a
+                  href="https://ecologi.com/hummingbirdhammocks"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="View our Ecologi profile"
+                >
+                  <img
+                    style={{ width: "100%" }}
+                    alt="We plant trees with Ecologi"
+                    src="https://api.ecologi.com/badges/trees/60b8efa8e6e3c022ec95c2bb?white=true&treeOnly=true"
+                  />
+                </a>
+              </Box>
+              <Box >
+                <a
+                  href="https://judge.me/reviews/hummingbird-hammocks"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="View our Reviews Page"
+                >
+                  <VerifiedReviewsCountBadge />
+                </a>
+              </Box>
+            </Stack>
           </Grid>
-        </Box>
+        </Grid>
         <Divider sx={{ borderColor: "white.main" }} />
         <Box
           sx={{
@@ -704,7 +692,7 @@ const Footer = () => {
           </Box>
         </Box>
       </MainWrapper>
-    </Box>
+    </Box >
   )
 }
 
