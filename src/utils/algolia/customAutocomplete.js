@@ -12,7 +12,7 @@ export default function Autocomplete(props) {
 
     const search = autocomplete({
       container: containerRef.current,
-      renderer: { createElement, Fragment },
+      renderer: { createElement, Fragment, render: () => { } },
       render({ children }, root) {
         render(children, root)
       },
