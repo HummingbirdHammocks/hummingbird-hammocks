@@ -28,6 +28,12 @@ const navItems = [
         link: "/account/addresses"
     },
     {
+        id: "notifications",
+        name: "Notifications",
+        type: "internal",
+        link: "/account/notifications"
+    },
+    {
         id: "tickets",
         name: "Tickets",
         type: "external",
@@ -76,26 +82,24 @@ export default function AccountNav({ currentPage }) {
                     <Box sx={{ width: '100%', maxWidth: 360 }}>
                         <MenuList>
                             {navItems.map((item) => (
-                                <>
-                                    {item.type === "internal" ? (
-                                        <MenuItem
-                                            selected={currentPage === item.id}
-                                            component={Link}
-                                            to={item.link}
-                                        >
-                                            {item.name}
-                                        </MenuItem>
-                                    ) : (
-                                        <MenuItem
-                                            selected={currentPage === item.id}
-                                            component={"a"}
-                                            href={item.link}
-                                            target="_blank"
-                                        >
-                                            {item.name}
-                                        </MenuItem>
-                                    )}
-                                </>
+                                item.type === "internal" ? (
+                                    <MenuItem
+                                        selected={currentPage === item.id}
+                                        component={Link}
+                                        to={item.link}
+                                    >
+                                        {item.name}
+                                    </MenuItem>
+                                ) : (
+                                    <MenuItem
+                                        selected={currentPage === item.id}
+                                        component={"a"}
+                                        href={item.link}
+                                        target="_blank"
+                                    >
+                                        {item.name}
+                                    </MenuItem>
+                                )
                             ))}
                         </MenuList>
                     </Box>
