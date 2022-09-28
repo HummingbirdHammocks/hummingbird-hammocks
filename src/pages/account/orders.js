@@ -57,7 +57,7 @@ const AccountOrdersPage = () => {
   }, [q, data])
 
   return (
-    <AccountLayout title="Order History" customerInfo={data}>
+    <AccountLayout title="Order History" customerInfo={data} currentPage="orders">
       {customerAccessToken && !accountDetails.open ? (
         <Box>
           {error && "Error"}

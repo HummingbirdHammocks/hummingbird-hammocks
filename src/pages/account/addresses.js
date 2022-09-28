@@ -267,7 +267,7 @@ const AccountAddressPage = () => {
   }
 
   return (
-    <AccountLayout title="Addresses">
+    <AccountLayout title="Addresses" currentPage="addresses">
       <Box>
         <Typography mb="20px" variant="h4">
           Addresses

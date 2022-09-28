@@ -67,10 +67,10 @@ export const AccountLayout = ({ title, customerInfo, currentPage, children }) =>
             <Divider />
 
             <Grid container spacing={4} sx={{ paddingTop: 4, paddingBottom: 4 }}>
-              <Grid item xs={12} md={4} lg={2}>
-                <AccountNav />
+              <Grid item xs={12} lg={2}>
+                <AccountNav currentPage={currentPage} />
               </Grid>
-              <Grid item xs={12} md={8} lg={10}>
+              <Grid item xs={12} lg={10}>
                 {children}
               </Grid>
             </Grid>
