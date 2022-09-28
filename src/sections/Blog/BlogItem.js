@@ -1,11 +1,10 @@
 import React from "react"
 import { GatsbyImage } from "gatsby-plugin-image"
-import { Box, Typography, Button, useMediaQuery } from "@mui/material"
+import { Box, Typography, Button } from "@mui/material"
 
 import { Link } from "components"
 
 export const BlogItem = ({ item, description }) => {
-  const matches = useMediaQuery("(max-width:900px)")
   return (
     <Box key={item.id}>
       <Box>
