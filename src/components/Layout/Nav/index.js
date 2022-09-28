@@ -152,7 +152,7 @@ const AppbarDesktop = ({
               </Button>
             </Link>
           ) : (
-            <Link to="/account/login">
+            <Link to="/login">
               <AccountCircle sx={{ m: "4px 20px 0 20px" }} />
             </Link>
           )}

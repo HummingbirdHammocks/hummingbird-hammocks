@@ -60,7 +60,7 @@ const ResetPage = ({ params }) => {
     onSubmit,
   });
 
-  const resetUrl = `https://hummingbirdhammocks.com/account/reset/${params["*"]}`
+  const resetUrl = `https://hummingbirdhammocks.com/reset/${params["*"]}`
 
   const handleCustomerAccessToken = value => {
     setValue(value)
@@ -88,7 +88,7 @@ const ResetPage = ({ params }) => {
       })
 
       setTimeout(function () {
-        navigate("/account/")
+        navigate("/account")
       }, 3000)
     } else {
       toast.error("Oops, something went wrong!")
@@ -134,7 +134,7 @@ const ResetPage = ({ params }) => {
                     color="white"
                     border="0"
                     borderRadius="10px"
-                    onClick={() => navigate("/account/login")}
+                    onClick={() => navigate("/login")}
                   >
                     Login
                   </OnButton>

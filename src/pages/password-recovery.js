@@ -46,7 +46,7 @@ const PasswordRecovery = () => {
       })
 
       setTimeout(function () {
-        navigate("/account/login")
+        navigate("/login")
       }, 5000)
     } else {
       console.log(error)
@@ -108,7 +108,7 @@ const PasswordRecovery = () => {
                     color="white"
                     border="0"
                     borderRadius="10px"
-                    onClick={() => navigate("/account/login")}
+                    onClick={() => navigate("/login")}
                   >
                     Login
                   </OnButton>

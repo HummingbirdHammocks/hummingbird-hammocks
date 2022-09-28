@@ -118,7 +118,7 @@ const LoginPage = () => {
                     color="white"
                     border="0"
                     borderRadius="10px"
-                    onClick={() => navigate("/account/register")}
+                    onClick={() => navigate("/register")}
                   >
                     Sign Up
                   </OnButton>
@@ -167,7 +167,7 @@ const LoginPage = () => {
 
                     <Box mt="20px">
                       <Typography variant="body1" mb="10px">
-                        <Link to="/account/password-recovery">
+                        <Link to="/password-recovery">
                           Forgot your password?
                         </Link>
                       </Typography>

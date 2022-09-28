@@ -53,7 +53,7 @@ const RegisterPage = () => {
         hideProgressBar: false,
       })
       setTimeout(function () {
-        navigate("/account/login")
+        navigate("/login")
       }, 3000)
     }
   }
@@ -97,7 +97,7 @@ const RegisterPage = () => {
                     color="white"
                     border="0"
                     borderRadius="10px"
-                    onClick={() => navigate("/account/login")}
+                    onClick={() => navigate("/login")}
                   >
                     Login
                   </OnButton>

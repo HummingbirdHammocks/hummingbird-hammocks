@@ -41,14 +41,14 @@ export const OrderDetails = ({ data, userLogout, returnAccount }) => {
   console.log(data.node)
 
   return (
-    <Box padding={!matches ? "0 200px" : "0"}>
+    <Box >
       <Box
         pb="20px"
         justifyContent="space-between"
         display={matches ? "inline-block" : "flex"}
       >
         <Box>
-          <Typography variant="h2">
+          <Typography variant="h4">
             Order {name} Details
           </Typography>
           <Typography variant="subtitle2">
@@ -63,24 +63,10 @@ export const OrderDetails = ({ data, userLogout, returnAccount }) => {
             border="0"
             onClick={() => returnAccount()}
           >
-            Return to Account
-          </OnButton>{" "}
-          /{" "}
-          <OnButton
-            hovercolor="#d2cbcb"
-            background="#34542a"
-            padding="0 10px"
-            color="white"
-            border="0"
-            borderRadius="10px"
-            onClick={() => userLogout()}
-          >
-            Logout
+            Return to All Orders
           </OnButton>
         </Box>
       </Box>
-
-      <Divider />
 
       <Stack direction="row" spacing={2} sx={{ marginTop: 2 }}>
         <Chip label={financialStatus} />
