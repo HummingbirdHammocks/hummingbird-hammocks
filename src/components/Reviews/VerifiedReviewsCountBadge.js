@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { Box } from "@mui/material"
 
 /* import { useImportScript } from 'hooks'; */
-import { getVerifiedReviewsCountBadge } from "utils/judgeMe"
+/* import { getVerifiedReviewsCountBadge } from "utils/judgeMe" */
 
 export const VerifiedReviewsCountBadge = () => {
-  const [reviews, setReviews] = useState(null)
+  /* const [reviews, setReviews] = React.useState(null)
 
-  useEffect(() => {
+  React.useEffect(() => {
     setReviews(getVerifiedReviewsCountBadge().then(data => setReviews(data)))
-  }, [])
+  }, []) */
 
   return (
     <Box sx={{ padding: "10px" }}>
-      {reviews && (
+      <div class="jdgm-verified-badge-wrapper"></div>
+      {/* {reviews && (
         <div dangerouslySetInnerHTML={{ __html: reviews.verified_badge }} />
-      )}
+      )} */}
     </Box>
   )
 }

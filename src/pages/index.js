@@ -1,8 +1,8 @@
 import React from "react"
 import { StaticImage } from "gatsby-plugin-image"
-import { Stack } from "@mui/material"
+import { Stack, Box } from "@mui/material"
 
-import { Seo, Layout, MainWrapper } from "components"
+import { Seo, Layout, MainWrapper, FeaturedReviewsCarousel } from "components"
 import { Hero, Info, Details, FeaturedProduct, OutDoorArticles } from "sections"
 
 const heroData = {
@@ -195,7 +195,25 @@ const IndexPage = () => {
           placeholder="blurred"
         />
       </Hero>
-      <OutDoorArticles />
+      <MainWrapper>
+        <Stack
+          justifyContent="center"
+          alignItems="center"
+          sx={{
+            marginTop: 4,
+            marginBottom: 4,
+          }}
+        >
+
+          <Box sx={{ maxWidth: "1920px" }}>
+            <FeaturedReviewsCarousel />
+          </Box>
+
+          <Box>
+            <OutDoorArticles />
+          </Box>
+        </Stack>
+      </MainWrapper>
     </Layout>
   )
 }

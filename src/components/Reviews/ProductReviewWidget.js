@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { Typography } from "@mui/material"
 
 /* import { useImportScript } from 'hooks'; */
-import { getProductReviewWidget } from "utils/judgeMe"
+/* import { getProductReviewWidget } from "utils/judgeMe" */
 
 export const ProductReviewWidget = ({ handle, title }) => {
-  const [reviews, setReviews] = useState(null)
+  /* const [reviews, setReviews] = React.useState(null)
 
-  useEffect(() => {
+  React.useEffect(() => {
     setReviews(getProductReviewWidget(handle).then(data => setReviews(data)))
-  }, [handle])
+  }, [handle]) */
 
   return (
     <Typography component={"div"} sx={{ padding: "10px" }}>
-      {reviews && (
+      {/* {reviews && (
         <div
           className="jdgm-widget jdgm-review-widget jdgm-outside-widget"
           data-id={reviews.product_external_id}
@@ -21,7 +21,8 @@ export const ProductReviewWidget = ({ handle, title }) => {
         >
           <div dangerouslySetInnerHTML={{ __html: reviews.widget }} />
         </div>
-      )}
+      )} */}
+      <div class="jdgm-widget jdgm-review-widget jdgm-outside-widget" data-id={handle} data-product-title={title}></div>
     </Typography>
   )
 }
