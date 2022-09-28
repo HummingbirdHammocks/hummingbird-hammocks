@@ -16,11 +16,6 @@ export function Info({ title, titleAlign, children, subTextAlign }) {
           padding: "50px 0",
           wordBreak: "break-word",
         },
-
-        "& a": {
-          color: "#34542a",
-          wordBreak: "break-all",
-        },
       }}>
       <MainWrapper>
         {title && (

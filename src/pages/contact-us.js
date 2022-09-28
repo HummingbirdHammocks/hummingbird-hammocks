@@ -1,13 +1,12 @@
 import React from "react"
 import { StaticImage } from "gatsby-plugin-image"
-import { useTheme, Box, Typography } from "@mui/material"
+import { useTheme, Box, Typography, Button } from "@mui/material"
 
 import {
   Seo,
   Layout,
-  LinkButton,
+  Link,
   MainWrapper,
-  ButtonAnotherLink,
 } from "components"
 import { Hero, Info } from "sections"
 
@@ -40,14 +39,13 @@ const GridItem = ({ children, title, subText, buttonLink, buttonText }) => {
       </Typography>
 
       <Box m="30px 0 70px 0" display="flex" justifyContent="center">
-        <LinkButton
-          bordercolor="#34542a"
-          color="black"
-          background="white"
+        <Button
+          variant="contained"
+          component={Link}
           to={buttonLink}
         >
           {buttonText}
-        </LinkButton>
+        </Button>
       </Box>
     </Box>
   )
@@ -69,7 +67,7 @@ const ContactUsPage = () => {
           placeholder="blurred"
         />
       </Hero>
-      <Info title="CONTACT US">
+      <Info title="CONTACT US" >
         We know you don't want to talk to a robot. Our support team is completely
         internal (and human), nothing is outsourced, and you won't be asked to
         jump through a bunch of hoops. We offer informed and concise help so you
@@ -80,14 +78,15 @@ const ContactUsPage = () => {
         advice. Reach out to us below and we will get back to you as soon as
         possible.
         <Box mt="40px" display="flex" justifyContent="center">
-          <ButtonAnotherLink
+          <Button
+            variant="contained"
+            component="a"
             href="https://help.hummingbirdhammocks.com/help/1694808310"
-            bordercolor="#34542a"
             rel="noopener noreferrer"
             target="_blank"
           >
             Contact Support
-          </ButtonAnotherLink>
+          </Button>
         </Box>
       </Info>
 

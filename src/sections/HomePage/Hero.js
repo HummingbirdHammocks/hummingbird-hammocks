@@ -1,7 +1,7 @@
 import React from "react"
-import { useTheme, Box, Typography, useMediaQuery } from "@mui/material"
+import { useTheme, Box, Typography, Button, Stack, useMediaQuery } from "@mui/material"
 
-import { LinkButton, ButtonAnotherLink } from "components"
+import { Link } from "components"
 
 export function Hero({ children, data }) {
   const theme = useTheme();
@@ -95,67 +95,38 @@ export function Hero({ children, data }) {
           )}
 
           {button && (
-            <Box
-              display="flex"
-              justifyContent={
-                !matches
-                  ? position === "left"
-                    ? "left"
-                    : position === "right"
-                      ? "right"
-                      : "center"
-                  : "center"
-              }
-              alignItems="center"
-            >
+            <Stack
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            spacing={2}
+          >
               {button.map(item =>
                 item.type === "href" ? (
-                  <ButtonAnotherLink
+                  <Button
+                    variant="contained"
                     href={item.url}
                     key={item.id}
+                    compoent="a"
                     target="_blank"
                     rel="noopener noreferrer"
-                    margin="10px"
-                    hoverback={item.hoverBack}
-                    hovercolor={item.hoverColor}
-                    hoverborder={item.hoverBorder}
                     sx={{
                       padding: matches ? "11px 22px" : "12px 40px",
                       margin: matches ? "2px" : "10px",
                     }}
-                    color={
-                      !matches ? (item.color ? item.color : "black") : "white"
-                    }
-                    background={
-                      !matches
-                        ? item.background
-                          ? item.background
-                          : "white"
-                        : "#383839"
-                    }
                   >
                     <Typography
-                      color={matches && "#fff"}
                       textAlign="center"
                       variant="subtitle2"
                     >
                       {item.text}
                     </Typography>
-                  </ButtonAnotherLink>
+                  </Button>
                 ) : (
-                  <LinkButton
+                  <Button
+                    variant="contained"
                     key={item.id}
-                    margin="10px"
-                    color={
-                      !matches ? (item.color ? item.color : "black") : "white"
-                    }
-                    background={
-                      !matches
-                        ? item.background
-                          ? item.background
-                          : "white"
-                        : "#383839"
-                    }
+                    component={Link}
                     to={item.url}
                     sx={{
                       padding: matches ? "11px 22px" : "12px 40px",
@@ -163,16 +134,15 @@ export function Hero({ children, data }) {
                     }}
                   >
                     <Typography
-                      color={matches && "#fff"}
                       textAlign="center"
                       variant="subtitle2"
                     >
                       {item.text}
                     </Typography>
-                  </LinkButton>
+                  </Button>
                 )
               )}
-            </Box>
+            </Stack>
           )}
         </Box>
       </Box>

@@ -1,8 +1,8 @@
 import React from "react"
 import { GatsbyImage } from "gatsby-plugin-image"
-import { Box, Typography, useMediaQuery } from "@mui/material"
+import { Box, Typography, Button, useMediaQuery } from "@mui/material"
 
-import { Link, LinkButton } from "components"
+import { Link } from "components"
 
 export const BlogItem = ({ item, description }) => {
   const matches = useMediaQuery("(max-width:900px)")
@@ -34,19 +34,13 @@ export const BlogItem = ({ item, description }) => {
       </Box>
 
       <Box mt="20px" display="flex">
-        <LinkButton
-          color="black"
-          background="383839"
-          bordercolor="#cccc"
+        <Button
+          variant="outlined"
+          component={Link}
           to={`/blogs/news/${item.handle}`}
-          sx={{
-            padding: matches ? "11px 22px" : "12px 40px",
-          }}
         >
-          <Typography textAlign="center" variant="subtitle2">
-            Read More
-          </Typography>
-        </LinkButton>
+          Read More
+        </Button>
       </Box>
     </Box>
   )

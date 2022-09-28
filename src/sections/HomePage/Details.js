@@ -1,7 +1,7 @@
 import React from "react"
-import { useTheme, Box, Grid, Stack, Typography } from "@mui/material"
+import { useTheme, Box, Grid, Stack, Typography, Button } from "@mui/material"
 
-import { LinkButton, ButtonAnotherLink } from "components"
+import { Link } from "components"
 
 export function Details({ data, children }) {
   const theme = useTheme();
@@ -53,23 +53,23 @@ export function Details({ data, children }) {
             {buttonText && (
               <Box>
                 {hrefLink ? (
-                  <ButtonAnotherLink
-                    bordercolor="#34542a"
+                  <Button
+                    variant="outlined"
                     rel="noopener noreferrer"
                     target="_blank"
+                    component="a"
                     href={hrefLink}
                   >
                     {buttonText}
-                  </ButtonAnotherLink>
+                  </Button>
                 ) : (
-                  <LinkButton
-                    bordercolor="#34542a"
-                    color="black"
-                    background="transparent"
+                  <Button
+                    variant="outlined"
+                    component={Link}
                     to={buttonLink}
                   >
                     {buttonText}
-                  </LinkButton>
+                  </Button>
                 )}
               </Box>
             )}

@@ -38,15 +38,10 @@ const rawTheme = createTheme({
         },
       },
     },
-    MuiButtonBase: {
+    MuiButton: {
       styleOverrides: {
         root: {
           borderRadius: 20,
-          textTransform: "uppercase",
-          textDecoration: "none",
-          letterSpacing: "1px",
-          fontSize: "14px",
-          transition: "0.3s",
         },
       },
     },

@@ -18,7 +18,7 @@ import {
 import window from "global"
 
 import { useUICartContext, CartContext } from "contexts"
-import { LinkButton, Link } from "components"
+import { Link } from "components"
 
 export const CartDrawer = () => {
   const matches = useMediaQuery("(max-width:900px)")
@@ -207,14 +207,15 @@ export const CartDrawer = () => {
               justifyContent="center"
               mb="10px"
             >
-              <LinkButton
-                background="#34542a"
-                sx={{ width: "100%", textAlign: "center" }}
+              <Button
+                variant="contained"
+                fullWidth
+                component={Link}
                 to="/cart"
                 onClick={() => setCartOpen(!cartOpen)}
               >
                 Go to Cart Page
-              </LinkButton>
+              </Button>
             </Box>
 
             <Button

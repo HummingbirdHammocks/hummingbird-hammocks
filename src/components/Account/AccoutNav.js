@@ -88,7 +88,7 @@ export default function AccountNav({ currentPage }) {
                                     ) : (
                                         <MenuItem
                                             selected={currentPage === item.id}
-                                            component={AnotherLink}
+                                            component={"a"}
                                             href={item.link}
                                             target="_blank"
                                         >
