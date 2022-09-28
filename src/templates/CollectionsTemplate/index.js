@@ -220,10 +220,6 @@ const CollectionsPage = ({ data }) => {
           display: "grid",
           minHeight: "340px",
           position: "relative",
-
-          [theme.breakpoints.down("md")]: {
-            minHeight: "inherit",
-          },
         }}>
         <GatsbyImage
           placeholder="blurred"
@@ -269,12 +265,8 @@ const CollectionsPage = ({ data }) => {
               <Link to="/">HAMMOCK SHOP</Link> / {title}
             </Typography>
           </Box>
-          {/*  
-          
-            Sorting Product
-          
-            */}
 
+          {/* Sorting Product */}
           <Box sx={{ minWidth: 120, maxWidth: 320 }}>
             <FormControl>
               <InputLabel id="sort-select-label">Sort By</InputLabel>
