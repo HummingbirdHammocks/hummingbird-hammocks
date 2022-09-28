@@ -3,7 +3,6 @@ import { toast } from "react-toastify"
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useMutation, gql, useQuery } from "@apollo/client"
-import { navigate } from "gatsby"
 import { LoadingButton } from '@mui/lab';
 import {
   useTheme,

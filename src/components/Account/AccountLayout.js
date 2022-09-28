@@ -1,6 +1,7 @@
 import React, { useContext } from "react"
 import { useTheme, Typography, Divider, Box, Stack, Grid, Button, } from "@mui/material"
 import { navigate } from "gatsby"
+import { useQuery, gql } from "@apollo/client"
 
 import {
   Seo,
@@ -13,13 +14,19 @@ import AccountNav from "./AccoutNav"
 import { UserContext } from "contexts"
 
 
-export const AccountLayout = ({ title, customerInfo, currentPage, children }) => {
+export const AccountLayout = ({ title, currentPage, children }) => {
   const theme = useTheme();
 
   const {
     store: { customerAccessToken },
     logout,
   } = useContext(UserContext)
+
+  const { data } = useQuery(CUSTOMER_INFO, {
+    variables: {
+      customerAccessToken,
+    },
+  })
 
   const userLogout = () => {
     logout()
@@ -46,11 +53,11 @@ export const AccountLayout = ({ title, customerInfo, currentPage, children }) =>
               alignItems="center"
               spacing={2}
             >
-              {customerInfo ? (
+              {data ? (
                 <Stack>
-                  <Typography variant="h2">{`${customerInfo.customer.firstName} ${customerInfo.customer.lastName}`}</Typography>
+                  <Typography variant="h2">{`${data.customer.firstName} ${data.customer.lastName}`}</Typography>
                   <Typography variant="body1">
-                    {customerInfo.customer.email}
+                    {data.customer.email}
                   </Typography>
                 </Stack>
               ) : (
@@ -80,3 +87,13 @@ export const AccountLayout = ({ title, customerInfo, currentPage, children }) =>
     </Layout>
   )
 }
+
+const CUSTOMER_INFO = gql`
+      query ($customerAccessToken: String!) {
+        customer(customerAccessToken: $customerAccessToken) {
+        email
+      firstName
+      lastName
+    }
+  }
+`
