@@ -22,7 +22,7 @@ export const ProductReviewWidget = ({ handle, title }) => {
           <div dangerouslySetInnerHTML={{ __html: reviews.widget }} />
         </div>
       )} */}
-      <div class="jdgm-widget jdgm-review-widget jdgm-outside-widget" data-id={handle} data-product-title={title}></div>
+      <div className="jdgm-widget jdgm-review-widget jdgm-outside-widget" data-id={handle} data-product-title={title}></div>
     </Typography>
   )
 }

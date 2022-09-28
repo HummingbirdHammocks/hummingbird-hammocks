@@ -15,7 +15,7 @@ export const ProductPreviewBadge = ({ handle }) => {
       {/* {reviews && (
         <div dangerouslySetInnerHTML={{ __html: reviews.badge }} />
       )} */}
-      <div class="jdgm-widget jdgm-preview-badge" data-id={handle}></div>
+      <div className="jdgm-widget jdgm-preview-badge" data-id={handle}></div>
     </Typography>
   )
 }

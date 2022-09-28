@@ -13,7 +13,7 @@ export const VerifiedReviewsCountBadge = () => {
 
   return (
     <Box sx={{ padding: "10px" }}>
-      <div class="jdgm-verified-badge-wrapper"></div>
+      <div className="jdgm-verified-badge-wrapper"></div>
       {/* {reviews && (
         <div dangerouslySetInnerHTML={{ __html: reviews.verified_badge }} />
       )} */}

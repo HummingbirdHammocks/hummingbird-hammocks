@@ -65,7 +65,7 @@ const ProDealPage = () => (
 
     <IframeWrap>
       <iframe
-        class="airtable-embed airtable-dynamic-height"
+        className="airtable-embed airtable-dynamic-height"
         src="https://airtable.com/embed/shrCreMzJ0hgwjKdp?backgroundColor=blue"
         frameborder="0"
         onmousewheel=""
