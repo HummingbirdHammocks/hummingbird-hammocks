@@ -1,37 +1,66 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { toast } from 'react-toastify';
-import { useTheme, Typography, Divider, Box, Stack, TextField, Button, useMediaQuery } from "@mui/material"
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import {
+  useTheme,
+  Typography,
+  Divider,
+  Box,
+  Stack,
+  TextField,
+  Button,
+  InputAdornment,
+  IconButton,
+  useMediaQuery
+} from "@mui/material"
+import { LoadingButton } from '@mui/lab';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useMutation, gql } from "@apollo/client"
 import { navigate } from "gatsby"
-import { useForm } from "react-hook-form"
 
 import { UserContext } from "contexts"
 import {
   Seo,
   Layout,
   MainWrapper,
-  SimpleForm,
 } from "components"
 
+const validationSchema = yup.object({
+  firstName: yup
+    .string()
+    .trim()
+    .required('First Name is required'),
+  lastName: yup
+    .string()
+    .trim()
+    .required('Last Name is required'),
+  email: yup
+    .string()
+    .trim()
+    .email('Please enter a valid email address')
+    .required('Email is required'),
+  password: yup
+    .string()
+    .required('Password is required')
+    .min(8, 'The password should have at least 8 characters')
+    .max(30, 'The password should have at most 30 characters'),
+});
 
 const RegisterPage = () => {
   const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useForm()
+  const [showPassword, setShowPassword] = useState(false);
 
-  const {
-    store: { customerAccessToken },
-    logout,
-  } = useContext(UserContext)
+  const initialValues = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+  };
 
-  const [customerRegister/* , { loading, error } */] = useMutation(CUSTOMER_REGISTER)
-
-  const handleRegister = async ({ firstName, lastName, email, password }) => {
+  const onSubmit = async ({ firstName, lastName, email, password }) => {
     const { data } = await customerRegister({
       variables: {
         input: {
@@ -55,7 +84,24 @@ const RegisterPage = () => {
         navigate("/login")
       }, 3000)
     }
-  }
+  };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema: validationSchema,
+    onSubmit,
+  });
+
+  const {
+    store: { customerAccessToken },
+    logout,
+  } = useContext(UserContext)
+
+  const [customerRegister/* , { loading, error } */] = useMutation(CUSTOMER_REGISTER)
+
+  const handleShowPassword = () => {
+    setShowPassword((show) => !show);
+  };
 
   return (
     <Layout>
@@ -100,54 +146,63 @@ const RegisterPage = () => {
 
                 <Box padding="30px" justifyContent="center" display="flex">
                   <Box>
-                    <SimpleForm onSubmit={handleSubmit(handleRegister)}>
+                    <form onSubmit={formik.handleSubmit}>
                       <Stack spacing={2} sx={{ width: "400px" }}>
                         <TextField
+                          label="First Name *"
+                          variant="outlined"
+                          name={'firstName'}
                           fullWidth
-                          label="First Name"
-                          {...register("firstName", {
-                            required: true,
-                          })}
-                        />
-                        {errors.firstName?.type === "required" &&
-                          "First Name is required!"}
-                        <TextField
-                          fullWidth
-                          label="Last Name"
-                          {...register("lastName")}
+                          value={formik.values.firstName}
+                          onChange={formik.handleChange}
+                          error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+                          helperText={formik.touched.firstName && formik.errors.firstName}
                         />
                         <TextField
+                          label="Last Name *"
+                          variant="outlined"
+                          name={'lastName'}
                           fullWidth
-                          label="Email"
-                          {...register("email", {
-                            required: true,
-                            pattern: {
-                              value:
-                                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                              message: "Please enter a valid email",
-                            },
-                          })}
+                          value={formik.values.lastName}
+                          onChange={formik.handleChange}
+                          error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+                          helperText={formik.touched.lastName && formik.errors.lastName}
                         />
-                        {errors.email?.message && (
-                          <div>{errors.email?.message}</div>
-                        )}
-                        {errors.email?.type === "required" &&
-                          "Email is required!"}
                         <TextField
+                          label="Email *"
+                          variant="outlined"
+                          name={'email'}
                           fullWidth
-                          label="Password"
-                          {...register("password", {
-                            required: true,
-                            maxLength: 30,
-                          })}
+                          value={formik.values.email}
+                          onChange={formik.handleChange}
+                          error={formik.touched.email && Boolean(formik.errors.email)}
+                          helperText={formik.touched.email && formik.errors.email}
                         />
-                        {errors.password?.type === "required" &&
-                          "Password is required!"}
-
-                        <Button variant="contained" type="submit">Create Account</Button>
+                        <TextField
+                          label="Password *"
+                          variant="outlined"
+                          name={'password'}
+                          type={showPassword ? 'text' : 'password'}
+                          fullWidth
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton onClick={handleShowPassword} edge="end">
+                                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                          value={formik.values.password}
+                          onChange={formik.handleChange}
+                          error={formik.touched.password && Boolean(formik.errors.password)}
+                          helperText={formik.touched.password && formik.errors.password}
+                        />
+                        <LoadingButton size={'large'} variant={'contained'} type={'submit'} loading={formik.isSubmitting}>
+                          Create Account
+                        </LoadingButton>
                       </Stack>
-                    </SimpleForm>
-
+                    </form>
                   </Box>
                 </Box>
               </>

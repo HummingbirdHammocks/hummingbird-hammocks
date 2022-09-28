@@ -244,7 +244,7 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
                   {data?.customer?.firstName} {data?.customer?.lastName}
                 </Typography>
                 <br />
-                <Typography variant="navUser">View Profile</Typography>
+                <Typography variant="navUser">Visit Account</Typography>
               </Link>
             </Box>
             <Box

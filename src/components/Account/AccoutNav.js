@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { Menu } from "@mui/icons-material";
 
-import { AnotherLink, Link } from "components"
+import { Link } from "components"
 
 const navItems = [
     {
@@ -72,7 +72,7 @@ export default function AccountNav({ currentPage }) {
     return (
         <>
             {!matches &&
-                <Paper>
+                <Paper sx={{ borderRadius: 2, }}>
                     <Box sx={{ width: '100%', maxWidth: 360 }}>
                         <MenuList>
                             {navItems.map((item) => (
@@ -147,7 +147,7 @@ export default function AccountNav({ currentPage }) {
                                                     ) : (
                                                         <MenuItem
                                                             selected={currentPage === item.id}
-                                                            component={AnotherLink}
+                                                            component={"a"}
                                                             href={item.link}
                                                             target="_blank"
                                                         >
