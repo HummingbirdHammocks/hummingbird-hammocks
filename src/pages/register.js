@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 import { toast } from 'react-toastify';
-import { useTheme, Typography, Divider, Box, Stack, TextField, useMediaQuery } from "@mui/material"
+import { useTheme, Typography, Divider, Box, Stack, TextField, Button, useMediaQuery } from "@mui/material"
 import { useMutation, gql } from "@apollo/client"
 import { navigate } from "gatsby"
 import { useForm } from "react-hook-form"
@@ -10,7 +10,6 @@ import {
   Seo,
   Layout,
   MainWrapper,
-  OnButton,
   SimpleForm,
 } from "components"
 
@@ -82,7 +81,7 @@ const RegisterPage = () => {
                 <Typography variant="h1">
                   You're already Logged in! Please Logout First:
                 </Typography>
-                <OnButton onClick={() => logout()}>Logout</OnButton>
+                <Button variant="contained" onClick={() => logout()}>Logout</Button>
               </Box>
             ) : (
               <>
@@ -90,17 +89,12 @@ const RegisterPage = () => {
                   <Typography variant="h2">
                     Create Account
                   </Typography>
-                  <OnButton
-                    hovercolor="#d2cbcb"
-                    background="#34542a"
-                    padding="0 10px"
-                    color="white"
-                    border="0"
-                    borderRadius="10px"
+                  <Button
+                    variant="outlined"
                     onClick={() => navigate("/login")}
                   >
                     Login
-                  </OnButton>
+                  </Button>
                 </Stack>
                 <Divider />
 
@@ -150,7 +144,7 @@ const RegisterPage = () => {
                         {errors.password?.type === "required" &&
                           "Password is required!"}
 
-                        <OnButton type="submit">Create Account</OnButton>
+                        <Button variant="contained" type="submit">Create Account</Button>
                       </Stack>
                     </SimpleForm>
 

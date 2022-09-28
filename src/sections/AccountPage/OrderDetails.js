@@ -2,7 +2,6 @@ import React from "react"
 import {
   useTheme,
   Typography,
-  Divider,
   Box,
   Grid,
   Stack,
@@ -14,14 +13,13 @@ import {
   TableRow,
   Chip,
   Paper,
+  Button,
   useMediaQuery,
 } from "@mui/material"
 
-import { OnButton } from "components"
-
 import { fShopify } from "../../utils/formatTime";
 
-export const OrderDetails = ({ data, userLogout, returnAccount }) => {
+export const OrderDetails = ({ data, returnAccount }) => {
   const matches = useMediaQuery("(max-width:900px)")
   const {
     name,
@@ -49,22 +47,19 @@ export const OrderDetails = ({ data, userLogout, returnAccount }) => {
       >
         <Box>
           <Typography variant="h4">
-            Order {name} Details
+            Order {name}
           </Typography>
           <Typography variant="subtitle2">
             {fShopify(processedAt)}
           </Typography>
         </Box>
         <Box>
-          <OnButton
-            hovercolor="black"
-            hoverback="white"
-            padding="0"
-            border="0"
+          <Button
+            variant="outlined"
             onClick={() => returnAccount()}
           >
             Return to All Orders
-          </OnButton>
+          </Button>
         </Box>
       </Box>
 

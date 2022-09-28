@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
-import { useTheme, Typography, Divider, Box, Grid, useMediaQuery } from "@mui/material"
+import { Typography, Button, Box, Grid } from "@mui/material"
 import { navigate } from "gatsby"
 import { useQuery, gql } from "@apollo/client"
 import { useLocation } from "@gatsbyjs/reach-router"
@@ -8,7 +8,6 @@ import queryString from "query-string"
 import { UserContext } from "contexts"
 import {
   AccountLayout,
-  OnButton,
   Link,
   MiddleSpinner,
 } from "components"
@@ -16,8 +15,6 @@ import { OrderHistory, OrderDetails } from "sections"
 
 
 const AccountOrdersPage = () => {
-  const theme = useTheme();
-  const matches = useMediaQuery("(max-width:900px)")
   const [accountDetails, setAccountDetails] = useState({
     open: false,
     index: null,
@@ -54,7 +51,7 @@ const AccountOrdersPage = () => {
       if (index >= 0) {
         setAccountDetails({ open: true, index })
       } else {
-        navigate("/account/general")
+        navigate("/login")
       }
     }
   }, [q, data])
@@ -66,40 +63,12 @@ const AccountOrdersPage = () => {
           {error && "Error"}
           {loading && <MiddleSpinner divMinHeight="460px" size={20} />}
           {data && (
-            <Grid container spacing={2} sx={{ paddingTop: 4, paddingBottom: 4 }}>
+            <Grid container spacing={2} sx={{ paddingBottom: 4 }}>
               <Grid item xs={12}>
                 <Typography mb="20px" variant="h4">
                   Order History
                 </Typography>
                 <OrderHistory rows={data.customer.orders?.edges} />
-              </Grid>
-              <Grid item xs={12}>
-                {data.customer.addresses.edges.length > 0 && (
-                  <>
-                    <Typography mt="40px" variant="h5">
-                      Primary Address
-                    </Typography>
-                    <Typography variant="body1">
-                      {data.customer.defaultAddress?.address1}
-                      <br />
-                      {data.customer.defaultAddress?.address2 && (
-                        <>
-                          {data.customer.defaultAddress?.address2} <br />
-                        </>
-                      )}
-                      {data.customer.defaultAddress?.city},{" "}
-                      {data.customer.defaultAddress?.zip}
-                      <br />
-                      {data.customer.defaultAddress?.country}
-                      <br />
-                      {data.customer.defaultAddress?.phone}
-                    </Typography>
-                  </>
-                )}
-
-                <Typography mt="20px" variant="body1">
-                  <Link to="/account/addresses">{`View Addresses (${data.customer.addresses.edges.length})`}</Link>
-                </Typography>
               </Grid>
             </Grid>
           )}
@@ -118,9 +87,9 @@ const AccountOrdersPage = () => {
           display="flex"
         >
           <Typography variant="h1">You need to log in first!</Typography>
-          <OnButton>
+          <Button>
             <Link to="/login">Go to Log In</Link>
-          </OnButton>
+          </Button>
         </Box>
       )}
     </AccountLayout >

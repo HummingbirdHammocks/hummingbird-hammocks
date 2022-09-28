@@ -5,14 +5,13 @@ import * as yup from 'yup';
 import { useMutation, gql } from "@apollo/client"
 import { navigate } from "gatsby"
 import { LoadingButton } from '@mui/lab';
-import { useTheme, Typography, Divider, Box, Stack, TextField, useMediaQuery } from "@mui/material"
+import { useTheme, Typography, Divider, Box, Stack, TextField, Button, useMediaQuery } from "@mui/material"
 
 import { UserContext } from "contexts"
 import {
   Seo,
   Layout,
   MainWrapper,
-  OnButton,
 } from "components"
 
 const validationSchema = yup.object({
@@ -93,7 +92,7 @@ const PasswordRecovery = () => {
                 <Typography variant="h1">
                   You're already Logged in! Please Logout First:
                 </Typography>
-                <OnButton onClick={() => logout()}>Logout</OnButton>
+                <Button variant="contained" onClick={() => logout()}>Logout</Button>
               </Box>
             ) : (
               <>
@@ -101,17 +100,12 @@ const PasswordRecovery = () => {
                   <Typography variant="h2">
                     Password Recovery
                   </Typography>
-                  <OnButton
-                    hovercolor="#d2cbcb"
-                    background="#34542a"
-                    padding="0 10px"
-                    color="white"
-                    border="0"
-                    borderRadius="10px"
+                  <Button
+                    variant="outlined"
                     onClick={() => navigate("/login")}
                   >
                     Login
-                  </OnButton>
+                  </Button>
                 </Stack>
                 <Divider />
 

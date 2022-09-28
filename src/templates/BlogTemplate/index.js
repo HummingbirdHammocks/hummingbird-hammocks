@@ -12,11 +12,12 @@ import {
   ListItemText,
   ListItemButton,
   Collapse,
+  Button,
 } from "@mui/material"
 import { ExpandLess, ExpandMore } from "@mui/icons-material"
 
 import { useTopBannerContext } from "contexts"
-import { Seo, Layout, MainWrapper, Link, OnButton } from "components"
+import { Seo, Layout, MainWrapper, Link } from "components"
 import { BlogItem } from "sections"
 import ArtclesSearch from "../../utils/algolia/articlesSearch"
 
@@ -133,7 +134,7 @@ const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
               }}>
               <Typography variant="h6">SUBSCRIBE</Typography>
               <Typography mb="20px" variant="body1">
-                Sign up to get the latest on sales, new releases and more …
+                Sign up to get the latest on sales, new releases and more!
               </Typography>
               <Box
                 sx={{
@@ -145,9 +146,9 @@ const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
                   },
                 }}>
                 <input placeholder="Email Address" type="Email Address" />
-                <OnButton padding="4px 20px" type="submit">
+                <Button variant="contained" type="submit">
                   Sign Up
-                </OnButton>
+                </Button>
               </Box>
             </Box>
           </Box>

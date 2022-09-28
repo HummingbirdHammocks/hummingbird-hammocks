@@ -11,15 +11,16 @@ import {
   Paper,
   useMediaQuery,
 } from "@mui/material"
+import { LoadingButton } from "@mui/lab"
 
 import { CartContext } from "contexts"
-import { OnButton } from "components"
 
 export const Fbt = ({ currentVariant, product, fbtData }) => {
   const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
   const [data, setData] = useState(null)
   const [selectedVariant, setSelectedVariant] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const { getProductById, updateLineItem } = useContext(CartContext)
 
@@ -78,12 +79,16 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
   }, [currentVariant, setSelectedVariant])
 
   const handleSubmit = async () => {
+    setLoading(true)
+
     for (let i = 0; i < selectedVariant.length; i++) {
       if (selectedVariant[i].selected) {
         await updateLineItem({ variantId: selectedVariant[i].id, quantity: 1 })
       }
     }
     toast.success(`${selectedVariant.length} items added to cart`)
+
+    setLoading(false)
   }
 
   const handleCheckChange = itemIndex => {
@@ -227,7 +232,7 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
                         .reduce((prev, curr) => prev + curr, 0)
                     ).toFixed(2)}
                   </Typography>
-                  <OnButton onClick={handleSubmit}>Add to Cart</OnButton>
+                  <LoadingButton variant="contained" loading={loading} onClick={handleSubmit}>Add to Cart</LoadingButton>
                 </Stack>
               </>
             </Grid>

@@ -15,12 +15,17 @@ import {
   FormControl,
   IconButton,
   Slider,
+  Button,
+  Stack,
+  InputLabel,
+  Select,
+  MenuItem,
   useMediaQuery,
 } from "@mui/material"
 import { GatsbyImage } from "gatsby-plugin-image"
 import { ExpandLess, ExpandMore, Delete } from "@mui/icons-material"
 
-import { Seo, Layout, MainWrapper, Link, OnButton } from "components"
+import { Seo, Layout, MainWrapper, Link } from "components"
 import { ProductCard } from "sections"
 import { RecentViewedContext } from "contexts"
 
@@ -272,17 +277,21 @@ const CollectionsPage = ({ data }) => {
 
           <Box sx={{ minWidth: 120, maxWidth: 320 }}>
             <FormControl>
-              <select
+              <InputLabel id="sort-select-label">Sort By</InputLabel>
+              <Select
+                labelId="sort-select-label"
+                id="sort-select"
                 value={filterOptions.sort}
+                label="Sort By"
                 onChange={handleProductSortChange}
               >
-                <option value="featured">Featured</option>
-                <option value="relevance">Relevance</option>
-                <option value="high">Price(How to Low)</option>
-                <option value="low">Price(Low to High)</option>
-                <option value="newToOld">Data(New to Old)</option>
-                <option value="oldToNew">Data(Old to New)</option>
-              </select>
+                <MenuItem value="featured">Featured</MenuItem>
+                <MenuItem value="relevance">Relevance</MenuItem>
+                <MenuItem value="high">Price(How to Low)</MenuItem>
+                <MenuItem value="low">Price(Low to High)</MenuItem>
+                <MenuItem value="newToOld">Data(New to Old)</MenuItem>
+                <MenuItem value="oldToNew">Data(Old to New)</MenuItem>
+              </Select>
             </FormControl>
           </Box>
         </Box>
@@ -468,11 +477,7 @@ const CollectionsPage = ({ data }) => {
               </Collapse>
               <Divider />
 
-              {/* 
-          
-              Product Availbility
-          
-            */}
+              {/* Product Availbility */}
               <ListItemButton onClick={() => handleCollapse("availbility")}>
                 <ListItemText
                   secondaryTypographyProps={{
@@ -550,15 +555,26 @@ const CollectionsPage = ({ data }) => {
                   ]}
                 />
 
-                <OnButton onClick={handlePriceFilterClick}>Apply</OnButton>
-                {filterOptions?.price && (
-                  <OnButton
-                    margin="0 0 0 15px"
-                    onClick={handleClearPriceFilterClick}
-                  >
-                    Clear
-                  </OnButton>
-                )}
+
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  spacing={2}
+                >
+
+                  <Button variant="contained" onClick={handlePriceFilterClick}>Apply</Button>
+                  {filterOptions?.price && (
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      margin="0 0 0 15px"
+                      onClick={handleClearPriceFilterClick}
+                    >
+                      Clear
+                    </Button>
+                  )}
+                </Stack>
               </Collapse>
               <Divider />
 

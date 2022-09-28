@@ -5,6 +5,7 @@ import {
   Divider,
   Typography,
   IconButton,
+  Button,
   useMediaQuery,
 } from "@mui/material"
 import {
@@ -17,7 +18,7 @@ import {
 import window from "global"
 
 import { useUICartContext, CartContext } from "contexts"
-import { OnButton, LinkButton, Link } from "components"
+import { LinkButton, Link } from "components"
 
 export const CartDrawer = () => {
   const matches = useMediaQuery("(max-width:900px)")
@@ -188,7 +189,7 @@ export const CartDrawer = () => {
         }}
       >
         {!checkout?.lineItems.length ? (
-          <OnButton
+          <Button
             variant="outlined"
             sx={{
               height: 40,
@@ -197,7 +198,7 @@ export const CartDrawer = () => {
             disabled
           >
             Your Cart is Empty!
-          </OnButton>
+          </Button>
         ) : (
           <>
             <Box
@@ -216,7 +217,7 @@ export const CartDrawer = () => {
               </LinkButton>
             </Box>
 
-            <OnButton
+            <Button
               variant="outlined"
               sx={{
                 height: 40,
@@ -227,7 +228,7 @@ export const CartDrawer = () => {
               }}
             >
               Proceed to Checkout
-            </OnButton>
+            </Button>
           </>
         )}
       </Box>

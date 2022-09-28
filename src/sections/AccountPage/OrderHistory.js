@@ -35,7 +35,7 @@ export const OrderHistory = ({ rows }) => {
               <TableCell align="center">Date</TableCell>
               <TableCell align="center">Payment Status</TableCell>
               <TableCell align="center">Fulfillment Status</TableCell>
-              <TableCell align="right">Total</TableCell>
+              <TableCell align="center">Total</TableCell>
               <TableCell align="center">View</TableCell>
             </TableRow>
           </TableHead>
@@ -65,13 +65,13 @@ export const OrderHistory = ({ rows }) => {
                   >
                     {name}
                   </TableCell>
-                  <TableCell align="right">{fShopify(processedAt)}</TableCell>
-                  <TableCell align="right">{financialStatus}</TableCell>
-                  <TableCell align="right">{fulfillmentStatus}</TableCell>
-                  <TableCell align="right">
+                  <TableCell align="center">{fShopify(processedAt)}</TableCell>
+                  <TableCell align="center">{financialStatus}</TableCell>
+                  <TableCell align="center">{fulfillmentStatus}</TableCell>
+                  <TableCell align="center">
                     {currencyCode} {totalPrice}
                   </TableCell>
-                  <TableCell align="right">
+                  <TableCell align="center">
                     <IconButton
                       onClick={() => handleOrderDetails(name)}
                     >

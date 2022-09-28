@@ -15,15 +15,14 @@ import {
   TextField,
   MenuItem,
   Box,
+  Button,
+  Stack,
   useMediaQuery
 } from "@mui/material"
 
 import { UserContext } from "contexts"
 import {
-  Seo,
   AccountLayout,
-  MainWrapper,
-  OnButton,
   MiddleSpinner,
 } from "components"
 
@@ -229,11 +228,6 @@ const AccountAddressPage = () => {
     CUSTOMER_EDIT_DEFAULT_ADDRESS
   )
 
-  const userLogout = () => {
-    logout()
-    navigate("/")
-  }
-
   const addAddress = () => {
     formik.setValues({
       address1: "",
@@ -295,10 +289,12 @@ const AccountAddressPage = () => {
           {data && (
             <>
               <Box
-                p={matches ? "0" : "20px 30px"}
-                borderRight={matches ? "0" : "1px solid #ead5d5"}
+                sx={{
+                  padding: 2,
+                  borderRight: matches ? "0" : "1px solid #ead5d5"
+                }}
               >
-                <Typography m="20px 0" variant="h5">
+                <Typography variant="h5" sx={{ marginBottom: 2 }}>
                   Saved Addresses
                 </Typography>
                 {data != null &&
@@ -339,32 +335,39 @@ const AccountAddressPage = () => {
                           <br />
                           {phone}
                         </Typography>
-                        <OnButton
-                          onClick={() =>
-                            editAddress({
-                              address1,
-                              address2,
-                              city,
-                              country,
-                              firstName,
-                              lastName,
-                              id,
-                              phone,
-                              zip,
-                            })
-                          }
+                        <Stack
+                          direction="row"
+                          justifyContent="space-between"
+                          alignItems="center"
+                          spacing={2}
                         >
-                          Edit
-                        </OnButton>
+                          <Button
+                            onClick={() =>
+                              editAddress({
+                                address1,
+                                address2,
+                                city,
+                                country,
+                                firstName,
+                                lastName,
+                                id,
+                                phone,
+                                zip,
+                              })
+                            }
+                          >
+                            Edit
+                          </Button>
 
-                        <OnButton
-                          sx={{ marginLeft: "10px" }}
-                          onClick={() => handleDeleteAddress(id)}
-                        >
-                          Remove
-                        </OnButton>
+                          <Button
+                            color="error"
+                            onClick={() => handleDeleteAddress(id)}
+                          >
+                            Remove
+                          </Button>
+                        </Stack>
 
-                        <Divider sx={{ m: "20px 20px 20px 0" }} />
+                        <Divider variant="middle" sx={{ marginTop: 2, marginBottom: 2 }} />
                       </Box>
                     )
                   })}
@@ -374,16 +377,16 @@ const AccountAddressPage = () => {
                   display={matches && "flex"}
                   justifyContent="center"
                 >
-                  <OnButton onClick={() => addAddress()}>
+                  <Button variant="contained" onClick={() => addAddress()}>
                     Add new address
-                  </OnButton>
+                  </Button>
                 </Box>
               </Box>
             </>
           )}
 
-          <Box p={matches ? "0" : "20px"}>
-            <Typography mb="20px" variant="h5">
+          <Box sx={{ padding: 2 }}>
+            <Typography variant="h5" sx={{ marginBottom: 2 }}>
               {formType === "Add" ? "Add New Address" : "Update Address"}
             </Typography>
 

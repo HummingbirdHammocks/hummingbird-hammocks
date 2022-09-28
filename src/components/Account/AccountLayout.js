@@ -1,20 +1,20 @@
 import React, { useContext } from "react"
-import { useTheme, Typography, Divider, Box, Stack, Grid, useMediaQuery } from "@mui/material"
+import { useTheme, Typography, Divider, Box, Stack, Grid, Button, } from "@mui/material"
 import { navigate } from "gatsby"
 
 import {
   Seo,
   Layout,
   MainWrapper,
-  OnButton,
 } from ".."
+
+import AccountNav from "./AccoutNav"
 
 import { UserContext } from "contexts"
 
 
 export const AccountLayout = ({ title, customerInfo, currentPage, children }) => {
   const theme = useTheme();
-  const matches = useMediaQuery("(max-width:900px)")
 
   const {
     store: { customerAccessToken },
@@ -57,26 +57,20 @@ export const AccountLayout = ({ title, customerInfo, currentPage, children }) =>
                 <Typography variant="h2">Account</Typography>
               )}
 
-              <OnButton
-                hovercolor="#d2cbcb"
-                background="#34542a"
-                color="white"
-                border="0"
-                borderRadius="10px"
+              <Button
                 onClick={userLogout}
               >
                 Logout
-              </OnButton>
+              </Button>
             </Stack>
 
             <Divider />
 
-            <Grid container spacing={2} sx={{ paddingTop: 4, paddingBottom: 4 }}>
-              <Grid item xs={12} lg={2}>
-                <Typography variant="h5">Sidebar</Typography>
+            <Grid container spacing={4} sx={{ paddingTop: 4, paddingBottom: 4 }}>
+              <Grid item xs={12} md={4} lg={2}>
+                <AccountNav />
               </Grid>
-
-              <Grid item xs={12} lg={10}>
+              <Grid item xs={12} md={8} lg={10}>
                 {children}
               </Grid>
             </Grid>

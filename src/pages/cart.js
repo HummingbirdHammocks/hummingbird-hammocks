@@ -11,7 +11,7 @@ import {
 import { Add, Remove, Delete } from "@mui/icons-material"
 
 import { useTopBannerContext, CartContext, RecentViewedContext } from "contexts"
-import { Seo, Layout, MainWrapper, OnButton, Link } from "components"
+import { Seo, Layout, MainWrapper, Link } from "components"
 import { RecentViewed, CartExtras } from "sections"
 
 
@@ -227,11 +227,10 @@ const CartPage = () => {
                     calculated at checkout
                   </Typography>
 
-                  <OnButton
+                  <Button
                     variant="contained"
                     sx={{
                       mt: "10px",
-                      height: 40,
                     }}
                     fullWidth
                     onClick={() => {
@@ -239,7 +238,7 @@ const CartPage = () => {
                     }}
                   >
                     Proceed to Checkout
-                  </OnButton>
+                  </Button>
                 </Box>
               </Box>
             )}

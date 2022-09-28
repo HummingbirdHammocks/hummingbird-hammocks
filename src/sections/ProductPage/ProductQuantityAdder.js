@@ -1,12 +1,14 @@
 import React, { useState, useContext } from "react"
+import { toast } from 'react-toastify'
 import { Box, Typography, Button, TextField, Stack } from "@mui/material"
+import { LoadingButton } from "@mui/lab"
 import { Add, Remove } from "@mui/icons-material"
 
-import { OnButton } from "components"
 import { CartContext } from "contexts"
 
 export function ProductQuantityAdder({ variantId, available }) {
   const [quantity, setQuantity] = useState(1)
+  const [loading, setLoading] = useState(false)
   const { updateLineItem } = useContext(CartContext)
 
   const handleQuantityChange = e => {
@@ -14,15 +16,20 @@ export function ProductQuantityAdder({ variantId, available }) {
   }
 
   const handleSubmit = async e => {
+    setLoading(true)
+
     e.preventDefault()
     await updateLineItem({ variantId, quantity: parseInt(quantity, 10) })
+    toast.success("Item added to cart")
+
+    setLoading(false)
   }
 
   return (
     <Box>
       <Typography variant="navUser">Quantity</Typography>
       <form style={{ marginTop: "10px" }} onSubmit={handleSubmit}>
-        <Stack direction={{ xs: 'column', sm: 'row', md: 'column', lg: 'row' }} spacing={2}>
+        <Stack direction={{ xs: 'column', sm: 'row', md: 'row', lg: 'row' }} spacing={2}>
           <Stack direction="row" spacing={2}>
             <Button
               color="primary"
@@ -51,14 +58,16 @@ export function ProductQuantityAdder({ variantId, available }) {
             </Button>
           </Stack>
 
-          <OnButton
+          <LoadingButton
             margin="30px 0 0 0"
             type="submit"
+            variant="contained"
             border={!available ? "1px solid #aeaeae" : ""}
             disabled={!available}
+            loading={loading}
           >
             {!available ? "Sold Out" : "Add to Cart"}
-          </OnButton>
+          </LoadingButton>
         </Stack>
       </form>
       {!available && (
@@ -81,9 +90,9 @@ export function ProductQuantityAdder({ variantId, available }) {
             spacing={2}
           >
             <TextField label="Email Address" type="email" />
-            <OnButton padding="4px 20px" type="submit">
+            <Button variant="contained" type="submit">
               Notify Me
-            </OnButton>
+            </Button>
           </Stack>
         </Box>
       )}

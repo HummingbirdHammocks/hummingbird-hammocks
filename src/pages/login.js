@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useMutation, gql } from "@apollo/client"
 import { navigate } from "gatsby"
-import { useTheme, Box, Typography, Divider, TextField, Stack, InputAdornment, IconButton, useMediaQuery } from "@mui/material"
+import { useTheme, Box, Typography, Divider, TextField, Stack, InputAdornment, IconButton, Button, useMediaQuery } from "@mui/material"
 import { LoadingButton } from '@mui/lab';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
@@ -14,7 +14,6 @@ import {
   Layout,
   MainWrapper,
   Link,
-  OnButton,
 } from "components"
 
 const validationSchema = yup.object({
@@ -52,7 +51,7 @@ const LoginPage = () => {
 
     setValue(data.customerAccessTokenCreate.customerAccessToken.accessToken)
     toast.success("Login Success!")
-    navigate("/account")
+    navigate("/account/orders")
   };
 
   const formik = useFormik({
@@ -103,7 +102,7 @@ const LoginPage = () => {
                 <Typography variant="h1">
                   You're already Logged in! Please log out First:
                 </Typography>
-                <OnButton onClick={() => logout()}>Logout</OnButton>
+                <Button variant="outlined" onClick={() => logout()}>Logout</Button>
               </Box>
             ) : (
               <>
@@ -111,17 +110,12 @@ const LoginPage = () => {
                   <Typography variant="h2">
                     Account Login
                   </Typography>
-                  <OnButton
-                    hovercolor="#d2cbcb"
-                    background="#34542a"
-                    padding="0 10px"
-                    color="white"
-                    border="0"
-                    borderRadius="10px"
+                  <Button
+                    variant="outlined"
                     onClick={() => navigate("/register")}
                   >
                     Sign Up
-                  </OnButton>
+                  </Button>
                 </Stack>
                 <Divider />
 
