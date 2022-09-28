@@ -17,13 +17,18 @@ export function Details({ data, children }) {
           margin: 0,
         },
       }}>
-      <Grid container spacing={2} justifyContent="center">
-        <Grid item xs={12} lg={6}>
+      <Grid container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        spacing={2}
+      >
+        <Grid item xs={12} md={6}>
           {children}
         </Grid>
 
 
-        <Grid item xs={12} lg={6}>
+        <Grid item xs={12} md={6}>
           <Stack
             sx={{
               margin: 4,

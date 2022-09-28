@@ -23,6 +23,9 @@ export const ProductDetailsGrid = ({
       {!top && <Divider />}
       <Grid
         container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
         spacing={2}
         sx={{
           padding: "40px 10px",

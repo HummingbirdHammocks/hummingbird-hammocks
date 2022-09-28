@@ -1,6 +1,6 @@
 import React from "react"
 import { StaticImage } from "gatsby-plugin-image"
-import { Stack, Box } from "@mui/material"
+import { Stack, Box, Container } from "@mui/material"
 
 import { Seo, Layout, MainWrapper, FeaturedReviewsCarousel } from "components"
 import { Hero, Info, Details, FeaturedProduct, OutDoorArticles } from "sections"
@@ -150,39 +150,41 @@ const IndexPage = () => {
         />
       </Hero>
       <MainWrapper>
-        <Stack
-          justifyContent="center"
-          alignItems="center"
-          sx={{
-            marginTop: 4,
-            marginBottom: 4,
-          }}
-        >
-          <Details data={detailsData}>
-            <StaticImage
-              imgStyle={{ borderRadius: "20px" }}
-              src="../assets/images/home/SilPolyFabric.jpg"
-              alt="Hummingbird Hammocks"
-              placeholder="blurred"
-            />
-          </Details>
-          <Details order="2" data={detailsData2}>
-            <StaticImage
-              imgStyle={{ borderRadius: "20px" }}
-              src="../assets/images/home/Details.jpg"
-              alt="Hummingbird Hammocks"
-              placeholder="blurred"
-            />
-          </Details>
-          <Details data={detailsData3}>
-            <StaticImage
-              imgStyle={{ borderRadius: "20px" }}
-              src="../assets/images/home/Details 2.jpg"
-              alt="Hummingbird Hammocks"
-              placeholder="blurred"
-            />
-          </Details>
-        </Stack>
+        <Container maxWidth="lg">
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{
+              marginTop: 4,
+              marginBottom: 4,
+            }}
+          >
+            <Details data={detailsData}>
+              <StaticImage
+                imgStyle={{ borderRadius: "20px" }}
+                src="../assets/images/home/SilPolyFabric.jpg"
+                alt="Hummingbird Hammocks"
+                placeholder="blurred"
+              />
+            </Details>
+            <Details order="2" data={detailsData2}>
+              <StaticImage
+                imgStyle={{ borderRadius: "20px" }}
+                src="../assets/images/home/Details.jpg"
+                alt="Hummingbird Hammocks"
+                placeholder="blurred"
+              />
+            </Details>
+            <Details data={detailsData3}>
+              <StaticImage
+                imgStyle={{ borderRadius: "20px" }}
+                src="../assets/images/home/Details 2.jpg"
+                alt="Hummingbird Hammocks"
+                placeholder="blurred"
+              />
+            </Details>
+          </Stack>
+        </Container>
       </MainWrapper>
       <Hero data={fourthData}>
         <StaticImage

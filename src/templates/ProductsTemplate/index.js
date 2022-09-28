@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react"
 import { graphql, navigate } from "gatsby"
-import { useTheme, Box, Grid, Stack, Typography, Divider, useMediaQuery, Tooltip } from "@mui/material"
+import { useTheme, Box, Grid, Stack, Typography, Divider, Container, useMediaQuery, Tooltip } from "@mui/material"
 import { FreeMode, Navigation, Thumbs } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { GatsbyImage } from "gatsby-plugin-image"
@@ -708,7 +708,7 @@ const ProductPage = ({ data, pageContext }) => {
             )}
 
             {details && (
-              <>
+              <Container maxWidth="lg">
                 {details.details.map((item, index) => (
                   <Details
                     order={index % 2 === 0 && 2}
@@ -720,7 +720,7 @@ const ProductPage = ({ data, pageContext }) => {
                     />
                   </Details>
                 ))}
-              </>
+              </Container>
             )}
 
             {/* Review */}
