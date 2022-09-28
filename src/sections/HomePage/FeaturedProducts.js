@@ -4,7 +4,7 @@ import { Navigation, Autoplay, Pagination } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { GatsbyImage } from "gatsby-plugin-image"
 
-import { Link } from "components"
+import { Link/* , ProductPreviewBadge */ } from "components"
 import { ProductContext } from "contexts"
 
 const AbsoluteImage = styled(GatsbyImage)(({ theme }) => ({
@@ -143,6 +143,15 @@ export function FeaturedProduct() {
                 >
                   {`$${item.priceRangeV2.minVariantPrice.amount} ${item.priceRangeV2.minVariantPrice.currencyCode}`}
                 </Typography>
+
+                {/* <Box
+                  sx={{
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                  }}
+                >
+                  <ProductPreviewBadge handle={item.handle} />
+                </Box> */}
 
                 {/* <AddToCart
                   variantId={item.variants[0].shopifyId}

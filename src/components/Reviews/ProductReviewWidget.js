@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Box } from "@mui/material"
+import { Typography } from "@mui/material"
 
 /* import { useImportScript } from 'hooks'; */
 import { getProductReviewWidget } from "utils/judgeMe"
@@ -12,7 +12,7 @@ export const ProductReviewWidget = ({ handle, title }) => {
   }, [handle])
 
   return (
-    <Box sx={{ padding: "10px" }}>
+    <Typography component={"div"} sx={{ padding: "10px" }}>
       {reviews && (
         <div
           className="jdgm-widget jdgm-review-widget jdgm-outside-widget"
@@ -22,6 +22,6 @@ export const ProductReviewWidget = ({ handle, title }) => {
           <div dangerouslySetInnerHTML={{ __html: reviews.widget }} />
         </div>
       )}
-    </Box>
+    </Typography>
   )
 }

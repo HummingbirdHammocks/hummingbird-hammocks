@@ -361,6 +361,7 @@ const ProductPage = ({ data, pageContext }) => {
                         >
                           ${selectedVariant.price} USD
                         </Typography>
+                        <ProductPreviewBadge handle={handle} />
                         {!selectedVariant?.available && (
                           <Box
                             sx={{
@@ -724,7 +725,6 @@ const ProductPage = ({ data, pageContext }) => {
 
             {/* Review */}
             <ProductReviewWidget title={title} handle={handle} />
-            <ProductPreviewBadge title={title} handle={handle} />
 
             {metaVideo && <YouTubeEmbed url={metaVideo.value} title={title} />}
 
