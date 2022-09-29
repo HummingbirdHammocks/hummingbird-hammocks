@@ -10,7 +10,7 @@ import {
 } from "@mui/material"
 import { Add, Remove, Delete } from "@mui/icons-material"
 
-import { useTopBannerContext, CartContext, RecentViewedContext } from "contexts"
+import { CartContext, RecentViewedContext } from "contexts"
 import { Seo, Layout, MainWrapper, Link } from "components"
 import { RecentViewed, CartExtras } from "sections"
 
@@ -18,7 +18,6 @@ import { RecentViewed, CartExtras } from "sections"
 const CartPage = () => {
   const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
-  const { banner } = useTopBannerContext()
   const { checkout, updateLineItem, removeLineItem } = useContext(CartContext)
   const { recentViewedProducts } = useContext(RecentViewedContext)
 
@@ -51,7 +50,7 @@ const CartPage = () => {
                 margin: "0",
               },
             }}>
-            <Box mt={matches ? "40px" : "70px"} pt={!banner ? "10px" : "50px"}>
+            <Box mt={matches ? "40px" : "70px"} pt={"50px"}>
               <MainWrapper>
                 <Typography
                   sx={{ margin: "20px 10px" }}

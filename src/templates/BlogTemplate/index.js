@@ -16,7 +16,6 @@ import {
 } from "@mui/material"
 import { ExpandLess, ExpandMore } from "@mui/icons-material"
 
-import { useTopBannerContext } from "contexts"
 import { Seo, Layout, MainWrapper, Link } from "components"
 import { BlogItem } from "sections"
 import ArtclesSearch from "../../utils/algolia/articlesSearch"
@@ -24,8 +23,6 @@ import ArtclesSearch from "../../utils/algolia/articlesSearch"
 const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
   const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
-
-  const { banner } = useTopBannerContext()
 
   const [collapse, setCollapse] = useState(matches ? false : true)
 
@@ -43,7 +40,7 @@ const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
   return (
     <Layout>
       <Seo title="Outdoor Articles" />
-      <Box mt={matches ? "40px" : "70px"} pt={!banner ? "10px" : "0"}>
+      <Box mt={matches ? "40px" : "70px"} pt={"10px"}>
         <MainWrapper>
           <Typography
             sx={{ margin: "20px 10px" }}

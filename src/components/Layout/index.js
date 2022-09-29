@@ -16,7 +16,7 @@ import { UserContext, useTopBannerContext } from "contexts"
 export const Layout = ({ children }) => {
   const matches = useMediaQuery("(max-width:1280px)")
 
-  const { banner } = useTopBannerContext()
+  const { banner, bannerOpen } = useTopBannerContext()
 
   const {
     store: { customerAccessToken },
@@ -47,13 +47,13 @@ export const Layout = ({ children }) => {
         customerAccessToken={customerAccessToken}
         loading={loading}
         data={data}
-        banner={banner}
+        banner={(bannerOpen && banner)}
       />
 
       <Box
         style={{
           marginTop: matches ? "0" : "70px",
-          minHeight: banner ? "calc(100vh - 500px)" : "calc(100vh - 450px)",
+          minHeight: (bannerOpen && banner) ? "calc(100vh - 500px)" : "calc(100vh - 450px)",
         }}
       >
         {children}

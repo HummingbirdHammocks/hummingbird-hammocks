@@ -5,8 +5,11 @@ export const TopBannerContext = createContext()
 export const useTopBannerContext = () => useContext(TopBannerContext)
 
 export const TopBannerProvider = ({ children }) => {
-  const [banner, setBanner] = useState(true)
+  const [bannerOpen, setBannerOpen] = useState(true)
+  const [banner, setBanner] = useState(null)
   const value = {
+    bannerOpen,
+    setBannerOpen,
     banner,
     setBanner,
   }

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useCallback } from "react"
 import { useTheme, useMediaQuery, Box, Typography } from "@mui/material"
 import { Close } from "@mui/icons-material"
 //firebase
@@ -10,21 +10,23 @@ import { MainWrapper, AnotherLink } from "components"
 export const TopBanner = () => {
   const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
-  const { banner, setBanner } = useTopBannerContext()
+  const { bannerOpen, setBannerOpen, banner, setBanner } = useTopBannerContext()
 
-  /* const val = getValue(remoteConfig, "top_banner_int_1"); */
-  const getConfig = async () => {
-    const val = await getRemoteValue("top_banner_int_1");
+  const getConfig = useCallback(async () => {
+    const val = await getRemoteValue("top_banner");
     console.log(val)
-  }
+    if (val && val._value !== "") {
+      setBanner(JSON.parse(val._value))
+    }
+  }, [])
 
   useEffect(() => {
     getConfig()
-  }, [])
+  }, [getConfig])
 
   return (
     <>
-      {banner && (
+      {(bannerOpen && banner) && (
         <Box
           sx={{
             background: "rgb(41, 85, 36)",
@@ -50,24 +52,25 @@ export const TopBanner = () => {
                   fontSize={matches && "14px"}
                   color="#fff"
                 >
-                  USPS Service Suspension in select countries. Alternate
-                  shipping service is recommended.
+                  {banner.description}
                 </Typography>
 
-                <AnotherLink
-                  sx={{
-                    background: "rgb(16, 34, 14)",
-                    color: "#fff",
-                    padding: "5px 7px",
-                    borderRadius: "5px",
-                    marginLeft: "10px",
-                  }}
-                  href="https://about.usps.com/newsroom/service-alerts/international/?utm_source=residential&utm_medium=link&utm_campaign=res_to_intl"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  CURRENT SUSPENSION LIST
-                </AnotherLink>
+                {(banner.buttonText && banner.buttonLink) && (
+                  <AnotherLink
+                    sx={{
+                      background: "rgb(16, 34, 14)",
+                      color: "#fff",
+                      padding: "5px 7px",
+                      borderRadius: "5px",
+                      marginLeft: "10px",
+                    }}
+                    href={banner.buttonLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {banner.buttonText}
+                  </AnotherLink>
+                )}
               </Box>
             </Box>
           </MainWrapper>
@@ -86,7 +89,7 @@ export const TopBanner = () => {
                 right: "7px",
               },
             }}
-            onClick={() => setBanner(false)}
+            onClick={() => setBannerOpen(false)}
           >
             <Close color="white" />
           </Box>
