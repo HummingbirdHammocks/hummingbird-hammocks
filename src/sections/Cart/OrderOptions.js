@@ -1,24 +1,20 @@
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
 import { Box, FormGroup, FormControlLabel, Stack, Checkbox, Typography } from "@mui/material"
 import { CardGiftcard, Receipt, CheckBoxOutlineBlank } from "@mui/icons-material"
 
-import { CartContext } from "contexts"
-
-export function OrderOptions() {
+export function OrderOptions({ handleAttributes }) {
   const [packingSlip, setPackingSlip] = useState(false)
   const [gift, setGift] = useState(false)
 
-  const { updateAttributes } = useContext(CartContext)
-
   const handlePackingSlip = async (value) => {
     console.log("Packing Slip", value)
-    await updateAttributes({ attributeKey: "Packing Slip", attributeValue: value ? "Yes" : "No" })
+    handleAttributes({ key: "Packing Slip", value: value ? "Yes" : "No" })
     setPackingSlip(value)
   }
 
   const handleGift = async (value) => {
     console.log("Gift", value)
-    await updateAttributes({ attributeKey: "Gift", attributeValue: value ? "Yes" : "No" })
+    handleAttributes({ key: "Gift Order", value: value ? "Yes" : "No" })
     setGift(value)
   }
 

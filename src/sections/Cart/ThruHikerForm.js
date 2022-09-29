@@ -1,8 +1,21 @@
-import React from "react"
+import React, { useState } from "react"
 import { Box, Stack, Typography, TextField } from "@mui/material"
 import { Hiking } from "@mui/icons-material"
 
-export function ThruHikerForm() {
+export function ThruHikerForm({ handleAttributes }) {
+  const [name, setName] = useState("")
+  const [date, setDate] = useState("")
+
+  const handleName = async () => {
+    console.log("Name", name)
+    handleAttributes({ key: "Thru-Hiker Full Name", value: name })
+  }
+
+  const handleDate = async () => {
+    console.log("Date", date)
+    handleAttributes({ key: "Thru-Hiker Estimated Pickup Date", value: date })
+  }
+
   return (
     <Box>
       <Stack spacing={2} direction="row" justifyContent="flex-start">
@@ -21,11 +34,15 @@ export function ThruHikerForm() {
           required
           id="outlined-required"
           label="Thru-Hiker Full Name"
+          onChange={(event) => setName(event.target.value)}
+          onBlur={() => handleName()}
         />
         <TextField
           required
           id="outlined-required"
           label="Thru-Hiker Estimated Pickup Date"
+          onChange={(event) => setDate(event.target.value)}
+          onBlur={() => handleDate()}
         />
       </Stack>
     </Box>

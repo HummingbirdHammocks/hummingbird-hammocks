@@ -86,14 +86,12 @@ export function CartContextProvider({ children }) {
     }
   }
 
-  const updateAttributes = async ({ attributeKey, attributeValue }) => {
+  const updateAttributes = async ({ customAttributes }) => {
     // if no checkout id, create a new checkout
     let newCheckout = checkout || (await client.checkout.create())
 
     const input = {
-      customAttributes: [
-        { key: attributeKey, value: attributeValue }
-      ]
+      customAttributes: customAttributes
     };
 
     newCheckout = await client.checkout.updateAttributes(checkoutId, input)
