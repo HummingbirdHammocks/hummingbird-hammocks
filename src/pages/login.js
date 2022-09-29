@@ -49,9 +49,14 @@ const LoginPage = () => {
       },
     })
 
-    setValue(data.customerAccessTokenCreate.customerAccessToken.accessToken)
-    toast.success("Login Success!")
-    navigate("/account/orders")
+    if (data.customerAccessTokenCreate.customerAccessToken) {
+      setValue(data.customerAccessTokenCreate.customerAccessToken.accessToken)
+      toast.success("Login Success!")
+      navigate("/account/orders")
+    } else {
+      toast.error("Invalid email or password, please try again")
+    }
+
   };
 
   const formik = useFormik({

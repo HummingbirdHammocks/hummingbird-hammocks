@@ -195,7 +195,7 @@ const AccountInfoPage = () => {
                 </Grid>
                 <Grid item xs={12} md={8}>
                   <Typography variant="h5" sx={{ marginBottom: 2 }}>
-                    Account Info
+                    General Info
                   </Typography>
                   <form onSubmit={formik.handleSubmit}>
                     <Grid container spacing={4}>

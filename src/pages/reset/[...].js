@@ -90,7 +90,7 @@ const ResetPage = ({ params }) => {
         navigate("/account")
       }, 3000)
     } else {
-      toast.error("Oops, something went wrong!")
+      toast.error("Unable to reset password, please try again using the link in your email")
     }
   }
 
