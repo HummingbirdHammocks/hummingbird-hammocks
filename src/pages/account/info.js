@@ -138,7 +138,7 @@ const AccountInfoPage = () => {
   const [customerUpdate] = useMutation(CUSTOMER_UPDATE)
   const [passwordUpdate] = useMutation(CUSTOMER_CHANGE_PASSWORD)
 
-  const handleDefaultValues = useCallback(() => {
+  const handleDefaultValues = useCallback((data) => {
     if (data?.customer) {
       formik.setValues({
         firstName: data.customer.firstName,
@@ -147,11 +147,11 @@ const AccountInfoPage = () => {
         phone: data.customer.phone,
       })
     }
-  }, [])
+  }, [data])
 
   useEffect(() => {
     handleDefaultValues(data)
-  }, [data])
+  }, [data, handleDefaultValues])
 
   return (
     <AccountLayout title="Account Info" currentPage="info">
