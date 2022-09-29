@@ -8,7 +8,7 @@ import {
   Stack,
   Typography
 } from "@mui/material"
-import { Launch, Delete } from '@mui/icons-material';
+import { Launch/* , Delete */ } from '@mui/icons-material';
 //firebase
 import { findInCollection, deleteDocument } from 'utils/firebase';
 
@@ -31,16 +31,16 @@ export const RestockNotifications = ({ email }) => {
 
   useEffect(() => {
     getNotifications()
-  }, [email])
+  }, [email, getNotifications])
 
   const getNotifications = async () => {
     const result = await findInCollection("restock_notifications", "email", email)
     setNotifications(result)
   }
 
-  const handleDelete = async (id) => {
+  /* const handleDelete = async (id) => {
     await deleteDocument("restock_notifications", id)
-  }
+  } */
 
 
   return (

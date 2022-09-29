@@ -86,6 +86,27 @@ export function CartContextProvider({ children }) {
     }
   }
 
+  const updateAttributes = async ({ attributeKey, attributeValue }) => {
+    // if no checkout id, create a new checkout
+    let newCheckout = checkout || (await client.checkout.create())
+
+    const input = {
+      customAttributes: [
+        { key: attributeKey, value: attributeValue }
+      ]
+    };
+
+    newCheckout = await client.checkout.updateAttributes(checkoutId, input)
+
+    console.log(newCheckout.customAttributes)
+
+    setCheckout(newCheckout)
+    setSuccessfulOrder(null)
+    if (typeof window !== "undefined") {
+      localStorage.setItem("checkout", JSON.stringify(newCheckout))
+    }
+  }
+
   const removeLineItem = async lineItemId => {
     const newCheckout = await client.checkout.removeLineItems(checkout.id, [
       lineItemId,
@@ -107,6 +128,7 @@ export function CartContextProvider({ children }) {
         getProductById,
         successfulOrder,
         dismissSuccessfulOrder,
+        updateAttributes,
       }}
     >
       {children}
