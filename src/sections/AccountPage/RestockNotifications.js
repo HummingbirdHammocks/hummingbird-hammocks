@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useCallback } from "react"
 import {
   List,
   ListItem,
@@ -27,21 +27,20 @@ const dummyData = [{
 export const RestockNotifications = ({ email }) => {
   const [notifications, setNotifications] = useState(dummyData)
 
-  console.log(notifications)
+  /* console.log(notifications) */
 
-  useEffect(() => {
-    getNotifications()
-  }, [email, getNotifications])
-
-  const getNotifications = async () => {
+  const getNotifications = useCallback(async () => {
     const result = await findInCollection("restock_notifications", "email", email)
     setNotifications(result)
-  }
+  }, [email])
 
   /* const handleDelete = async (id) => {
     await deleteDocument("restock_notifications", id)
   } */
 
+  useEffect(() => {
+    getNotifications()
+  }, [email, getNotifications])
 
   return (
     <List >
