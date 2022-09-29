@@ -39,14 +39,7 @@ module.exports = {
         icon: `src/assets/images/icon.png`,
       },
     },
-    {
-      resolve: `gatsby-plugin-material-ui`,
-      options: {
-        stylesProvider: {
-          injectFirst: true,
-        },
-      },
-    },
+    `gatsby-plugin-material-ui`,
     {
       resolve: `gatsby-plugin-google-fonts-with-attributes`,
       options: {

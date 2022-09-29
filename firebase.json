@@ -12,15 +12,15 @@
     {
       "site": "hummingbird-hammocks",
       "public": "public",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
         {
           "source": "**",
           "destination": "/index.html"
+        },
+        {
+          "source": "/account/**",
+          "destination": "/account/[...]/index.html"
         }
       ]
     }

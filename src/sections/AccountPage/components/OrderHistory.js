@@ -13,7 +13,7 @@ import { Pageview } from "@mui/icons-material"
 import { navigate } from "gatsby"
 import { useLocation } from "@gatsbyjs/reach-router"
 
-import { fShopify } from "../../utils/formatTime"
+import { fShopify } from "utils/formatTime"
 
 export const OrderHistory = ({ rows }) => {
   // Variants & Product Image

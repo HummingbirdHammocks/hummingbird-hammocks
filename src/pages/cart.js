@@ -166,7 +166,9 @@ const CartPage = () => {
                               fontSize="15px"
                               my="3px"
                             >
-                              {item.quantity}
+                              <Typography variant="subtitle3">
+                                {item.quantity}
+                              </Typography>
                             </Box>
                             <Button
                               variant="outlined"

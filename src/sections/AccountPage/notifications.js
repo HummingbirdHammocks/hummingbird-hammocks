@@ -20,7 +20,7 @@ import {
   Link,
   MiddleSpinner,
 } from "components"
-import { RestockNotifications } from "sections"
+import { RestockNotifications } from "./components"
 
 
 const AccountNotificationsPage = () => {

@@ -11,7 +11,7 @@ import {
   Link,
   MiddleSpinner,
 } from "components"
-import { OrderHistory, OrderDetails } from "sections"
+import { OrderHistory, OrderDetails } from "./components"
 
 
 const AccountOrdersPage = () => {

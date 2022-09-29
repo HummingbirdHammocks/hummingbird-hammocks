@@ -17,7 +17,7 @@ import {
   useMediaQuery,
 } from "@mui/material"
 
-import { fShopify } from "../../utils/formatTime";
+import { fShopify } from "utils/formatTime";
 
 export const OrderDetails = ({ data, returnAccount }) => {
   const matches = useMediaQuery("(max-width:900px)")

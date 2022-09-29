@@ -2,10 +2,10 @@ import React from "react"
 import { Router } from "@reach/router"
 import { PrivateRoute } from "../../components/Layout/PrivateRoute"
 
-import AccountInfoPage from "./info"
-import AccountAddressPage from "./addresses"
-import AccountOrdersPage from "./orders"
-import AccountNotificationsPage from "./notifications"
+import AccountInfoPage from "../../sections/AccountPage/info"
+import AccountAddressPage from "../../sections/AccountPage/addresses"
+import AccountOrdersPage from "../../sections/AccountPage/orders"
+import AccountNotificationsPage from "../../sections/AccountPage/notifications"
 
 const App = () => {
     return (
