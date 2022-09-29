@@ -45,7 +45,7 @@ const thirdData = {
     {
       id: 1,
       text: "Ecology",
-      url: "https://ecologi.com/hummingbirdhammocks",
+      url: "https://ecologi.com/hummingbirdhammocks?r=60b8efa8e6e3c022ec95c2bb",
       type: "href",
       background: "transparent",
       color: "white",
