@@ -16,7 +16,7 @@ export function CartExtras() {
     console.log("Attribute", attribute)
 
     let newAttributes = attributes;
-    console.log(newAttributes)
+    /* console.log(newAttributes) */
 
     if (attributes.length > 0) {
       const index = attributes.findIndex((item) => item.key === attribute.key);
@@ -29,7 +29,7 @@ export function CartExtras() {
       newAttributes.push(attribute);
     }
 
-    console.log(newAttributes)
+    /* console.log(newAttributes) */
     await updateAttributes({ customAttributes: newAttributes })
 
     setAttributes(newAttributes);

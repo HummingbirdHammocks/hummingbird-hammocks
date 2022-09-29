@@ -76,7 +76,7 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
       setData(items)
       setSelectedVariant(variants)
     }
-  }, [currentVariant, setSelectedVariant])
+  }, [currentVariant, setSelectedVariant, product, fbtData, getProductById])
 
   const handleSubmit = async () => {
     setLoading(true)

@@ -96,7 +96,7 @@ export function CartContextProvider({ children }) {
 
     newCheckout = await client.checkout.updateAttributes(checkoutId, input)
 
-    console.log(newCheckout.customAttributes)
+    /* console.log(newCheckout.customAttributes) */
 
     setCheckout(newCheckout)
     setSuccessfulOrder(null)
