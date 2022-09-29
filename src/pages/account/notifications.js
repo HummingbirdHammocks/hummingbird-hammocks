@@ -62,7 +62,7 @@ const AccountNotificationsPage = () => {
       customerAccessToken,
     },
   })
-  const [customerUpdate, { }] = useMutation(CUSTOMER_UPDATE)
+  const [customerUpdate] = useMutation(CUSTOMER_UPDATE)
 
   useEffect(() => {
     if (data?.customer) {

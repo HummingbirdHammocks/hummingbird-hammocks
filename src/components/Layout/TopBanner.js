@@ -18,7 +18,7 @@ export const TopBanner = () => {
     if (val && val._value !== "") {
       setBanner(JSON.parse(val._value))
     }
-  }, [])
+  }, [setBanner])
 
   useEffect(() => {
     getConfig()

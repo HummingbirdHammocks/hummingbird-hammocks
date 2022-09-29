@@ -219,10 +219,10 @@ const AccountAddressPage = () => {
     CUSTOMER_ADDRESS,
     variables
   )
-  const [deleteAddress, { }] = useMutation(CUSTOMER_DELETE_ADDRESS)
-  const [customerAddressCreate, { }] = useMutation(CUSTOMER_CREATE_ADDRESS)
-  const [customerAddressUpdate, { }] = useMutation(CUSTOMER_EDIT_ADDRESS)
-  const [customerDefaultAddressUpdate, { }] = useMutation(
+  const [deleteAddress] = useMutation(CUSTOMER_DELETE_ADDRESS)
+  const [customerAddressCreate] = useMutation(CUSTOMER_CREATE_ADDRESS)
+  const [customerAddressUpdate] = useMutation(CUSTOMER_EDIT_ADDRESS)
+  const [customerDefaultAddressUpdate] = useMutation(
     CUSTOMER_EDIT_DEFAULT_ADDRESS
   )
 
@@ -267,7 +267,7 @@ const AccountAddressPage = () => {
   return (
     <AccountLayout title="Addresses" currentPage="addresses">
       <Box>
-        <Typography sx={{marginBottom: 7}} variant="h4">
+        <Typography sx={{ marginBottom: 7 }} variant="h4">
           Addresses
         </Typography>
         <Grid container spacing={4} sx={{ paddingBottom: 4 }}>

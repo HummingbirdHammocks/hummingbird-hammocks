@@ -135,8 +135,8 @@ const AccountInfoPage = () => {
       customerAccessToken,
     },
   })
-  const [customerUpdate, { }] = useMutation(CUSTOMER_UPDATE)
-  const [passwordUpdate, { }] = useMutation(CUSTOMER_CHANGE_PASSWORD)
+  const [customerUpdate] = useMutation(CUSTOMER_UPDATE)
+  const [passwordUpdate] = useMutation(CUSTOMER_CHANGE_PASSWORD)
 
   useEffect(() => {
     if (data?.customer) {
@@ -147,7 +147,7 @@ const AccountInfoPage = () => {
         phone: data.customer.phone,
       })
     }
-  }, [data])
+  }, [data, formik])
 
   return (
     <AccountLayout title="Account Info" currentPage="info">

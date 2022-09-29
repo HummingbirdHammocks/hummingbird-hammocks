@@ -71,7 +71,7 @@ const LoginPage = () => {
     logout,
   } = useContext(UserContext)
 
-  const [customerLogin, { loading, error }] = useMutation(CUSTOMER_LOGIN)
+  const [customerLogin, { error }] = useMutation(CUSTOMER_LOGIN)
 
   const handleShowPassword = () => {
     setShowPassword((show) => !show);

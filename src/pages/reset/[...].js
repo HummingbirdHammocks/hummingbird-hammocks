@@ -65,7 +65,7 @@ const ResetPage = ({ params }) => {
     setValue(value)
   }
 
-  const [resetPassword, { loading, error }] = useMutation(
+  const [resetPassword] = useMutation(
     CUSTOMER_PASSWORD_RESET
   )
 
