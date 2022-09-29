@@ -186,7 +186,7 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
                 component={Link}
                 to="/explore"
               >
-                <ListItemText primary="About US" />
+                <ListItemText primary="ABOUT US" />
               </ListItemButton>
             </ListItem>
             <ListItem>

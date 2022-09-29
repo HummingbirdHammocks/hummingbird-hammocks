@@ -218,7 +218,7 @@ const CollectionsPage = ({ data }) => {
       <Box
         sx={{
           display: "grid",
-          minHeight: "340px",
+          minHeight: matches ? "200px" : "340px",
           position: "relative",
         }}>
         <GatsbyImage
@@ -254,11 +254,12 @@ const CollectionsPage = ({ data }) => {
           }} />
       </Box>
       <MainWrapper>
-        <Box
-          m="30px"
-          display="flex"
-          alignItems="center"
+        <Stack
+          direction={matches ? "column" : "row"}
           justifyContent="space-between"
+          alignItems="center"
+          spacing={2}
+          sx={{ margin: 2 }}
         >
           <Box display={matches && "block"}>
             <Typography variant="collectionName">
@@ -286,7 +287,7 @@ const CollectionsPage = ({ data }) => {
               </Select>
             </FormControl>
           </Box>
-        </Box>
+        </Stack>
 
         <Divider color="#e2dfd9" />
         <Box
@@ -308,14 +309,12 @@ const CollectionsPage = ({ data }) => {
                 padding: "0",
               },
             }}>
-            {/* 
-          
-            All the filter option that selected
-          
-           */}
+            {/* All the filter option that selected */}
 
             <Box
               sx={{
+                padding: "20px",
+                marginTop: 2,
                 background: "#e3e3e3",
                 borderRadius: "20px",
                 display:
@@ -325,7 +324,7 @@ const CollectionsPage = ({ data }) => {
                     ? "block"
                     : "none",
               }}
-              padding="20px"
+
             >
               <Typography variant="h6">Selected Filters</Typography>
               <List>
@@ -389,11 +388,7 @@ const CollectionsPage = ({ data }) => {
                 margin: "20px 0",
               }}
             >
-              {/* 
-          
-              All the Collections
-          
-              */}
+              {/* All the Collections */}
               <ListItemButton onClick={() => handleCollapse("collections")}>
                 <ListItemText
                   secondaryTypographyProps={{
@@ -421,11 +416,7 @@ const CollectionsPage = ({ data }) => {
                 ))}
               </Collapse>
               <Divider />
-              {/* 
-          
-              Product Type Filtering
-          
-            */}
+              {/* Product Type Filtering */}
               <ListItemButton onClick={() => handleCollapse("productType")}>
                 <ListItemText
                   secondaryTypographyProps={{
@@ -509,11 +500,7 @@ const CollectionsPage = ({ data }) => {
                 </ListItem>
               </Collapse>
               <Divider />
-              {/*
-
-              Price Filtering
-          
-             */}
+              {/* Price Filtering */}
               <ListItemButton onClick={() => handleCollapse("price")}>
                 <ListItemText
                   secondaryTypographyProps={{
@@ -570,11 +557,7 @@ const CollectionsPage = ({ data }) => {
               </Collapse>
               <Divider />
 
-              {/* 
-          
-              Recent Products
-          
-              */}
+              {/* Recent Products */}
               <ListItemButton onClick={() => handleCollapse("recentViewed")}>
                 <ListItemText
                   secondaryTypographyProps={{
@@ -615,11 +598,7 @@ const CollectionsPage = ({ data }) => {
                 padding: "0",
               },
             }}>
-            {/*  
-          
-             Showing Product
-          
-            */}
+            {/* Showing Product */}
             <Box
               sx={{
                 display: "grid",

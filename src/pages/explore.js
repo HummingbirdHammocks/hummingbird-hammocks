@@ -58,7 +58,7 @@ const ExplorePage = () => {
         />
       </Hero>
       <Info>
-        It all began about 5 years ago. Chris Loidolt, a Certified Parachute
+        It all began about 10 years ago. Chris Loidolt, a Certified Parachute
         Rigger, sitting in a room full of top-quality parachute material decided
         he wanted to relax in a hammock that afternoon. Flash forward to today
         and that simple idea has led to an ultralight hammock company that is
