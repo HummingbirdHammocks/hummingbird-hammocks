@@ -1,6 +1,6 @@
 import React from "react"
 import { StaticImage } from "gatsby-plugin-image"
-import { useTheme, Box, Typography, Button } from "@mui/material"
+import { useTheme, Box, Typography, Button, Grid } from "@mui/material"
 
 import {
   Seo,
@@ -8,7 +8,7 @@ import {
   Link,
   MainWrapper,
 } from "components"
-import { Hero, Info } from "sections"
+import { Hero, Info, ContactUsForm } from "sections"
 
 const heroData = {
   position: "center",
@@ -67,28 +67,40 @@ const ContactUsPage = () => {
           placeholder="blurred"
         />
       </Hero>
-      <Info title="CONTACT US" >
-        We know you don't want to talk to a robot. Our support team is completely
-        internal (and human), nothing is outsourced, and you won't be asked to
-        jump through a bunch of hoops. We offer informed and concise help so you
-        can get off the computer and back outside.
-        <br />
-        <br />
-        If you have a question, need help with anything, or are just looking for
-        advice. Reach out to us below and we will get back to you as soon as
-        possible.
-        <Box mt="40px" display="flex" justifyContent="center">
-          <Button
-            variant="contained"
-            component="a"
-            href="https://help.hummingbirdhammocks.com/help/1694808310"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Contact Support
-          </Button>
-        </Box>
-      </Info>
+      <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="flex-start"
+      >
+        <Grid item xs={12} md={6}>
+          <Info title="CONTACT US" >
+            We know you don't want to talk to a robot. Our support team is completely
+            internal (and human), nothing is outsourced, and you won't be asked to
+            jump through a bunch of hoops. We offer informed and concise help so you
+            can get off the computer and back outside.
+            <br />
+            <br />
+            If you have a question, need help with anything, or are just looking for
+            advice. Reach out to us using the contact form or through our support portal and we will get back to you as soon as
+            possible.
+            <Box mt="40px" display="flex" justifyContent="center">
+              <Button
+                variant="contained"
+                component="a"
+                href="https://help.hummingbirdhammocks.com/help/1694808310"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Support Portal
+              </Button>
+            </Box>
+          </Info>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <ContactUsForm />
+        </Grid>
+      </Grid>
 
       <MainWrapper>
         <Box
@@ -106,11 +118,13 @@ const ContactUsPage = () => {
             title="PRO DEAL"
             subText="Our Pro Deal Program is our way of providing outdoor professionals, first responders, military personnel, and students/educators our products at a discount."
           >
-            <StaticImage
-              alt="Pro Deal"
-              src="../assets/images/contact-us/pro-deal.png"
-              placeholder="blurred"
-            />
+            <Link to="/professional-and-educational-discounts">
+              <StaticImage
+                alt="Pro Deal"
+                src="../assets/images/contact-us/pro-deal.png"
+                placeholder="blurred"
+              />
+            </Link>
           </GridItem>
           <GridItem
             buttonLink="/affiliate-program"
@@ -118,11 +132,15 @@ const ContactUsPage = () => {
             title="AFFILIATE PROGRAM"
             subText="We are a small team that relies heavily on our faithful community spreading the news about what we do. Join our team and earn commissions on the future happy campers you send our way!"
           >
-            <StaticImage
-              alt="AFFILIATE PROGRAM"
-              src="../assets/images/contact-us/affliate-programmin.png"
-              placeholder="blurred"
-            />
+            <Link to="/affiliate-program">
+              <StaticImage
+                component={Link}
+                to="/paffiliate-program"
+                alt="AFFILIATE PROGRAM"
+                src="../assets/images/contact-us/affliate-programmin.png"
+                placeholder="blurred"
+              />
+            </Link>
           </GridItem>
         </Box>
       </MainWrapper>

@@ -53,7 +53,8 @@
     "build": "gatsby build",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\"",
-    "start": "gatsby develop",
+    "start": "NODE_ENV=development gatsby develop",
+    "emulator-start": "firebase emulators:start --only functions",
     "serve": "gatsby serve",
     "clean": "gatsby clean && rimraf ./node_modules",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"

@@ -27,8 +27,6 @@ export function ThruHikerForm({ handleAttributes }) {
       <Stack spacing={2}>
         <Typography variant="body1" sx={{ paddingBottom: 2 }}>
           Let us know who will be picking up the order and the estimated pickup date so we can be sure your package is routed correctly!
-          <br /><br />
-          Your order will be labeled with a large sticker indicating the hiker's name and estimated pickup date so it can be easily identified by the postal service and the location holding the package for pickup.
         </Typography>
         <TextField
           required
@@ -44,6 +42,9 @@ export function ThruHikerForm({ handleAttributes }) {
           onChange={(event) => setDate(event.target.value)}
           onBlur={() => handleDate()}
         />
+        <Typography variant="body1" sx={{ paddingTop: 2, paddingBottom: 2 }}>
+          Your order will be labeled with a large sticker indicating the hiker's name and estimated pickup date so it can be easily identified by the postal service and the location holding the package for pickup.
+        </Typography>
       </Stack>
     </Box>
   )
