@@ -75,7 +75,7 @@ const AccountNotificationsPage = () => {
     <AccountLayout title="Notification Settings" currentPage="notifications">
       {customerAccessToken ? (
         <Box>
-          <Typography sx={{marginBottom: 7}} variant="h4">
+          <Typography sx={{ marginBottom: 7 }} variant="h4">
             Notifications
           </Typography>
           {error && "Error"}
@@ -100,7 +100,7 @@ const AccountNotificationsPage = () => {
                 <Typography variant="h5" sx={{ marginBottom: 2 }}>
                   Restock Notifications
                 </Typography>
-                <RestockNotifications />
+                <RestockNotifications email={data.customer.email} />
                 <Typography variant="body1" sx={{ marginTop: 2, marginBottom: 2 }}>
                   * Restock notifications are automatically removed once the notification has been sent. You will need to sign up from the product page again if you would like to receive another notification.
                 </Typography>
@@ -131,6 +131,7 @@ const CUSTOMER_INFO = gql`
   query ($customerAccessToken: String!) {
     customer(customerAccessToken: $customerAccessToken) {
       id
+      email
       acceptsMarketing
     }
   }
