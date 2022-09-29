@@ -171,7 +171,7 @@ const ProductPage = ({ data, pageContext }) => {
   }, [variantId])
 
   /* console.log(details) */
-  /* console.log(product) */
+  console.log(product)
   /* console.log(variantSizeName) */
   /* console.log(selectedVariant) */
 
@@ -563,6 +563,10 @@ const ProductPage = ({ data, pageContext }) => {
                       <ProductQuantityAdder
                         variantId={selectedVariant.id}
                         available={selectedVariant.available}
+                        productHandle={product.handle}
+                        productTitle={product.title}
+                        variantSku={selectedVariant.sku}
+                        variantTitle={selectedVariant.title}
                       />
                     )}
                   </Box>
