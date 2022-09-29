@@ -1,15 +1,28 @@
 import React, { useState, useContext } from "react"
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import { toast } from 'react-toastify'
 import { Box, Typography, Button, TextField, Stack } from "@mui/material"
 import { LoadingButton } from "@mui/lab"
 import { Add, Remove } from "@mui/icons-material"
+//firebase
+import { saveDocumentGenerateID } from 'utils/firebase';
 
 import { CartContext } from "contexts"
 
-export function ProductQuantityAdder({ variantId, available }) {
+const validationSchema = yup.object({
+  email: yup
+    .string()
+    .trim()
+    .email('Please enter a valid email address')
+    .required('Email is required.'),
+});
+
+export function ProductQuantityAdder({ variantId, available, productHandle, productTitle, variantTitle, variantSku }) {
   const [quantity, setQuantity] = useState(1)
   const [loading, setLoading] = useState(false)
   const { updateLineItem } = useContext(CartContext)
+
 
   const handleQuantityChange = e => {
     setQuantity(Number(e.currentTarget.value))
@@ -24,6 +37,33 @@ export function ProductQuantityAdder({ variantId, available }) {
 
     setLoading(false)
   }
+
+  const initialValues = {
+    email: '',
+  };
+
+  const onSubmit = async ({ email, resetForm }) => {
+    console.log(email)
+    const payload = {
+      email: `${email}`,
+      variantTitle: `${variantTitle}`,
+      variantSku: `${variantSku}`,
+      variantId: `${variantId}`,
+      productTitle: `${productTitle}`,
+      productHandle: `${productHandle}`,
+    }
+    const response = await saveDocumentGenerateID("restock_notifications", payload)
+    if (response) {
+      toast.success("Thanks! We will let you know as soon as this item is back in stock")
+      resetForm({})
+    }
+  };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema: validationSchema,
+    onSubmit,
+  });
 
   return (
     <Box>
@@ -83,17 +123,28 @@ export function ProductQuantityAdder({ variantId, available }) {
           <Typography mb="20px" variant="body1">
             We will notify you when this product becomes available.
           </Typography>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-            spacing={2}
-          >
-            <TextField label="Email Address" type="email" />
-            <Button variant="contained" type="submit">
-              Notify Me
-            </Button>
-          </Stack>
+          <form onSubmit={formik.handleSubmit}>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+              spacing={2}
+            >
+              <TextField
+                label="Email *"
+                variant="outlined"
+                name={'email'}
+                fullWidth
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+              />
+              <LoadingButton sx={{ minWidth: "160px" }} size={'large'} variant={'contained'} type={'submit'} loading={formik.isSubmitting}>
+                Notify Me
+              </LoadingButton>
+            </Stack>
+          </form>
         </Box>
       )}
     </Box>
