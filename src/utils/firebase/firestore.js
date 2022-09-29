@@ -1,26 +1,10 @@
 import { toast } from 'react-toastify';
-import { doc, setDoc, getDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { doc, getDocs, setDoc, addDoc, getDoc, updateDoc, deleteDoc, collection, query, where } from "firebase/firestore";
 import { db } from './firebase-config';
 
-export function saveUser(user, firstName, lastName) {
-    return db
-        .collection(`users`)
-        .doc(user.uid)
-        .set({
-            email: user.email,
-            firstName: firstName,
-            lastName: lastName,
-            uid: user.uid
-        })
-        .then(docRef => docRef)
-        .catch((error) => {
-            toast.error('Error saving user info: ', error);
-            console.error('Error saving user info: ', error);
-        });
-}
-
-export async function saveDocumentGenerateID(collection, data) {
-    const docSnap = await db.collection(collection).add(data)
+export async function saveDocumentGenerateID(collectionName, data) {
+    console.log(db())
+    const docRef = await addDoc(collection(db(), collectionName), data)
         .then(() => {
             toast.success("Saved Successfully")
             return true
@@ -30,16 +14,16 @@ export async function saveDocumentGenerateID(collection, data) {
             console.error('Error saving document: ', error);
             return false
         });
-    return docSnap
+    return docRef
 }
 
-export async function saveDocument(collection, id, data) {
-    const existingDoc = await getDocument(collection, id)
+export async function saveDocument(collectionName, id, data) {
+    const existingDoc = await getDocument(collectionName, id)
     if (existingDoc) {
         toast.error("ID already exists. Please use a different ID")
         return false
     }
-    const docSnap = await setDoc(doc(db, collection, id), data)
+    const docSnap = await setDoc(doc(db(), collection, id), data)
         .then(() => {
             toast.success("Saved Successfully")
             return true
@@ -52,8 +36,8 @@ export async function saveDocument(collection, id, data) {
     return docSnap
 }
 
-export async function getDocument(collection, id) {
-    const docSnap = await getDoc(doc(db, collection, id));
+export async function getDocument(collectionName, id) {
+    const docSnap = await getDoc(doc(db(), collectionName, id));
 
     if (docSnap.exists()) {
         /* console.log("Document data:", docSnap.data()); */
@@ -62,72 +46,29 @@ export async function getDocument(collection, id) {
     return null
 }
 
-export async function findInCollection(collection, field, value) {
-    const response = await db.collection(collection).where(field, "==", value)
-        .get()
-        .then((querySnapshot) => {
-            let documents = []
-            querySnapshot.forEach(function (doc) {
-                // doc.data() is never undefined for query doc snapshots
-                documents.push(doc.data());
-            });
-            return documents
-        })
-        .catch((error) => {
-            toast.error('Error locating document: ', error);
-            console.error('Error locating document: ', error);
-            return false
-        });
-    return response
+export async function findInCollection(collectionName, field, value) {
+    const q = await query(collection(db(), collectionName), where(field, "==", value));
+
+    const querySnapshot = await getDocs(q);
+
+    let documents = []
+    querySnapshot.forEach(function (doc) {
+        // doc.data() is never undefined for query doc snapshots
+        documents.push(doc.data());
+    });
+
+    return documents
 }
 
-export async function updateDocument(collection, id, data) {
-    const existingDoc = await getDocument(collection, id)
+export async function updateDocument(collectionName, id, data) {
+    const existingDoc = await getDocument(collectionName, id)
     if (!existingDoc) {
         toast.error("Document Not Found")
         return false
     }
-    const docSnap = await updateDoc(doc(db, collection, id), data)
+    const docSnap = await updateDoc(doc(db(), collection, id), data)
         .then(() => {
             toast.success("Saved Successfully")
-            return true
-        })
-        .catch((error) => {
-            toast.error('Error updating document: ', error);
-            console.error('Error updating document: ', error);
-            return false
-        });
-    return docSnap
-}
-
-export async function updateDocumentNestedArray(collection, id, dataLocation, data) {
-    const existingDoc = await getDocument(collection, id)
-    if (!existingDoc) {
-        toast.error("Document Not Found")
-        return false
-    }
-    const docSnap = await updateDoc(doc(db, collection, id), { [dataLocation]: arrayUnion(data) })
-        .then(() => {
-            toast.success("Saved Successfully")
-            return true
-        })
-        .catch((error) => {
-            toast.error('Error updating document: ', error);
-            console.error('Error updating document: ', error);
-            return false
-        });
-    return docSnap
-}
-
-export async function removeFromDocumentNestedArray(collection, id, dataLocation, data) {
-    const existingDoc = await getDocument(collection, id)
-    if (!existingDoc) {
-        toast.error("Document Not Found")
-        return false
-    }
-    const docSnap = await updateDoc(doc(db, collection, id), { [dataLocation]: arrayRemove(data) })
-        .then(() => {
-            toast.success("File Removed Successfully")
             return true
         })
         .catch((error) => {
@@ -147,14 +88,14 @@ export async function getReference(reference) {
     return null
 }
 
-export async function getCollection(collection) {
-    const collectionRef = db.collection(collection);
+export async function getCollection(collectionName) {
+    const collectionRef = db().collection(collectionName);
     const snapshot = await collectionRef.get();
     return snapshot
 }
 
-export async function deleteDocument(collection, id) {
-    await deleteDoc(doc(db, collection, id))
+export async function deleteDocument(collectionName, id) {
+    await deleteDoc(doc(db(), collectionName, id))
         .then((data) => {
             toast.success("Deleted Successfully")
             return data

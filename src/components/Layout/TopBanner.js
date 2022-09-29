@@ -1,6 +1,8 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useTheme, useMediaQuery, Box, Typography } from "@mui/material"
 import { Close } from "@mui/icons-material"
+//firebase
+import { getRemoteValue } from "../../utils/firebase/remoteConfig"
 
 import { useTopBannerContext } from "contexts"
 import { MainWrapper, AnotherLink } from "components"
@@ -9,6 +11,16 @@ export const TopBanner = () => {
   const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
   const { banner, setBanner } = useTopBannerContext()
+
+  /* const val = getValue(remoteConfig, "top_banner_int_1"); */
+  const getConfig = async () => {
+    const val = await getRemoteValue("top_banner_int_1");
+    console.log(val)
+  }
+
+  useEffect(() => {
+    getConfig()
+  }, [])
 
   return (
     <>

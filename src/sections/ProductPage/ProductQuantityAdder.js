@@ -42,7 +42,7 @@ export function ProductQuantityAdder({ variantId, available, productHandle, prod
     email: '',
   };
 
-  const onSubmit = async ({ email, resetForm }) => {
+  const onSubmit = async ({ email }) => {
     console.log(email)
     const payload = {
       email: `${email}`,
@@ -55,7 +55,7 @@ export function ProductQuantityAdder({ variantId, available, productHandle, prod
     const response = await saveDocumentGenerateID("restock_notifications", payload)
     if (response) {
       toast.success("Thanks! We will let you know as soon as this item is back in stock")
-      resetForm({})
+      formik.resetForm({})
     }
   };
 

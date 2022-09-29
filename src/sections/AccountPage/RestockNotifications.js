@@ -10,22 +10,13 @@ import {
 } from "@mui/material"
 import { Launch/* , Delete */ } from '@mui/icons-material';
 //firebase
-import { findInCollection, deleteDocument } from 'utils/firebase';
+import { findInCollection/* , deleteDocument */ } from 'utils/firebase';
 
 import { Link } from "components"
 
-const dummyData = [{
-  email: `loidolt@gmail.com`,
-  variantTitle: `Forest Green`,
-  variantSku: `SHFG`,
-  variantId: `blah`,
-  productTitle: `Single Hammock`,
-  productHandle: `single-hammock`,
-}]
-
 /* /products/single-hammock */
 export const RestockNotifications = ({ email }) => {
-  const [notifications, setNotifications] = useState(dummyData)
+  const [notifications, setNotifications] = useState(null)
 
   /* console.log(notifications) */
 

@@ -1,8 +1,8 @@
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/storage';
-import 'firebase/compat/firestore';
-import "firebase/compat/performance";
+import { initializeApp } from 'firebase/app';
+import { getAnalytics, logEvent } from "firebase/analytics";
+import { getPerformance } from "firebase/performance";
+import { getFirestore } from "firebase/firestore";
+import { getRemoteConfig } from "firebase/remote-config";
 
 const firebaseConfig = {
     apiKey: process.env.GATSBY_FIREBASE_API_KEY,
@@ -14,13 +14,40 @@ const firebaseConfig = {
     measurementId: process.env.GATSBY_FIREBASE_MEASUREMENT_ID
 };
 
-// Use this to initialize the firebase App
-const firebaseApp = firebase.initializeApp(firebaseConfig);
+let app;
 
-// Use these for db & auth
-const db = firebaseApp.firestore();
-const firebaseAuth = firebase.auth();
-const storage = firebase.storage();
-const perf = firebase.performance();
+// Gatsby specific version for SSR
+export default function getFirebase() {
+    if (typeof window == 'undefined') return null;
 
-export { firebaseAuth, db, storage, perf };
+    if (app) return app;
+    // Use this to initialize the firebase App
+    app = initializeApp(firebaseConfig);
+    console.log(app);
+    return app;
+}
+
+export function analytics() {
+    if (!app) return null;
+    return getAnalytics(app);
+}
+
+export function logAnalyticsEvent(name, event) {
+    if (!app) return null;
+    return logEvent(analytics(), name, event);
+}
+
+export function perf() {
+    if (!app) return null;
+    return getPerformance(app);
+}
+
+export function db() {
+    if (!app) return null;
+    return getFirestore(app);
+}
+
+export function remoteConfig() {
+    if (!app) return null;
+    return getRemoteConfig(app);
+}
