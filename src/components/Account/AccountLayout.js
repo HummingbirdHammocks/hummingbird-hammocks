@@ -53,12 +53,16 @@ export const AccountLayout = ({ title, currentPage, children }) => {
               alignItems="center"
               spacing={2}
             >
-              {data ? (
+              {data && data.customer ? (
                 <Stack>
-                  <Typography variant="h2">{`${data.customer.firstName} ${data.customer.lastName}`}</Typography>
-                  <Typography variant="body1">
-                    {data.customer.email}
-                  </Typography>
+                  {(data.customer.firstName || data.customer.lastName) && (
+                    < Typography variant="h2">{`${data?.customer.firstName} ${data.customer.lastName}`}</Typography>
+                  )}
+                  {data.customer.email && (
+                    <Typography variant="body1">
+                      {data.customer.email}
+                    </Typography>
+                  )}
                 </Stack>
               ) : (
                 <Typography variant="h2">Account</Typography>
@@ -84,7 +88,7 @@ export const AccountLayout = ({ title, currentPage, children }) => {
           </Box>
         </MainWrapper>
       </Box >
-    </Layout>
+    </Layout >
   )
 }
 

@@ -28,6 +28,12 @@ const navItems = [
         link: "/account/addresses"
     },
     {
+        id: "info",
+        name: "Information",
+        type: "internal",
+        link: "/account/info"
+    },
+    {
         id: "notifications",
         name: "Notifications",
         type: "internal",
@@ -84,6 +90,7 @@ export default function AccountNav({ currentPage }) {
                             {navItems.map((item) => (
                                 item.type === "internal" ? (
                                     <MenuItem
+                                        key={item.id}
                                         selected={currentPage === item.id}
                                         component={Link}
                                         to={item.link}
@@ -92,6 +99,7 @@ export default function AccountNav({ currentPage }) {
                                     </MenuItem>
                                 ) : (
                                     <MenuItem
+                                        key={item.id}
                                         selected={currentPage === item.id}
                                         component={"a"}
                                         href={item.link}
@@ -142,6 +150,7 @@ export default function AccountNav({ currentPage }) {
                                                 <>
                                                     {item.type === "internal" ? (
                                                         <MenuItem
+                                                            key={item.id}
                                                             selected={currentPage === item.id}
                                                             component={Link}
                                                             to={item.link}
@@ -150,6 +159,7 @@ export default function AccountNav({ currentPage }) {
                                                         </MenuItem>
                                                     ) : (
                                                         <MenuItem
+                                                            key={item.id}
                                                             selected={currentPage === item.id}
                                                             component={"a"}
                                                             href={item.link}

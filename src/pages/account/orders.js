@@ -22,17 +22,11 @@ const AccountOrdersPage = () => {
 
   const {
     store: { customerAccessToken },
-    logout,
   } = useContext(UserContext)
 
   // Variants & Product Image
   const { search } = useLocation()
   const q = queryString.parse(search).orders
-
-  const userLogout = () => {
-    logout()
-    navigate("/")
-  }
 
   const returnAccount = () => {
     setAccountDetails({ open: false, index: null })
@@ -65,7 +59,7 @@ const AccountOrdersPage = () => {
           {data && (
             <Grid container spacing={2} sx={{ paddingBottom: 4 }}>
               <Grid item xs={12}>
-                <Typography mb="20px" variant="h4">
+                <Typography sx={{marginBottom: 7}} variant="h4">
                   Order History
                 </Typography>
                 <OrderHistory rows={data.customer.orders?.edges} />
@@ -76,7 +70,6 @@ const AccountOrdersPage = () => {
       ) : customerAccessToken && accountDetails.open ? (
         <OrderDetails
           data={data?.customer.orders?.edges[accountDetails.index]}
-          userLogout={userLogout}
           returnAccount={returnAccount}
         />
       ) : (

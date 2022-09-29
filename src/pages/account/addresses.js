@@ -5,7 +5,6 @@ import * as yup from 'yup';
 import { useMutation, gql, useQuery } from "@apollo/client"
 import { LoadingButton } from '@mui/lab';
 import {
-  useTheme,
   Typography,
   Divider,
   Grid,
@@ -79,14 +78,12 @@ const validationSchema = yup.object({
 });
 
 const AccountAddressPage = () => {
-  const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
   const [formType, setFormType] = useState("Add")
   const [checkDefaultAddress, setCheckDefaultAddress] = useState(false)
 
   const {
     store: { customerAccessToken },
-    logout,
   } = useContext(UserContext)
 
   const initialValues = {
@@ -270,33 +267,18 @@ const AccountAddressPage = () => {
   return (
     <AccountLayout title="Addresses" currentPage="addresses">
       <Box>
-        <Typography mb="20px" variant="h4">
+        <Typography sx={{marginBottom: 7}} variant="h4">
           Addresses
         </Typography>
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "1fr 2fr",
-            padding: "30px 0",
-
-            [theme.breakpoints.down("md")]: {
-              gridTemplateColumns: "1fr",
-              padding: "0",
-            },
-          }}>
+        <Grid container spacing={4} sx={{ paddingBottom: 4 }}>
           {error && "Error"}
           {loading && <MiddleSpinner divMinHeight="460px" size={20} />}
 
           {data && (
             <>
-              <Box
-                sx={{
-                  padding: 2,
-                  borderRight: matches ? "0" : "1px solid #ead5d5"
-                }}
-              >
+              <Grid item xs={12} md={4} sx={{ padding: 2, borderRight: matches ? "0" : "1px solid rgba(0,0,0,0.12)" }}>
                 <Typography variant="h5" sx={{ marginBottom: 2 }}>
-                  Saved Addresses
+                  Saved
                 </Typography>
                 {data != null &&
                   data?.customer.addresses.edges.map(item => {
@@ -378,15 +360,15 @@ const AccountAddressPage = () => {
                   display={matches && "flex"}
                   justifyContent="center"
                 >
-                  <Button variant="contained" onClick={() => addAddress()}>
+                  <Button fullWidth variant="contained" onClick={() => addAddress()}>
                     Add new address
                   </Button>
                 </Box>
-              </Box>
+              </Grid>
             </>
           )}
 
-          <Box sx={{ padding: 2 }}>
+          <Grid item xs={12} md={8}>
             <Typography variant="h5" sx={{ marginBottom: 2 }}>
               {formType === "Add" ? "Add New Address" : "Update Address"}
             </Typography>
@@ -523,14 +505,14 @@ const AccountAddressPage = () => {
                       />
                     </Box>
                     <LoadingButton size={'large'} variant={'contained'} type={'submit'} loading={formik.isSubmitting}>
-                      {formType === "Add" ? "Add New Address" : "Update Address"}
+                      {formType === "Add" ? "Save New Address" : "Update Address"}
                     </LoadingButton>
                   </Box>
                 </Grid>
               </Grid>
             </form>
-          </Box>
-        </Box>
+          </Grid>
+        </Grid>
       </Box>
     </AccountLayout >
   )
