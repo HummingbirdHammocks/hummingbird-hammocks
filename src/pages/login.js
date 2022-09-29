@@ -67,8 +67,6 @@ const LoginPage = () => {
 
   const {
     setValue,
-    store: { customerAccessToken },
-    logout,
   } = useContext(UserContext)
 
   const [customerLogin, { error }] = useMutation(CUSTOMER_LOGIN)
@@ -97,84 +95,68 @@ const LoginPage = () => {
         }}>
         <MainWrapper>
           <Box padding={!matches ? "0 200px" : "0"}>
-            {customerAccessToken ? (
-              <Box
-                minHeight="450px"
-                justifyContent="center"
-                alignItems="center"
-                display="flex"
+            <Stack spacing={2} direction="row" justifyContent="space-between" sx={{ paddingBottom: "30px" }}>
+              <Typography variant="h2">
+                Account Login
+              </Typography>
+              <Button
+                variant="outlined"
+                onClick={() => navigate("/register")}
               >
-                <Typography variant="h1">
-                  You're already Logged in! Please log out First:
-                </Typography>
-                <Button variant="outlined" onClick={() => logout()}>Logout</Button>
-              </Box>
-            ) : (
-              <>
-                <Stack spacing={2} direction="row" justifyContent="space-between" sx={{ paddingBottom: "30px" }}>
-                  <Typography variant="h2">
-                    Account Login
+                Sign Up
+              </Button>
+            </Stack>
+            <Divider />
+
+            <Box padding="30px" justifyContent="center" display="flex">
+              <Box>
+                <form onSubmit={formik.handleSubmit}>
+                  <Stack spacing={2} sx={{ width: "400px" }}>
+                    <TextField
+                      label="Email *"
+                      variant="outlined"
+                      name={'email'}
+                      fullWidth
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
+                      error={formik.touched.email && Boolean(formik.errors.email)}
+                      helperText={formik.touched.email && formik.errors.email}
+                    />
+                    <TextField
+                      label="Password *"
+                      variant="outlined"
+                      name={'password'}
+                      type={showPassword ? 'text' : 'password'}
+                      fullWidth
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton onClick={handleShowPassword} edge="end">
+                              {showPassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                      value={formik.values.password}
+                      onChange={formik.handleChange}
+                      error={formik.touched.password && Boolean(formik.errors.password)}
+                      helperText={formik.touched.password && formik.errors.password}
+                    />
+                    <LoadingButton size={'large'} variant={'contained'} type={'submit'} loading={formik.isSubmitting}>
+                      Login
+                    </LoadingButton>
+                  </Stack>
+                </form>
+
+                <Box mt="20px">
+                  <Typography variant="body1" mb="10px">
+                    <Link to="/password-recovery">
+                      Forgot your password?
+                    </Link>
                   </Typography>
-                  <Button
-                    variant="outlined"
-                    onClick={() => navigate("/register")}
-                  >
-                    Sign Up
-                  </Button>
-                </Stack>
-                <Divider />
-
-                <Box padding="30px" justifyContent="center" display="flex">
-                  <Box>
-                    <form onSubmit={formik.handleSubmit}>
-                      <Stack spacing={2} sx={{ width: "400px" }}>
-                        <TextField
-                          label="Email *"
-                          variant="outlined"
-                          name={'email'}
-                          fullWidth
-                          value={formik.values.email}
-                          onChange={formik.handleChange}
-                          error={formik.touched.email && Boolean(formik.errors.email)}
-                          helperText={formik.touched.email && formik.errors.email}
-                        />
-                        <TextField
-                          label="Password *"
-                          variant="outlined"
-                          name={'password'}
-                          type={showPassword ? 'text' : 'password'}
-                          fullWidth
-                          InputProps={{
-                            endAdornment: (
-                              <InputAdornment position="end">
-                                <IconButton onClick={handleShowPassword} edge="end">
-                                  {showPassword ? <Visibility /> : <VisibilityOff />}
-                                </IconButton>
-                              </InputAdornment>
-                            ),
-                          }}
-                          value={formik.values.password}
-                          onChange={formik.handleChange}
-                          error={formik.touched.password && Boolean(formik.errors.password)}
-                          helperText={formik.touched.password && formik.errors.password}
-                        />
-                        <LoadingButton size={'large'} variant={'contained'} type={'submit'} loading={formik.isSubmitting}>
-                          Login
-                        </LoadingButton>
-                      </Stack>
-                    </form>
-
-                    <Box mt="20px">
-                      <Typography variant="body1" mb="10px">
-                        <Link to="/password-recovery">
-                          Forgot your password?
-                        </Link>
-                      </Typography>
-                    </Box>
-                  </Box>
                 </Box>
-              </>
-            )}
+              </Box>
+            </Box>
           </Box>
         </MainWrapper>
       </Box>

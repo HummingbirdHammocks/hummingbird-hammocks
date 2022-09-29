@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useEffect, useState, useCallback } from "react"
 import { toast } from "react-toastify"
 import { useFormik } from 'formik';
 import { navigate } from "gatsby"
@@ -138,7 +138,7 @@ const AccountInfoPage = () => {
   const [customerUpdate] = useMutation(CUSTOMER_UPDATE)
   const [passwordUpdate] = useMutation(CUSTOMER_CHANGE_PASSWORD)
 
-  useEffect(() => {
+  const handleDefaultValues = useCallback(() => {
     if (data?.customer) {
       formik.setValues({
         firstName: data.customer.firstName,
@@ -147,7 +147,11 @@ const AccountInfoPage = () => {
         phone: data.customer.phone,
       })
     }
-  }, [data, formik])
+  }, [])
+
+  useEffect(() => {
+    handleDefaultValues(data)
+  }, [data])
 
   return (
     <AccountLayout title="Account Info" currentPage="info">
