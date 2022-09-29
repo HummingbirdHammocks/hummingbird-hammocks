@@ -49,5 +49,15 @@ export function db() {
 
 export function remoteConfig() {
     if (!app) return null;
-    return getRemoteConfig(app);
+
+    const remoteConfig = getRemoteConfig(app);
+
+    remoteConfig.settings.minimumFetchIntervalMillis = 3600000;
+    /* remoteConfig.settings.minimumFetchIntervalMillis = 43200000; */
+
+    remoteConfig.defaultConfig = {
+        "top_banner": "{\"description\":\"USPS Service Suspension in select countries. Alternate shipping service is recommended\",\"buttonText\":\"CURRENT SUSPENSION LIST\",\"buttonLink\":\"https://about.usps.com/newsroom/service-alerts/international/?utm_source\u003dresidential\u0026utm_medium\u003dlink\u0026utm_campaign\u003dres_to_intl\"}"
+    }
+
+    return remoteConfig;
 }
