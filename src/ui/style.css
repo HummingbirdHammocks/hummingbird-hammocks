@@ -28,6 +28,12 @@ body {
 .jdgm-star {
   color: #f5b700 !important;
 }
+.jdgm-carousel-wrapper {
+  width: 100%;
+}
+.jdgm-carousel {
+  width: 100%;
+}
 .jdgm-carousel--compact-theme.jdgm-carousel {
   float: none !important;
 }

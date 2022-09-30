@@ -200,24 +200,15 @@ const IndexPage = () => {
         />
       </Hero>
       <MainWrapper>
-        <Stack
-          justifyContent="center"
-          alignItems="center"
-          sx={{
-            marginTop: 4,
-            marginBottom: 4,
-          }}
-        >
-          {!matches &&
-            <Box sx={{ maxWidth: "1920px" }}>
-              <FeaturedReviewsCarousel />
-            </Box>
-          }
 
-          <Box>
-            <OutDoorArticles />
-          </Box>
-        </Stack>
+        <Container maxWidth="lg">
+          <FeaturedReviewsCarousel />
+        </Container>
+
+        <Box>
+          <OutDoorArticles />
+        </Box>
+
       </MainWrapper>
     </Layout>
   )
