@@ -3,7 +3,7 @@ import { Typography } from "@mui/material"
 
 /* import { getProductPreviewBadge } from "utils/judgeMe" */
 
-export const ProductPreviewBadge = ({ handle }) => {
+export const ProductPreviewBadge = ({ id }) => {
   /* const [reviews, setReviews] = React.useState(null)
 
   React.useEffect(() => {
@@ -15,7 +15,7 @@ export const ProductPreviewBadge = ({ handle }) => {
       {/* {reviews && (
         <div dangerouslySetInnerHTML={{ __html: reviews.badge }} />
       )} */}
-      <div className="jdgm-widget jdgm-preview-badge" data-id={handle}></div>
+      <div className="jdgm-widget jdgm-preview-badge" data-id={id}></div>
     </Typography>
   )
 }

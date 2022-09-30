@@ -171,7 +171,7 @@ const ProductPage = ({ data, pageContext }) => {
   }, [variantId])
 
   /* console.log(details) */
-  /* console.log(product) */
+  console.log(product)
   /* console.log(variantSizeName) */
   /* console.log(selectedVariant) */
 
@@ -361,7 +361,7 @@ const ProductPage = ({ data, pageContext }) => {
                         >
                           ${selectedVariant.price} USD
                         </Typography>
-                        <ProductPreviewBadge handle={handle} />
+                        <ProductPreviewBadge id={product?.id} />
                         {!selectedVariant?.available && (
                           <Box
                             sx={{
@@ -728,7 +728,7 @@ const ProductPage = ({ data, pageContext }) => {
             )}
 
             {/* Review */}
-            <ProductReviewWidget title={title} handle={handle} />
+            <ProductReviewWidget title={title} id={product?.id} />
 
             {metaVideo && <YouTubeEmbed url={metaVideo.value} title={title} />}
 

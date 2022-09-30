@@ -4,7 +4,7 @@ import { Typography } from "@mui/material"
 /* import { useImportScript } from 'hooks'; */
 /* import { getProductReviewWidget } from "utils/judgeMe" */
 
-export const ProductReviewWidget = ({ handle, title }) => {
+export const ProductReviewWidget = ({ title, id }) => {
   /* const [reviews, setReviews] = React.useState(null)
 
   React.useEffect(() => {
@@ -22,7 +22,7 @@ export const ProductReviewWidget = ({ handle, title }) => {
           <div dangerouslySetInnerHTML={{ __html: reviews.widget }} />
         </div>
       )} */}
-      <div className="jdgm-widget jdgm-review-widget jdgm-outside-widget" data-id={handle} data-product-title={title}></div>
+      <div className="jdgm-widget jdgm-review-widget jdgm-outside-widget" data-id={id} data-product-title={title}></div>
     </Typography>
   )
 }
