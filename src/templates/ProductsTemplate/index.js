@@ -171,7 +171,7 @@ const ProductPage = ({ data, pageContext }) => {
   }, [variantId])
 
   /* console.log(details) */
-  console.log(product)
+  /* console.log(product) */
   /* console.log(variantSizeName) */
   /* console.log(selectedVariant) */
 

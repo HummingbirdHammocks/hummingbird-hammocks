@@ -37,8 +37,6 @@ const Footer = () => {
   const [nav1, setNav1] = useState(false)
   const [nav2, setNav2] = useState(false)
 
-  console.log(ios)
-
   const socials = [
     {
       id: 1,

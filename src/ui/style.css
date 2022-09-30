@@ -24,3 +24,6 @@
 .jdgm-star {
     color: #f5b700 !important;
 }
+.jdgm-carousel--compact-theme.jdgm-carousel {
+  float: none !important;
+  }
