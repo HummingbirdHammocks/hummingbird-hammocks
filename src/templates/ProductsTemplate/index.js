@@ -285,7 +285,13 @@ const ProductPage = ({ data, pageContext }) => {
               </Box>
             </Box>
 
-            <Grid container spacing={4}>
+            <Grid
+              container
+              direction="row"
+              justifyContent="center"
+              alignItems="flex-start"
+              spacing={4}
+            >
               <Grid item xs={12} md={6}>
                 <Box
                   justifyContent="center"
@@ -339,7 +345,7 @@ const ProductPage = ({ data, pageContext }) => {
               </Grid>
 
               <Grid item xs={12} md={6}>
-                <Box margin={matches ? "0 0 50px 0" : "50px 0 0 0"}>
+                <Box sx={{ marginTop: matches ? 4 : 0, }}>
                   <Box>
                     <Typography
                       textTransform="uppercase"
