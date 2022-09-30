@@ -24,75 +24,82 @@ import {
   ExpandMore,
 } from "@mui/icons-material"
 
+import { useIos } from "hooks"
+
 import { MainWrapper, AnotherLink, Link, VerifiedReviewsCountBadge } from "components"
 
-const socials = [
-  {
-    id: 1,
-    name: "Facebook",
-    url: "https://www.facebook.com/hummingbirdhammocks",
-    iconTag: <Facebook />,
-  },
-  {
-    id: 2,
-    name: "Twitter",
-    url: "https://twitter.com/HHammocks",
-    iconTag: <Twitter />,
-  },
-  {
-    id: 3,
-    name: "YouTube",
-    url: "https://www.youtube.com/c/HummingbirdhammocksLLC",
-    iconTag: <YouTube />,
-  },
-  {
-    id: 4,
-    name: "Pinterest",
-    url: "https://www.pinterest.com/HHammocks/?autologin=true",
-    iconTag: <Pinterest />,
-  },
-  {
-    id: 5,
-    name: "Instagram",
-    url: "https://www.instagram.com/hummingbirdhammocks/",
-    iconTag: <Instagram />,
-  },
-  {
-    id: 6,
-    name: "Mail",
-    url: "mailto:support@hummingbirdhammocks.com",
-    iconTag: <Mail />,
-  },
-]
 
-const customerSupport = [
-  {
-    id: 1,
-    name: "Get Help",
-    url: "https://help.hummingbirdhammocks.com/help/1694808310",
-  },
-  { id: 2, name: "Manuals", url: "https://help.hummingbirdhammocks.com/" },
-  {
-    id: 3,
-    name: "Knowledgebase",
-    url: "https://help.hummingbirdhammocks.com/",
-  },
-  { id: 4, name: "Returns", url: "https://returns.hummingbirdhammocks.com/" },
-]
-
-const companyLink = [
-  { id: 1, name: "About", url: "/explore" },
-  { id: 2, name: "Affiliate Program", url: "/affiliate-program" },
-  { id: 3, name: "Pro Deal", url: "/professional-and-educational-discounts" },
-  { id: 4, name: "California Data Privacy", url: "/california-data-privacy" },
-  { id: 5, name: "Shipping Policy", url: "/shipping-policy" },
-]
 
 const Footer = () => {
   const theme = useTheme();
   const matches = useMediaQuery("(max-width:768px)")
+  const ios = useIos();
   const [nav1, setNav1] = useState(false)
   const [nav2, setNav2] = useState(false)
+
+  console.log(ios)
+
+  const socials = [
+    {
+      id: 1,
+      name: "Facebook",
+      url: ios ? "fb://page/hummingbirdhammocks" : "https://www.facebook.com/hummingbirdhammocks",
+      iconTag: <Facebook />,
+    },
+    {
+      id: 2,
+      name: "Twitter",
+      url: "https://twitter.com/HHammocks",
+      iconTag: <Twitter />,
+    },
+    {
+      id: 3,
+      name: "YouTube",
+      url: "https://www.youtube.com/c/HummingbirdhammocksLLC",
+      iconTag: <YouTube />,
+    },
+    {
+      id: 4,
+      name: "Pinterest",
+      url: "https://www.pinterest.com/HHammocks/?autologin=true",
+      iconTag: <Pinterest />,
+    },
+    {
+      id: 5,
+      name: "Instagram",
+      url: "https://www.instagram.com/hummingbirdhammocks/",
+      iconTag: <Instagram />,
+    },
+    {
+      id: 6,
+      name: "Mail",
+      url: "mailto:support@hummingbirdhammocks.com",
+      iconTag: <Mail />,
+    },
+  ]
+
+  const customerSupport = [
+    {
+      id: 1,
+      name: "Get Help",
+      url: "https://help.hummingbirdhammocks.com/help/1694808310",
+    },
+    { id: 2, name: "Manuals", url: "https://help.hummingbirdhammocks.com/" },
+    {
+      id: 3,
+      name: "Knowledgebase",
+      url: "https://help.hummingbirdhammocks.com/",
+    },
+    { id: 4, name: "Returns", url: "https://returns.hummingbirdhammocks.com/" },
+  ]
+
+  const companyLink = [
+    { id: 1, name: "About", url: "/explore" },
+    { id: 2, name: "Affiliate Program", url: "/affiliate-program" },
+    { id: 3, name: "Pro Deal", url: "/professional-and-educational-discounts" },
+    { id: 4, name: "California Data Privacy", url: "/california-data-privacy" },
+    { id: 5, name: "Shipping Policy", url: "/shipping-policy" },
+  ]
 
   return (
     <Box
