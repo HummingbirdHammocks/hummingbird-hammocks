@@ -1,6 +1,6 @@
 import React from "react"
 import { StaticImage } from "gatsby-plugin-image"
-import { Stack, Box, Container } from "@mui/material"
+import { Stack, Box, Container, useMediaQuery } from "@mui/material"
 
 import { Seo, Layout, MainWrapper, FeaturedReviewsCarousel } from "components"
 import { Hero, Info, Details, FeaturedProduct, OutDoorArticles } from "sections"
@@ -101,6 +101,8 @@ const detailsData3 = {
 }
 
 const IndexPage = () => {
+  const matches = useMediaQuery("(max-width:1200px)")
+
   return (
     <Layout>
       <Seo />
@@ -206,10 +208,11 @@ const IndexPage = () => {
             marginBottom: 4,
           }}
         >
-
-          <Box sx={{ maxWidth: "1920px" }}>
-            <FeaturedReviewsCarousel />
-          </Box>
+          {!matches &&
+            <Box sx={{ maxWidth: "1920px" }}>
+              <FeaturedReviewsCarousel />
+            </Box>
+          }
 
           <Box>
             <OutDoorArticles />
