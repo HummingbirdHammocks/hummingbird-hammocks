@@ -16,7 +16,7 @@ export function Hero({ children, data }) {
         position: "relative",
 
         [theme.breakpoints.down("md")]: {
-          minHeight: "none",
+          minHeight: "0",
         },
       }}>
       {children}

@@ -231,9 +231,9 @@ const ProductPage = ({ data, pageContext }) => {
                   background: "#34542a",
                   color: "#fff",
                   padding: "3px 10px",
+                  borderRadius: "10px"
                 }}
                 justifyContent="center"
-                borderRadius="10px"
                 order="2"
               >
                 {prev.handle && (

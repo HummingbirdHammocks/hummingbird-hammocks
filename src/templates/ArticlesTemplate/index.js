@@ -73,7 +73,12 @@ const Articles = ({ data: { articles }, pageContext: { next, prev } }) => {
           <Box
             display="inline-flex"
             alignItems="center"
-            sx={{ background: "#34542a", color: "#fff", padding: "3px 10px" }}
+            sx={{
+              background: "#34542a",
+              color: "#fff",
+              padding: "3px 10px",
+              borderRadius: "10px"
+            }}
             justifyContent="center"
             order="2"
           >

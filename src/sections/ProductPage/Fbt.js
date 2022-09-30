@@ -125,11 +125,11 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
         FREQUENTLY BOUGHT TOGETHER
       </Typography>
       <Divider />
-      <Box mt="50px">
+      <Box mt={4}>
         {selectedVariant && (
           <Grid container spacing={2}>
             <Grid item xs={12} lg={6}>
-              <Box mb="70px" display={matches ? "block" : "flex"}>
+              <Box display={matches ? "block" : "flex"}>
                 <Box
                   display="flex"
                   flexWrap="wrap"
@@ -143,7 +143,7 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
                           <Box p={2} key={item.id}>
                             <img
                               src={item.image.src}
-                              height="120px"
+                              height={matches ? "60px" : "120px"}
                               alt={item.image.altText}
                             />
                           </Box>
