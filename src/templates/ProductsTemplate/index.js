@@ -715,6 +715,7 @@ const ProductPage = ({ data, pageContext }) => {
               <Container maxWidth="lg">
                 {details.details.map((item, index) => (
                   <Details
+                    key={index}
                     order={index % 2 === 0 && 2}
                     data={{ title: item.title, htmlText: item.html_text }}
                   >

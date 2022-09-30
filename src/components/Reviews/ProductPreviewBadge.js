@@ -4,18 +4,18 @@ import { Typography } from "@mui/material"
 /* import { getProductPreviewBadge } from "utils/judgeMe" */
 
 export const ProductPreviewBadge = ({ id }) => {
-  /* const [reviews, setReviews] = React.useState(null)
+  if (!id) {
+    return null
+  }
 
-  React.useEffect(() => {
-    setReviews(getProductPreviewBadge(handle).then(data => setReviews(data)))
-  }, [handle])
- */
+  const id_only = id.split("gid://shopify/Product/")[1]
+
   return (
     <Typography component={"div"} sx={{ padding: "10px" }}>
       {/* {reviews && (
         <div dangerouslySetInnerHTML={{ __html: reviews.badge }} />
       )} */}
-      <div className="jdgm-widget jdgm-preview-badge" data-id={id}></div>
+      <div className="jdgm-widget jdgm-preview-badge" data-id={id_only}></div>
     </Typography>
   )
 }

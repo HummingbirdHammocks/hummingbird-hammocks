@@ -22,6 +22,8 @@ import {
   TopBannerProvider,
 } from "contexts"
 
+import { ReviewWidgetScripts } from "utils/judgeMe"
+
 // Import Swiper styles
 import "swiper/css"
 import "swiper/css/navigation"
@@ -57,6 +59,7 @@ export const wrapRootElement = ({ element }) => (
                   <ToastContainer
                     pauseOnFocusLoss={false}
                   />
+                  <ReviewWidgetScripts />
                 </NavProvider>
               </TopBannerProvider>
             </ThemeProvider>

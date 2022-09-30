@@ -81,7 +81,6 @@ export function FeaturedProduct() {
             <Box
               sx={{
                 minHeight: !matches && "600px",
-                marginBottom: 4,
 
                 "& .image-2": {
                   display: "none",
