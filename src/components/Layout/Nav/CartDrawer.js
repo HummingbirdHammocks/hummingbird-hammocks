@@ -214,7 +214,7 @@ export const CartDrawer = () => {
                 to="/cart"
                 onClick={() => setCartOpen(!cartOpen)}
               >
-                Go to Cart Page
+                Go to Cart
               </Button>
             </Box>
 
