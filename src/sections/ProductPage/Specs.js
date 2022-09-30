@@ -1,8 +1,6 @@
 import React from "react"
 import { Grid, Typography } from "@mui/material"
 
-import { ProductDetailsGrid } from "sections"
-
 export const Specs = ({ metas, top }) => {
   const width = []
   const length = []
@@ -12,6 +10,8 @@ export const Specs = ({ metas, top }) => {
   let inUseNotes
 
   /* console.log(metas) */
+
+  if (!metas) return null
 
   for (let i = 0; i < metas.length; i++) {
     if (metas[i].key === "width") {
@@ -40,9 +40,15 @@ export const Specs = ({ metas, top }) => {
   }
 
   return (
-    <ProductDetailsGrid title="SPECS" top={top}>
-      <Grid item xs={12} lg={4}>
-        <Typography marginBottom="15px" variant="h5">
+    <Grid
+      container
+      direction="row"
+      justifyContent="center"
+      alignItems="flex-start"
+      spacing={2}
+    >
+      <Grid item xs={12} lg={6}>
+        <Typography marginBottom={2} variant="h5">
           Packed
         </Typography>
         <Typography variant="body1">
@@ -60,8 +66,8 @@ export const Specs = ({ metas, top }) => {
           <br />
         </Typography>
       </Grid>
-      <Grid item xs={12} lg={4}>
-        <Typography marginBottom="15px" variant="h5">
+      <Grid item xs={12} lg={6}>
+        <Typography marginBottom={2} variant="h5">
           In Use
         </Typography>
         <Typography variant="body1">
@@ -78,6 +84,6 @@ export const Specs = ({ metas, top }) => {
           }
         </Typography>
       </Grid>
-    </ProductDetailsGrid>
+    </Grid>
   )
 }
