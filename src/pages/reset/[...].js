@@ -122,7 +122,7 @@ const ResetPage = ({ params }) => {
               </Box>
             ) : (
               <>
-                <Stack spacing={2} direction="row" justifyContent="space-between" sx={{ paddingBottom: "30px" }}>
+                <Stack spacing={2} direction={!matches ? "row" : "column"} justifyContent="space-between" sx={{ paddingBottom: "30px" }}>
                   <Typography variant="h2">
                     Password Reset
                   </Typography>
@@ -138,7 +138,7 @@ const ResetPage = ({ params }) => {
                 <Box padding="30px" justifyContent="center" display="flex">
                   <Box>
                     <form onSubmit={formik.handleSubmit}>
-                      <Stack spacing={2} sx={{ width: "400px" }}>
+                      <Stack spacing={2} sx={{ width: !matches ? "400px" : "100%" }}>
                         <TextField
                           label="New Password *"
                           variant="outlined"

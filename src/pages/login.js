@@ -95,7 +95,7 @@ const LoginPage = () => {
         }}>
         <MainWrapper>
           <Box padding={!matches ? "0 200px" : "0"}>
-            <Stack spacing={2} direction="row" justifyContent="space-between" sx={{ paddingBottom: "30px" }}>
+            <Stack spacing={2} direction={!matches ? "row" : "column"} justifyContent="space-between" sx={{ paddingBottom: "30px" }}>
               <Typography variant="h2">
                 Account Login
               </Typography>
@@ -111,7 +111,7 @@ const LoginPage = () => {
             <Box padding="30px" justifyContent="center" display="flex">
               <Box>
                 <form onSubmit={formik.handleSubmit}>
-                  <Stack spacing={2} sx={{ width: "400px" }}>
+                  <Stack spacing={2} sx={{ width: !matches ? "400px" : "100%" }}>
                     <TextField
                       label="Email *"
                       variant="outlined"
