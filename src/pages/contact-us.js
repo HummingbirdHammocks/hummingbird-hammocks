@@ -98,7 +98,17 @@ const ContactUsPage = () => {
           </Info>
         </Grid>
         <Grid item xs={12} md={6}>
-          <ContactUsForm />
+          <Box sx={{
+            padding: "60px 15px",
+
+            [theme.breakpoints.down("md")]: {
+              padding: "50px 0",
+              wordBreak: "break-word",
+            },
+          }}
+          >
+            <ContactUsForm />
+          </Box>
         </Grid>
       </Grid>
 
