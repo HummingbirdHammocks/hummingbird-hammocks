@@ -60,7 +60,7 @@ const socials = [
   {
     id: 6,
     name: "Mail",
-    url: "support@hummingbirdhammocks.com",
+    url: "mailto:support@hummingbirdhammocks.com",
     iconTag: <Mail />,
   },
 ]
