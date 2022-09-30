@@ -1,4 +1,7 @@
 export const useIos = () => {
+
+    if (typeof window == 'undefined') return false;
+
     return [
         'iPad Simulator',
         'iPhone Simulator',
