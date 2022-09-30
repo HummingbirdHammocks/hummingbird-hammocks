@@ -91,8 +91,8 @@ export const ProductDetailsTabs = ({
         paddingBottom: 4,
         paddingLeft: matches ? 0 : 4,
         paddingRight: matches ? 0 : 4,
-        marginTop: 2,
-        marginBottom: 2,
+        marginTop: 4,
+        marginBottom: 4,
       }}
     >
       <Grid container spacing={2}>
