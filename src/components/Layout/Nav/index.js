@@ -181,13 +181,14 @@ const AppbarMobile = ({ cartQuantity, cartOpen, setCartOpen }) => {
     >
       <MainWrapper>
         <Toolbar sx={{ p: "0" }}>
-          <IconButton onClick={() => setDrawerOpen(!drawerOpen)}>
-            <MenuIcon color="white" />
-          </IconButton>
-
-          <Typography variant="subtitle2" color="white">
+          <Button
+            size="large"
+            startIcon={<MenuIcon />}
+            onClick={() => setDrawerOpen(!drawerOpen)}
+            sx={{ color: "#FFFFFF" }}
+          >
             Menu
-          </Typography>
+          </Button>
           <Link sx={{ ml: "auto" }} to="/">
             <StaticImage
               src="../../../assets/images/logo-mobile.png"
