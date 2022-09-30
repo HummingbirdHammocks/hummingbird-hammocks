@@ -42,18 +42,11 @@ const CartPage = () => {
 
       <Box>
         <MainWrapper>
-          <Box
-            sx={{
-              margin: "10px 70px 10px 70px",
-
-              [theme.breakpoints.down("md")]: {
-                margin: "0",
-              },
-            }}>
-            <Box mt={matches ? "40px" : "70px"} pt={"50px"}>
+          <Box>
+            <Box mt={matches ? "40px" : "70px"} pt={"10px"}>
               <MainWrapper>
                 <Typography
-                  sx={{ margin: "20px 10px" }}
+                  sx={{ marginTop: 2, marginBottom: 2 }}
                   variant="h2"
                   color="black.main"
                   textAlign={
@@ -81,7 +74,7 @@ const CartPage = () => {
                     margin: "0",
                   },
                 }}>
-                <Box m="0 40px">
+                <Box >
                   {checkout.lineItems.map((item, index) => (
                     <>
                       <Box
@@ -104,8 +97,8 @@ const CartPage = () => {
                           <img
                             alt={item.variant.image.altText}
                             src={item.variant.image.src}
-                            height="130px"
-                            width="130px"
+                            height={!matches ? "130px" : "80px"}
+                            width={!matches ? "130px" : "80px"}
                           />
                         </Link>
 
@@ -244,7 +237,9 @@ const CartPage = () => {
               </Box>
             )}
           </Box>
-          <CartExtras />
+          <Box sx={{ marginTop: 4 }}>
+            <CartExtras />
+          </Box>
           {recentViewedProducts.length > 1 && (
             <RecentViewed title="YOU MAY ALSO BE INTERESTED IN" />
           )}
