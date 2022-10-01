@@ -24,7 +24,7 @@ export const Seo = ({ title, description, keywords, image }) => (
       const seo = {
         defaultTitle: defaultTitle,
         description: description || defaultDescription,
-        image: `${image ? url + image : url + `${Image}`}`,
+        image: `${image ? image : url + `${Image}`}`,
         keywords: `${keywords ? keywords + "," : defaultKeywords}`,
       }
 
