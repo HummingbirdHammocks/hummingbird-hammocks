@@ -39,7 +39,6 @@ const CartPage = () => {
   return (
     <Layout>
       <Seo title="Cart" />
-
       <Box>
         <MainWrapper>
           <Box>

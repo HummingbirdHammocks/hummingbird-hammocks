@@ -8,39 +8,39 @@ export const ProductDetailsGrid = ({
   body1,
   body2,
   children,
-  top
+  backgroundColor,
+  accentColor,
 }) => {
-  const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
   return (
-    <Box sx={{
-      padding: "10px",
-
-      [theme.breakpoints.down("md")]: {
-        padding: "0",
-      },
-    }}>
-      {!top && <Divider />}
+    <Box
+      sx={{
+        backgroundColor: backgroundColor ? backgroundColor : "#FDFDF5",
+        borderColor: accentColor ? accentColor : "rgba(0, 0, 0, 0.12)",
+        borderStyle: "solid",
+        borderWidth: "1px",
+        borderRadius: "20px",
+        padding: 4,
+        marginTop: 2,
+        marginBottom: 2,
+      }}
+    >
+      <Typography mb={matches && "30px"} variant="h4">
+        {title}
+      </Typography>
+      <Divider />
       <Grid
         container
         direction="row"
         justifyContent="center"
         alignItems="center"
         spacing={2}
-        sx={{
-          padding: "40px 10px",
+      >
+        <Grid item xs={12} md={4}>
 
-          [theme.breakpoints.down("md")]: {
-            padding: "40px 0",
-          },
-        }}>
-        <Grid item xs={12} lg={4}>
-          <Typography mb={matches && "30px"} variant="h4">
-            {title}
-          </Typography>
         </Grid>
         {body1 && (
-          <Grid item xs={12} lg={4}>
+          <Grid item xs={12} md={4}>
             <Box mb={matches && "30px"}>
               {body1Title && <Typography variant="h5">{body1Title}</Typography>}
               <Typography component="span">
@@ -52,7 +52,7 @@ export const ProductDetailsGrid = ({
         {children}
 
         {body2Title && (
-          <Grid item xs={12} lg={4}>
+          <Grid item xs={12} md={4}>
             <Box mb={matches && "30px"}>
               <Typography variant="h5">{body2Title}</Typography>
               <Typography component="span">

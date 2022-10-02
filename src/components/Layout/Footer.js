@@ -10,6 +10,7 @@ import {
   Box,
   useMediaQuery,
   Collapse,
+  IconButton,
   ListItemButton,
 } from "@mui/material"
 import { StaticImage } from "gatsby-plugin-image"
@@ -124,22 +125,26 @@ const Footer = () => {
                 />
               </Box>
 
-              <List
-                disablePadding
-                sx={{ display: "flex", justifyContent: "center" }}
+              <Stack
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                spacing={2}
               >
                 {socials.map(social => (
-                  <ListItem sx={{ p: "5px" }} disablePadding key={social.id}>
-                    <AnotherLink
-                      color="white.main"
-                      href={social.url}
-                      underline="none"
-                    >
-                      {social.iconTag}
-                    </AnotherLink>
-                  </ListItem>
+                  <IconButton
+                    key={social.id}
+                    aria-label={social.name}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    component={"a"}
+                    sx={{ color: theme.palette.white.main }}
+                  >
+                    {social.iconTag}
+                  </IconButton>
                 ))}
-              </List>
+              </Stack>
             </Box>
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3} justifyContent={"center"}>

@@ -59,7 +59,7 @@ const AccountOrdersPage = () => {
           {data && (
             <Grid container spacing={2} sx={{ paddingBottom: 4 }}>
               <Grid item xs={12}>
-                <Typography sx={{marginBottom: 7}} variant="h4">
+                <Typography sx={{ marginBottom: 7 }} variant="h4">
                   Order History
                 </Typography>
                 <OrderHistory rows={data.customer.orders?.edges} />
@@ -69,6 +69,9 @@ const AccountOrdersPage = () => {
         </Box>
       ) : customerAccessToken && accountDetails.open ? (
         <OrderDetails
+          firstName={data.customer.firstName}
+          lastName={data.customer.lastName}
+          email={data.customer.email}
           data={data?.customer.orders?.edges[accountDetails.index]}
           returnAccount={returnAccount}
         />

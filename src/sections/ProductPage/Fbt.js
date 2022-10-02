@@ -15,6 +15,8 @@ import { LoadingButton } from "@mui/lab"
 
 import { CartContext } from "contexts"
 
+import { Link } from "components"
+
 export const Fbt = ({ currentVariant, product, fbtData }) => {
   const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
@@ -115,6 +117,8 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
     handleCheckChange(itemIndex)
   }
 
+  /* console.log(data) */
+
   return (
     <Paper
       sx={{
@@ -125,11 +129,11 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
         FREQUENTLY BOUGHT TOGETHER
       </Typography>
       <Divider />
-      <Box mt="50px">
+      <Box mt={4}>
         {selectedVariant && (
           <Grid container spacing={2}>
             <Grid item xs={12} lg={6}>
-              <Box mb="70px" display={matches ? "block" : "flex"}>
+              <Box display={matches ? "block" : "flex"}>
                 <Box
                   display="flex"
                   flexWrap="wrap"
@@ -141,11 +145,13 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
                       return (
                         <>
                           <Box p={2} key={item.id}>
-                            <img
-                              src={item.image.src}
-                              height="120px"
-                              alt={item.image.altText}
-                            />
+                            <Link to={"/products/" + data[index].handle}>
+                              <img
+                                src={item.image.src}
+                                height={matches ? "60px" : "120px"}
+                                alt={item.image.altText}
+                              />
+                            </Link>
                           </Box>
                           {index !== selectedVariant.length - 1 ? (
                             <Box
@@ -185,7 +191,7 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
                       {index === 0 ? (
                         <b>This Item: {data[index].title} </b>
                       ) : (
-                        <> {data[index].title} </>
+                        <Link to={"/products/" + data[index].handle}>{data[index].title}</Link>
                       )}{" "}
                       {data[index].variants.length >= 1 &&
                         data[index].variants[0]?.title !== "Default Title" && (

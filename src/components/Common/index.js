@@ -1,6 +1,5 @@
 export * from "./MainWrapper"
 export * from "./Link"
-export * from "./Form"
 export * from "./MiddleSpinner"
 export * from "./IframeWrap"
 export * from "./SoldOutWrap"

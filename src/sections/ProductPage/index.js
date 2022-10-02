@@ -1,6 +1,7 @@
 export * from "./ProductQuantityAdder"
 export * from "./Fbt"
 export * from "./ProductDetailsGrid"
+export * from "./ProductDetailsTabs"
 export * from "./RecentViewed"
 export * from "./YouTubeEmbed"
 export * from "./DetailsImage"

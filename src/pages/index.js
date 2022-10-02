@@ -101,6 +101,7 @@ const detailsData3 = {
 }
 
 const IndexPage = () => {
+
   return (
     <Layout>
       <Seo />
@@ -198,23 +199,15 @@ const IndexPage = () => {
         />
       </Hero>
       <MainWrapper>
-        <Stack
-          justifyContent="center"
-          alignItems="center"
-          sx={{
-            marginTop: 4,
-            marginBottom: 4,
-          }}
-        >
 
-          <Box sx={{ maxWidth: "1920px" }}>
-            <FeaturedReviewsCarousel />
-          </Box>
+        <Container maxWidth="lg">
+          <FeaturedReviewsCarousel />
+        </Container>
 
-          <Box>
-            <OutDoorArticles />
-          </Box>
-        </Stack>
+        <Box>
+          <OutDoorArticles />
+        </Box>
+
       </MainWrapper>
     </Layout>
   )

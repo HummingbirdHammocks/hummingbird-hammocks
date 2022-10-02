@@ -22,7 +22,7 @@ exports.create_ticket = async function (req, res) {
         return res.status(500).send("message is required");
     }
 
-    return await createTicket(req.body.firstName, req.body.lastName, req.body.email, req.body.subject, req.body.message)
+    return await createTicket(req.body.firstName, req.body.lastName, req.body.email, req.body.subject, req.body.message, req.body.orderNumber)
         .then((response) => res.status(200).send(response))
         .catch((error) => {
             console.log("createTicket: " + error);

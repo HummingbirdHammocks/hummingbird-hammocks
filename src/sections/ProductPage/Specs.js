@@ -1,8 +1,6 @@
 import React from "react"
 import { Grid, Typography } from "@mui/material"
 
-import { ProductDetailsGrid } from "sections"
-
 export const Specs = ({ metas, top }) => {
   const width = []
   const length = []
@@ -12,6 +10,8 @@ export const Specs = ({ metas, top }) => {
   let inUseNotes
 
   /* console.log(metas) */
+
+  if (!metas) return null
 
   for (let i = 0; i < metas.length; i++) {
     if (metas[i].key === "width") {
@@ -40,44 +40,72 @@ export const Specs = ({ metas, top }) => {
   }
 
   return (
-    <ProductDetailsGrid title="SPECS" top={top}>
-      <Grid item xs={12} lg={4}>
-        <Typography marginBottom="15px" variant="h5">
+    <Grid
+      container
+      direction="row"
+      justifyContent="center"
+      alignItems="flex-start"
+      spacing={2}
+    >
+      <Grid item xs={12} lg={6}>
+        <Typography marginBottom={2} variant="h5">
           Packed
         </Typography>
         <Typography variant="body1">
-          <b>Weight:</b> {weight} oz (
-          {Number(parseFloat(weight * 28.3495)).toFixed(1)} g)
-          <br />
-          <b>Length:</b> {length[1]} in (
-          {Number(parseFloat(length[1] * 2.54)).toFixed(1)} cm)
-          <br />
-          <b>Width:</b> {width[1]} in (
-          {Number(parseFloat(width[1] * 2.54)).toFixed(1)} cm)
-          <br />
-          <b>Height:</b> {height} in (
-          {Number(parseFloat(height * 2.54)).toFixed(1)} cm)
-          <br />
+          {weight && (
+            <>
+              <b>Weight:</b> {`${weight} oz (${Number(parseFloat(weight * 28.3495)).toFixed(1)} g)`}
+              <br />
+            </>
+          )}
+          {length[1] && (
+            <>
+              <b>Length:</b> {`${length[1]} in (${Number(parseFloat(length[1] * 2.54)).toFixed(1)} cm)`}
+              <br />
+            </>
+          )}
+          {width[1] && (
+            <>
+              <b>Width:</b> {`${width[1]} in (${Number(parseFloat(width[1] * 2.54)).toFixed(1)} cm)`}
+              <br />
+            </>
+          )}
+          {height && (
+            <>
+              <b>Height:</b> {`${height} in (${Number(parseFloat(height * 2.54)).toFixed(1)} cm)`}
+              <br />
+            </>
+          )}
         </Typography>
       </Grid>
-      <Grid item xs={12} lg={4}>
-        <Typography marginBottom="15px" variant="h5">
+      <Grid item xs={12} lg={6}>
+        <Typography marginBottom={2} variant="h5">
           In Use
         </Typography>
         <Typography variant="body1">
-          <b>Weight Rating:</b> {weightRating} lbs (
-          {Number(parseFloat(weightRating * 0.453592)).toFixed(1)} kg)
-          <br />
-          <b>Length:</b> {length[0]} in (
-          {Number(parseFloat(length[0] * 2.54)).toFixed(1)} cm)
-          <br />
-          <b>Width:</b> {width[0]} in (
-          {Number(parseFloat(width[0] * 2.54)).toFixed(1)} cm)
+          {weightRating && (
+            <>
+              <b>Weight Rating:</b> {`${weightRating} lbs (${Number(parseFloat(weightRating * 0.453592)).toFixed(1)} kg)`}
+              <br />
+            </>
+          )}
+          {length[0] && (
+            <>
+              <b>Length:</b> {`${length[0]} in (${Number(parseFloat(length[0] * 2.54)).toFixed(1)} cm)`}
+              <br />
+            </>
+          )}
+          {width[0] && (
+            <>
+              <b>Width:</b> {`${width[0]} in (${Number(parseFloat(width[0] * 2.54)).toFixed(1)} cm)`}
+              <br />
+            </>
+          )}
           {inUseNotes &&
             <div dangerouslySetInnerHTML={{ __html: inUseNotes }} />
           }
         </Typography>
       </Grid>
-    </ProductDetailsGrid>
+    </Grid>
   )
 }

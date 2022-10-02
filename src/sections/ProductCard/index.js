@@ -81,6 +81,7 @@ export const ProductCard = ({ products, minHeight, mdMinHeight }) => {
                   alt={product.title}
                   placeholder="blurred"
                   style={{ margin: "1rem", maxHeight: "350px" }}
+                  loading="eager"
                   imgStyle={{
                     objectFit: "contain",
                     borderRadius: "20px",
@@ -101,6 +102,7 @@ export const ProductCard = ({ products, minHeight, mdMinHeight }) => {
                     alt={product.title}
                     placeholder="blurred"
                     style={{ margin: "1rem", maxHeight: "350px" }}
+                    loading="eager"
                     imgStyle={{
                       objectFit: "contain",
                       borderRadius: "20px",

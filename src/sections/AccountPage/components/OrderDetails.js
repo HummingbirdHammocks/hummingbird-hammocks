@@ -14,12 +14,15 @@ import {
   Chip,
   Paper,
   Button,
+  Divider,
   useMediaQuery,
 } from "@mui/material"
 
+import { SupportTicketForm } from "./SupportTicketForm"
+
 import { fShopify } from "utils/formatTime";
 
-export const OrderDetails = ({ data, returnAccount }) => {
+export const OrderDetails = ({ firstName, lastName, email, data, returnAccount }) => {
   const matches = useMediaQuery("(max-width:900px)")
   const {
     name,
@@ -37,6 +40,7 @@ export const OrderDetails = ({ data, returnAccount }) => {
   const theme = useTheme();
 
   console.log(data.node)
+  console.log(firstName, lastName, email)
 
   return (
     <Box >
@@ -161,7 +165,7 @@ export const OrderDetails = ({ data, returnAccount }) => {
           </Table>
         </TableContainer>
         <Grid container spacing={2} sx={{ marginTop: 4 }}>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={4}>
             <Typography variant="h5">SHIPPING ADDRESS</Typography>
             <Typography mt={matches ? "10px" : "20px"} variant="body1">
               <b>
@@ -182,6 +186,30 @@ export const OrderDetails = ({ data, returnAccount }) => {
               <br />
               {shippingAddress?.phone}
             </Typography>
+          </Grid>
+          <Grid item xs={12} md={8}>
+            <Box
+              sx={{
+                borderColor: 'divider',
+                borderStyle: "solid",
+                borderWidth: "1px",
+                borderRadius: "20px",
+              }}
+            >
+              <Typography sx={{ padding: 2, }} variant="h5">NEED HELP WITH THIS ORDER?</Typography>
+              <Divider />
+              <Typography
+                sx={{
+                  paddingTop: 2,
+                  paddingLeft: 2,
+                  paddingRight: 2,
+                }}
+                variant="body1"
+              >
+                Your name, email, and order number will automatically be added to your ticket so we can assist you efficiently.
+              </Typography>
+              <SupportTicketForm firstName={firstName} lastName={lastName} email={email} orderNumber={name} />
+            </Box>
           </Grid>
         </Grid>
       </Box>

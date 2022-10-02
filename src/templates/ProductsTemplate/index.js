@@ -22,7 +22,6 @@ import {
   Layout,
   MainWrapper,
   Link,
-  AnotherLink,
   Socials,
   ProductReviewWidget,
   ProductPreviewBadge,
@@ -32,12 +31,11 @@ import Color from "utils/color"
 import {
   ProductQuantityAdder,
   Fbt,
-  ProductDetailsGrid,
+  ProductDetailsTabs,
   RecentViewed,
   YouTubeEmbed,
   Details,
   DetailsImage,
-  Specs,
   SoldOutIcon,
   Inventory,
 } from "sections"
@@ -75,6 +73,7 @@ const ProductPage = ({ data, pageContext }) => {
   const [swiper, setSwiper] = useState(null)
   const [variantColorName, setVariantColorName] = useState("")
   const [variantSizeName, setVariantSizeName] = useState("")
+  const [variantColorValues, setVariantColorValues] = useState({})
 
   const { getProductById } = useContext(CartContext)
   const { addRecentProducts, recentViewedProducts } =
@@ -148,14 +147,26 @@ const ProductPage = ({ data, pageContext }) => {
           result.variants.find(({ id }) => id === variantId) ||
           result.variants[0]
 
+        /* console.log(variantId) */
+        /* console.log(data.shopifyProduct.variants) */
         const staticVariant =
-          data.shopifyProduct.variants.find(({ id }) => id === variantId) ||
+          data.shopifyProduct.variants.find(({ shopifyId }) => shopifyId === variantId) ||
           data.shopifyProduct.variants[0]
 
         setSelectedVariant(resultVariant)
         setSelectedVariantStatic(staticVariant)
 
+        /* console.log(resultVariant) */
         /* console.log(staticVariant) */
+
+        if (staticVariant?.metafields.length > 0) {
+          for (let i = 0; i < staticVariant.metafields.length; i++) {
+            if (staticVariant.metafields[i].key === "colors") {
+              setVariantColorValues(JSON.parse(staticVariant.metafields[i].value))
+              /* console.log(JSON.parse(staticVariant.metafields[i].value)) */
+            }
+          }
+        }
 
         let resultTitle = resultVariant?.title
 
@@ -194,14 +205,14 @@ const ProductPage = ({ data, pageContext }) => {
       <Box
         sx={{
           background: theme.palette.white,
-          padding: "60px 15px",
+          padding: "40px 15px",
 
           ".swiper-button-prev, .swiper-button-next": {
             color: "#34542a",
           },
 
           [theme.breakpoints.down("md")]: {
-            padding: "60px 0",
+            padding: "20px 0",
           },
         }}
       >
@@ -233,9 +244,9 @@ const ProductPage = ({ data, pageContext }) => {
                   background: "#34542a",
                   color: "#fff",
                   padding: "3px 10px",
+                  borderRadius: "10px"
                 }}
                 justifyContent="center"
-                borderRadius="10px"
                 order="2"
               >
                 {prev.handle && (
@@ -287,13 +298,20 @@ const ProductPage = ({ data, pageContext }) => {
               </Box>
             </Box>
 
-            <Grid container spacing={4}>
-              <Grid item xs={12} lg={6}>
+            <Grid
+              container
+              direction="row"
+              justifyContent="center"
+              alignItems="flex-start"
+              spacing={4}
+            >
+              <Grid item xs={12} md={6}>
                 <Box
                   justifyContent="center"
                   alignItems="center"
-                  display={matches && "flex"}
-                  m={matches && "40px 0"}
+                  sx={{
+                    marginTop: matches ? 4 : 0,
+                  }}
                 >
                   <Swiper
                     onSwiper={setSwiper}
@@ -339,8 +357,8 @@ const ProductPage = ({ data, pageContext }) => {
                 </Box>
               </Grid>
 
-              <Grid item xs={12} lg={6}>
-                <Box margin={matches ? "0 0 50px 0" : "50px 0 0 0"}>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ marginTop: matches ? 4 : 0, }}>
                   <Box>
                     <Typography
                       textTransform="uppercase"
@@ -419,63 +437,66 @@ const ProductPage = ({ data, pageContext }) => {
                                   {product?.options[0]?.values.map(
                                     (item, index) => {
                                       return (
-                                        <Box
-                                          key={index}
-                                          margin="5px"
-                                          padding="5px"
-                                          position="relative"
-                                          sx={{
-                                            cursor: "pointer",
-                                          }}
-                                          border={
-                                            item.value === variantColorName
-                                              ? "1px solid #000"
-                                              : "1px solid #e2e2e2"
-                                          }
-                                          borderRadius="50%"
-                                          onClick={() =>
-                                            handleVariantColorChange(item.value)
-                                          }
-                                        >
-                                          <Color
-                                            key={item.value}
-                                            title={item.value}
-                                          />
-                                          {!product.variants[index]
-                                            .available && <SoldOutIcon />}
-                                        </Box>
+                                        <Tooltip key={index} title={item.value}>
+                                          <Box
+                                            margin="5px"
+                                            padding="5px"
+                                            position="relative"
+                                            sx={{
+                                              cursor: "pointer",
+                                            }}
+                                            border={
+                                              item.value === variantColorName
+                                                ? "1px solid #000"
+                                                : "1px solid #e2e2e2"
+                                            }
+                                            borderRadius="50%"
+                                            onClick={() =>
+                                              handleVariantColorChange(item.value)
+                                            }
+                                          >
+                                            <Color
+                                              key={item.value}
+                                              title={item.value}
+                                            />
+                                            {!product.variants[index].available && (
+                                              <SoldOutIcon />
+                                            )}
+                                          </Box>
+                                        </Tooltip>
                                       )
                                     }
                                   )}
                                 </Box>
 
                                 <Typography variant="navUser" m="20px 0">
-                                  Size
+                                  {variantSizeName ? `Size: ${variantSizeName}` : "Size"}
                                 </Typography>
                                 <Box display="flex">
                                   {product?.options[1]?.values.map(
                                     (item, index) => {
                                       return (
-                                        <Box
-                                          margin="5px"
-                                          padding="15px"
-                                          sx={{ cursor: "pointer" }}
-                                          border={
-                                            item.value === variantSizeName
-                                              ? "1px solid #000"
-                                              : "1px solid #e2e2e2"
-                                          }
-                                          borderRadius="5px"
-                                          onClick={() =>
-                                            handleVariantSizeChange(item.value)
-                                          }
-                                        >
-                                          <div>{item.value}</div>
-                                          {!product.variants[index]
-                                            .available && (
-                                            <SoldOutIcon margin="2px" />
-                                          )}
-                                        </Box>
+                                        <Tooltip key={index} title={item.value}>
+                                          <Box
+                                            margin="5px"
+                                            padding="15px"
+                                            sx={{ cursor: "pointer" }}
+                                            border={
+                                              item.value === variantSizeName
+                                                ? "1px solid #000"
+                                                : "1px solid #e2e2e2"
+                                            }
+                                            borderRadius="5px"
+                                            onClick={() =>
+                                              handleVariantSizeChange(item.value)
+                                            }
+                                          >
+                                            <div>{item.value}</div>
+                                            {!product.variants[index].available && (
+                                              <SoldOutIcon margin="2px" />
+                                            )}
+                                          </Box>
+                                        </Tooltip>
                                       )
                                     }
                                   )}
@@ -485,37 +506,39 @@ const ProductPage = ({ data, pageContext }) => {
                               product.options.length === 1 ? (
                               <>
                                 <Typography variant="navUser" m="20px 0">
-                                  Color
+                                  {variantColorName ? `Color: ${variantColorName}` : "Color"}
                                 </Typography>
                                 <Box display="flex">
                                   {product?.options[0]?.values.map(
                                     (item, index) => {
                                       return (
-                                        <Box
-                                          key={index}
-                                          margin="5px"
-                                          padding="5px"
-                                          position="relative"
-                                          sx={{
-                                            cursor: "pointer",
-                                          }}
-                                          border={
-                                            item.value === variantColorName
-                                              ? "1px solid #000"
-                                              : "1px solid #e2e2e2"
-                                          }
-                                          borderRadius="50%"
-                                          onClick={() =>
-                                            handleVariantColorChange(item.value)
-                                          }
-                                        >
-                                          <Color
-                                            key={item.value}
-                                            title={item.value}
-                                          />
-                                          {!product.variants[index]
-                                            .available && <SoldOutIcon />}
-                                        </Box>
+                                        <Tooltip key={index} title={item.value}>
+                                          <Box
+                                            margin="5px"
+                                            padding="5px"
+                                            position="relative"
+                                            sx={{
+                                              cursor: "pointer",
+                                            }}
+                                            border={
+                                              item.value === variantColorName
+                                                ? "1px solid #000"
+                                                : "1px solid #e2e2e2"
+                                            }
+                                            borderRadius="50%"
+                                            onClick={() =>
+                                              handleVariantColorChange(item.value)
+                                            }
+                                          >
+                                            <Color
+                                              key={item.value}
+                                              title={item.value}
+                                            />
+                                            {!product.variants[index].available && (
+                                              <SoldOutIcon />
+                                            )}
+                                          </Box>
+                                        </Tooltip>
                                       )
                                     }
                                   )}
@@ -532,27 +555,28 @@ const ProductPage = ({ data, pageContext }) => {
                                   {product?.options[0]?.values.map(
                                     (item, index) => {
                                       return (
-                                        <Box
-                                          position="relative"
-                                          margin="5px"
-                                          padding="15px"
-                                          sx={{ cursor: "pointer" }}
-                                          border={
-                                            item.value === variantSizeName
-                                              ? "1px solid #000"
-                                              : "1px solid #e2e2e2"
-                                          }
-                                          borderRadius="5px"
-                                          onClick={() =>
-                                            handleVariantSizeChange(item.value)
-                                          }
-                                        >
-                                          <div>{item.value}</div>
-                                          {!product.variants[index]
-                                            .available && (
-                                            <SoldOutIcon margin="2px" />
-                                          )}
-                                        </Box>
+                                        <Tooltip key={index} title={item.value}>
+                                          <Box
+                                            position="relative"
+                                            margin="5px"
+                                            padding="15px"
+                                            sx={{ cursor: "pointer" }}
+                                            border={
+                                              item.value === variantSizeName
+                                                ? "1px solid #000"
+                                                : "1px solid #e2e2e2"
+                                            }
+                                            borderRadius="5px"
+                                            onClick={() =>
+                                              handleVariantSizeChange(item.value)
+                                            }
+                                          >
+                                            <Typography>{item.value}</Typography>
+                                            {!product.variants[index].available && (
+                                              <SoldOutIcon margin="2px" />
+                                            )}
+                                          </Box>
+                                        </Tooltip>
                                       )
                                     }
                                   )}
@@ -600,125 +624,21 @@ const ProductPage = ({ data, pageContext }) => {
               />
             )}
 
-            {/* Main Product Details */}
-            {selectedVariantStatic?.metafields.length > 1 && (
-              <Specs metas={selectedVariantStatic.metafields} top={true} />
-            )}
-
-            {metaMain && metaIncluded && (
-              <ProductDetailsGrid
-                top={!selectedVariantStatic?.metafields.length > 1 && true}
-                title="FEATURES"
-                body2Title="Included"
-                body1={metaMain.value}
-                body2={metaIncluded.value}
-              />
-            )}
-
-            {metaMaterials || metaManufacturing ? (
-              <ProductDetailsGrid
-                title="TRANSPARENCY"
-                body1Title={metaMaterials && "MATERIALS"}
-                body2Title={metaManufacturing && "MANUFACTURING"}
-                body1={metaMaterials?.value}
-                body2={metaManufacturing?.value}
-              />
-            ) : (
-              ""
-            )}
-
-            {metaManualUrl && metaOshwaId && (
-              <ProductDetailsGrid title="SUPPORT">
-                <Grid item xs={12} lg={4}>
-                  <Typography variant="body1">
-                    <AnotherLink
-                      href={metaManualUrl.value}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Typography variant="productDetails">
-                        Online Manual
-                      </Typography>
-                    </AnotherLink>
-                    <br />
-                    {metaCareInstructions && (
-                      <>
-                        <AnotherLink
-                          href={metaCareInstructions.value}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <Typography variant="productDetails">
-                            Care Instructions
-                          </Typography>
-                        </AnotherLink>
-                        <br />
-                      </>
-                    )}
-
-                    {metaVideo?.value && (
-                      <>
-                        <AnotherLink
-                          href={metaVideo?.value}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <Typography variant="productDetails">
-                            Video Guide
-                          </Typography>
-                        </AnotherLink>
-                        <br />
-                      </>
-                    )}
-
-                    <AnotherLink
-                      href="https://help.hummingbirdhammocks.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Typography variant="productDetails">
-                        Knowledgebase
-                      </Typography>
-                    </AnotherLink>
-                    <br />
-                    <AnotherLink
-                      href="https://help.hummingbirdhammocks.com/help/1694808310"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Typography variant="productDetails">Get Help</Typography>
-                    </AnotherLink>
-                    <br />
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} lg={4}>
-                  <Typography variant="h5">Open Source</Typography>
-                  <br />
-                  <Typography variant="body1">
-                    {`OSHWA UID ${metaOshwaId.value}`} <br />
-                    <AnotherLink
-                      href={metaOshwaUrl.value}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Typography variant="productDetails">
-                        OSHWA Certification Listing
-                      </Typography>
-                    </AnotherLink>
-                    <br />
-                    <AnotherLink
-                      href={metaReository.value}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Typography variant="productDetails">
-                        Design Files
-                      </Typography>
-                    </AnotherLink>
-                  </Typography>
-                </Grid>
-              </ProductDetailsGrid>
-            )}
+            <ProductDetailsTabs
+              specs={selectedVariantStatic?.metafields}
+              features={metaMain?.value}
+              included={metaIncluded?.value}
+              materials={metaMaterials?.value}
+              manufacturing={metaManufacturing?.value}
+              manualUrl={metaManualUrl?.value}
+              oshwaId={metaOshwaId?.value}
+              oshwaUrl={metaOshwaUrl?.value}
+              careInstructions={metaCareInstructions?.value}
+              video={metaVideo?.value}
+              repo={metaReository?.value}
+              backgroundColor={variantColorValues?.background}
+              accentColor={variantColorValues?.primary}
+            />
 
             {details && (
               <Container maxWidth="lg">
