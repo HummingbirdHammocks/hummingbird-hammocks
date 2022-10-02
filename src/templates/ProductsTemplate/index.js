@@ -1,6 +1,16 @@
 import React, { useState, useEffect, useContext } from "react"
 import { graphql, navigate } from "gatsby"
-import { useTheme, Box, Grid, Stack, Typography, Divider, Container, useMediaQuery, Tooltip } from "@mui/material"
+import {
+  useTheme,
+  Box,
+  Grid,
+  Stack,
+  Typography,
+  Divider,
+  Container,
+  useMediaQuery,
+  Tooltip,
+} from "@mui/material"
 import { FreeMode, Navigation, Thumbs } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { GatsbyImage } from "gatsby-plugin-image"
@@ -14,7 +24,7 @@ import {
   Link,
   Socials,
   ProductReviewWidget,
-  ProductPreviewBadge
+  ProductPreviewBadge,
 } from "components"
 import { CartContext, RecentViewedContext } from "contexts"
 import Color from "utils/color"
@@ -29,7 +39,6 @@ import {
   SoldOutIcon,
   Inventory,
 } from "sections"
-
 
 const ProductPage = ({ data, pageContext }) => {
   const { title, handle, images, description, shopifyId, featuredImage } =
@@ -52,7 +61,7 @@ const ProductPage = ({ data, pageContext }) => {
   } = data
   const { collection, next, prev } = pageContext
 
-  const theme = useTheme();
+  const theme = useTheme()
 
   const matches = useMediaQuery("(max-width:900px)")
   const url = typeof window !== "undefined" ? window.location.href : ""
@@ -191,6 +200,7 @@ const ProductPage = ({ data, pageContext }) => {
       <Seo
         title={metaTitle?.value || title}
         description={metaDescription?.value || description}
+        image={`${featuredImage?.originalSrc}`}
       />
       <Box
         sx={{
@@ -204,7 +214,8 @@ const ProductPage = ({ data, pageContext }) => {
           [theme.breakpoints.down("md")]: {
             padding: "20px 0",
           },
-        }}>
+        }}
+      >
         <MainWrapper>
           <Box
             sx={{
@@ -213,7 +224,8 @@ const ProductPage = ({ data, pageContext }) => {
               [theme.breakpoints.down("md")]: {
                 margin: "0",
               },
-            }}>
+            }}
+          >
             <Box
               sx={{
                 display: "flex",
@@ -223,7 +235,8 @@ const ProductPage = ({ data, pageContext }) => {
                 [theme.breakpoints.down("md")]: {
                   margin: "0",
                 },
-              }}>
+              }}
+            >
               <Box
                 display="inline-flex"
                 alignItems="center"
@@ -360,8 +373,6 @@ const ProductPage = ({ data, pageContext }) => {
                       <Divider />
                     </Typography>
 
-
-
                     {!!selectedVariant && (
                       <Stack
                         direction="row"
@@ -417,7 +428,7 @@ const ProductPage = ({ data, pageContext }) => {
                         {product?.variants.length >= 1 && (
                           <>
                             {product.options.length === 2 &&
-                              product.options[0].name === "Color" ? (
+                            product.options[0].name === "Color" ? (
                               <>
                                 <Typography variant="navUser" m="20px 0">
                                   Color
@@ -637,10 +648,7 @@ const ProductPage = ({ data, pageContext }) => {
                     order={index % 2 === 0 && 2}
                     data={{ title: item.title, htmlText: item.html_text }}
                   >
-                    <DetailsImage
-                      title={item.title}
-                      src={item.image_url}
-                    />
+                    <DetailsImage title={item.title} src={item.image_url} />
                   </Details>
                 ))}
               </Container>
@@ -656,8 +664,8 @@ const ProductPage = ({ data, pageContext }) => {
             )}
           </Box>
         </MainWrapper>
-      </Box >
-    </Layout >
+      </Box>
+    </Layout>
   )
 }
 

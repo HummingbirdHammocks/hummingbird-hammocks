@@ -7,7 +7,7 @@ module.exports = {
   siteMetadata: {
     title: `Hummingbird Hammocks`,
     description: `Ultralight hammocks for camping and backpacking that are as tiny in your pack as they are on the scale. Hammocks, rain tarps, bug nets, tree straps, underquilts, and more designed to be as light and small as possible. Lighten your pack with Hummingbird Hammocks!`,
-    keywords: `hummingbird hammock, ultralight hammocks, camping hammocks, hammock straps, hammock shelter, parachute hammock, ultralight camping`,
+    keywords: `hummingbird hammock, ultralight hammocks, camping hammocks, hammock straps, hammock shelter, parachute hammock, ultralight camping, tree straps, Hammock Accessories, tree strap extensions, revivex pro cleaner, bug net, camping accessories, sleeping pad`,
     siteName: `Hummingbird Hammocks`,
     siteUrl: `https://hummingbirdhammocks.com/`,
     author: `@HummingbirdHammocks`,
@@ -19,6 +19,15 @@ module.exports = {
   plugins: [
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-image`,
+    `gatsby-plugin-sitemap`,
+    {
+      resolve: "gatsby-plugin-robots-txt",
+      options: {
+        host: "https://hummingbirdhammocks.com",
+        sitemap: "https://hummingbirdhammocks.com/sitemap.xml",
+        policy: [{ userAgent: "*", allow: "/" }],
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
