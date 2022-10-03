@@ -23,10 +23,33 @@ export function ProductQuantityAdder({ variantId, available, productHandle, prod
   const [loading, setLoading] = useState(false)
   const { updateLineItem } = useContext(CartContext)
 
+  const handleDecreaseQuantity = () => {
+    if (quantity - 1 <= 0) {
+      setQuantity(0)
+    } else {
+      setQuantity(quantity - 1)
+    }
+  }
+
 
   const handleQuantityChange = e => {
-    setQuantity(Number(e.currentTarget.value))
+    if (e.currentTarget.value <= 0) {
+      setQuantity(0)
+    } else if (e.currentTarget.value >= 5) {
+      setQuantity(5)
+    } else {
+      setQuantity(Number(e.currentTarget.value))
+    }
   }
+
+  const handleIncreaseQuantity = () => {
+    if (quantity + 1 >= 5) {
+      setQuantity(5)
+    } else {
+      setQuantity(quantity + 1)
+    }
+  }
+
 
   const handleSubmit = async e => {
     setLoading(true)
@@ -75,13 +98,18 @@ export function ProductQuantityAdder({ variantId, available, productHandle, prod
               color="primary"
               variant="outlined"
               disabled={!available}
-              onClick={() => setQuantity(quantity - 1)}
+              onClick={handleDecreaseQuantity}
               sx={{ height: "57px", width: "57px" }}
             >
               <Remove />
             </Button>
             <TextField
               disabled={!available}
+              InputProps={{
+                inputProps: {
+                  style: { textAlign: "center" },
+                }
+              }}
               type="number"
               value={quantity}
               onChange={handleQuantityChange}
@@ -91,7 +119,7 @@ export function ProductQuantityAdder({ variantId, available, productHandle, prod
               color="primary"
               variant="outlined"
               disabled={!available}
-              onClick={() => setQuantity(quantity + 1)}
+              onClick={handleIncreaseQuantity}
               sx={{ height: "57px", width: "57px" }}
             >
               <Add />

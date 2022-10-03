@@ -61,6 +61,7 @@ const ContactUsPage = () => {
           style={{
             gridArea: "1/1",
           }}
+          loading="eager"
           layout="fullWidth"
           alt="Ultralight Hammock"
           src="../assets/images/contact-us/contact-hero.jpg"

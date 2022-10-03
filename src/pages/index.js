@@ -110,6 +110,7 @@ const IndexPage = () => {
           style={{
             gridArea: "1/1",
           }}
+          loading="eager"
           layout="fullWidth"
           alt="Ultralight Hammock"
           src="../assets/images/home/hero-back.jpg"

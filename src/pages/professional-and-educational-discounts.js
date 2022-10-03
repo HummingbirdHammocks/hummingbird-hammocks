@@ -21,6 +21,7 @@ const ProDealPage = () => (
         style={{
           gridArea: "1/1",
         }}
+        loading="eager"
         layout="fullWidth"
         alt="Ultralight Hammock"
         src="../assets/images/pro-deal/pro-deal.jpg"

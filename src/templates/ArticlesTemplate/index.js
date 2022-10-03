@@ -31,6 +31,7 @@ const Articles = ({ data: { articles }, pageContext: { next, prev } }) => {
           placeholder="blurred"
           alt={title}
           image={localFile.childImageSharp.gatsbyImageData}
+          loading="eager"
         />
         <Box
           sx={{
