@@ -76,7 +76,7 @@ jobs:
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_HUMMINGBIRD_HAMMOCKS }}"
           channelId: live
           projectId: hummingbird-hammocks
-          target: hummingbird-hammocks
+          target: prod
         env:
           CI: false
           GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
