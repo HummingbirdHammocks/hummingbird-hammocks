@@ -6,6 +6,7 @@ import {
   Typography,
   IconButton,
   Button,
+  Stack,
   useMediaQuery,
 } from "@mui/material"
 import {
@@ -18,7 +19,7 @@ import {
 import window from "global"
 
 import { useUICartContext, CartContext } from "contexts"
-import { Link } from "components"
+import { Link, AnotherLink } from "components"
 
 export const CartDrawer = () => {
   const matches = useMediaQuery("(max-width:900px)")
@@ -181,13 +182,22 @@ export const CartDrawer = () => {
           </Box>
         ))}
       </Box>
-      <Box
+      <Stack
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        spacing={2}
         sx={{
           backgroundColor: "rgba(255, 255, 255, 0.44)",
           backdropFilter: "saturate(180%) blur(20px)",
           padding: "15px 25px 30px  25px"
         }}
       >
+        <Box sx={{ padding: 2 }}>
+          <Typography variant="cartVariant" color="grey.600" justifyContent={"center"}>
+            We plant two trees for every order <AnotherLink href="https://ecologi.com/hummingbirdhammocks?r=60b8efa8e6e3c022ec95c2bb" target="_blank">Learn More</AnotherLink>
+          </Typography>
+        </Box>
         {!checkout?.lineItems.length ? (
           <Button
             variant="outlined"
@@ -201,22 +211,15 @@ export const CartDrawer = () => {
           </Button>
         ) : (
           <>
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              mb="10px"
+            <Button
+              variant="contained"
+              fullWidth
+              component={Link}
+              to="/cart"
+              onClick={() => setCartOpen(!cartOpen)}
             >
-              <Button
-                variant="contained"
-                fullWidth
-                component={Link}
-                to="/cart"
-                onClick={() => setCartOpen(!cartOpen)}
-              >
-                Go to Cart
-              </Button>
-            </Box>
+              Go to Cart
+            </Button>
 
             <Button
               variant="outlined"
@@ -232,7 +235,7 @@ export const CartDrawer = () => {
             </Button>
           </>
         )}
-      </Box>
+      </Stack>
     </Drawer>
   )
 }

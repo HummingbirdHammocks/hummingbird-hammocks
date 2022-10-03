@@ -80,8 +80,6 @@ export function FeaturedProduct() {
           <SwiperSlide key={item.shopifyId}>
             <Box
               sx={{
-                minHeight: !matches && "600px",
-
                 "& .image-2": {
                   display: "none",
                 },

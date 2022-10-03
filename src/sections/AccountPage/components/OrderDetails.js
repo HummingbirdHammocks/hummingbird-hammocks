@@ -194,6 +194,7 @@ export const OrderDetails = ({ firstName, lastName, email, data, returnAccount }
                 borderStyle: "solid",
                 borderWidth: "1px",
                 borderRadius: "20px",
+                marginTop: matches ? 4 : 0,
               }}
             >
               <Typography sx={{ padding: 2, }} variant="h5">NEED HELP WITH THIS ORDER?</Typography>

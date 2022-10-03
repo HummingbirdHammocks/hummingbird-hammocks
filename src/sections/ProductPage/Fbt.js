@@ -19,6 +19,7 @@ import { Link } from "components"
 
 export const Fbt = ({ currentVariant, product, fbtData }) => {
   const theme = useTheme();
+  const matchesPhone = useMediaQuery("(max-width:600px)")
   const matches = useMediaQuery("(max-width:900px)")
   const [data, setData] = useState(null)
   const [selectedVariant, setSelectedVariant] = useState(null)
@@ -185,40 +186,52 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
                       sx={{
                         ...theme.typography.footerMenu,
                         display: "flex",
-                        justifyContent: "center",
                         alignItems: "center",
                       }}>
-                      {index === 0 ? (
-                        <b>This Item: {data[index].title} </b>
-                      ) : (
-                        <Link to={"/products/" + data[index].handle}>{data[index].title}</Link>
-                      )}{" "}
-                      {data[index].variants.length >= 1 &&
-                        data[index].variants[0]?.title !== "Default Title" && (
-                          <select
-                            style={{ margin: "0 10px" }}
-                            value={selectedVariant[index].id}
-                            onChange={e =>
-                              handleSelectChange(index, e.target.value)
-                            }
-                          >
-                            {data[index].variants.map(i => {
-                              return (
-                                <option
-                                  // selected={currentVariant.id === i.id}
-                                  key={i.id}
-                                  value={i.id}
-                                >
-                                  {i.title}
-                                </option>
-                              )
-                            })}
-                          </select>
-                        )}{" "}
-                      <b>
-                        ${selectedVariant[index]?.priceV2.amount}{" "}
-                        {selectedVariant[index]?.priceV2.currencyCode}
-                      </b>
+                      <Stack
+                        direction={"row"}
+                        justifyContent="space-between"
+                        alignItems="center"
+                        spacing={2}
+                      >
+                        <Stack
+                          direction={matchesPhone ? "column" : "row"}
+                          justifyContent={matchesPhone ? "flex-start" : "space-between"}
+                          alignItems="center"
+                          spacing={2}
+                        >
+                          {index === 0 ? (
+                            <b>This Item: <br />{data[index].title} </b>
+                          ) : (
+                            <Link to={"/products/" + data[index].handle}>{data[index].title}</Link>
+                          )}
+                          {data[index].variants.length >= 1 &&
+                            data[index].variants[0]?.title !== "Default Title" && (
+                              <select
+                                value={selectedVariant[index].id}
+                                onChange={e =>
+                                  handleSelectChange(index, e.target.value)
+                                }
+                              >
+                                {data[index].variants.map(i => {
+                                  return (
+                                    <option
+                                      // selected={currentVariant.id === i.id}
+                                      key={i.id}
+                                      value={i.id}
+                                    >
+                                      {i.title}
+                                    </option>
+                                  )
+                                })}
+                              </select>
+                            )}{" "}
+                        </Stack>
+                        <b>
+                          ${selectedVariant[index]?.priceV2.amount}{" "}
+                          {selectedVariant[index]?.priceV2.currencyCode}
+                        </b>
+                      </Stack>
                     </Box>
                   </Box>
                 ))}
