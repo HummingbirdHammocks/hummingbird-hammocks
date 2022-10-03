@@ -4,6 +4,8 @@ import { Box, Typography, Button } from "@mui/material"
 
 import { Link } from "components"
 
+import { fShopify } from '../../utils/formatTime'
+
 export const BlogItem = ({ item, description }) => {
   return (
     <Box key={item.id}>
@@ -19,7 +21,7 @@ export const BlogItem = ({ item, description }) => {
           <Typography mt="40px" variant="h5" color="black">
             {item.title}
           </Typography>
-          <Typography variant="collectionName">{item.published_at}</Typography>
+          <Typography variant="collectionName">{fShopify(item.published_at)}</Typography>
           {description && (
             <Typography m="20px 0" variant="body1" color="black">
               <div
