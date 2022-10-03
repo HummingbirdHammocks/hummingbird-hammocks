@@ -11,9 +11,11 @@ import {
   Box,
   styled
 } from "@mui/material"
-import { StaticImage } from "gatsby-plugin-image"
 import MenuIcon from "@mui/icons-material/Menu"
 import { ShoppingCartOutlined, AccountCircle } from "@mui/icons-material"
+
+import HorizontalLogo from "../../../assets/HorizontalLogo"
+import MobileLogo from "../../../assets/MobileLogo"
 
 import NavMenuItems from "./MenuItems"
 import { MainWrapper, Link, MiddleSpinner, AnotherLink } from "components"
@@ -119,12 +121,9 @@ const AppbarDesktop = ({
       <MainWrapper>
         <Toolbar>
           <Link to="/">
-            <StaticImage
-              src="../../../assets/images/logo.png"
-              alt="Hummingbird Hammocks"
-              height={45}
-              placeholder="blurred"
-            />
+            <Box sx={{ height: "36px" }}>
+              <HorizontalLogo height="100%" alt="Hummingbird Hammocks Logo" />
+            </Box>
           </Link>
           <List className="menus" sx={{ display: "flex" }}>
             {NavMenuItems.map((menu, index) => {
@@ -190,12 +189,9 @@ const AppbarMobile = ({ cartQuantity, cartOpen, setCartOpen }) => {
             Menu
           </Button>
           <Link sx={{ ml: "auto" }} to="/">
-            <StaticImage
-              src="../../../assets/images/logo-mobile.png"
-              alt="Hummingbird Hammocks"
-              height={45}
-              placeholder="blurred"
-            />
+            <Box sx={{ height: "46px" }}>
+              <MobileLogo height="100%" alt="Hummingbird Hammocks Logo" />
+            </Box>
           </Link>
 
           <IconButton sx={{ ml: "auto" }}>
