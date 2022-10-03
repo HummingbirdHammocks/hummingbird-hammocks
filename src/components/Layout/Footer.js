@@ -117,12 +117,14 @@ const Footer = () => {
           <Grid item xs={12} md={4} lg={3} justifyContent={"center"}>
             <Box>
               <Box mb="30px" display="flex" justifyContent="center">
-                <StaticImage
-                  src="../../assets/images/footer-logo.png"
-                  alt="Hummingbird Hammocks"
-                  placeholder="blurred"
-                  height={130}
-                />
+                <Link to="/">
+                  <StaticImage
+                    src="../../assets/images/footer-logo.png"
+                    alt="Hummingbird Hammocks"
+                    placeholder="blurred"
+                    height={130}
+                  />
+                </Link>
               </Box>
 
               <Stack
@@ -263,7 +265,7 @@ const Footer = () => {
           }}>
           <Box textAlign={matches && "center"} pt="20px">
             <Typography color="white.main" variant="navUser">
-              © {new Date().getFullYear()} Hummingbird Hammocks |{" "}
+              © {new Date().getFullYear()} <Link to="/" sx={{ color: "inherit" }}>Hummingbird Hammocks</Link> |{" "}
               <Link
                 sx={{
                   textDecoration: "none",
@@ -701,7 +703,7 @@ const Footer = () => {
             </svg>
           </Box>
         </Box>
-      </MainWrapper>
+      </MainWrapper >
     </Box >
   )
 }
