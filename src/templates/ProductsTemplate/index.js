@@ -328,7 +328,6 @@ const ProductPage = ({ data, pageContext }) => {
                           imgStyle={{ borderRadius: "20px" }}
                           image={image.gatsbyImageData}
                           alt={image.altText}
-                          loading="eager"
                         />
                       </SwiperSlide>
                     ))}
@@ -351,7 +350,6 @@ const ProductPage = ({ data, pageContext }) => {
                           placeholder="blurred"
                           image={image.gatsbyImageData}
                           alt={image.altText}
-                          loading="eager"
                         />
                       </SwiperSlide>
                     ))}
@@ -430,7 +428,7 @@ const ProductPage = ({ data, pageContext }) => {
                         {product?.variants.length >= 1 && (
                           <>
                             {product.options.length === 2 &&
-                            product.options[0].name === "Color" ? (
+                              product.options[0].name === "Color" ? (
                               <>
                                 <Typography variant="navUser" m="20px 0">
                                   Color
