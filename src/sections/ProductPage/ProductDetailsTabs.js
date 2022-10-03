@@ -124,7 +124,7 @@ export const ProductDetailsTabs = ({
         </Grid>
 
         <Grid item xs={12} md={9} lg={10}>
-          <TabPanel value={value} matches={matches} index={0}>
+          <TabPanel value={value} matches={matches} matchesPhone={matchesPhone} index={0}>
             <Typography variant="h4" sx={{ marginBottom: 4 }}>
               SPECIFICATIONS
             </Typography>
@@ -159,7 +159,7 @@ export const ProductDetailsTabs = ({
               )}
             </Grid>
           </TabPanel>
-          <TabPanel value={value} matches={matches} index={2}>
+          <TabPanel value={value} matches={matches} matchesPhone={matchesPhone} index={2}>
             <Typography variant="h4" sx={{ marginBottom: 4 }}>
               TRANSPARENCY
             </Typography>
@@ -189,7 +189,7 @@ export const ProductDetailsTabs = ({
               )}
             </Grid>
           </TabPanel>
-          <TabPanel value={value} matches={matches} index={3}>
+          <TabPanel value={value} matches={matches} matchesPhone={matchesPhone} index={3}>
             <Typography variant="h4" sx={{ marginBottom: 4 }}>
               SUPPORT
             </Typography>
