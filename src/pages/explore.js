@@ -36,7 +36,7 @@ const detailsData3 = {
 const detailsData4 = {
   title: "LIFETIME GUARANTEE",
   subText:
-    "We are proud of what we do and stand behind it. If you are not satisfied with one of our products, or if one of our products does not perform to your satisfaction, contact us via our Support Form below or at support@hummingbirdhammocks.com for a repair, replacement, or refund. FOREVER.\n \nOur hassle-free return system makes it easy to get the right hammock for you and our support specialists are here to help if you have any questions!",
+    "We are proud of what we do and stand behind it. If you are not satisfied with one of our products, or if one of our products does not perform to your satisfaction, contact us via our Support Form below for a repair, replacement, or refund. FOREVER.\n \nOur hassle-free return system makes it easy to get the right hammock for you and our support specialists are here to help if you have any questions!",
   buttonText: "Support",
   hrefLink: "https://help.hummingbirdhammocks.com/help/1694808310",
 }
