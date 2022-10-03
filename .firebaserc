@@ -1,5 +1,18 @@
 {
   "projects": {
     "default": "hummingbird-hammocks"
-  }
+  },
+  "targets": {
+    "hummingbird-hammocks": {
+      "hosting": {
+        "dev": [
+          "dev-hummingbird-hammocks"
+        ],
+        "prod": [
+          "hummingbird-hammocks"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
