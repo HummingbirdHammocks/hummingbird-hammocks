@@ -1,5 +1,5 @@
 import React from "react"
-import { useTheme, Box, Grid, Divider, Typography, useMediaQuery } from "@mui/material"
+import { Box, Grid, Divider, Typography, useMediaQuery } from "@mui/material"
 
 export const ProductDetailsGrid = ({
   title,

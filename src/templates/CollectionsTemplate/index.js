@@ -225,6 +225,7 @@ const CollectionsPage = ({ data }) => {
           placeholder="blurred"
           image={image.gatsbyImageData}
           alt={title}
+          loading="eager"
         />
         <Box
           sx={{

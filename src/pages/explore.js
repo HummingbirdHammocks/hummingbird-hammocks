@@ -51,6 +51,7 @@ const ExplorePage = () => {
           style={{
             gridArea: "1/1",
           }}
+          loading="eager"
           layout="fullWidth"
           alt="Ultralight Hammock"
           src="../assets/images/explore/explore.jpg"

@@ -328,6 +328,7 @@ const ProductPage = ({ data, pageContext }) => {
                           imgStyle={{ borderRadius: "20px" }}
                           image={image.gatsbyImageData}
                           alt={image.altText}
+                          loading="eager"
                         />
                       </SwiperSlide>
                     ))}
@@ -350,6 +351,7 @@ const ProductPage = ({ data, pageContext }) => {
                           placeholder="blurred"
                           image={image.gatsbyImageData}
                           alt={image.altText}
+                          loading="eager"
                         />
                       </SwiperSlide>
                     ))}
