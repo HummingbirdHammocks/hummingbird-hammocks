@@ -11,7 +11,7 @@ import {
 import { Add, Remove, Delete } from "@mui/icons-material"
 
 import { CartContext, RecentViewedContext } from "contexts"
-import { Seo, Layout, MainWrapper, Link } from "components"
+import { Seo, Layout, MainWrapper, Link, AnotherLink } from "components"
 import { RecentViewed, CartExtras } from "sections"
 
 
@@ -232,6 +232,12 @@ const CartPage = () => {
                   >
                     Proceed to Checkout
                   </Button>
+
+                  <Box sx={{ padding: 2 }}>
+                    <Typography variant="cartVariant" color="grey.600">
+                      We plant two trees for every order <AnotherLink href="https://ecologi.com/hummingbirdhammocks?r=60b8efa8e6e3c022ec95c2bb" target="_blank">Learn More</AnotherLink>
+                    </Typography>
+                  </Box>
                 </Box>
               </Box>
             )}
