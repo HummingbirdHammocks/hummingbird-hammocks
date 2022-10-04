@@ -59,3 +59,33 @@ exports.createTicket = async function (firstName, lastName, email, subject, mess
             throw new Error(error);
         });
 }
+
+exports.getUserTickets = async function (email) {
+    if (!email) {
+        return false
+    };
+
+    const url = process.env.FREESCOUT_API_URL + '/api/conversations?customerEmail=' + email;
+
+    const config = {
+        headers: {
+            'X-FreeScout-API-Key': process.env.FREESCOUT_API_KEY,
+        }
+    };
+
+    return await axios
+        .get(url, config)
+        .then((response) => {
+            if (response.data) {
+                console.log("getUserTickets: " + response.data);
+                return response.data;
+            } else {
+                console.log(response.data);
+                throw new Error(response.data);
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+            throw new Error(error);
+        });
+}
