@@ -46,7 +46,7 @@ export function SupportMessageReplyForm({ email, customerId, conversationId }) {
       const fileFormatted = {
         "fileName": file.name,
         "mimeType": file.type,
-        "data": reader.result
+        "data": String(reader.result).split(',')[1]
       }
       newAttachments = [...newAttachments, fileFormatted]
 
