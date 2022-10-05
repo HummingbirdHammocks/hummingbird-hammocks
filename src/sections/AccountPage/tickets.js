@@ -1,5 +1,4 @@
 import React, { useCallback, useContext, useEffect, useState } from "react"
-import { toast } from 'react-toastify'
 import {
   Typography,
   Button,
@@ -62,9 +61,27 @@ const AccountTicketsPage = () => {
     <AccountLayout title="Support Tickets" currentPage="tickets">
       {customerAccessToken ? (
         <Box>
-          <Typography sx={{ marginBottom: 7 }} variant="h4">
-            Support Tickets
-          </Typography>
+          <Box
+            pb="20px"
+            justifyContent="space-between"
+            display={matches ? "inline-block" : "flex"}
+          >
+            <Box>
+              <Typography variant="h4">
+                Support Tickets
+              </Typography>
+            </Box>
+            <Box>
+              <Button
+                variant="outlined"
+                component={'a'}
+                href="https://help.hummingbirdhammocks.com/help/1694808310"
+                target="_blank"
+              >
+                Create New Ticket
+              </Button>
+            </Box>
+          </Box>
           {error && "Error"}
           {(loading || ticketsLoading) && <MiddleSpinner divMinHeight="460px" size={20} />}
           {(data && tickets !== [] && !ticketsLoading) && (

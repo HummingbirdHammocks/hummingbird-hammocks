@@ -11,7 +11,7 @@ import { fShopify } from "utils/formatTime";
 
 export const SupportTicketMessage = ({ thread }) => {
 
-  console.log(thread)
+  /* console.log(thread) */
 
   const handleHeader = (type, createdBy) => {
     switch (type) {

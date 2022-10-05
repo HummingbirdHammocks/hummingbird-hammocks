@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useCallback } from "react"
+import React from "react"
 import {
   Box,
   Chip,
   Stack,
   Divider,
   Typography,
-  useMediaQuery
 } from "@mui/material"
 
 import { SupportTicketMessage } from "./SupportTicketMessage"
@@ -15,7 +14,6 @@ import { fShopify } from "utils/formatTime"
 
 /* /products/single-hammock */
 export const SupportTicket = ({ ticket }) => {
-  const matches = useMediaQuery("(max-width:900px)")
   console.log(ticket)
 
   const getStatusColor = (status) => {
