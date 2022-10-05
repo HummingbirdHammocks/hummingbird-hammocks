@@ -12,7 +12,7 @@ import {
 } from "@mui/material"
 import { LoadingButton } from '@mui/lab';
 
-import DragAndDrop from "./DragAndDrop";
+import DragAndDrop from "./dragAndDrop";
 
 
 const validationSchema = yup.object({
