@@ -74,9 +74,8 @@ const AccountTicketsPage = () => {
             <Box>
               <Button
                 variant="outlined"
-                component={'a'}
-                href="https://help.hummingbirdhammocks.com/help/1694808310"
-                target="_blank"
+                component={Link}
+                to="/account/create-ticket"
               >
                 Create New Ticket
               </Button>
@@ -141,10 +140,10 @@ const AccountTicketsPage = () => {
 export default AccountTicketsPage
 
 const CUSTOMER_INFO = gql`
-      query ($customerAccessToken: String!) {
-        customer(customerAccessToken: $customerAccessToken) {
-        id
+  query ($customerAccessToken: String!) {
+    customer(customerAccessToken: $customerAccessToken) {
+      id
       email
     }
   }
-      `
+`

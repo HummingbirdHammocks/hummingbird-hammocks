@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-exports.createTicket = async function (firstName, lastName, email, subject, message, orderNumber) {
+exports.createTicket = async function (firstName, lastName, email, subject, message, orderNumber, attachments) {
     if (!firstName || !lastName || !email || !subject || !message) {
         return false
     };
@@ -30,7 +30,8 @@ exports.createTicket = async function (firstName, lastName, email, subject, mess
                     "firstName": firstName,
                     "lastName": lastName,
                     "email": email
-                }
+                },
+                "attachments": attachments
             }
         ],
         "customFields": [
