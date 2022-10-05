@@ -19,6 +19,7 @@ import {
   Link,
   MiddleSpinner,
 } from "components"
+import { SupportTicket } from "./components/SupportTicket"
 
 import { getUserTickets } from "../../utils/freescout"
 
@@ -27,6 +28,7 @@ const AccountTicketsPage = () => {
   const matches = useMediaQuery("(max-width:900px)")
   const [tickets, setTickets] = useState([])
   const [selectedTicket, setSelectedTicket] = useState(null)
+  const [ticketsLoading, setTicketsLoading] = useState(false)
 
   const {
     store: { customerAccessToken },
@@ -39,6 +41,8 @@ const AccountTicketsPage = () => {
   })
 
   const getTickets = useCallback(async (data) => {
+    setTicketsLoading(true)
+
     if (data?.customer) {
       const newTickets = await getUserTickets(data.customer.email)
       console.log(newTickets.data)
@@ -46,6 +50,8 @@ const AccountTicketsPage = () => {
         setTickets(newTickets.data._embedded.conversations)
       }
     }
+
+    setTicketsLoading(false)
   }, [data])
 
   useEffect(() => {
@@ -60,8 +66,8 @@ const AccountTicketsPage = () => {
             Support Tickets
           </Typography>
           {error && "Error"}
-          {loading && <MiddleSpinner divMinHeight="460px" size={20} />}
-          {data && (
+          {(loading || ticketsLoading) && <MiddleSpinner divMinHeight="460px" size={20} />}
+          {(data && tickets !== [] && !ticketsLoading) && (
             <Grid container spacing={4} sx={{ paddingBottom: 4 }}>
               <Grid item xs={12} md={4} sx={{ borderRight: matches ? "0" : "1px solid rgba(0,0,0,0.12)" }}>
                 <Typography variant="h5" sx={{ marginBottom: 2 }}>
@@ -70,8 +76,14 @@ const AccountTicketsPage = () => {
                 <Box>
                   <List>
                     {tickets.map((ticket) => (
-                      <ListItem disablePadding key={ticket.id}>
-                        <ListItemButton>
+                      <ListItem
+                        key={ticket.id}
+                        disablePadding
+                        selected={selectedTicket?.id === ticket.id}
+                        sx={{
+                          backgroundColor: ticket?.status === "active" ? "#F0F8EF" : ticket?.status === "pending" ? "#ffecb3" : "inherit",
+                        }}>
+                        <ListItemButton onClick={() => setSelectedTicket(ticket)}>
                           <ListItemText primary={`Ticket ${ticket.number}`} secondary={ticket.subject} />
                         </ListItemButton>
                       </ListItem>
@@ -80,13 +92,14 @@ const AccountTicketsPage = () => {
                 </Box>
               </Grid>
               <Grid item xs={12} md={8}>
-                <Typography variant="h5" sx={{ marginBottom: 2 }}>
-                  Restock Notifications
-                </Typography>
-                {/* <RestockNotifications email={data.customer.email} /> */}
-                <Typography variant="body1" sx={{ marginTop: 2, marginBottom: 2 }}>
-                  * Restock notifications are automatically removed once the notification has been sent. You will need to sign up from the product page again if you would like to receive another notification.
-                </Typography>
+
+                {selectedTicket ? (
+                  <SupportTicket ticket={selectedTicket} />
+                ) : (
+                  <Typography variant="h5" sx={{ marginBottom: 2 }}>
+                    Select a Ticket to View
+                  </Typography>
+                )}
               </Grid>
             </Grid>
           )}
@@ -111,10 +124,10 @@ const AccountTicketsPage = () => {
 export default AccountTicketsPage
 
 const CUSTOMER_INFO = gql`
-  query ($customerAccessToken: String!) {
-    customer(customerAccessToken: $customerAccessToken) {
-      id
+      query ($customerAccessToken: String!) {
+        customer(customerAccessToken: $customerAccessToken) {
+        id
       email
     }
   }
-`
+      `

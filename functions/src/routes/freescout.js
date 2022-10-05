@@ -12,4 +12,7 @@ router.post('/create_ticket', freescout_controller.create_ticket);
 //Create Ticket
 router.get('/get_tickets/:email', freescout_controller.get_user_tickets);
 
+//Create Ticket Thread
+router.post('/create_thread/:conversationId', freescout_controller.create_thread);
+
 module.exports = router;
