@@ -6,6 +6,8 @@ import AccountInfoPage from "../../sections/AccountPage/info"
 import AccountAddressPage from "../../sections/AccountPage/addresses"
 import AccountOrdersPage from "../../sections/AccountPage/orders"
 import AccountNotificationsPage from "../../sections/AccountPage/notifications"
+import AccountTicketsPage from "../../sections/AccountPage/tickets"
+import AccountCreateTicket from "../../sections/AccountPage/createTicket"
 
 const App = () => {
     return (
@@ -15,6 +17,8 @@ const App = () => {
             <PrivateRoute path="/addresses" component={AccountAddressPage} />
             <PrivateRoute path="/orders" component={AccountOrdersPage} />
             <PrivateRoute path="/notifications" component={AccountNotificationsPage} />
+            <PrivateRoute path="/tickets" component={AccountTicketsPage} />
+            <PrivateRoute path="/create-ticket" component={AccountCreateTicket} />
         </Router>
     )
 }

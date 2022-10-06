@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
@@ -7,8 +7,12 @@ import {
   Box,
   Grid,
   TextField,
+  Stack,
+  useMediaQuery
 } from "@mui/material"
 import { LoadingButton } from '@mui/lab';
+
+import DragAndDrop from "./dragAndDrop";
 
 const validationSchema = yup.object({
   firstName: yup
@@ -33,10 +37,40 @@ const validationSchema = yup.object({
     .required('Subject is required'),
   message: yup
     .string()
-    .required('Message is required')
+    .required('Message is required'),
+  attachments: yup
+    .mixed()
 });
 
 export function SupportTicketForm({ firstName, lastName, email, orderNumber, subject, message }) {
+  const matches = useMediaQuery("(max-width:900px)")
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleAddAttachment = (file) => {
+    console.log(file);
+
+    if (!file) return null;
+
+    let newAttachments = formik.values.attachments;
+
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      console.log(reader.result);
+      const fileFormatted = {
+        "fileName": file.name,
+        "mimeType": file.type,
+        "data": String(reader.result).split(',')[1]
+      }
+      newAttachments = [...newAttachments, fileFormatted]
+
+      formik.setFieldValue("attachments", newAttachments);
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+      toast.error("Error converting image for upload, please try again")
+    };
+  }
 
   const initialValues = {
     firstName: firstName ? firstName : '',
@@ -45,9 +79,12 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
     orderNumber: orderNumber ? orderNumber : '',
     subject: subject ? subject : '',
     message: message ? message : '',
+    attachments: [],
   };
 
-  const onSubmit = async ({ firstName, lastName, email, orderNumber, subject, message }) => {
+  const onSubmit = async ({ firstName, lastName, email, orderNumber, subject, message, attachments }) => {
+    setSubmitting(true);
+
     const payload = {
       firstName: firstName,
       lastName: lastName,
@@ -55,6 +92,7 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
       orderNumber: orderNumber,
       subject: subject,
       message: message,
+      attachments: attachments
     }
 
     const url = process.env.GATSBY_FIREBASE_FUNCTIONS_URL + '/api/v1/freescout/create_ticket';
@@ -68,6 +106,8 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
         console.log("contactForm ", error)
         toast.error("Error creating ticket, please try again or email us at support@hummingbirdhammocks.com")
       });
+
+    setSubmitting(false);
   };
 
   const formik = useFormik({
@@ -168,9 +208,17 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
               </Grid>
             }
             <Grid item xs={12}>
-              <LoadingButton size={'large'} variant={'contained'} type={'submit'} loading={formik.isSubmitting}>
-                Create Ticket
-              </LoadingButton>
+              <Stack
+                direction={matches ? "column" : "row"}
+                justifyContent="space-between"
+                alignItems="center"
+                spacing={2}
+              >
+                <DragAndDrop handleSave={handleAddAttachment} />
+                <LoadingButton size={'large'} variant={'outlined'} type={'submit'} loading={submitting}>
+                  Create Ticket
+                </LoadingButton>
+              </Stack>
             </Grid>
           </Grid>
         </form>

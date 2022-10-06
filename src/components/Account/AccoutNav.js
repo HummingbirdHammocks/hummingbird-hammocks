@@ -42,8 +42,8 @@ const navItems = [
     {
         id: "tickets",
         name: "Tickets",
-        type: "external",
-        link: "https://help.hummingbirdhammocks.com/help/1694808310/tickets"
+        type: "internal",
+        link: "/account/tickets"
     },
     {
         id: "returns",
