@@ -4,7 +4,6 @@ import {
   List,
   Toolbar,
   Typography,
-  useMediaQuery,
   Button,
   IconButton,
   Badge,
@@ -52,7 +51,6 @@ const ListBox = styled("li")(() => ({
 }))
 
 function Nav({ customerAccessToken, data, loading, banner }) {
-  const matches = useMediaQuery("(max-width:1280px)")
   const { checkout } = useContext(CartContext)
 
   const { cartOpen, setCartOpen } = useUICartContext()
@@ -67,7 +65,7 @@ function Nav({ customerAccessToken, data, loading, banner }) {
 
   return (
     <>
-      {matches ? (
+      <Box sx={{ display: { xs: 'block', lg: 'none' } }} >
         <AppbarMobile
           banner={banner}
           customerAccessToken={customerAccessToken}
@@ -77,7 +75,8 @@ function Nav({ customerAccessToken, data, loading, banner }) {
           cartOpen={cartOpen}
           setCartOpen={setCartOpen}
         />
-      ) : (
+      </Box>
+      <Box sx={{ display: { xs: 'none', lg: 'block' } }} >
         <AppbarDesktop
           banner={banner}
           customerAccessToken={customerAccessToken}
@@ -87,7 +86,7 @@ function Nav({ customerAccessToken, data, loading, banner }) {
           cartOpen={cartOpen}
           setCartOpen={setCartOpen}
         />
-      )}
+      </Box>
     </>
   )
 }

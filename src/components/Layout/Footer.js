@@ -8,10 +8,7 @@ import {
   Typography,
   Divider,
   Box,
-  useMediaQuery,
-  Collapse,
   IconButton,
-  ListItemButton,
 } from "@mui/material"
 import { StaticImage } from "gatsby-plugin-image"
 import {
@@ -21,8 +18,6 @@ import {
   Pinterest,
   Instagram,
   Mail,
-  ExpandLess,
-  ExpandMore,
 } from "@mui/icons-material"
 
 import { useIos } from "hooks"
@@ -33,10 +28,7 @@ import { MainWrapper, AnotherLink, Link, VerifiedReviewsCountBadge } from "compo
 
 const Footer = () => {
   const theme = useTheme();
-  const matches = useMediaQuery("(max-width:768px)")
   const ios = useIos();
-  const [nav1, setNav1] = useState(false)
-  const [nav2, setNav2] = useState(false)
 
   const socials = [
     {
@@ -151,71 +143,47 @@ const Footer = () => {
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3} justifyContent={"center"}>
             <List>
-              <ListItemButton
-                sx={{ opacity: "1!important", padding: "0 0 10px 0" }}
-                disabled={!matches ? true : false}
-                onClick={() => setNav1(!nav1)}
-              >
-                <Typography color="white.main" variant="h6">
-                  Customer Support
-                </Typography>
-
-                {matches ? nav1 ? <ExpandLess /> : <ExpandMore /> : ""}
-              </ListItemButton>
-
-              <Collapse in={matches ? nav1 : true} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                  {customerSupport.map(customer => (
-                    <ListItem sx={{ p: "10px 0" }} key={customer.id}>
-                      <AnotherLink
-                        color="white.main"
-                        href={customer.url}
-                        underline="none"
-                      >
-                        <Typography variant="footerMenu">
-                          {customer.name}
-                        </Typography>
-                      </AnotherLink>
-                    </ListItem>
-                  ))}
-                </List>
-              </Collapse>
+              <Typography color="white.main" variant="h6">
+                Customer Support
+              </Typography>
+              <List component="div" disablePadding>
+                {customerSupport.map(customer => (
+                  <ListItem sx={{ p: "10px 0" }} key={customer.id}>
+                    <AnotherLink
+                      color="white.main"
+                      href={customer.url}
+                      underline="none"
+                    >
+                      <Typography variant="footerMenu">
+                        {customer.name}
+                      </Typography>
+                    </AnotherLink>
+                  </ListItem>
+                ))}
+              </List>
             </List>
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={2} justifyContent={"center"}>
-            <List>
-              <ListItemButton
-                sx={{ opacity: "1!important", padding: "0 0 10px 0" }}
-                disabled={!matches ? true : false}
-                onClick={() => setNav2(!nav2)}
-              >
-                <Typography color="white.main" variant="h6">
-                  Company
-                </Typography>
-
-                {matches ? nav2 ? <ExpandLess /> : <ExpandMore /> : ""}
-              </ListItemButton>
-
-              <Collapse in={matches ? nav2 : true} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                  {companyLink.map(company => (
-                    <ListItem key={company.id} sx={{ p: "10px 0" }}>
-                      <Link
-                        sx={{
-                          fontSize: "14px",
-                        }}
-                        underline="none"
-                        color="white.main"
-                        to={company.url}
-                      >
-                        <Typography variant="footerMenu">
-                          {company.name}
-                        </Typography>
-                      </Link>
-                    </ListItem>
-                  ))}
-                </List>
-              </Collapse>
+            <Typography color="white.main" variant="h6">
+              Company
+            </Typography>
+            <List component="div" disablePadding>
+              {companyLink.map(company => (
+                <ListItem key={company.id} sx={{ p: "10px 0" }}>
+                  <Link
+                    sx={{
+                      fontSize: "14px",
+                    }}
+                    underline="none"
+                    color="white.main"
+                    to={company.url}
+                  >
+                    <Typography variant="footerMenu">
+                      {company.name}
+                    </Typography>
+                  </Link>
+                </ListItem>
+              ))}
             </List>
           </Grid>
 
@@ -263,7 +231,7 @@ const Footer = () => {
               display: "block",
             },
           }}>
-          <Box textAlign={matches && "center"} pt="20px">
+          <Box textAlign={theme.breakpoints.down('xs') && "center"} pt="20px">
             <Typography color="white.main" variant="navUser">
               © {new Date().getFullYear()} <Link to="/" sx={{ color: "inherit" }}>Hummingbird Hammocks</Link> |{" "}
               <Link
@@ -295,7 +263,7 @@ const Footer = () => {
               </Link>
             </Typography>
           </Box>
-          <Box textAlign={matches && "center"} pt="20px">
+          <Box textAlign={theme.breakpoints.down('xs') && "center"} pt="20px">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               role="img"
