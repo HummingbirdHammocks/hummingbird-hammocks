@@ -7,7 +7,6 @@ import {
   ListItemButton,
   ListItemIcon,
   IconButton,
-  useMediaQuery,
   Box,
   Collapse,
   Typography,
@@ -19,7 +18,6 @@ import { StaticImage } from "gatsby-plugin-image"
 import { AnotherLink, Link } from "components"
 
 export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
-  const matches = useMediaQuery("(max-width:900px)")
   const { drawerOpen, setDrawerOpen } = useNavContext()
   const [nav1, setNav1] = useState(false)
   const [nav2, setNav2] = useState(false)
@@ -28,7 +26,7 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
   return (
     <Drawer
       PaperProps={{
-        sx: { width: matches ? "90%" : "450px", borderRadius: "0 20px 20px 0" },
+        sx: { width: { xs: "90%", md: "450px" }, borderRadius: "0 20px 20px 0" },
       }}
       anchor="left"
       open={drawerOpen}

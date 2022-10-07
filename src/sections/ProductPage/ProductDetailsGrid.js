@@ -1,5 +1,5 @@
 import React from "react"
-import { Box, Grid, Divider, Typography, useMediaQuery } from "@mui/material"
+import { Box, Grid, Divider, Typography } from "@mui/material"
 
 export const ProductDetailsGrid = ({
   title,
@@ -11,7 +11,7 @@ export const ProductDetailsGrid = ({
   backgroundColor,
   accentColor,
 }) => {
-  const matches = useMediaQuery("(max-width:900px)")
+
   return (
     <Box
       sx={{
@@ -25,7 +25,7 @@ export const ProductDetailsGrid = ({
         marginBottom: 2,
       }}
     >
-      <Typography mb={matches && "30px"} variant="h4">
+      <Typography variant="h4">
         {title}
       </Typography>
       <Divider />
@@ -41,24 +41,20 @@ export const ProductDetailsGrid = ({
         </Grid>
         {body1 && (
           <Grid item xs={12} md={4}>
-            <Box mb={matches && "30px"}>
-              {body1Title && <Typography variant="h5">{body1Title}</Typography>}
-              <Typography component="span">
-                <div dangerouslySetInnerHTML={{ __html: body1 }} />
-              </Typography>
-            </Box>
+            {body1Title && <Typography variant="h5">{body1Title}</Typography>}
+            <Typography component="span">
+              <div dangerouslySetInnerHTML={{ __html: body1 }} />
+            </Typography>
           </Grid>
         )}
         {children}
 
         {body2Title && (
           <Grid item xs={12} md={4}>
-            <Box mb={matches && "30px"}>
-              <Typography variant="h5">{body2Title}</Typography>
-              <Typography component="span">
-                <div dangerouslySetInnerHTML={{ __html: body2 }} />
-              </Typography>
-            </Box>
+            <Typography variant="h5">{body2Title}</Typography>
+            <Typography component="span">
+              <div dangerouslySetInnerHTML={{ __html: body2 }} />
+            </Typography>
           </Grid>
         )}
       </Grid>

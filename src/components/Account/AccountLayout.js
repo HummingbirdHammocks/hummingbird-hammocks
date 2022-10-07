@@ -39,11 +39,7 @@ export const AccountLayout = ({ title, currentPage, children }) => {
       <Box
         sx={{
           background: theme.palette.white,
-          padding: "60px 15px",
-
-          [theme.breakpoints.down("md")]: {
-            padding: "40px 0",
-          },
+          paddingTop: "20px",
         }}>
         <MainWrapper>
           <Box>
@@ -93,9 +89,9 @@ export const AccountLayout = ({ title, currentPage, children }) => {
 }
 
 const CUSTOMER_INFO = gql`
-      query ($customerAccessToken: String!) {
-        customer(customerAccessToken: $customerAccessToken) {
-        email
+  query ($customerAccessToken: String!) {
+    customer(customerAccessToken: $customerAccessToken) {
+      email
       firstName
       lastName
     }

@@ -22,7 +22,7 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
 );
 
 function TabPanel(props) {
-  const { matches, matchesPhone, children, value, index, ...other } = props;
+  const { children, value, index, ...other } = props;
 
   return (
     <div
@@ -35,10 +35,10 @@ function TabPanel(props) {
       {value === index && (
         <Box
           sx={{
-            paddingLeft: matchesPhone ? 2 : 4,
-            paddingRight: matchesPhone ? 2 : 4,
-            paddingTop: matches ? 4 : 2,
-            paddingBottom: matches ? 4 : 2,
+            paddingLeft: { xs: 2, md: 4 },
+            paddingRight: { xs: 2, md: 4 },
+            paddingTop: 2,
+            paddingBottom: 2,
           }}
         >
           {children}
@@ -71,7 +71,6 @@ export const ProductDetailsTabs = ({
   accentColor,
 }) => {
   const theme = useTheme();
-  const matchesPhone = useMediaQuery("(max-width:600px)")
   const matches = useMediaQuery("(max-width:900px)")
   const [value, setValue] = React.useState(0);
 
@@ -87,10 +86,10 @@ export const ProductDetailsTabs = ({
         borderStyle: "solid",
         borderWidth: "1px",
         borderRadius: "20px",
-        paddingTop: matches ? 2 : 4,
+        paddingTop: { xs: 2, md: 4 },
         paddingBottom: 4,
-        paddingLeft: matches ? 0 : 4,
-        paddingRight: matches ? 0 : 4,
+        paddingLeft: { xs: 1, md: 4 },
+        paddingRight: { xs: 1, md: 4 },
         marginTop: 4,
         marginBottom: 4,
       }}
@@ -112,7 +111,7 @@ export const ProductDetailsTabs = ({
               }
             }}
             sx={{
-              borderRight: matches ? 0 : 1,
+              borderRight: { xs: 0, md: 1 },
               borderColor: 'divider'
             }}
           >
@@ -124,13 +123,13 @@ export const ProductDetailsTabs = ({
         </Grid>
 
         <Grid item xs={12} md={9} lg={10}>
-          <TabPanel value={value} matches={matches} matchesPhone={matchesPhone} index={0}>
+          <TabPanel value={value} index={0}>
             <Typography variant="h4" sx={{ marginBottom: 4 }}>
               SPECIFICATIONS
             </Typography>
             <Specs metas={specs} />
           </TabPanel>
-          <TabPanel value={value} matches={matches} matchesPhone={matchesPhone} index={1}>
+          <TabPanel value={value} index={1}>
             <Typography variant="h4" sx={{ marginBottom: 4 }}>
               FEATURES
             </Typography>
@@ -159,7 +158,7 @@ export const ProductDetailsTabs = ({
               )}
             </Grid>
           </TabPanel>
-          <TabPanel value={value} matches={matches} matchesPhone={matchesPhone} index={2}>
+          <TabPanel value={value} index={2}>
             <Typography variant="h4" sx={{ marginBottom: 4 }}>
               TRANSPARENCY
             </Typography>
@@ -189,7 +188,7 @@ export const ProductDetailsTabs = ({
               )}
             </Grid>
           </TabPanel>
-          <TabPanel value={value} matches={matches} matchesPhone={matchesPhone} index={3}>
+          <TabPanel value={value} index={3}>
             <Typography variant="h4" sx={{ marginBottom: 4 }}>
               SUPPORT
             </Typography>
@@ -205,6 +204,6 @@ export const ProductDetailsTabs = ({
         </Grid>
 
       </Grid>
-    </Box>
+    </Box >
   )
 }

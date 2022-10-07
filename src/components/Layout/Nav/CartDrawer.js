@@ -7,7 +7,6 @@ import {
   IconButton,
   Button,
   Stack,
-  useMediaQuery,
 } from "@mui/material"
 import {
   ShoppingCartOutlined,
@@ -22,7 +21,6 @@ import { useUICartContext, CartContext } from "contexts"
 import { Link, AnotherLink } from "components"
 
 export const CartDrawer = () => {
-  const matches = useMediaQuery("(max-width:900px)")
   const { cartOpen, setCartOpen } = useUICartContext()
   const { checkout, updateLineItem, removeLineItem } = useContext(CartContext)
 
@@ -46,7 +44,7 @@ export const CartDrawer = () => {
   return (
     <Drawer
       PaperProps={{
-        sx: { width: matches ? "90%" : "450px", borderRadius: "20px 0 0 20px" },
+        sx: { width: { xs: "90%", md: "450px" }, borderRadius: "20px 0 0 20px" },
       }}
       anchor="right"
       open={cartOpen}

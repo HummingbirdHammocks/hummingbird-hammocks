@@ -1,6 +1,5 @@
 import React from "react"
 import {
-  useTheme,
   Typography,
   Box,
   Grid,
@@ -15,7 +14,6 @@ import {
   Paper,
   Button,
   Divider,
-  useMediaQuery,
 } from "@mui/material"
 
 import { SupportTicketForm } from "./SupportTicketForm"
@@ -23,7 +21,6 @@ import { SupportTicketForm } from "./SupportTicketForm"
 import { fShopify } from "utils/formatTime";
 
 export const OrderDetails = ({ firstName, lastName, email, data, returnAccount }) => {
-  const matches = useMediaQuery("(max-width:900px)")
   const {
     name,
     processedAt,
@@ -37,17 +34,12 @@ export const OrderDetails = ({ firstName, lastName, email, data, returnAccount }
     shippingAddress,
   } = data.node
 
-  const theme = useTheme();
-
-  console.log(data.node)
-  console.log(firstName, lastName, email)
-
   return (
     <Box >
       <Box
         pb="20px"
         justifyContent="space-between"
-        display={matches ? "inline-block" : "flex"}
+        display={{ xs: "inline-block", sm: "flex" }}
       >
         <Box>
           <Typography variant="h4">
@@ -75,11 +67,6 @@ export const OrderDetails = ({ firstName, lastName, email, data, returnAccount }
       <Box
         sx={{
           padding: "30px 0",
-          mt: matches && "30px",
-
-          [theme.breakpoints.down("md")]: {
-            padding: "0",
-          },
         }}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -167,7 +154,7 @@ export const OrderDetails = ({ firstName, lastName, email, data, returnAccount }
         <Grid container spacing={2} sx={{ marginTop: 4 }}>
           <Grid item xs={12} md={4}>
             <Typography variant="h5">SHIPPING ADDRESS</Typography>
-            <Typography mt={matches ? "10px" : "20px"} variant="body1">
+            <Typography mt={{ xs: "10px", md: "20px" }} variant="body1">
               <b>
                 {shippingAddress?.firstName.toLocaleUpperCase()}{" "}
                 {shippingAddress?.lastName.toLocaleUpperCase()}{" "}
@@ -194,7 +181,7 @@ export const OrderDetails = ({ firstName, lastName, email, data, returnAccount }
                 borderStyle: "solid",
                 borderWidth: "1px",
                 borderRadius: "20px",
-                marginTop: matches ? 4 : 0,
+                marginTop: { xs: 4, md: 0 },
               }}
             >
               <Typography sx={{ padding: 2, }} variant="h5">NEED HELP WITH THIS ORDER?</Typography>

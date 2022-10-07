@@ -8,7 +8,6 @@ import {
   Typography,
   Divider,
   Container,
-  useMediaQuery,
   Tooltip,
 } from "@mui/material"
 import { FreeMode, Navigation, Thumbs } from "swiper"
@@ -63,7 +62,6 @@ const ProductPage = ({ data, pageContext }) => {
 
   const theme = useTheme()
 
-  const matches = useMediaQuery("(max-width:900px)")
   const url = typeof window !== "undefined" ? window.location.href : ""
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null)
@@ -310,7 +308,9 @@ const ProductPage = ({ data, pageContext }) => {
                   justifyContent="center"
                   alignItems="center"
                   sx={{
-                    marginTop: matches ? 4 : 0,
+                    marginTop: {
+                      xs: 0, md: 4,
+                    }
                   }}
                 >
                   <Swiper
@@ -358,7 +358,7 @@ const ProductPage = ({ data, pageContext }) => {
               </Grid>
 
               <Grid item xs={12} md={6}>
-                <Box sx={{ marginTop: matches ? 4 : 0, }}>
+                <Box sx={{ marginTop: { xs: 0, md: 4 } }}>
                   <Box>
                     <Typography
                       textTransform="uppercase"
@@ -664,8 +664,8 @@ const ProductPage = ({ data, pageContext }) => {
             )}
           </Box>
         </MainWrapper>
-      </Box>
-    </Layout>
+      </Box >
+    </Layout >
   )
 }
 

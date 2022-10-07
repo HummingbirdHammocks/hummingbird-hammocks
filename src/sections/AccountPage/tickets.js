@@ -8,7 +8,6 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
-  useMediaQuery
 } from "@mui/material"
 import { useQuery, gql } from "@apollo/client"
 
@@ -24,7 +23,6 @@ import { getUserTickets } from "../../utils/freescout"
 
 
 const AccountTicketsPage = () => {
-  const matches = useMediaQuery("(max-width:900px)")
   const [tickets, setTickets] = useState([])
   const [selectedTicket, setSelectedTicket] = useState(null)
   const [ticketsLoading, setTicketsLoading] = useState(false)
@@ -64,7 +62,7 @@ const AccountTicketsPage = () => {
           <Box
             pb="20px"
             justifyContent="space-between"
-            display={matches ? "inline-block" : "flex"}
+            display={{ xs: "inline-block", sm: "flex" }}
           >
             <Box>
               <Typography variant="h4">
@@ -85,7 +83,7 @@ const AccountTicketsPage = () => {
           {(loading || ticketsLoading) && <MiddleSpinner divMinHeight="460px" size={20} />}
           {(data && tickets !== [] && !ticketsLoading) && (
             <Grid container spacing={4} sx={{ paddingBottom: 4 }}>
-              <Grid item xs={12} md={4} sx={{ borderRight: matches ? "0" : "1px solid rgba(0,0,0,0.12)" }}>
+              <Grid item xs={12} md={4} sx={{ borderRight: { xs: "0", md: "1px solid rgba(0,0,0,0.12)" } }}>
                 <Typography variant="h5" sx={{ marginBottom: 2 }}>
                   All Tickets
                 </Typography>

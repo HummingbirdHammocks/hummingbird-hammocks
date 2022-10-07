@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useMutation, gql } from "@apollo/client"
 import { navigate } from "gatsby"
-import { useTheme, Box, Typography, Divider, TextField, Stack, InputAdornment, IconButton, Button, useMediaQuery } from "@mui/material"
+import { useTheme, Box, Typography, Divider, TextField, Stack, InputAdornment, IconButton, Button } from "@mui/material"
 import { LoadingButton } from '@mui/lab';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
@@ -30,7 +30,6 @@ const validationSchema = yup.object({
 
 const LoginPage = () => {
   const theme = useTheme();
-  const matches = useMediaQuery("(max-width:900px)")
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -94,8 +93,8 @@ const LoginPage = () => {
           },
         }}>
         <MainWrapper>
-          <Box padding={!matches ? "0 200px" : "0"}>
-            <Stack spacing={2} direction={!matches ? "row" : "column"} justifyContent="space-between" sx={{ paddingBottom: "30px" }}>
+          <Box padding={{ xs: "0", md: "0 200px" }}>
+            <Stack spacing={2} direction={{ xs: "column", sm: "row" }} justifyContent="space-between" sx={{ paddingBottom: "30px" }}>
               <Typography variant="h2">
                 Account Login
               </Typography>
@@ -111,7 +110,7 @@ const LoginPage = () => {
             <Box padding="30px" justifyContent="center" display="flex">
               <Box>
                 <form onSubmit={formik.handleSubmit}>
-                  <Stack spacing={2} sx={{ width: !matches ? "400px" : "100%" }}>
+                  <Stack spacing={2} sx={{ width: { xs: "100%", md: "400px" } }}>
                     <TextField
                       label="Email *"
                       variant="outlined"
@@ -159,8 +158,8 @@ const LoginPage = () => {
             </Box>
           </Box>
         </MainWrapper>
-      </Box>
-    </Layout>
+      </Box >
+    </Layout >
   )
 }
 

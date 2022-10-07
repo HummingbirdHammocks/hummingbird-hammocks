@@ -12,7 +12,6 @@ import {
   Button,
   InputAdornment,
   IconButton,
-  useMediaQuery
 } from "@mui/material"
 import { LoadingButton } from '@mui/lab';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
@@ -49,7 +48,6 @@ const validationSchema = yup.object({
 
 const RegisterPage = () => {
   const theme = useTheme();
-  const matches = useMediaQuery("(max-width:900px)")
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -116,7 +114,7 @@ const RegisterPage = () => {
           },
         }}>
         <MainWrapper>
-          <Box padding={!matches ? "0 200px" : "0"}>
+          <Box padding={{ xs: "0", md: "0 200px" }}>
             {customerAccessToken ? (
               <Box
                 minHeight="450px"
@@ -131,7 +129,7 @@ const RegisterPage = () => {
               </Box>
             ) : (
               <>
-                <Stack spacing={2} direction={!matches ? "row" : "column"} justifyContent="space-between" sx={{ paddingBottom: "30px" }}>
+                <Stack spacing={2} direction={{ xs: "column", sm: "row" }} justifyContent="space-between" sx={{ paddingBottom: "30px" }}>
                   <Typography variant="h2">
                     Create Account
                   </Typography>
@@ -147,7 +145,7 @@ const RegisterPage = () => {
                 <Box padding="30px" justifyContent="center" display="flex">
                   <Box>
                     <form onSubmit={formik.handleSubmit}>
-                      <Stack spacing={2} sx={{ width: !matches ? "400px" : "100%" }}>
+                      <Stack spacing={2} sx={{ width: { xs: "100%", md: "400px" } }}>
                         <TextField
                           label="First Name *"
                           variant="outlined"

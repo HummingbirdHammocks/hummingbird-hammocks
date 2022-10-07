@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
-    useTheme,
     Paper,
     Box,
     MenuList,
@@ -55,7 +54,6 @@ const navItems = [
 
 
 export default function AccountNav({ currentPage }) {
-    const theme = useTheme();
     const [open, setOpen] = useState(false);
     const anchorRef = useRef(null);
 
@@ -83,7 +81,7 @@ export default function AccountNav({ currentPage }) {
 
     return (
         <>
-            {!theme.breakpoints.up('md') &&
+            <Box sx={{ display: { xs: 'none', lg: 'block' } }} >
                 <Paper sx={{ borderRadius: 2, }}>
                     <Box sx={{ width: '100%', maxWidth: 360 }}>
                         <MenuList>
@@ -112,72 +110,70 @@ export default function AccountNav({ currentPage }) {
                         </MenuList>
                     </Box>
                 </Paper >
-            }
-            {theme.breakpoints.up('md') &&
-                <div>
-                    <Button
-                        ref={anchorRef}
-                        startIcon={<Menu />}
-                        id="composition-button"
-                        aria-controls={open ? 'composition-menu' : undefined}
-                        aria-expanded={open ? 'true' : undefined}
-                        aria-haspopup="true"
-                        onClick={handleToggle}
-                    >
-                        Account Menu
-                    </Button>
-                    <Popper
-                        open={open}
-                        anchorEl={anchorRef.current}
-                        role={undefined}
-                        placement="bottom-start"
-                        transition
-                        disablePortal
-                        sx={{ zIndex: 10 }}
-                    >
-                        {({ TransitionProps, placement }) => (
-                            <Grow
-                                {...TransitionProps}
-                                style={{
-                                    transformOrigin:
-                                        placement === 'bottom-start' ? 'left top' : 'left bottom',
-                                }}
-                            >
-                                <Paper>
-                                    <ClickAwayListener onClickAway={handleClose}>
-                                        <MenuList>
-                                            {navItems.map((item) => (
-                                                <>
-                                                    {item.type === "internal" ? (
-                                                        <MenuItem
-                                                            key={item.id}
-                                                            selected={currentPage === item.id}
-                                                            component={Link}
-                                                            to={item.link}
-                                                        >
-                                                            {item.name}
-                                                        </MenuItem>
-                                                    ) : (
-                                                        <MenuItem
-                                                            key={item.id}
-                                                            selected={currentPage === item.id}
-                                                            component={"a"}
-                                                            href={item.link}
-                                                            target="_blank"
-                                                        >
-                                                            {item.name}
-                                                        </MenuItem>
-                                                    )}
-                                                </>
-                                            ))}
-                                        </MenuList>
-                                    </ClickAwayListener>
-                                </Paper>
-                            </Grow>
-                        )}
-                    </Popper>
-                </div>
-            }
+            </Box>
+            <Box sx={{ display: { xs: 'block', lg: 'none' } }} >
+                <Button
+                    ref={anchorRef}
+                    startIcon={<Menu />}
+                    id="composition-button"
+                    aria-controls={open ? 'composition-menu' : undefined}
+                    aria-expanded={open ? 'true' : undefined}
+                    aria-haspopup="true"
+                    onClick={handleToggle}
+                >
+                    Account Menu
+                </Button>
+                <Popper
+                    open={open}
+                    anchorEl={anchorRef.current}
+                    role={undefined}
+                    placement="bottom-start"
+                    transition
+                    disablePortal
+                    sx={{ zIndex: 10 }}
+                >
+                    {({ TransitionProps, placement }) => (
+                        <Grow
+                            {...TransitionProps}
+                            style={{
+                                transformOrigin:
+                                    placement === 'bottom-start' ? 'left top' : 'left bottom',
+                            }}
+                        >
+                            <Paper>
+                                <ClickAwayListener onClickAway={handleClose}>
+                                    <MenuList>
+                                        {navItems.map((item) => (
+                                            <>
+                                                {item.type === "internal" ? (
+                                                    <MenuItem
+                                                        key={item.id}
+                                                        selected={currentPage === item.id}
+                                                        component={Link}
+                                                        to={item.link}
+                                                    >
+                                                        {item.name}
+                                                    </MenuItem>
+                                                ) : (
+                                                    <MenuItem
+                                                        key={item.id}
+                                                        selected={currentPage === item.id}
+                                                        component={"a"}
+                                                        href={item.link}
+                                                        target="_blank"
+                                                    >
+                                                        {item.name}
+                                                    </MenuItem>
+                                                )}
+                                            </>
+                                        ))}
+                                    </MenuList>
+                                </ClickAwayListener>
+                            </Paper>
+                        </Grow>
+                    )}
+                </Popper>
+            </Box>
         </>
     );
 }

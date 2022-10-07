@@ -8,7 +8,6 @@ import {
   Grid,
   TextField,
   Stack,
-  useMediaQuery
 } from "@mui/material"
 import { LoadingButton } from '@mui/lab';
 
@@ -43,7 +42,6 @@ const validationSchema = yup.object({
 });
 
 export function SupportTicketForm({ firstName, lastName, email, orderNumber, subject, message }) {
-  const matches = useMediaQuery("(max-width:900px)")
   const [submitting, setSubmitting] = useState(false);
 
   const handleAddAttachment = (file) => {
@@ -209,13 +207,13 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
             }
             <Grid item xs={12}>
               <Stack
-                direction={matches ? "column" : "row"}
+                direction={{ xs: "column", sm: "row" }}
                 justifyContent="space-between"
                 alignItems="center"
                 spacing={2}
               >
                 <DragAndDrop handleSave={handleAddAttachment} />
-                <LoadingButton size={'large'} variant={'outlined'} type={'submit'} loading={submitting}>
+                <LoadingButton size={'large'} variant={'contained'} type={'submit'} loading={submitting}>
                   Create Ticket
                 </LoadingButton>
               </Stack>

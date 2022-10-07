@@ -19,7 +19,6 @@ import { Link } from "components"
 
 export const Fbt = ({ currentVariant, product, fbtData }) => {
   const theme = useTheme();
-  const matchesPhone = useMediaQuery("(max-width:600px)")
   const matches = useMediaQuery("(max-width:900px)")
   const [data, setData] = useState(null)
   const [selectedVariant, setSelectedVariant] = useState(null)
@@ -134,12 +133,11 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
         {selectedVariant && (
           <Grid container spacing={2}>
             <Grid item xs={12} lg={6}>
-              <Box display={matches ? "block" : "flex"}>
+              <Box display={{ xs: "block", md: "flex" }}>
                 <Box
                   display="flex"
                   flexWrap="wrap"
                   justifyContent="center"
-                  mb={matches && "30px"}
                 >
                   {selectedVariant.map((item, index) => {
                     if (item.selected) {
@@ -195,8 +193,8 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
                         spacing={2}
                       >
                         <Stack
-                          direction={matchesPhone ? "column" : "row"}
-                          justifyContent={matchesPhone ? "flex-start" : "space-between"}
+                          direction={{ xs: "column", sm: "row" }}
+                          justifyContent={{ xs: "flex-start", sm: "space-between" }}
                           alignItems="center"
                           spacing={2}
                         >
