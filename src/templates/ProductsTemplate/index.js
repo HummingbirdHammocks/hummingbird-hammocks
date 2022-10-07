@@ -203,14 +203,10 @@ const ProductPage = ({ data, pageContext }) => {
       <Box
         sx={{
           background: theme.palette.white,
-          padding: "40px 15px",
+          padding: 2,
 
           ".swiper-button-prev, .swiper-button-next": {
             color: "#34542a",
-          },
-
-          [theme.breakpoints.down("md")]: {
-            padding: "20px 0",
           },
         }}
       >
@@ -224,15 +220,13 @@ const ProductPage = ({ data, pageContext }) => {
               },
             }}
           >
-            <Box
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+              spacing={2}
               sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                margin: "10px 50px 50px 50px",
-
-                [theme.breakpoints.down("md")]: {
-                  margin: "0",
-                },
+                marginBottom: 2,
               }}
             >
               <Box
@@ -294,7 +288,7 @@ const ProductPage = ({ data, pageContext }) => {
                   / <Link to={`/products/${handle}`}>{title}</Link>
                 </Typography>
               </Box>
-            </Box>
+            </Stack>
 
             <Grid
               container
