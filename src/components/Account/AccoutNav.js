@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
+    useTheme,
     Paper,
     Box,
     MenuList,
@@ -8,7 +9,6 @@ import {
     Popper,
     Button,
     ClickAwayListener,
-    useMediaQuery
 } from '@mui/material';
 import { Menu } from "@mui/icons-material";
 
@@ -55,7 +55,7 @@ const navItems = [
 
 
 export default function AccountNav({ currentPage }) {
-    const matches = useMediaQuery("(max-width:1200px)")
+    const theme = useTheme();
     const [open, setOpen] = useState(false);
     const anchorRef = useRef(null);
 
@@ -83,7 +83,7 @@ export default function AccountNav({ currentPage }) {
 
     return (
         <>
-            {!matches &&
+            {!theme.breakpoints.up('md') &&
                 <Paper sx={{ borderRadius: 2, }}>
                     <Box sx={{ width: '100%', maxWidth: 360 }}>
                         <MenuList>
@@ -113,7 +113,7 @@ export default function AccountNav({ currentPage }) {
                     </Box>
                 </Paper >
             }
-            {matches &&
+            {theme.breakpoints.up('md') &&
                 <div>
                     <Button
                         ref={anchorRef}
