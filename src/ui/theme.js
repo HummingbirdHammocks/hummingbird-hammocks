@@ -31,6 +31,11 @@ const rawTheme = createTheme({
     fontFamilySecondary: "'Montserrat', sans-serif",
   },
   components: {
+    MuiUseMediaQuery: {
+      defaultProps: {
+        noSsr: true,
+      },
+    },
     MuiTypography: {
       styleOverrides: {
         root: {
