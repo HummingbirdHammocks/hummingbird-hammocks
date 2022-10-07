@@ -99,7 +99,7 @@ export function Hero({ children, data }) {
 
           {button && (
             <Stack
-              direction="row"
+              direction={{ xs: "column", md: "row" }}
               justifyContent="center"
               alignItems="center"
               spacing={2}
@@ -149,6 +149,6 @@ export function Hero({ children, data }) {
           )}
         </Box>
       </Box>
-    </Box>
+    </Box >
   )
 }
