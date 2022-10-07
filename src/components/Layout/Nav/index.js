@@ -338,7 +338,7 @@ const MenuItems = ({ items }) => {
 
 const Dropdown = ({ submenus, open, anchorRef, handleListKeyDown, handleClose }) => {
 
-  console.log(submenus)
+  /* console.log(submenus) */
 
   return (
     <Popper
