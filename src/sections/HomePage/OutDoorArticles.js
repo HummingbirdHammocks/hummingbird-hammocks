@@ -1,5 +1,5 @@
 import React from "react"
-import { useTheme, Typography, Grid, Box } from "@mui/material"
+import { Typography, Grid, Box } from "@mui/material"
 import { useStaticQuery, graphql } from "gatsby"
 
 import { MainWrapper } from "components"
@@ -24,8 +24,6 @@ export function OutDoorArticles() {
       }
     }
   `)
-
-  const theme = useTheme();
 
   return (
     <Box
