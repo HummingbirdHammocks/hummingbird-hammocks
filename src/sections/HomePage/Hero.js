@@ -1,11 +1,10 @@
 import React from "react"
-import { useTheme, Box, Typography, Button, Stack, useMediaQuery } from "@mui/material"
+import { useTheme, Box, Typography, Button, Stack } from "@mui/material"
 
 import { Link } from "components"
 
 export function Hero({ children, data }) {
   const theme = useTheme();
-  const matches = useMediaQuery("(max-width:900px)")
   const { subtitle1, mainText, subtitle2, button, position } = data
 
   return (
@@ -22,7 +21,7 @@ export function Hero({ children, data }) {
       {children}
       <Box
         sx={{
-          position: !matches ? "absolute" : "center",
+          position: { xs: "center", md: "absolute" },
           display: "flex",
           left: position === "left" ? "30%" : position === "right" ? "67%" : "50%",
           top: "50%",
@@ -35,59 +34,63 @@ export function Hero({ children, data }) {
           },
         }}>
         <Box
-          borderRadius={matches ? "0" : "20px"}
           sx={{
             p: "20px 40px",
-            backgroundColor: matches ? "blackBackground" : "titleBackground",
+            backgroundColor: { xs: "blackBackground", md: "titleBackground" },
+            borderRadius: { xs: "0", md: "20px" },
           }}
         >
           <Typography
-            sx={{ margin: "20px 10px;" }}
-            color={matches ? "black" : "white"}
-            textAlign={
-              !matches
-                ? position === "left"
+            sx={{
+              margin: "20px 10px;",
+              color: { xs: "#000000", md: "#ffffff" },
+              textAlign: {
+                xs: "center",
+                md: position === "left"
                   ? "left"
                   : position === "right"
                     ? "right"
                     : "center"
-                : "center"
-            }
+              },
+            }}
             variant="subtitle1"
           >
             {subtitle1}
           </Typography>
           <Typography
-            color={matches ? "black" : "#fff"}
             textTransform="uppercase"
-            textAlign={
-              !matches
-                ? position === "left"
+            sx={{
+              marginBottom: 4,
+              color: { xs: "#000000", md: "#ffffff" },
+              maxWidth: { xs: "100%", md: "550px" },
+              textAlign: {
+                xs: "center",
+                md: position === "left"
                   ? "left"
                   : position === "right"
                     ? "right"
                     : "center"
-                : "center"
-            }
-            maxWidth={matches ? "100%" : "550px"}
-            sx={{ mb: "17px" }}
+              },
+            }}
             variant="h1"
           >
             {mainText}
           </Typography>
           {subtitle2 && (
             <Typography
-              color={matches ? "black" : "white"}
-              textAlign={
-                !matches
-                  ? position === "left"
+              sx={{
+                marginBottom: { xs: 1, md: 4 },
+                color: { xs: "#000000", md: "#ffffff" },
+                maxWidth: { xs: "100%", md: "550px" },
+                textAlign: {
+                  xs: "center",
+                  md: position === "left"
                     ? "left"
                     : position === "right"
                       ? "right"
                       : "center"
-                  : "center"
-              }
-              mb={matches && "40px"}
+                },
+              }}
               variant="subtitle1"
             >
               {subtitle2}
@@ -96,11 +99,11 @@ export function Hero({ children, data }) {
 
           {button && (
             <Stack
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-            spacing={2}
-          >
+              direction={{ xs: "column", md: "row" }}
+              justifyContent="center"
+              alignItems="center"
+              spacing={2}
+            >
               {button.map(item =>
                 item.type === "href" ? (
                   <Button
@@ -111,8 +114,8 @@ export function Hero({ children, data }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     sx={{
-                      padding: matches ? "11px 22px" : "12px 40px",
-                      margin: matches ? "2px" : "10px",
+                      padding: { xs: "12px 40px", md: "11px 22px" },
+                      margin: { xs: "2px", md: "10px" },
                     }}
                   >
                     <Typography
@@ -129,8 +132,8 @@ export function Hero({ children, data }) {
                     component={Link}
                     to={item.url}
                     sx={{
-                      padding: matches ? "11px 22px" : "12px 40px",
-                      margin: matches ? "2px" : "10px",
+                      padding: { xs: "12px 40px", md: "11px 22px" },
+                      margin: { xs: "2px", md: "10px" },
                     }}
                   >
                     <Typography
@@ -146,6 +149,6 @@ export function Hero({ children, data }) {
           )}
         </Box>
       </Box>
-    </Box>
+    </Box >
   )
 }

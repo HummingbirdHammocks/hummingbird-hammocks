@@ -15,7 +15,6 @@ import {
   Box,
   Button,
   Stack,
-  useMediaQuery
 } from "@mui/material"
 
 import { UserContext } from "contexts"
@@ -78,7 +77,6 @@ const validationSchema = yup.object({
 });
 
 const AccountAddressPage = () => {
-  const matches = useMediaQuery("(max-width:900px)")
   const [formType, setFormType] = useState("Add")
   const [checkDefaultAddress, setCheckDefaultAddress] = useState(false)
 
@@ -276,7 +274,7 @@ const AccountAddressPage = () => {
 
           {data && (
             <>
-              <Grid item xs={12} md={4} sx={{ padding: 2, borderRight: matches ? "0" : "1px solid rgba(0,0,0,0.12)" }}>
+              <Grid item xs={12} md={4} sx={{ padding: 2, borderRight: { xs: "0", md: "1px solid rgba(0,0,0,0.12)" } }}>
                 <Typography variant="h5" sx={{ marginBottom: 2 }}>
                   Saved
                 </Typography>
@@ -356,8 +354,7 @@ const AccountAddressPage = () => {
                   })}
 
                 <Box
-                  m={matches && "40px 0"}
-                  display={matches && "flex"}
+                  display={{ xs: "block", md: "flex" }}
                   justifyContent="center"
                 >
                   <Button fullWidth variant="contained" onClick={() => addAddress()}>

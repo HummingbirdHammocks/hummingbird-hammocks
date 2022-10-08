@@ -9,7 +9,6 @@ import {
   FormControlLabel,
   Checkbox,
   Divider,
-  useMediaQuery
 } from "@mui/material"
 import { LoadingButton } from "@mui/lab"
 import { useMutation, useQuery, gql } from "@apollo/client"
@@ -24,7 +23,6 @@ import { RestockNotifications } from "./components"
 
 
 const AccountNotificationsPage = () => {
-  const matches = useMediaQuery("(max-width:900px)")
   const [submitLoading, setSubmitLoading] = useState(false)
 
   const [acceptsMarketing, setAcceptsMarketing] = useState(false)
@@ -82,7 +80,7 @@ const AccountNotificationsPage = () => {
           {loading && <MiddleSpinner divMinHeight="460px" size={20} />}
           {data && (
             <Grid container spacing={4} sx={{ paddingBottom: 4 }}>
-              <Grid item xs={12} md={4} sx={{ borderRight: matches ? "0" : "1px solid rgba(0,0,0,0.12)" }}>
+              <Grid item xs={12} md={4} sx={{ borderRight: { xs: "0", md: "1px solid rgba(0,0,0,0.12)" } }}>
                 <Typography variant="h5" sx={{ marginBottom: 2 }}>
                   Email Preferences
                 </Typography>

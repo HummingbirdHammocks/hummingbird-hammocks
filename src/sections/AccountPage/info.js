@@ -11,7 +11,6 @@ import {
   TextField,
   Box,
   Button,
-  useMediaQuery
 } from "@mui/material"
 
 import { UserContext } from "contexts"
@@ -42,7 +41,6 @@ const validationSchema = yup.object({
 });
 
 const AccountInfoPage = () => {
-  const matches = useMediaQuery("(max-width:900px)")
   const [changePasswordLoading, setChangePasswordLoading] = useState(false)
   const [newPassword, setNewPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
@@ -165,7 +163,7 @@ const AccountInfoPage = () => {
             {loading && <MiddleSpinner divMinHeight="460px" size={20} />}
             {data && (
               <>
-                <Grid item xs={12} md={4} sx={{ padding: 2, borderRight: matches ? "0" : "1px solid rgba(0,0,0,0.12)" }}>
+                <Grid item xs={12} md={4} sx={{ padding: 2, borderRight: { xs: "0", md: "1px solid rgba(0,0,0,0.12)" } }}>
                   <Typography variant="h5" sx={{ marginBottom: 2 }}>
                     Change Password
                   </Typography>

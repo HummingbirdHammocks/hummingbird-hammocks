@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { useMutation, gql } from "@apollo/client"
 import { navigate } from "gatsby"
 import { LoadingButton } from '@mui/lab';
-import { useTheme, Typography, Divider, Box, Stack, TextField, Button, useMediaQuery } from "@mui/material"
+import { useTheme, Typography, Divider, Box, Stack, TextField, Button } from "@mui/material"
 
 import { UserContext } from "contexts"
 import {
@@ -24,7 +24,6 @@ const validationSchema = yup.object({
 
 const PasswordRecovery = () => {
   const theme = useTheme();
-  const matches = useMediaQuery("(max-width:900px)")
 
   const initialValues = {
     email: '',
@@ -81,7 +80,7 @@ const PasswordRecovery = () => {
           },
         }}>
         <MainWrapper>
-          <Box padding={!matches ? "0 200px" : "0"}>
+          <Box padding={{ xs: "0", md: "0 200px" }}>
             {customerAccessToken ? (
               <Box
                 minHeight="450px"
@@ -96,7 +95,7 @@ const PasswordRecovery = () => {
               </Box>
             ) : (
               <>
-                <Stack spacing={2} direction={!matches ? "row" : "column"} justifyContent="space-between" sx={{ paddingBottom: "30px" }}>
+                <Stack spacing={2} direction={{ xs: "column", sm: "row" }} justifyContent="space-between" sx={{ paddingBottom: "30px" }}>
                   <Typography variant="h2">
                     Password Recovery
                   </Typography>
@@ -111,7 +110,7 @@ const PasswordRecovery = () => {
 
                 <Box padding="30px" justifyContent="center" display="flex">
                   <form onSubmit={formik.handleSubmit}>
-                    <Stack spacing={2} sx={{ width: !matches ? "400px" : "100%" }}>
+                    <Stack spacing={2} sx={{ width: { xs: "100%", md: "400px" } }}>
                       <TextField
                         label="Email *"
                         variant="outlined"

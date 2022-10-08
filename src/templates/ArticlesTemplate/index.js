@@ -1,5 +1,5 @@
 import React from "react"
-import { useTheme, Box, Tooltip, Typography, useMediaQuery } from "@mui/material"
+import { useTheme, Box, Tooltip, Container, Stack, Typography } from "@mui/material"
 import { graphql } from "gatsby"
 import { GatsbyImage } from "gatsby-plugin-image"
 
@@ -10,7 +10,6 @@ import { fShopify } from '../../utils/formatTime'
 
 const Articles = ({ data: { articles }, pageContext: { next, prev } }) => {
   const theme = useTheme();
-  const matches = useMediaQuery("(max-width:900px)")
 
   const { title, published_at, /* author, */ body_html, /* handle, */ localFile } = articles
   const url = typeof window !== "undefined" ? window.location.href : ""
@@ -61,127 +60,129 @@ const Articles = ({ data: { articles }, pageContext: { next, prev } }) => {
           }} />
       </Box>
       <MainWrapper>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            margin: "40px 300px 70px 300px",
-
-            [theme.breakpoints.down("md")]: {
-              margin: "0",
-            },
-          }}>
-          <Box
-            display="inline-flex"
+        <Container maxWidth="md">
+          <Stack
+            direction="row"
+            justifyContent="space-between"
             alignItems="center"
             sx={{
-              background: "#34542a",
-              color: "#fff",
-              padding: "3px 10px",
-              borderRadius: "10px"
+              paddingTop: 2,
+              paddingBottom: 2,
             }}
-            justifyContent="center"
-            order="2"
           >
-            {prev && (
-              <Tooltip title={prev.title}>
-                <Typography variant="collectionName">
-                  <Link
-                    sx={{
-                      color: "#fff",
-                      textDecoration: "none",
-                      "&:hover": {
-                        opacity: "0.7",
-                      },
-                    }}
-                    to={`/blogs/news/${prev.handle}`}
-                  >
-                    Prev
-                  </Link>
-                </Typography>
-              </Tooltip>
-            )}
-            {prev && next && <Box m="0 10px">|</Box>}
-            {next && (
-              <Tooltip title={next.title}>
-                <Typography variant="collectionName">
-                  <Link
-                    sx={{
-                      color: "#fff",
-                      textDecoration: "none",
-                      "&:hover": {
-                        opacity: "0.7",
-                      },
-                    }}
-                    to={`/blogs/news/${next.handle}`}
-                  >
-                    Next
-                  </Link>
-                </Typography>
-              </Tooltip>
-            )}
-          </Box>
-
-          <Box display="flex" alignItems="center" justifyContent="center">
-            <Box>
-              <Typography variant="collectionName">
-                <Link to="/">HOME</Link> /{" "}
-                <Link to={`/blogs/news/`}>OUTDOOR ARTICLES</Link>{" "}
-              </Typography>
-              <br />
-              <Typography variant="collectionName">{fShopify(published_at)}</Typography>
+            <Box
+              display="inline-flex"
+              alignItems="center"
+              sx={{
+                background: "#34542a",
+                color: "#fff",
+                padding: "3px 10px",
+                borderRadius: "10px"
+              }}
+              justifyContent="center"
+              order="2"
+            >
+              {prev && (
+                <Tooltip title={prev.title}>
+                  <Typography variant="collectionName">
+                    <Link
+                      sx={{
+                        color: "#fff",
+                        textDecoration: "none",
+                        "&:hover": {
+                          opacity: "0.7",
+                        },
+                      }}
+                      to={`/blogs/news/${prev.handle}`}
+                    >
+                      Prev
+                    </Link>
+                  </Typography>
+                </Tooltip>
+              )}
+              {prev && next && <Box m="0 10px">|</Box>}
+              {next && (
+                <Tooltip title={next.title}>
+                  <Typography variant="collectionName">
+                    <Link
+                      sx={{
+                        color: "#fff",
+                        textDecoration: "none",
+                        "&:hover": {
+                          opacity: "0.7",
+                        },
+                      }}
+                      to={`/blogs/news/${next.handle}`}
+                    >
+                      Next
+                    </Link>
+                  </Typography>
+                </Tooltip>
+              )}
             </Box>
+
+            <Box display="flex" alignItems="center" justifyContent="center">
+              <Box>
+                <Typography variant="collectionName">
+                  <Link to="/">HOME</Link> /{" "}
+                  <Link to={`/blogs/news/`}>OUTDOOR ARTICLES</Link>{" "}
+                </Typography>
+                <br />
+                <Typography variant="collectionName">{fShopify(published_at)}</Typography>
+              </Box>
+            </Box>
+          </Stack>
+          <Box
+            sx={{
+
+              "& h2": {
+                ...theme.typography.h2,
+                textTransform: "uppercase",
+              },
+
+              "& a": {
+                textDecoration: "none",
+              },
+
+              "& span": {
+                ...theme.typography.body1,
+              },
+
+              "& h2 a span": {
+                fontSize: "22px",
+                color: "black",
+              },
+
+              "& p": {
+                ...theme.typography.body1,
+              },
+
+              "& table": {
+                ...theme.typography.body1,
+              },
+
+              "& img": {
+                borderRadius: "20px",
+                width: "100%",
+              },
+
+              [theme.breakpoints.down("md")]: {
+                margin: "0",
+              },
+            }}>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: body_html,
+              }}
+            />
           </Box>
-        </Box>
+        </Container>
         <Box
-          sx={{
-            margin: "40px 300px 70px 300px",
-
-            "& h2": {
-              ...theme.typography.h2,
-              textTransform: "uppercase",
-            },
-
-            "& a": {
-              textDecoration: "none",
-            },
-
-            "& span": {
-              ...theme.typography.body1,
-            },
-
-            "& h2 a span": {
-              fontSize: "22px",
-              color: "black",
-            },
-
-            "& p": {
-              ...theme.typography.body1,
-            },
-
-            "& table": {
-              ...theme.typography.body1,
-            },
-
-            "& img": {
-              borderRadius: "20px",
-              width: "100%",
-            },
-
-            [theme.breakpoints.down("md")]: {
-              margin: "0",
-            },
-          }}>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: body_html,
-            }}
-          />
-        </Box>
-        <Box
-          m={matches ? "0 0 60px 0" : "10px 300px 70px 300px"}
           display="flex"
-          justifyContent={matches ? "center" : "right"}
+          justifyContent={{ xs: "center", md: "right" }}
+          sx={{
+            margin: { xs: "10px 300px 70px 300px", md: "0 0 60px 0" },
+          }}
         >
           <Socials
             title={title}
@@ -190,7 +191,7 @@ const Articles = ({ data: { articles }, pageContext: { next, prev } }) => {
           />
         </Box>
       </MainWrapper>
-    </Layout>
+    </Layout >
   )
 }
 

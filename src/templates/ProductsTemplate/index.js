@@ -8,7 +8,6 @@ import {
   Typography,
   Divider,
   Container,
-  useMediaQuery,
   Tooltip,
 } from "@mui/material"
 import { FreeMode, Navigation, Thumbs } from "swiper"
@@ -63,7 +62,6 @@ const ProductPage = ({ data, pageContext }) => {
 
   const theme = useTheme()
 
-  const matches = useMediaQuery("(max-width:900px)")
   const url = typeof window !== "undefined" ? window.location.href : ""
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null)
@@ -205,14 +203,10 @@ const ProductPage = ({ data, pageContext }) => {
       <Box
         sx={{
           background: theme.palette.white,
-          padding: "40px 15px",
+          padding: 2,
 
           ".swiper-button-prev, .swiper-button-next": {
             color: "#34542a",
-          },
-
-          [theme.breakpoints.down("md")]: {
-            padding: "20px 0",
           },
         }}
       >
@@ -226,15 +220,13 @@ const ProductPage = ({ data, pageContext }) => {
               },
             }}
           >
-            <Box
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+              spacing={2}
               sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                margin: "10px 50px 50px 50px",
-
-                [theme.breakpoints.down("md")]: {
-                  margin: "0",
-                },
+                marginBottom: 2,
               }}
             >
               <Box
@@ -296,7 +288,7 @@ const ProductPage = ({ data, pageContext }) => {
                   / <Link to={`/products/${handle}`}>{title}</Link>
                 </Typography>
               </Box>
-            </Box>
+            </Stack>
 
             <Grid
               container
@@ -310,7 +302,9 @@ const ProductPage = ({ data, pageContext }) => {
                   justifyContent="center"
                   alignItems="center"
                   sx={{
-                    marginTop: matches ? 4 : 0,
+                    marginTop: {
+                      xs: 0, md: 4,
+                    }
                   }}
                 >
                   <Swiper
@@ -358,7 +352,7 @@ const ProductPage = ({ data, pageContext }) => {
               </Grid>
 
               <Grid item xs={12} md={6}>
-                <Box sx={{ marginTop: matches ? 4 : 0, }}>
+                <Box sx={{ marginTop: { xs: 0, md: 4 } }}>
                   <Box>
                     <Typography
                       textTransform="uppercase"
@@ -664,8 +658,8 @@ const ProductPage = ({ data, pageContext }) => {
             )}
           </Box>
         </MainWrapper>
-      </Box>
-    </Layout>
+      </Box >
+    </Layout >
   )
 }
 

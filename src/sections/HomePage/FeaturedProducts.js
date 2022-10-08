@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { useTheme, styled, Box, Typography, useMediaQuery } from "@mui/material"
+import { useTheme, styled, Box, Typography } from "@mui/material"
 import { Navigation, Autoplay, Pagination } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { GatsbyImage } from "gatsby-plugin-image"
@@ -18,7 +18,6 @@ const AbsoluteImage = styled(GatsbyImage)(({ theme }) => ({
 export function FeaturedProduct() {
   const theme = useTheme();
   const { featuredProducts } = useContext(ProductContext)
-  const matches = useMediaQuery("(max-width:1100px)")
 
   /* console.log(featuredProducts) */
 
@@ -47,7 +46,7 @@ export function FeaturedProduct() {
       <Swiper
         slidesPerView={1}
         spaceBetween={30}
-        navigation={matches ? false : true}
+        navigation={true}
         loop={true}
         pagination={{ clickable: true }}
         autoplay={{

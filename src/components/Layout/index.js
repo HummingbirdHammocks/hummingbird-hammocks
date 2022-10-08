@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react"
-import { useMediaQuery, Box } from "@mui/material"
+import { Box } from "@mui/material"
 import { useQuery, gql } from "@apollo/client"
 import { navigate } from "gatsby"
 //firebase
@@ -13,8 +13,6 @@ import { TopBanner } from "./TopBanner"
 import { UserContext, useTopBannerContext } from "contexts"
 
 export const Layout = ({ children }) => {
-  const matches = useMediaQuery("(max-width:1280px)")
-
   const { banner, bannerOpen } = useTopBannerContext()
 
   const {
@@ -50,8 +48,7 @@ export const Layout = ({ children }) => {
 
       <Box
         style={{
-          marginTop: matches ? "0" : "70px",
-          minHeight: (bannerOpen && banner) ? "calc(100vh - 500px)" : "calc(100vh - 450px)",
+          minHeight: (bannerOpen && banner) ? "calc(100vh - 445px)" : "calc(100vh - 395px)",
         }}
       >
         {children}

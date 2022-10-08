@@ -42,7 +42,7 @@ const CartPage = () => {
       <Box>
         <MainWrapper>
           <Box>
-            <Box mt={matches ? "40px" : "70px"} pt={"10px"}>
+            <Box mt={2} pt={"10px"}>
               <MainWrapper>
                 <Typography
                   sx={{ marginTop: 2, marginBottom: 2 }}
@@ -96,8 +96,8 @@ const CartPage = () => {
                           <img
                             alt={item.variant.image.altText}
                             src={item.variant.image.src}
-                            height={!matches ? "130px" : "80px"}
-                            width={!matches ? "130px" : "80px"}
+                            height={matches ? "80px" : "130px"}
+                            width={matches ? "80px" : "130px"}
                           />
                         </Link>
 
@@ -249,8 +249,8 @@ const CartPage = () => {
             <RecentViewed title="YOU MAY ALSO BE INTERESTED IN" />
           )}
         </MainWrapper>
-      </Box>
-    </Layout>
+      </Box >
+    </Layout >
   )
 }
 

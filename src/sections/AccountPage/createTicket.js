@@ -4,7 +4,6 @@ import {
   Button,
   Box,
   Grid,
-  useMediaQuery
 } from "@mui/material"
 import { useQuery, gql } from "@apollo/client"
 
@@ -18,7 +17,6 @@ import { SupportTicketForm } from "./components/SupportTicketForm"
 
 
 const AccountCreateTicket = () => {
-  const matches = useMediaQuery("(max-width:900px)")
 
   const {
     store: { customerAccessToken },
@@ -39,7 +37,7 @@ const AccountCreateTicket = () => {
           <Box
             pb="20px"
             justifyContent="space-between"
-            display={matches ? "inline-block" : "flex"}
+            display={{ xs: "inline-block", sm: "flex" }}
           >
             <Box>
               <Typography variant="h4">

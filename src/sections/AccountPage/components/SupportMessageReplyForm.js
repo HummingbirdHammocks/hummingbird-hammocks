@@ -7,8 +7,7 @@ import {
   Box,
   Grid,
   Stack,
-  TextField,
-  useMediaQuery
+  TextField
 } from "@mui/material"
 import { LoadingButton } from '@mui/lab';
 
@@ -24,7 +23,6 @@ const validationSchema = yup.object({
 });
 
 export function SupportMessageReplyForm({ email, customerId, conversationId }) {
-  const matches = useMediaQuery("(max-width:900px)")
   const [submitting, setSubmitting] = React.useState(false);
 
   const initialValues = {
@@ -117,7 +115,7 @@ export function SupportMessageReplyForm({ email, customerId, conversationId }) {
             </Grid>
             <Grid item xs={12}>
               <Stack
-                direction={matches ? "column" : "row"}
+                direction={{ xs: "column", md: "row" }}
                 justifyContent="space-between"
                 alignItems="center"
                 spacing={2}

@@ -20,7 +20,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  useMediaQuery,
 } from "@mui/material"
 import { GatsbyImage } from "gatsby-plugin-image"
 import { ExpandLess, ExpandMore, Delete } from "@mui/icons-material"
@@ -34,7 +33,6 @@ const CollectionsPage = ({ data }) => {
   const { title, image, products, description } = data.shopifyCollection
   const { collections } = data.allShopifyCollection
   const { recentViewedProducts } = useContext(RecentViewedContext)
-  const matches = useMediaQuery("(max-width:900px)")
 
   const productType = Array.from(new Set(products.map(j => j.productType)))
 
@@ -218,7 +216,7 @@ const CollectionsPage = ({ data }) => {
       <Box
         sx={{
           display: "grid",
-          minHeight: matches ? "200px" : "340px",
+          minHeight: { xs: "200px", md: "340px" },
           position: "relative",
         }}>
         <GatsbyImage
@@ -256,13 +254,13 @@ const CollectionsPage = ({ data }) => {
       </Box>
       <MainWrapper>
         <Stack
-          direction={matches ? "column" : "row"}
+          direction={{ xs: "column", md: "row" }}
           justifyContent="space-between"
           alignItems="center"
           spacing={2}
           sx={{ margin: 2 }}
         >
-          <Box display={matches && "block"}>
+          <Box display={{ xs: "block", md: "row" }}>
             <Typography variant="collectionName">
               <Link to="/">HAMMOCK SHOP</Link> / {title}
             </Typography>
@@ -384,8 +382,8 @@ const CollectionsPage = ({ data }) => {
 
             <List
               sx={{
-                borderRight: matches ? "0" : "1px solid #e2dfd9",
-                paddingR: matches ? "0 15px" : "0 20px 0 0",
+                borderRight: { sx: "0", md: "1px solid #e2dfd9" },
+                paddingR: { sx: "0 15px", md: "0 20px 0 0" },
                 margin: "20px 0",
               }}
             >

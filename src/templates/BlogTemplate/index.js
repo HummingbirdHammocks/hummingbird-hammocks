@@ -1,18 +1,17 @@
 import React, { useState } from "react"
 import { graphql, navigate } from "gatsby"
 import {
-  useTheme,
   Box,
   Typography,
   Divider,
-  useMediaQuery,
   Pagination,
   List,
   ListItem,
   ListItemText,
   ListItemButton,
   Collapse,
-  Button,
+  Stack,
+  Grid,
 } from "@mui/material"
 import { ExpandLess, ExpandMore } from "@mui/icons-material"
 
@@ -21,10 +20,7 @@ import { BlogItem } from "sections"
 import ArtclesSearch from "../../utils/algolia/articlesSearch"
 
 const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
-  const theme = useTheme();
-  const matches = useMediaQuery("(max-width:900px)")
-
-  const [collapse, setCollapse] = useState(matches ? false : true)
+  const [collapse, setCollapse] = useState(true)
 
   //pagination
   let numberOfPages = Math.ceil(allArticles.totalCount / 9)
@@ -40,7 +36,7 @@ const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
   return (
     <Layout>
       <Seo title="Outdoor Articles" />
-      <Box mt={matches ? "40px" : "70px"} pt={"10px"}>
+      <Box pt={"10px"}>
         <MainWrapper>
           <Typography
             sx={{ margin: "20px 10px" }}
@@ -54,104 +50,78 @@ const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
       </Box>
 
       <MainWrapper>
-        <Box
-          sx={{
-            padding: "0 15px 10px 15px",
-            margin: "50px 0",
-            display: "grid",
-            gridTemplateColumns: "3fr 1fr",
-
-            [theme.breakpoints.down("md")]: {
-              gridTemplateColumns: "repeat(1, 1fr)",
-              padding: "0",
-            },
-          }}>
-          <Box pr={matches ? "0" : "40px"}>
-            <Box
-              sx={{
-                display: "grid",
-                position: "relative",
-                gridTemplateColumns: "repeat(3, 1fr)",
-                gridGap: "40px",
-
-                [theme.breakpoints.down("md")]: {
-                  gridTemplateColumns: "repeat(1, 1fr)",
-                },
-              }}>
+        <Grid
+          container
+          spacing={2}
+        >
+          <Grid item xs={12} md={9}>
+            <Grid
+              container
+              direction="row"
+              justifyContent="center"
+              alignItems="flex-start"
+              spacing={2}
+              padding={2}
+            >
               {allArticles.nodes.map(item => (
-                <BlogItem description item={item} />
+                <Grid item xs={12} sm={6} md={6} lg={4}>
+                  <BlogItem description item={item} />
+                </Grid>
               ))}
-            </Box>
-            <Box m="50px 0" display="flex" justifyContent="center">
-              <Pagination
-                count={numberOfPages}
-                page={pageContext.currentPage}
-                onChange={handleChange}
-              />
-            </Box>
-          </Box>
-          <Box
-            pl={matches ? "0" : "30px"}
-            borderLeft={matches ? "0" : "1px solid #cccc"}
-          >
-            <Box className="articles">
-              <ArtclesSearch />
-            </Box>
-            <Box>
-              <ListItemButton onClick={() => setCollapse(!collapse)}>
-                <ListItemText
-                  secondaryTypographyProps={{
-                    fontSize: 20,
-                    letterSpacing: 1.2,
-                    fontWeight: 400,
-                    textTransform: "uppercase",
-                    color: "#000",
-                  }}
-                  secondary="RECENT ARTICLES"
-                />
-                {collapse ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-            </Box>
-            <Collapse in={collapse} timeout="auto" unmountOnExit>
-              <List>
-                {articles.nodes.map(collection => (
-                  <ListItem m="20px" key={collection.id}>
-                    <Link to={`/collections/${collection.handle}`}>
-                      <Typography>{collection.title}</Typography>
-                    </Link>
-                  </ListItem>
-                ))}
-              </List>
-            </Collapse>
-            <Box
-              sx={{
-                padding: "30px 15px",
-                marginTop: "20px",
-                borderTop: "1px solid #ccc",
-              }}>
-              <Typography variant="h6">SUBSCRIBE</Typography>
-              <Typography mb="20px" variant="body1">
-                Sign up to get the latest on sales, new releases and more!
-              </Typography>
-              <Box
-                sx={{
-                  display: "flex",
+              <Grid item xs={12}>
+                <Box m="50px 0" display="flex" justifyContent="center">
+                  <Pagination
+                    count={numberOfPages}
+                    page={pageContext.currentPage}
+                    onChange={handleChange}
+                  />
+                </Box>
+              </Grid>
+            </Grid>
+          </Grid>
 
-                  "& input": {
-                    width: "50%",
-                    marginRight: "20px",
-                  },
-                }}>
-                <input placeholder="Email Address" type="Email Address" />
-                <Button variant="contained" type="submit">
-                  Sign Up
-                </Button>
+          <Grid item xs={12} md={3} mt={2}>
+            <Stack
+              spacing={2}
+              sx={{
+                borderLeft: { xs: "0", md: "1px solid #cccc" },
+                paddingLeft: 2,
+                paddingRight: 2,
+              }}>
+              <Box className="articles">
+                <ArtclesSearch />
               </Box>
-            </Box>
-          </Box>
-        </Box>
+              <Box>
+                <ListItemButton onClick={() => setCollapse(!collapse)}>
+                  <ListItemText
+                    secondaryTypographyProps={{
+                      fontSize: 20,
+                      letterSpacing: 1.2,
+                      fontWeight: 400,
+                      textTransform: "uppercase",
+                      color: "#000",
+                    }}
+                    secondary="RECENT ARTICLES"
+                  />
+                  {collapse ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+              </Box>
+              <Collapse in={collapse} timeout="auto" unmountOnExit>
+                <List>
+                  {articles.nodes.map(collection => (
+                    <ListItem m="20px" key={collection.id}>
+                      <Link to={`/collections/${collection.handle}`}>
+                        <Typography>{collection.title}</Typography>
+                      </Link>
+                    </ListItem>
+                  ))}
+                </List>
+              </Collapse>
+            </Stack>
+          </Grid>
+        </Grid>
       </MainWrapper>
-    </Layout>
+    </Layout >
   )
 }
 

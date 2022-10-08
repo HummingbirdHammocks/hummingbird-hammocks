@@ -1,10 +1,18 @@
-import React, { useState, useEffect, useRef, useContext } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
 import {
   AppBar,
+  Stack,
+  Popper,
+  ClickAwayListener,
+  Grow,
+  Paper,
+  MenuList,
   List,
+  ListItemText,
+  ListItemButton,
+  Collapse,
   Toolbar,
   Typography,
-  useMediaQuery,
   Button,
   IconButton,
   Badge,
@@ -12,47 +20,23 @@ import {
   styled
 } from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu"
-import { ShoppingCartOutlined, AccountCircle } from "@mui/icons-material"
+import { ExpandLess, ExpandMore, ShoppingCartOutlined, AccountCircle } from "@mui/icons-material"
 
 import HorizontalLogo from "../../../assets/HorizontalLogo"
 import MobileLogo from "../../../assets/MobileLogo"
 
 import NavMenuItems from "./MenuItems"
-import { MainWrapper, Link, MiddleSpinner, AnotherLink } from "components"
+import { MainWrapper, Link, MiddleSpinner } from "components"
 import { useNavContext, useUICartContext, CartContext } from "contexts"
 import Search from "../../../utils/algolia/search"
 
-const DropdownWrapper = styled("ul")(() => ({
-  position: "absolute",
-  minWidth: "260px",
-  zIndex: 1200,
-  listStyle: "none",
-  padding: "7px 0",
-  borderRadius: "15px",
-  backgroundColor: "white",
-  border: "1px solid rgba(255, 255, 255, 0.3)",
-  boxShadow:
-    "0 10px 15px -3px rgba(46, 41, 51, 0.08), 0 4px 6px -2px rgba(71, 63, 79, 0.16)",
-}))
-
-const ListBox = styled("li")(() => ({
-  padding: "15px 10px",
-
-  "& .arrow": {
-    "&:after": {
-      content: `""`,
-      display: "inline-block",
-      marginLeft: "0.28em",
-      verticalAlign: "0.09em",
-      borderTop: "0.42em solid",
-      borderRight: "0.42em solid transparent",
-      borderLeft: "0.42em solid transparent",
-    },
-  },
+const NavButton = styled(Button)(() => ({
+  color: "#414042",
+  fontWeight: "500",
+  textTransform: "uppercase",
 }))
 
 function Nav({ customerAccessToken, data, loading, banner }) {
-  const matches = useMediaQuery("(max-width:1280px)")
   const { checkout } = useContext(CartContext)
 
   const { cartOpen, setCartOpen } = useUICartContext()
@@ -67,17 +51,7 @@ function Nav({ customerAccessToken, data, loading, banner }) {
 
   return (
     <>
-      {matches ? (
-        <AppbarMobile
-          banner={banner}
-          customerAccessToken={customerAccessToken}
-          loading={loading}
-          data={data}
-          cartQuantity={totalQuantity}
-          cartOpen={cartOpen}
-          setCartOpen={setCartOpen}
-        />
-      ) : (
+      <Box sx={{ display: { xs: 'none', lg: 'block' } }} >
         <AppbarDesktop
           banner={banner}
           customerAccessToken={customerAccessToken}
@@ -87,7 +61,18 @@ function Nav({ customerAccessToken, data, loading, banner }) {
           cartOpen={cartOpen}
           setCartOpen={setCartOpen}
         />
-      )}
+      </Box>
+      <Box sx={{ display: { xs: 'block', lg: 'none' } }} >
+        <AppbarMobile
+          banner={banner}
+          customerAccessToken={customerAccessToken}
+          loading={loading}
+          data={data}
+          cartQuantity={totalQuantity}
+          cartOpen={cartOpen}
+          setCartOpen={setCartOpen}
+        />
+      </Box>
     </>
   )
 }
@@ -101,14 +86,12 @@ const AppbarDesktop = ({
   customerAccessToken,
   data,
   loading,
-  banner,
 }) => {
 
   return (
     <AppBar
-      position="absolute"
+      position="static"
       sx={{
-        top: banner && "50px",
         backgroundColor: "#fdfdf5",
         backdropFilter: "saturate(180%) blur(20px)",
         borderRadius: 0,
@@ -125,14 +108,18 @@ const AppbarDesktop = ({
               <HorizontalLogo height="100%" alt="Hummingbird Hammocks Logo" />
             </Box>
           </Link>
-          <List className="menus" sx={{ display: "flex" }}>
-            {NavMenuItems.map((menu, index) => {
-              const depthLevel = 0
-              return (
-                <MenuItems items={menu} key={index} depthLevel={depthLevel} />
-              )
-            })}
-          </List>
+          <Stack
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            spacing={4}
+            sx={{ marginLeft: 4 }}
+          >
+            {NavMenuItems.map((menu, index) => (
+              <NavItems items={menu} key={index} />
+            )
+            )}
+          </Stack>
           <Box sx={{ ml: "auto" }}>
             <Search />
           </Box>
@@ -208,157 +195,190 @@ const AppbarMobile = ({ cartQuantity, cartOpen, setCartOpen }) => {
   )
 }
 
-const MenuItems = ({ items, depthLevel }) => {
-  const [dropdown, setDropdown] = useState(false)
+const NavItems = ({ items }) => {
+  const [open, setOpen] = useState(false);
+  const anchorRef = useRef(null);
 
-  let ref = useRef()
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
 
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  function handleListKeyDown(event) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setOpen(false);
+    } else if (event.key === 'Escape') {
+      setOpen(false);
+    }
+  }
+
+  // return focus to the button when we transitioned from !open -> open
+  const prevOpen = useRef(open);
   useEffect(() => {
-    const handler = event => {
-      if (dropdown && ref.current && !ref.current.contains(event.target)) {
-        setDropdown(false)
-      }
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
     }
-    document.addEventListener("mousedown", handler)
-    document.addEventListener("touchstart", handler)
-    return () => {
-      // Cleanup the event listener
-      document.removeEventListener("mousedown", handler)
-      document.removeEventListener("touchstart", handler)
-    }
-  }, [dropdown])
 
-  const onMouseEnter = () => {
-    window.innerWidth > 960 && setDropdown(true)
-  }
-
-  const onMouseLeave = () => {
-    window.innerWidth > 960 && setDropdown(false)
-  }
+    prevOpen.current = open;
+  }, [open]);
 
   return (
-    <ListBox
-      ref={ref}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      sx={{
-        padding: "15px 10px",
-
-        "& .arrow": {
-          "&:after": {
-            content: `""`,
-            display: "inline-block",
-            marginLeft: "0.28em",
-            verticalAlign: "0.09em",
-            borderTop: "0.42em solid",
-            borderRight: "0.42em solid transparent",
-            borderLeft: "0.42em solid transparent",
-          },
-        },
-      }}>
-      {items.submenu ? (
-        <>
-          <Link
-            variant="button"
-            underline="none"
-            sx={{ my: 1, mx: 1.5 }}
-            to={items.url}
-            aria-haspopup="menu"
-            aria-expanded={dropdown ? true : false}
-            onClick={() => setDropdown(prev => !prev)}
-          >
-            <Typography
-              sx={{
-                transition: "0.3s",
-                "&:hover": {
-                  color: "primary.main",
-                },
-              }}
-              variant="navMenu"
-            >
-              {items.title}{" "}
-              {depthLevel > 0 ? (
-                <span
-                  style={{
-                    float: "right",
-                    fontSize: "18px",
-                    marginTop: "-5px",
-                  }}
-                >
-                  &#9656;
-                </span>
-              ) : (
-                <span className="arrow"></span>
-              )}
-            </Typography>
-          </Link>
-
-          <Dropdown
-            depthLevel={depthLevel}
-            submenus={items.submenu}
-            dropdown={dropdown}
-          />
-        </>
+    items.submenu ? (
+      <>
+        <NavButton
+          endIcon={(items.submenu) ? <ExpandMore /> : null}
+          ref={anchorRef}
+          id="composition-button"
+          aria-controls={open ? 'composition-menu' : undefined}
+          aria-expanded={open ? 'true' : undefined}
+          aria-haspopup="true"
+          onClick={handleToggle}
+        >
+          {items.title}
+        </NavButton>
+        <Dropdown
+          open={open}
+          anchorRef={anchorRef}
+          role={undefined}
+          placement="bottom-start"
+          transition
+          disablePortal
+          handleClose={handleClose}
+          handleListKeyDown={handleListKeyDown}
+          submenus={items.submenu}
+        />
+      </>
+    ) : (
+      items.otherUrl ? (
+        <NavButton
+          component={"a"}
+          href={items.otherUrl}
+        >
+          {items.title}
+        </NavButton>
       ) : (
-        <>
-          {items.otherUrl ? (
-            <AnotherLink m="15px 13px" href={items.otherUrl}>
-              {" "}
-              {items.title}
-            </AnotherLink>
-          ) : (
-            <Link
-              variant="button"
-              underline="none"
-              sx={{ my: 1, mx: 1.5 }}
-              to={items.url}
-            >
-              <Typography
-                sx={{
-                  transition: "0.3s",
-                  "&:hover": {
-                    color: "primary.main",
-                  },
-                }}
-                variant="navMenu"
-              >
-                {items.title}
-              </Typography>
-            </Link>
-          )}
-        </>
-      )}
-    </ListBox>
+        <NavButton
+          component={Link}
+          to={items.url}
+        >
+          {items.title}
+        </NavButton>
+      )
+    )
   )
 }
 
-const Dropdown = ({ submenus, dropdown, depthLevel }) => {
-  depthLevel = depthLevel + 1
-  const dropdownClass = depthLevel > 1 ? true : false
+const MenuItems = ({ items }) => {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
 
   return (
-    <DropdownWrapper
+    items.submenu ? (
+      <>
+        <ListItemButton onClick={handleClick}>
+          <ListItemText primary={items.title} />
+          {open ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {items.submenu.map((item, index) => (
+              item.otherUrl ? (
+                <ListItemButton
+                  key={index}
+                  component={"a"}
+                  href={item.otherUrl}
+                  sx={{ pl: 4 }}
+                >
+                  <ListItemText primary={item.title} />
+                </ListItemButton>
+              ) : (
+                <ListItemButton
+                  key={index}
+                  component={Link}
+                  to={item.url}
+                  sx={{ pl: 4 }}
+                >
+                  <ListItemText primary={item.title} />
+                </ListItemButton>
+              )
+            ))}
+          </List>
+        </Collapse>
+      </>
+    ) : (
+      items.otherUrl ? (
+        <ListItemButton
+          component={"a"}
+          href={items.otherUrl}
+        >
+          <ListItemText primary={items.title} />
+        </ListItemButton>
+      ) : (
+        <ListItemButton
+          component={Link}
+          to={items.url}
+        >
+          <ListItemText primary={items.title} />
+        </ListItemButton>
+      )
+    )
+  )
+}
+
+const Dropdown = ({ submenus, open, anchorRef, handleListKeyDown, handleClose }) => {
+
+  /* console.log(submenus) */
+
+  return (
+    <Popper
+      open={open}
+      anchorEl={anchorRef.current}
+      role={undefined}
+      placement="bottom-start"
+      transition
       sx={{
-        minWidth: "260px",
-        zIndex: 1200,
-        listStyle: "none",
-        padding: "7px 0",
-        borderRadius: "15px",
-        backgroundColor: "white",
-        border: "1px solid rgba(255, 255, 255, 0.3)",
-        boxShadow:
-          "0 10px 15px -3px rgba(46, 41, 51, 0.08), 0 4px 6px -2px rgba(71, 63, 79, 0.16)",
-        display: !dropdown ? "none" : "block",
-        position: !dropdownClass ? "" : "absolute",
-        left: !dropdownClass ? "" : "100%",
-        top: !dropdownClass ? "" : "10px",
+        zIndex: 13000,
       }}
     >
-      {
-        submenus.map((submenu, index) => (
-          <MenuItems items={submenu} key={index} depthLevel={depthLevel} />
-        ))
-      }
-    </DropdownWrapper >
+      {({ TransitionProps, placement }) => (
+        <Grow
+          {...TransitionProps}
+          style={{
+            transformOrigin:
+              placement === 'bottom-start' ? 'left top' : 'left bottom',
+          }}
+        >
+          <Paper>
+            <ClickAwayListener onClickAway={handleClose}>
+              <MenuList
+                autoFocusItem={open}
+                id="composition-menu"
+                aria-labelledby="composition-button"
+                onKeyDown={handleListKeyDown}
+              >
+                {
+                  submenus.map((submenu, index) => (
+                    <MenuItems items={submenu} key={index} />
+                  ))
+                }
+              </MenuList>
+            </ClickAwayListener>
+          </Paper>
+        </Grow>
+      )}
+    </Popper>
+
+
   )
 }
