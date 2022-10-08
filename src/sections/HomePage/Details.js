@@ -31,7 +31,8 @@ export function Details({ data, children }) {
         <Grid item xs={12} md={6}>
           <Stack
             sx={{
-              margin: 4,
+              margin: { xs: 0, md: 4 },
+              marginBottom: { xs: 4, md: 0 },
             }}
             spacing={2}>
             <Typography
