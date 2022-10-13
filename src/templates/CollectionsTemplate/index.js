@@ -279,7 +279,7 @@ const CollectionsPage = ({ data }) => {
               >
                 <MenuItem value="featured">Featured</MenuItem>
                 <MenuItem value="relevance">Relevance</MenuItem>
-                <MenuItem value="high">Price(How to Low)</MenuItem>
+                <MenuItem value="high">Price(High to Low)</MenuItem>
                 <MenuItem value="low">Price(Low to High)</MenuItem>
                 <MenuItem value="newToOld">Data(New to Old)</MenuItem>
                 <MenuItem value="oldToNew">Data(Old to New)</MenuItem>

@@ -1,5 +1,14 @@
 import React from "react"
-import { useTheme, Box, Tooltip, Container, Stack, Typography } from "@mui/material"
+import {
+  useTheme,
+  Box,
+  Tooltip,
+  Container,
+  Stack,
+  Typography,
+  Button,
+  ButtonGroup
+} from "@mui/material"
 import { graphql } from "gatsby"
 import { GatsbyImage } from "gatsby-plugin-image"
 
@@ -65,73 +74,43 @@ const Articles = ({ data: { articles }, pageContext: { next, prev } }) => {
             direction="row"
             justifyContent="space-between"
             alignItems="center"
-            sx={{
-              paddingTop: 2,
-              paddingBottom: 2,
-            }}
+            spacing={2}
+            sx={{ marginTop: 2, marginBottom: 6 }}
           >
-            <Box
-              display="inline-flex"
-              alignItems="center"
-              sx={{
-                background: "#34542a",
-                color: "#fff",
-                padding: "3px 10px",
-                borderRadius: "10px"
-              }}
-              justifyContent="center"
-              order="2"
-            >
+            <Box>
+              <Typography variant="collectionName">
+                <Link to="/">HOME</Link> /{" "}
+                <Link to={`/blogs/news/`}>OUTDOOR ARTICLES</Link>{" "}
+              </Typography>
+              <br />
+              <Typography variant="collectionName">{fShopify(published_at)}</Typography>
+            </Box>
+            <ButtonGroup variant="outlined" aria-label="navigation button group">
               {prev && (
                 <Tooltip title={prev.title}>
-                  <Typography variant="collectionName">
-                    <Link
-                      sx={{
-                        color: "#fff",
-                        textDecoration: "none",
-                        "&:hover": {
-                          opacity: "0.7",
-                        },
-                      }}
-                      to={`/blogs/news/${prev.handle}`}
-                    >
-                      Prev
-                    </Link>
-                  </Typography>
+                  <Button
+                    size="small"
+                    component={Link}
+                    to={`/blogs/news/${prev.handle}`}
+                  >
+                    Prev
+                  </Button>
                 </Tooltip>
               )}
-              {prev && next && <Box m="0 10px">|</Box>}
               {next && (
                 <Tooltip title={next.title}>
-                  <Typography variant="collectionName">
-                    <Link
-                      sx={{
-                        color: "#fff",
-                        textDecoration: "none",
-                        "&:hover": {
-                          opacity: "0.7",
-                        },
-                      }}
-                      to={`/blogs/news/${next.handle}`}
-                    >
-                      Next
-                    </Link>
-                  </Typography>
+                  <Button
+                    size="small"
+                    component={Link}
+                    to={`/blogs/news/${next.handle}`}
+                  >
+                    Next
+                  </Button>
                 </Tooltip>
               )}
-            </Box>
-
-            <Box display="flex" alignItems="center" justifyContent="center">
-              <Box>
-                <Typography variant="collectionName">
-                  <Link to="/">HOME</Link> /{" "}
-                  <Link to={`/blogs/news/`}>OUTDOOR ARTICLES</Link>{" "}
-                </Typography>
-                <br />
-                <Typography variant="collectionName">{fShopify(published_at)}</Typography>
-              </Box>
-            </Box>
+            </ButtonGroup>
           </Stack>
+
           <Box
             sx={{
 
