@@ -5,6 +5,8 @@ import {
   Box,
   Grid,
   Stack,
+  Button,
+  ButtonGroup,
   Typography,
   Divider,
   Container,
@@ -225,69 +227,38 @@ const ProductPage = ({ data, pageContext }) => {
               justifyContent="space-between"
               alignItems="center"
               spacing={2}
-              sx={{
-                marginBottom: 2,
-              }}
             >
-              <Box
-                display="inline-flex"
-                alignItems="center"
-                sx={{
-                  background: "#34542a",
-                  color: "#fff",
-                  padding: "3px 10px",
-                  borderRadius: "10px"
-                }}
-                justifyContent="center"
-                order="2"
-              >
+              <Typography variant="collectionName">
+                <Link to="/">HOME</Link> /{" "}
+                <Link to={`/collections/${collection.handle}`}>
+                  {collection.title}
+                </Link>{" "}
+                / <Link to={`/products/${handle}`}>{title}</Link>
+              </Typography>
+              <ButtonGroup variant="outlined" aria-label="navigation button group">
                 {prev.handle && (
                   <Tooltip title={prev.title}>
-                    <Typography variant="collectionName">
-                      <Link
-                        sx={{
-                          color: "#fff",
-                          textDecoration: "none",
-                          "&:hover": {
-                            opacity: "0.7",
-                          },
-                        }}
-                        to={`/products/${prev.handle}`}
-                      >
-                        Prev
-                      </Link>
-                    </Typography>
+                    <Button
+                      size="small"
+                      component={Link}
+                      to={`/products/${prev.handle}`}
+                    >
+                      Prev
+                    </Button>
                   </Tooltip>
                 )}
-                {prev.handle && next.handle && <Box m="0 10px">|</Box>}
                 {next.handle && (
                   <Tooltip title={next.title}>
-                    <Typography variant="collectionName">
-                      <Link
-                        sx={{
-                          color: "#fff",
-                          textDecoration: "none",
-                          "&:hover": {
-                            opacity: "0.7",
-                          },
-                        }}
-                        to={`/products/${next.handle}`}
-                      >
-                        Next
-                      </Link>
-                    </Typography>
+                    <Button
+                      size="small"
+                      component={Link}
+                      to={`/products/${next.handle}`}
+                    >
+                      Next
+                    </Button>
                   </Tooltip>
                 )}
-              </Box>
-              <Box display="flex" alignItems="center" justifyContent="center">
-                <Typography variant="collectionName">
-                  <Link to="/">HOME</Link> /{" "}
-                  <Link to={`/collections/${collection.handle}`}>
-                    {collection.title}
-                  </Link>{" "}
-                  / <Link to={`/products/${handle}`}>{title}</Link>
-                </Typography>
-              </Box>
+              </ButtonGroup>
             </Stack>
 
             <Grid
@@ -338,7 +309,7 @@ const ProductPage = ({ data, pageContext }) => {
                     className="mySwiper"
                   >
                     {images.map(image => (
-                      <SwiperSlide key={image.id}>
+                      <SwiperSlide key={image.id} style={{ cursor: "pointer" }}>
                         <GatsbyImage
                           imgStyle={{ borderRadius: "10px" }}
                           placeholder="blurred"
