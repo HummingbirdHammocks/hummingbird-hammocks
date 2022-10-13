@@ -267,6 +267,7 @@ const ProductPage = ({ data, pageContext }) => {
               justifyContent="center"
               alignItems="flex-start"
               spacing={4}
+              sx={{ marginTop: 1 }}
             >
               <Grid item xs={12} md={6}>
                 <Box
