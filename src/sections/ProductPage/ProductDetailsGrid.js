@@ -23,6 +23,7 @@ export const ProductDetailsGrid = ({
         padding: 4,
         marginTop: 2,
         marginBottom: 2,
+        maxHeight: "800px",
       }}
     >
       <Typography variant="h4">
