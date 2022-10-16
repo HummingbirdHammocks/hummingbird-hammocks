@@ -67,14 +67,14 @@ const ProductPage = ({ data, pageContext }) => {
 
   const url = typeof window !== "undefined" ? window.location.href : ""
 
-  const [thumbsSwiper, setThumbsSwiper] = useState(null)
   const [product, setProduct] = useState(null)
   const [selectedVariantStatic, setSelectedVariantStatic] = useState(null)
   const [selectedVariant, setSelectedVariant] = useState(null)
-  const [swiper, setSwiper] = useState(null)
   const [variantColorName, setVariantColorName] = useState("")
   const [variantSizeName, setVariantSizeName] = useState("")
   const [variantColorValues, setVariantColorValues] = useState({})
+  const [swiper, setSwiper] = useState(null)
+  const [thumbsSwiper, setThumbsSwiper] = useState(null)
 
   const { getProductById } = useContext(CartContext)
   const { addRecentProducts, recentViewedProducts } =
@@ -195,6 +195,7 @@ const ProductPage = ({ data, pageContext }) => {
   /* console.log(product) */
   /* console.log(variantSizeName) */
   /* console.log(selectedVariant) */
+  console.log(swiper)
 
   return (
     <Layout>
@@ -515,6 +516,7 @@ const ProductPage = ({ data, pageContext }) => {
                       productTitle={product.title}
                       variantSku={selectedVariant.sku}
                       variantTitle={selectedVariant.title}
+                      accentColor={variantColorValues?.primary}
                     />
                   )}
                 </Box>
