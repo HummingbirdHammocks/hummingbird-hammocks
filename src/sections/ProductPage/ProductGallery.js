@@ -4,7 +4,7 @@ import { FreeMode, Navigation, Thumbs } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { GatsbyImage } from "gatsby-plugin-image"
 
-const ProductGallery = ({ images, variantImageId }) => {
+const ProductGallery = ({ images, variantImageId, accentColor }) => {
     const [swiper, setSwiper] = useState(null)
     const [thumbsSwiper, setThumbsSwiper] = useState(null)
 
@@ -29,7 +29,7 @@ const ProductGallery = ({ images, variantImageId }) => {
             alignItems="center"
             sx={{
                 ".swiper-button-prev, .swiper-button-next": {
-                    color: "#34542a",
+                    color: accentColor ? accentColor : "#34542a",
                 },
             }}
         >

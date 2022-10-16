@@ -191,10 +191,6 @@ const ProductPage = ({ data, pageContext }) => {
       <Box
         sx={{
           background: theme.palette.white,
-
-          ".swiper-button-prev, .swiper-button-next": {
-            color: "#34542a",
-          },
         }}
       >
 
@@ -214,6 +210,7 @@ const ProductPage = ({ data, pageContext }) => {
               <ProductGallery
                 images={images}
                 variantImageId={selectedVariant?.image.id}
+                accentColor={variantColorValues?.primary}
               />
             </Grid>
 
