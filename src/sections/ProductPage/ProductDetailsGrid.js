@@ -18,11 +18,12 @@ export const ProductDetailsGrid = ({
         backgroundColor: backgroundColor ? backgroundColor : "#FDFDF5",
         borderColor: accentColor ? accentColor : "rgba(0, 0, 0, 0.12)",
         borderStyle: "solid",
-        borderWidth: "1px",
+        borderWidth: "2px",
         borderRadius: "20px",
         padding: 4,
         marginTop: 2,
         marginBottom: 2,
+        maxHeight: "800px",
       }}
     >
       <Typography variant="h4">
