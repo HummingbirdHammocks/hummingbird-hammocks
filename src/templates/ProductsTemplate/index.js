@@ -215,11 +215,7 @@ const ProductPage = ({ data, pageContext }) => {
       >
 
         <ProductHero
-          title={title}
-          collection={collection}
           handle={handle}
-          next={next}
-          prev={prev}
           backgroundColor={variantColorValues?.background}
           accentColor={variantColorValues?.primary}
         >

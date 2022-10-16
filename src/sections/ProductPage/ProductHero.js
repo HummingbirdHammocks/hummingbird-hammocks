@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"
 import {
-  useTheme,
   Paper,
   Box,
   Container
@@ -8,8 +7,7 @@ import {
 
 import { productBackgrounds } from "utils/productBackgrounds"
 
-export function ProductHero({ children, collection, handle, title, backgroundColor, accentColor, next, prev }) {
-  const theme = useTheme();
+export function ProductHero({ children, handle, backgroundColor, accentColor }) {
   const [background, setBackground] = useState(null)
 
 
