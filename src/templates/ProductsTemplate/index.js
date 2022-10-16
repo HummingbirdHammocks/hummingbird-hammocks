@@ -4,25 +4,22 @@ import {
   useTheme,
   Box,
   Grid,
-  Stack,
+  Typography,
   Button,
   ButtonGroup,
-  Typography,
+  Stack,
   Divider,
   Container,
   Tooltip,
 } from "@mui/material"
-import { FreeMode, Navigation, Thumbs } from "swiper"
-import { Swiper, SwiperSlide } from "swiper/react"
-import { GatsbyImage } from "gatsby-plugin-image"
 import { useLocation } from "@gatsbyjs/reach-router"
 import queryString from "query-string"
 
 import {
   Seo,
   Layout,
-  MainWrapper,
   Link,
+  MainWrapper,
   Socials,
   ProductReviewWidget,
   ProductPreviewBadge,
@@ -30,6 +27,7 @@ import {
 import { CartContext, RecentViewedContext } from "contexts"
 import Color from "utils/color"
 import {
+  ProductHero,
   ProductQuantityAdder,
   Fbt,
   ProductDetailsTabs,
@@ -40,6 +38,7 @@ import {
   SoldOutIcon,
   Inventory,
 } from "sections"
+import ProductGallery from "../../sections/ProductPage/ProductGallery"
 
 const ProductPage = ({ data, pageContext }) => {
   const { title, handle, images, description, shopifyId, featuredImage } =
@@ -66,11 +65,9 @@ const ProductPage = ({ data, pageContext }) => {
 
   const url = typeof window !== "undefined" ? window.location.href : ""
 
-  const [thumbsSwiper, setThumbsSwiper] = useState(null)
   const [product, setProduct] = useState(null)
   const [selectedVariantStatic, setSelectedVariantStatic] = useState(null)
   const [selectedVariant, setSelectedVariant] = useState(null)
-  const [swiper, setSwiper] = useState(null)
   const [variantColorName, setVariantColorName] = useState("")
   const [variantSizeName, setVariantSizeName] = useState("")
   const [variantColorValues, setVariantColorValues] = useState({})
@@ -101,11 +98,6 @@ const ProductPage = ({ data, pageContext }) => {
     }
 
     setSelectedVariant(newVariant)
-    swiper.slideTo(
-      images.findIndex(image => {
-        return image.shopifyId === newVariant.image.id
-      })
-    )
 
     navigate(`${pathname}?variant=${encodeURIComponent(newVariant.id)}`, {
       replace: true,
@@ -124,12 +116,6 @@ const ProductPage = ({ data, pageContext }) => {
     }
 
     setSelectedVariant(newVariant)
-
-    swiper.slideTo(
-      images.findIndex(image => {
-        return image.shopifyId === newVariant.image.id
-      })
-    )
 
     navigate(`${pathname}?variant=${encodeURIComponent(newVariant.id)}`, {
       replace: true,
@@ -205,28 +191,293 @@ const ProductPage = ({ data, pageContext }) => {
       <Box
         sx={{
           background: theme.palette.white,
-          padding: 2,
-
-          ".swiper-button-prev, .swiper-button-next": {
-            color: "#34542a",
-          },
         }}
       >
-        <MainWrapper>
-          <Box
-            sx={{
-              margin: "10px 70px 0 70px",
 
-              [theme.breakpoints.down("md")]: {
-                margin: "0",
-              },
-            }}
+        <ProductHero
+          handle={handle}
+          backgroundColor={variantColorValues?.background}
+          accentColor={variantColorValues?.primary}
+        >
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="flex-start"
+            spacing={4}
           >
+            <Grid item xs={12} md={6} lg={5}>
+              <ProductGallery
+                images={images}
+                variantImageId={selectedVariant?.image.id}
+                accentColor={variantColorValues?.primary}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6} lg={7}>
+              <Box>
+                <Box>
+                  <Typography
+                    textTransform="uppercase"
+                    sx={{
+                      mb: "20px",
+                      lineHeight: "80px",
+                    }}
+                    variant="h1"
+                    color="#414042"
+                  >
+                    {title}
+                    <Divider />
+                  </Typography>
+
+                  {!!selectedVariant && (
+                    <Stack
+                      direction={{ xs: "column", sm: "row" }}
+                      justifyContent="space-between"
+                      alignItems={{ xs: "flex-start", sm: "center" }}
+                      spacing={2}
+                    >
+                      <Typography
+                        variant="h5"
+                        color="#414042"
+                        sx={{
+                          paddingTop: 1,
+                          paddingBottom: 1,
+                        }}
+                      >
+                        ${selectedVariant.price} USD
+                      </Typography>
+                      <ProductPreviewBadge id={product?.id} />
+                      {!selectedVariant?.available && (
+                        <Box
+                          sx={{
+                            background: "#f41901",
+                            padding: "8px 10px",
+                            color: theme.palette.white.main,
+                            fontFamily: theme.typography.fontFamily,
+                            borderRadius: "10px",
+                            letterSpacing: "2px",
+
+                            [theme.breakpoints.down("md")]: {
+                              top: "70px",
+                              right: "80px",
+                            },
+                          }}
+                        >
+                          Sold Out
+                        </Box>
+                      )}
+                    </Stack>
+                  )}
+                </Box>
+
+                <Box sx={{ marginTop: 4 }}>
+                  {product?.availableForSale && !!selectedVariant && (
+                    <>
+                      {product?.variants.length >= 1 && (
+                        <>
+                          {product.options.length === 2 &&
+                            product.options[0].name === "Color" ? (
+                            <>
+                              <Typography variant="navUser" m="20px 0">
+                                Color
+                              </Typography>
+                              <Box display="flex">
+                                {product?.options[0]?.values.map(
+                                  (item, index) => {
+                                    return (
+                                      <Tooltip key={index} title={item.value}>
+                                        <Box
+                                          margin="5px"
+                                          padding="5px"
+                                          position="relative"
+                                          sx={{
+                                            cursor: "pointer",
+                                          }}
+                                          border={
+                                            item.value === variantColorName
+                                              ? "1px solid #000"
+                                              : "1px solid #e2e2e2"
+                                          }
+                                          borderRadius="50%"
+                                          onClick={() =>
+                                            handleVariantColorChange(item.value)
+                                          }
+                                        >
+                                          <Color
+                                            key={item.value}
+                                            title={item.value}
+                                          />
+                                          {!product.variants[index].available && (
+                                            <SoldOutIcon />
+                                          )}
+                                        </Box>
+                                      </Tooltip>
+                                    )
+                                  }
+                                )}
+                              </Box>
+
+                              <Typography variant="navUser" m="20px 0">
+                                {variantSizeName ? `Size: ${variantSizeName}` : "Size"}
+                              </Typography>
+                              <Box display="flex">
+                                {product?.options[1]?.values.map(
+                                  (item, index) => {
+                                    return (
+                                      <Tooltip key={index} title={item.value}>
+                                        <Box
+                                          margin="5px"
+                                          padding="15px"
+                                          sx={{ cursor: "pointer" }}
+                                          border={
+                                            item.value === variantSizeName
+                                              ? "1px solid #000"
+                                              : "1px solid #e2e2e2"
+                                          }
+                                          borderRadius="5px"
+                                          onClick={() =>
+                                            handleVariantSizeChange(item.value)
+                                          }
+                                        >
+                                          <div>{item.value}</div>
+                                          {!product.variants[index].available && (
+                                            <SoldOutIcon margin="2px" />
+                                          )}
+                                        </Box>
+                                      </Tooltip>
+                                    )
+                                  }
+                                )}
+                              </Box>
+                            </>
+                          ) : product.options[0].name === "Color" &&
+                            product.options.length === 1 ? (
+                            <>
+                              <Typography variant="navUser" m="20px 0">
+                                {variantColorName ? `Color: ${variantColorName}` : "Color"}
+                              </Typography>
+                              <Box display="flex">
+                                {product?.options[0]?.values.map(
+                                  (item, index) => {
+                                    return (
+                                      <Tooltip key={index} title={item.value}>
+                                        <Box
+                                          margin="5px"
+                                          padding="5px"
+                                          position="relative"
+                                          sx={{
+                                            cursor: "pointer",
+                                          }}
+                                          border={
+                                            item.value === variantColorName
+                                              ? "1px solid #000"
+                                              : "1px solid #e2e2e2"
+                                          }
+                                          borderRadius="50%"
+                                          onClick={() =>
+                                            handleVariantColorChange(item.value)
+                                          }
+                                        >
+                                          <Color
+                                            key={item.value}
+                                            title={item.value}
+                                          />
+                                          {!product.variants[index].available && (
+                                            <SoldOutIcon />
+                                          )}
+                                        </Box>
+                                      </Tooltip>
+                                    )
+                                  }
+                                )}
+                              </Box>
+                            </>
+                          ) : product.options[0].name === "Title" ? (
+                            ""
+                          ) : (
+                            <>
+                              <Typography variant="navUser" m="20px 0">
+                                {product?.options[0].name}
+                              </Typography>
+                              <Box display="flex">
+                                {product?.options[0]?.values.map(
+                                  (item, index) => {
+                                    return (
+                                      <Tooltip key={index} title={item.value}>
+                                        <Box
+                                          position="relative"
+                                          margin="5px"
+                                          padding="15px"
+                                          sx={{ cursor: "pointer" }}
+                                          border={
+                                            item.value === variantSizeName
+                                              ? "1px solid #000"
+                                              : "1px solid #e2e2e2"
+                                          }
+                                          borderRadius="5px"
+                                          onClick={() =>
+                                            handleVariantSizeChange(item.value)
+                                          }
+                                        >
+                                          <Typography>{item.value}</Typography>
+                                          {!product.variants[index].available && (
+                                            <SoldOutIcon margin="2px" />
+                                          )}
+                                        </Box>
+                                      </Tooltip>
+                                    )
+                                  }
+                                )}
+                              </Box>
+                            </>
+                          )}
+                        </>
+                      )}
+                    </>
+                  )}
+
+                  {!!selectedVariant && (
+                    <Box m="30px 0">
+                      <Inventory handle={handle} id={selectedVariant?.id} />
+                    </Box>
+                  )}
+
+                  {!!selectedVariant && (
+                    <ProductQuantityAdder
+                      variantId={selectedVariant.id}
+                      available={selectedVariant.available}
+                      productHandle={product.handle}
+                      productTitle={product.title}
+                      variantSku={selectedVariant.sku}
+                      variantTitle={selectedVariant.title}
+                      accentColor={variantColorValues?.primary}
+                    />
+                  )}
+                </Box>
+                <Box>
+                  <Socials
+                    title={metaTitle?.value || title}
+                    url={url}
+                    media={featuredImage?.originalSrc}
+                  />
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
+        </ProductHero>
+
+        <MainWrapper>
+          <Container maxWidth="lg">
             <Stack
               direction="row"
               justifyContent="space-between"
               alignItems="center"
               spacing={2}
+              sx={{
+                marginTop: 2,
+                marginBottom: 6,
+              }}
             >
               <Typography variant="collectionName">
                 <Link to="/">HOME</Link> /{" "}
@@ -261,326 +512,12 @@ const ProductPage = ({ data, pageContext }) => {
               </ButtonGroup>
             </Stack>
 
-            <Grid
-              container
-              direction="row"
-              justifyContent="center"
-              alignItems="flex-start"
-              spacing={4}
-              sx={{ marginTop: 1 }}
+            <Typography
+              variant="body1"
+              color="#414042"
             >
-              <Grid item xs={12} md={6}>
-                <Box
-                  justifyContent="center"
-                  alignItems="center"
-                  sx={{
-                    marginTop: {
-                      xs: 0, md: 4,
-                    }
-                  }}
-                >
-                  <Swiper
-                    onSwiper={setSwiper}
-                    spaceBetween={10}
-                    navigation={true}
-                    thumbs={{ swiper: thumbsSwiper }}
-                    modules={[Navigation, FreeMode, Thumbs]}
-                    className="mySwiper"
-                  >
-                    {images.map(image => (
-                      <SwiperSlide key={image.id}>
-                        <GatsbyImage
-                          placeholder="blurred"
-                          imgStyle={{ borderRadius: "20px" }}
-                          image={image.gatsbyImageData}
-                          alt={image.altText}
-                        />
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
-
-                  <Swiper
-                    style={{ marginTop: "30px" }}
-                    onSwiper={setThumbsSwiper}
-                    spaceBetween={10}
-                    slidesPerView={4}
-                    freeMode={true}
-                    watchSlidesProgress={true}
-                    modules={[FreeMode, Thumbs]}
-                    className="mySwiper"
-                  >
-                    {images.map(image => (
-                      <SwiperSlide key={image.id} style={{ cursor: "pointer" }}>
-                        <GatsbyImage
-                          imgStyle={{ borderRadius: "10px" }}
-                          placeholder="blurred"
-                          image={image.gatsbyImageData}
-                          alt={image.altText}
-                        />
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
-                </Box>
-              </Grid>
-
-              <Grid item xs={12} md={6}>
-                <Box sx={{ marginTop: { xs: 0, md: 4 } }}>
-                  <Box>
-                    <Typography
-                      textTransform="uppercase"
-                      sx={{
-                        mb: "20px",
-                        lineHeight: "80px",
-                      }}
-                      variant="h1"
-                      color="#414042"
-                    >
-                      {title}
-                      <Divider />
-                    </Typography>
-
-                    {!!selectedVariant && (
-                      <Stack
-                        direction="row"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        spacing={2}
-                      >
-                        <Typography
-                          variant="h5"
-                          color="#414042"
-                          sx={{
-                            paddingTop: 1,
-                            paddingBottom: 1,
-                          }}
-                        >
-                          ${selectedVariant.price} USD
-                        </Typography>
-                        <ProductPreviewBadge id={product?.id} />
-                        {!selectedVariant?.available && (
-                          <Box
-                            sx={{
-                              background: "#f41901",
-                              padding: "8px 10px",
-                              color: theme.palette.white.main,
-                              fontFamily: theme.typography.fontFamily,
-                              borderRadius: "10px",
-                              letterSpacing: "2px",
-
-                              [theme.breakpoints.down("md")]: {
-                                top: "70px",
-                                right: "80px",
-                              },
-                            }}
-                          >
-                            Sold Out
-                          </Box>
-                        )}
-                      </Stack>
-                    )}
-
-                    <Typography
-                      sx={{ m: "20px 0 20px 0", maxWidth: "550px" }}
-                      variant="body1"
-                      color="#414042"
-                    >
-                      {description}
-                    </Typography>
-                  </Box>
-
-                  <Box>
-                    {product?.availableForSale && !!selectedVariant && (
-                      <>
-                        {product?.variants.length >= 1 && (
-                          <>
-                            {product.options.length === 2 &&
-                              product.options[0].name === "Color" ? (
-                              <>
-                                <Typography variant="navUser" m="20px 0">
-                                  Color
-                                </Typography>
-                                <Box display="flex">
-                                  {product?.options[0]?.values.map(
-                                    (item, index) => {
-                                      return (
-                                        <Tooltip key={index} title={item.value}>
-                                          <Box
-                                            margin="5px"
-                                            padding="5px"
-                                            position="relative"
-                                            sx={{
-                                              cursor: "pointer",
-                                            }}
-                                            border={
-                                              item.value === variantColorName
-                                                ? "1px solid #000"
-                                                : "1px solid #e2e2e2"
-                                            }
-                                            borderRadius="50%"
-                                            onClick={() =>
-                                              handleVariantColorChange(item.value)
-                                            }
-                                          >
-                                            <Color
-                                              key={item.value}
-                                              title={item.value}
-                                            />
-                                            {!product.variants[index].available && (
-                                              <SoldOutIcon />
-                                            )}
-                                          </Box>
-                                        </Tooltip>
-                                      )
-                                    }
-                                  )}
-                                </Box>
-
-                                <Typography variant="navUser" m="20px 0">
-                                  {variantSizeName ? `Size: ${variantSizeName}` : "Size"}
-                                </Typography>
-                                <Box display="flex">
-                                  {product?.options[1]?.values.map(
-                                    (item, index) => {
-                                      return (
-                                        <Tooltip key={index} title={item.value}>
-                                          <Box
-                                            margin="5px"
-                                            padding="15px"
-                                            sx={{ cursor: "pointer" }}
-                                            border={
-                                              item.value === variantSizeName
-                                                ? "1px solid #000"
-                                                : "1px solid #e2e2e2"
-                                            }
-                                            borderRadius="5px"
-                                            onClick={() =>
-                                              handleVariantSizeChange(item.value)
-                                            }
-                                          >
-                                            <div>{item.value}</div>
-                                            {!product.variants[index].available && (
-                                              <SoldOutIcon margin="2px" />
-                                            )}
-                                          </Box>
-                                        </Tooltip>
-                                      )
-                                    }
-                                  )}
-                                </Box>
-                              </>
-                            ) : product.options[0].name === "Color" &&
-                              product.options.length === 1 ? (
-                              <>
-                                <Typography variant="navUser" m="20px 0">
-                                  {variantColorName ? `Color: ${variantColorName}` : "Color"}
-                                </Typography>
-                                <Box display="flex">
-                                  {product?.options[0]?.values.map(
-                                    (item, index) => {
-                                      return (
-                                        <Tooltip key={index} title={item.value}>
-                                          <Box
-                                            margin="5px"
-                                            padding="5px"
-                                            position="relative"
-                                            sx={{
-                                              cursor: "pointer",
-                                            }}
-                                            border={
-                                              item.value === variantColorName
-                                                ? "1px solid #000"
-                                                : "1px solid #e2e2e2"
-                                            }
-                                            borderRadius="50%"
-                                            onClick={() =>
-                                              handleVariantColorChange(item.value)
-                                            }
-                                          >
-                                            <Color
-                                              key={item.value}
-                                              title={item.value}
-                                            />
-                                            {!product.variants[index].available && (
-                                              <SoldOutIcon />
-                                            )}
-                                          </Box>
-                                        </Tooltip>
-                                      )
-                                    }
-                                  )}
-                                </Box>
-                              </>
-                            ) : product.options[0].name === "Title" ? (
-                              ""
-                            ) : (
-                              <>
-                                <Typography variant="navUser" m="20px 0">
-                                  {product?.options[0].name}
-                                </Typography>
-                                <Box display="flex">
-                                  {product?.options[0]?.values.map(
-                                    (item, index) => {
-                                      return (
-                                        <Tooltip key={index} title={item.value}>
-                                          <Box
-                                            position="relative"
-                                            margin="5px"
-                                            padding="15px"
-                                            sx={{ cursor: "pointer" }}
-                                            border={
-                                              item.value === variantSizeName
-                                                ? "1px solid #000"
-                                                : "1px solid #e2e2e2"
-                                            }
-                                            borderRadius="5px"
-                                            onClick={() =>
-                                              handleVariantSizeChange(item.value)
-                                            }
-                                          >
-                                            <Typography>{item.value}</Typography>
-                                            {!product.variants[index].available && (
-                                              <SoldOutIcon margin="2px" />
-                                            )}
-                                          </Box>
-                                        </Tooltip>
-                                      )
-                                    }
-                                  )}
-                                </Box>
-                              </>
-                            )}
-                          </>
-                        )}
-                      </>
-                    )}
-
-                    {!!selectedVariant && (
-                      <Box m="30px 0">
-                        <Inventory handle={handle} id={selectedVariant?.id} />
-                      </Box>
-                    )}
-
-                    {!!selectedVariant && (
-                      <ProductQuantityAdder
-                        variantId={selectedVariant.id}
-                        available={selectedVariant.available}
-                        productHandle={product.handle}
-                        productTitle={product.title}
-                        variantSku={selectedVariant.sku}
-                        variantTitle={selectedVariant.title}
-                      />
-                    )}
-                  </Box>
-                  <Box>
-                    <Socials
-                      title={metaTitle?.value || title}
-                      url={url}
-                      media={featuredImage?.originalSrc}
-                    />
-                  </Box>
-                </Box>
-              </Grid>
-            </Grid>
+              {description}
+            </Typography>
 
             {selectedVariant && metaFBT && (
               <Fbt
@@ -628,8 +565,8 @@ const ProductPage = ({ data, pageContext }) => {
             {recentViewedProducts.length > 1 && (
               <RecentViewed title="RECENTLY VIEWED PRODUCTS" />
             )}
-          </Box>
-        </MainWrapper>
+          </Container>
+        </MainWrapper >
       </Box >
     </Layout >
   )
