@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import { Box } from "@mui/material"
 import { FreeMode, Navigation, Thumbs } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -8,20 +8,19 @@ const ProductGallery = ({ images, variantImageId, accentColor }) => {
     const [swiper, setSwiper] = useState(null)
     const [thumbsSwiper, setThumbsSwiper] = useState(null)
 
-
-    const handleVariantChange = variantImageId => {
+    const handleVariantChange = useCallback((variantImageId) => {
         swiper.slideTo(
             images.findIndex(image => {
                 return image.shopifyId === variantImageId
             })
         )
-    }
+    }, [images, swiper])
 
     useEffect(() => {
         if (variantImageId) {
             handleVariantChange(variantImageId)
         }
-    }, [variantImageId])
+    }, [variantImageId, handleVariantChange])
 
     return (
         <Box
