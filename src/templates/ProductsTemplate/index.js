@@ -12,9 +12,6 @@ import {
   Container,
   Tooltip,
 } from "@mui/material"
-import { FreeMode, Navigation, Thumbs } from "swiper"
-import { Swiper, SwiperSlide } from "swiper/react"
-import { GatsbyImage } from "gatsby-plugin-image"
 import { useLocation } from "@gatsbyjs/reach-router"
 import queryString from "query-string"
 
@@ -41,6 +38,7 @@ import {
   SoldOutIcon,
   Inventory,
 } from "sections"
+import ProductGallery from "../../sections/ProductPage/ProductGallery"
 
 const ProductPage = ({ data, pageContext }) => {
   const { title, handle, images, description, shopifyId, featuredImage } =
@@ -73,8 +71,6 @@ const ProductPage = ({ data, pageContext }) => {
   const [variantColorName, setVariantColorName] = useState("")
   const [variantSizeName, setVariantSizeName] = useState("")
   const [variantColorValues, setVariantColorValues] = useState({})
-  const [swiper, setSwiper] = useState(null)
-  const [thumbsSwiper, setThumbsSwiper] = useState(null)
 
   const { getProductById } = useContext(CartContext)
   const { addRecentProducts, recentViewedProducts } =
@@ -102,11 +98,6 @@ const ProductPage = ({ data, pageContext }) => {
     }
 
     setSelectedVariant(newVariant)
-    swiper.slideTo(
-      images.findIndex(image => {
-        return image.shopifyId === newVariant.image.id
-      })
-    )
 
     navigate(`${pathname}?variant=${encodeURIComponent(newVariant.id)}`, {
       replace: true,
@@ -125,12 +116,6 @@ const ProductPage = ({ data, pageContext }) => {
     }
 
     setSelectedVariant(newVariant)
-
-    swiper.slideTo(
-      images.findIndex(image => {
-        return image.shopifyId === newVariant.image.id
-      })
-    )
 
     navigate(`${pathname}?variant=${encodeURIComponent(newVariant.id)}`, {
       replace: true,
@@ -195,7 +180,6 @@ const ProductPage = ({ data, pageContext }) => {
   /* console.log(product) */
   /* console.log(variantSizeName) */
   /* console.log(selectedVariant) */
-  console.log(swiper)
 
   return (
     <Layout>
@@ -227,52 +211,10 @@ const ProductPage = ({ data, pageContext }) => {
             spacing={4}
           >
             <Grid item xs={12} md={6} lg={5}>
-              <Box
-                justifyContent="center"
-                alignItems="center"
-              >
-                <Swiper
-                  onSwiper={setSwiper}
-                  spaceBetween={10}
-                  navigation={true}
-                  thumbs={{ swiper: thumbsSwiper }}
-                  modules={[Navigation, FreeMode, Thumbs]}
-                  className="mySwiper"
-                >
-                  {images.map(image => (
-                    <SwiperSlide key={image.id}>
-                      <GatsbyImage
-                        placeholder="blurred"
-                        imgStyle={{ borderRadius: "20px" }}
-                        image={image.gatsbyImageData}
-                        alt={image.altText}
-                      />
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-
-                <Swiper
-                  style={{ marginTop: "30px" }}
-                  onSwiper={setThumbsSwiper}
-                  spaceBetween={10}
-                  slidesPerView={4}
-                  freeMode={true}
-                  watchSlidesProgress={true}
-                  modules={[FreeMode, Thumbs]}
-                  className="mySwiper"
-                >
-                  {images.map(image => (
-                    <SwiperSlide key={image.id} style={{ cursor: "pointer" }}>
-                      <GatsbyImage
-                        imgStyle={{ borderRadius: "10px" }}
-                        placeholder="blurred"
-                        image={image.gatsbyImageData}
-                        alt={image.altText}
-                      />
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              </Box>
+              <ProductGallery
+                images={images}
+                variantImageId={selectedVariant?.image.id}
+              />
             </Grid>
 
             <Grid item xs={12} md={6} lg={7}>
@@ -537,7 +479,7 @@ const ProductPage = ({ data, pageContext }) => {
               spacing={2}
               sx={{
                 marginTop: 2,
-                marginBottom: 4,
+                marginBottom: 6,
               }}
             >
               <Typography variant="collectionName">

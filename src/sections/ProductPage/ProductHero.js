@@ -22,14 +22,21 @@ export function ProductHero({ children, handle, backgroundColor, accentColor }) 
       <Box display={{ xs: "none", md: "block" }}>
         <Box
           sx={{
-            display: { lg: "grid" },
             height: "100%",
             width: "auto",
             backgroundColor: backgroundColor ? backgroundColor : "#FDFDF5",
             backgroundImage: background,
             backgroundSize: "cover",
           }}>
-          <Container maxWidth="lg" sx={{ paddingTop: 4, paddingBottom: 4, paddingLeft: 2, paddingRight: 2 }}>
+          <Container
+            maxWidth="lg"
+            sx={{
+              paddingTop: 4,
+              paddingBottom: 4,
+              paddingLeft: 2,
+              paddingRight: 2
+            }}
+          >
             <Paper
               sx={{
                 backgroundColor: "rgba(255, 255, 255, 0.5)",
@@ -40,9 +47,7 @@ export function ProductHero({ children, handle, backgroundColor, accentColor }) 
                 padding: 4,
               }}
             >
-
               {children}
-
             </Paper>
           </Container >
         </Box>
