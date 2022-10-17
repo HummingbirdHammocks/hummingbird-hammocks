@@ -3,7 +3,7 @@ import { StaticImage } from "gatsby-plugin-image"
 import { Container } from "@mui/material"
 
 import { Seo, Layout, MainWrapper } from "components"
-import { Hero, Info, Details, RecentViewed } from "sections"
+import { Hero, Info, Details, RecentlyViewed } from "sections"
 import { ProductContext } from "contexts"
 
 const heroData = {
@@ -120,8 +120,8 @@ const ExplorePage = () => {
           </Details>
         </Container>
 
-        <RecentViewed
-          title="Featured Products"
+        <RecentlyViewed
+          title="RECENTLY VIEWED PRODUCTS"
           products={featuredProducts.slice(0, 5)}
         />
       </MainWrapper>

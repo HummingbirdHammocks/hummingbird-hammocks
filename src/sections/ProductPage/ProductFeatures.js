@@ -78,8 +78,7 @@ export function ProductFeatures({ details, backgroundColor, accentColor }) {
                 expanded={expanded === index}
                 onChange={handleChange(index)}
                 sx={{
-                  paddingTop: 2,
-                  paddingBottom: 2,
+                  padding: 2,
                   borderColor: accentColor ? accentColor : 'divider',
                   borderStyle: "solid",
                   borderTopWidth: expanded === index ? "1px" : "0px",
@@ -87,12 +86,12 @@ export function ProductFeatures({ details, backgroundColor, accentColor }) {
                   borderRightWidth: "1px",
                   borderBottomWidth: "1px",
 
-                  '&:first-child': {
+                  '&:first-of-type': {
                     borderTopLeftRadius: "20px",
                     borderTopRightRadius: "20px",
                     borderTopWidth: "1px",
                   },
-                  '&:last-child': {
+                  '&:last-of-type': {
                     borderBottomLeftRadius: "20px",
                     borderBottomRightRadius: "20px",
                     borderBottomWidth: "1px",
