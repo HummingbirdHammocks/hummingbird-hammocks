@@ -28,6 +28,7 @@ import { CartContext, RecentViewedContext } from "contexts"
 import Color from "utils/color"
 import {
   ProductHero,
+  ProductPrice,
   ProductQuantityAdder,
   Fbt,
   ProductDetailsTabs,
@@ -45,6 +46,7 @@ const ProductPage = ({ data, pageContext }) => {
   const {
     metaDescription,
     metaTitle,
+    metaSaleReason,
     metaFBT,
     metaVideo,
     metaDetails,
@@ -176,7 +178,7 @@ const ProductPage = ({ data, pageContext }) => {
   }, [variantId])
 
   /* console.log(details) */
-  /* console.log(product) */
+  console.log(product)
   /* console.log(variantSizeName) */
   /* console.log(selectedVariant) */
 
@@ -231,21 +233,12 @@ const ProductPage = ({ data, pageContext }) => {
 
                   {!!selectedVariant && (
                     <Stack
-                      direction={{ xs: "column", sm: "row" }}
+                      direction={{ xs: "column", sm: "row", md: "column", lg: "row" }}
                       justifyContent="space-between"
-                      alignItems={{ xs: "flex-start", sm: "center" }}
+                      alignItems={{ xs: "flex-start", sm: "center", md: "flex-start", lg: "center" }}
                       spacing={2}
                     >
-                      <Typography
-                        variant="h5"
-                        color="#414042"
-                        sx={{
-                          paddingTop: 1,
-                          paddingBottom: 1,
-                        }}
-                      >
-                        ${selectedVariant.price} USD
-                      </Typography>
+                      <ProductPrice price={selectedVariant.price} compareAtPrice={selectedVariant.compareAtPrice} saleReason={metaSaleReason} />
                       <ProductPreviewBadge id={product?.id} />
                       {!selectedVariant?.available && (
                         <Box
@@ -610,6 +603,13 @@ export const query = graphql`
     metaMain: shopifyProductMetafield(
       productId: { eq: $id }
       key: { eq: "main" }
+    ) {
+      value
+    }
+
+    metaSaleReason: shopifyProductMetafield(
+      productId: { eq: $id }
+      key: { eq: "sale_reason" }
     ) {
       value
     }
