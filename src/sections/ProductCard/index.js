@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { GatsbyImage } from "gatsby-plugin-image"
 import { Box, Typography, styled } from "@mui/material"
 
-import { Link, MiddleSpinner, SoldOutWrap } from "components"
+import { Link, MiddleSpinner, SoldOutWrap, BargainBinWrap } from "components"
 // import JudgeMe from "utils/judgeMe"
 import { useEffect } from "react"
 
@@ -65,6 +65,8 @@ export const ProductCard = ({ products, minHeight, mdMinHeight }) => {
     ProductsData()
   }, [products])
 
+  console.log(products)
+
   return (
     <>
       {loading && <MiddleSpinner divMinHeight="460px" size={20} />}
@@ -73,6 +75,7 @@ export const ProductCard = ({ products, minHeight, mdMinHeight }) => {
         productsData?.map(product => (
           <ProductWrapper key={product.id}>
             {!product.notSoldout && <SoldOutWrap>Sold Out</SoldOutWrap>}
+            {product.tags.includes("bargain-bin") && <BargainBinWrap>Bargain Bin</BargainBinWrap>}
             <Link to={`/products/${product.handle}`}>
               <ImageBox mdMinHeight={mdMinHeight} minHeight={minHeight}>
                 <AbsoluteImage

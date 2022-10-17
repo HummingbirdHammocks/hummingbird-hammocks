@@ -523,12 +523,19 @@ const ProductPage = ({ data, pageContext }) => {
               </ButtonGroup>
             </Stack>
 
-            <Typography
-              variant="body1"
-              color="#414042"
-            >
-              {description}
-            </Typography>
+
+            {product?.descriptionHtml ? (
+              <Typography component="div">
+                <div dangerouslySetInnerHTML={{ __html: product?.descriptionHtml }} />
+              </Typography>
+            ) : (
+              <Typography
+                variant="body1"
+              >
+                {description}
+              </Typography>
+            )}
+
 
             {selectedVariant && metaFBT && (
               <Fbt
@@ -538,21 +545,23 @@ const ProductPage = ({ data, pageContext }) => {
               />
             )}
 
-            <ProductDetailsTabs
-              specs={selectedVariantStatic?.metafields}
-              features={metaMain?.value}
-              included={metaIncluded?.value}
-              materials={metaMaterials?.value}
-              manufacturing={metaManufacturing?.value}
-              manualUrl={metaManualUrl?.value}
-              oshwaId={metaOshwaId?.value}
-              oshwaUrl={metaOshwaUrl?.value}
-              careInstructions={metaCareInstructions?.value}
-              video={metaVideo?.value}
-              repo={metaReository?.value}
-              backgroundColor={variantColorValues?.background}
-              accentColor={variantColorValues?.primary}
-            />
+            {!title.includes("Bargain") && !title.includes("rec") && (
+              <ProductDetailsTabs
+                specs={selectedVariantStatic?.metafields}
+                features={metaMain?.value}
+                included={metaIncluded?.value}
+                materials={metaMaterials?.value}
+                manufacturing={metaManufacturing?.value}
+                manualUrl={metaManualUrl?.value}
+                oshwaId={metaOshwaId?.value}
+                oshwaUrl={metaOshwaUrl?.value}
+                careInstructions={metaCareInstructions?.value}
+                video={metaVideo?.value}
+                repo={metaReository?.value}
+                backgroundColor={variantColorValues?.background}
+                accentColor={variantColorValues?.primary}
+              />
+            )}
 
             {details && (
               <ProductFeatures
