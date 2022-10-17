@@ -25,7 +25,7 @@ export function ProductPrice({ price, compareAtPrice, saleReason }) {
     setOpen(false);
   };
 
-  console.log(saleReason)
+  /* console.log(saleReason) */
 
   if (price !== compareAtPrice) {
     return (
