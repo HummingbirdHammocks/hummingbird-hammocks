@@ -32,10 +32,8 @@ import {
   Fbt,
   ProductDetailsTabs,
   ProductFeatures,
-  RecentViewed,
+  RecentlyViewed,
   YouTubeEmbed,
-  Details,
-  DetailsImage,
   SoldOutIcon,
   Inventory,
 } from "sections"
@@ -577,7 +575,7 @@ const ProductPage = ({ data, pageContext }) => {
             {metaVideo && <YouTubeEmbed url={metaVideo.value} title={title} />}
 
             {recentViewedProducts.length > 1 && (
-              <RecentViewed title="RECENTLY VIEWED PRODUCTS" />
+              <RecentlyViewed title="RECENTLY VIEWED" />
             )}
           </Container>
         </MainWrapper >
