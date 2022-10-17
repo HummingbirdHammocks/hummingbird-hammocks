@@ -146,7 +146,7 @@ const Footer = () => {
               <Typography color="white.main" variant="h6">
                 Customer Support
               </Typography>
-              <List component="div" disablePadding>
+              <List disablePadding>
                 {customerSupport.map(customer => (
                   <ListItem sx={{ p: "10px 0" }} key={customer.id}>
                     <AnotherLink
@@ -167,7 +167,7 @@ const Footer = () => {
             <Typography color="white.main" variant="h6">
               Company
             </Typography>
-            <List component="div" disablePadding>
+            <List disablePadding>
               {companyLink.map(company => (
                 <ListItem key={company.id} sx={{ p: "10px 0" }}>
                   <Link
@@ -270,7 +270,7 @@ const Footer = () => {
               viewBox="0 0 38 24"
               width="38"
               height="24"
-              aria-labelledby="pi-amazon"
+              aria-label="pi-amazon"
             >
               <title>Amazon</title>
               <path
@@ -300,7 +300,7 @@ const Footer = () => {
               viewBox="0 0 38 24"
               width="38"
               height="24"
-              aria-labelledby="pi-american_express"
+              aria-label="pi-american_express"
             >
               <title>American Express</title>
               <g fill="none">
@@ -328,7 +328,7 @@ const Footer = () => {
               width="38"
               height="24"
               viewBox="0 0 165.521 105.965"
-              aria-labelledby="pi-apple_pay"
+              aria-label="pi-apple_pay"
             >
               <title>Apple Pay</title>
               <path
@@ -371,7 +371,7 @@ const Footer = () => {
               width="38"
               height="24"
               role="img"
-              aria-labelledby="pi-discover"
+              aria-label="pi-discover"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -445,7 +445,7 @@ const Footer = () => {
               width="38"
               height="24"
               role="img"
-              aria-labelledby="pi-metapay"
+              aria-label="pi-metapay"
               viewBox="0 0 38 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -509,7 +509,7 @@ const Footer = () => {
               viewBox="0 0 38 24"
               width="38"
               height="24"
-              aria-labelledby="pi-google_pay"
+              aria-label="pi-google_pay"
             >
               <title>Google Pay</title>
               <path
@@ -548,7 +548,7 @@ const Footer = () => {
               role="img"
               width="38"
               height="24"
-              aria-labelledby="pi-master"
+              aria-label="pi-master"
             >
               <title>Mastercard</title>
               <path
@@ -572,7 +572,7 @@ const Footer = () => {
               width="38"
               height="24"
               role="img"
-              aria-labelledby="pi-paypal"
+              aria-label="pi-paypal"
             >
               <title>PayPal</title>
               <path
@@ -602,7 +602,7 @@ const Footer = () => {
               viewBox="0 0 38 24"
               width="38"
               height="24"
-              aria-labelledby="pi-shopify_pay"
+              aria-label="pi-shopify_pay"
             >
               <title>Shop Pay</title>
               <path
@@ -625,7 +625,7 @@ const Footer = () => {
               height="24"
               xmlns="http://www.w3.org/2000/svg"
               role="img"
-              aria-labelledby="pi-venmo"
+              aria-label="pi-venmo"
             >
               <title>Venmo</title>
               <g fill="none" fillRule="evenodd">
@@ -653,7 +653,7 @@ const Footer = () => {
               role="img"
               width="38"
               height="24"
-              aria-labelledby="pi-visa"
+              aria-label="pi-visa"
             >
               <title>Visa</title>
               <path
