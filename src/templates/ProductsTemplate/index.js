@@ -31,6 +31,7 @@ import {
   ProductQuantityAdder,
   Fbt,
   ProductDetailsTabs,
+  ProductFeatures,
   RecentViewed,
   YouTubeEmbed,
   Details,
@@ -563,17 +564,11 @@ const ProductPage = ({ data, pageContext }) => {
             />
 
             {details && (
-              <Container maxWidth="lg">
-                {details.details.map((item, index) => (
-                  <Details
-                    key={index}
-                    order={index % 2 === 0 && 2}
-                    data={{ title: item.title, htmlText: item.html_text }}
-                  >
-                    <DetailsImage title={item.title} src={item.image_url} />
-                  </Details>
-                ))}
-              </Container>
+              <ProductFeatures
+                details={details?.details}
+                backgroundColor={variantColorValues?.background}
+                accentColor={variantColorValues?.primary}
+              />
             )}
 
             {/* Review */}

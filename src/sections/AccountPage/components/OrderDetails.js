@@ -180,11 +180,11 @@ export const OrderDetails = ({ firstName, lastName, email, data, returnAccount }
                 borderColor: 'divider',
                 borderStyle: "solid",
                 borderWidth: "1px",
-                borderRadius: "20px",
+                borderRadius: "30px",
                 marginTop: { xs: 4, md: 0 },
               }}
             >
-              <Typography sx={{ padding: 2, }} variant="h5">NEED HELP WITH THIS ORDER?</Typography>
+              <Typography sx={{ padding: 3, }} variant="h5">NEED HELP WITH THIS ORDER?</Typography>
               <Divider />
               <Typography
                 sx={{
