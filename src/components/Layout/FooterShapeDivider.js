@@ -1,11 +1,7 @@
 import React from "react"
-import {
-  useTheme,
-  Box,
-} from "@mui/material"
+import { Box } from "@mui/material"
 
 export const FooterShapeDivider = (props) => {
-  const theme = useTheme();
 
   return (
     <Box sx={{ position: "relative" }}>
