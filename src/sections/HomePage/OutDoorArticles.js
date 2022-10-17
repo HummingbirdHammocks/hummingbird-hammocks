@@ -54,8 +54,8 @@ export function OutDoorArticles() {
           spacing={4}
         >
           {data.allArticles.nodes.map((item, index) => (
-            <Grid item xs={12} sm={6} md={4}>
-              <BlogItem key={index} item={item} />
+            <Grid item xs={12} sm={6} md={4} key={index}>
+              <BlogItem item={item} />
             </Grid>
           ))}
         </Grid>

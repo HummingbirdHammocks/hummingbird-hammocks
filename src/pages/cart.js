@@ -12,7 +12,7 @@ import { Add, Remove, Delete } from "@mui/icons-material"
 
 import { CartContext, RecentViewedContext } from "contexts"
 import { Seo, Layout, MainWrapper, Link, AnotherLink } from "components"
-import { RecentViewed, CartExtras } from "sections"
+import { RecentlyViewed, CartExtras } from "sections"
 
 
 const CartPage = () => {
@@ -246,7 +246,7 @@ const CartPage = () => {
             <CartExtras />
           </Box>
           {recentViewedProducts.length > 1 && (
-            <RecentViewed title="YOU MAY ALSO BE INTERESTED IN" />
+            <RecentlyViewed title="YOU MAY ALSO BE INTERESTED IN" />
           )}
         </MainWrapper>
       </Box >

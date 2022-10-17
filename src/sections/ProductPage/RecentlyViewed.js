@@ -1,11 +1,11 @@
 import React, { useContext } from "react"
-import { useTheme, styled, Box, Typography } from "@mui/material"
+import { useTheme, styled, Box, Typography, Divider } from "@mui/material"
 import { Navigation, Autoplay, Pagination } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { GatsbyImage } from "gatsby-plugin-image"
 
 import { Link/* , ProductPreviewBadge */ } from "components"
-import { ProductContext } from "contexts"
+import { RecentViewedContext } from "contexts"
 
 const AbsoluteImage = styled(GatsbyImage)(({ theme }) => ({
   borderRadius: "20px",
@@ -15,17 +15,18 @@ const AbsoluteImage = styled(GatsbyImage)(({ theme }) => ({
   },
 }))
 
-export function FeaturedProduct() {
+export function RecentlyViewed({ title }) {
   const theme = useTheme();
-  const { featuredProducts } = useContext(ProductContext)
+  const { recentViewedProducts } = useContext(RecentViewedContext)
 
-  /* console.log(featuredProducts) */
+  /* console.log(recentViewedProducts) */
 
   return (
     <Box
       sx={{
-        padding: "100px 15px",
         position: "relative",
+        marginTop: "32px",
+        marginBottom: "32px",
 
         "& .swiper-pagination": {
           bottom: "-3px!important",
@@ -43,15 +44,18 @@ export function FeaturedProduct() {
           padding: "70px 10px 50px 10px",
         },
       }}>
+      <Typography pb="30px" textAlign="center" variant="h4">
+        {title}
+      </Typography>
+      <Divider variant="middle" sx={{ marginBottom: 4 }} />
       <Swiper
         slidesPerView={1}
         spaceBetween={30}
         navigation={true}
         loop={true}
-        pagination={{ clickable: true }}
         autoplay={{
           delay: 2500,
-          disableOnInteraction: false,
+          disableOnInteraction: true,
         }}
         breakpoints={{
           "@0.00": {
@@ -78,7 +82,7 @@ export function FeaturedProduct() {
         modules={[Navigation, Autoplay, Pagination]}
         className="mySwiper"
       >
-        {featuredProducts.map(item => (
+        {recentViewedProducts.map(item => (
           <SwiperSlide key={item.shopifyId}>
             <Box
               sx={{

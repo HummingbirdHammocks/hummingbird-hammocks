@@ -12,6 +12,7 @@ import {
   ListItemButton,
   Collapse,
   Toolbar,
+  Tooltip,
   Typography,
   Button,
   IconButton,
@@ -120,34 +121,52 @@ const AppbarDesktop = ({
             )
             )}
           </Stack>
-          <Box sx={{ ml: "auto" }}>
-            <Search />
-          </Box>
+          <Stack
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            spacing={1}
+            sx={{ marginLeft: "auto" }}
+          >
+            <Tooltip title="Search Gear">
+              <Search />
+            </Tooltip>
 
-          {customerAccessToken ? (
-            <Link style={{ display: "inline-block" }} to="/account">
-              <Button
-                sx={{ m: "0 20px" }}
-                variant="outlined"
-                startIcon={<AccountCircle />}
-              >
-                {loading && <MiddleSpinner size={10} />}
-                <Typography variant="navUser">
-                  {data?.customer?.firstName}
-                </Typography>
-              </Button>
-            </Link>
-          ) : (
-            <Link to="/login">
-              <AccountCircle sx={{ m: "4px 20px 0 20px" }} />
-            </Link>
-          )}
 
-          <IconButton onClick={() => setCartOpen(!cartOpen)}>
-            <Badge badgeContent={cartQuantity} color="error">
-              <ShoppingCartOutlined />
-            </Badge>
-          </IconButton>
+            {customerAccessToken ? (
+              <Tooltip title="Visit Account">
+                <Button
+                  sx={{ m: "0 20px" }}
+                  variant="outlined"
+                  startIcon={<AccountCircle />}
+                  component={Link}
+                  to="/account"
+                >
+                  {loading && <MiddleSpinner size={10} />}
+                  <Typography variant="navUser">
+                    {data?.customer?.firstName}
+                  </Typography>
+                </Button>
+              </Tooltip>
+            ) : (
+              <Tooltip title="Account Login">
+                <IconButton
+                  component={Link}
+                  to="/login"
+                >
+                  <AccountCircle />
+                </IconButton>
+              </Tooltip>
+            )}
+
+            <IconButton onClick={() => setCartOpen(!cartOpen)}>
+              <Badge badgeContent={cartQuantity} color="error">
+                <Tooltip title="Open Cart">
+                  <ShoppingCartOutlined />
+                </Tooltip>
+              </Badge>
+            </IconButton>
+          </Stack>
         </Toolbar>
       </MainWrapper>
     </AppBar>

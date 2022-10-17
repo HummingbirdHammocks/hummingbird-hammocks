@@ -28,13 +28,13 @@ import { CartContext, RecentViewedContext } from "contexts"
 import Color from "utils/color"
 import {
   ProductHero,
+  ProductPrice,
   ProductQuantityAdder,
   Fbt,
   ProductDetailsTabs,
-  RecentViewed,
+  ProductFeatures,
+  RecentlyViewed,
   YouTubeEmbed,
-  Details,
-  DetailsImage,
   SoldOutIcon,
   Inventory,
 } from "sections"
@@ -46,6 +46,7 @@ const ProductPage = ({ data, pageContext }) => {
   const {
     metaDescription,
     metaTitle,
+    metaSaleReason,
     metaFBT,
     metaVideo,
     metaDetails,
@@ -232,21 +233,12 @@ const ProductPage = ({ data, pageContext }) => {
 
                   {!!selectedVariant && (
                     <Stack
-                      direction={{ xs: "column", sm: "row" }}
+                      direction={{ xs: "column", sm: "row", md: "column", lg: "row" }}
                       justifyContent="space-between"
-                      alignItems={{ xs: "flex-start", sm: "center" }}
+                      alignItems={{ xs: "flex-start", sm: "center", md: "flex-start", lg: "center" }}
                       spacing={2}
                     >
-                      <Typography
-                        variant="h5"
-                        color="#414042"
-                        sx={{
-                          paddingTop: 1,
-                          paddingBottom: 1,
-                        }}
-                      >
-                        ${selectedVariant.price} USD
-                      </Typography>
+                      <ProductPrice price={selectedVariant.price} compareAtPrice={selectedVariant.compareAtPrice} saleReason={metaSaleReason} />
                       <ProductPreviewBadge id={product?.id} />
                       {!selectedVariant?.available && (
                         <Box
@@ -477,14 +469,15 @@ const ProductPage = ({ data, pageContext }) => {
               sx={{
                 marginTop: 2,
                 marginBottom: 6,
+                color: variantColorValues?.primary,
               }}
             >
-              <Typography variant="collectionName">
-                <Link to="/">HOME</Link> /{" "}
-                <Link to={`/collections/${collection.handle}`}>
+              <Typography variant="collectionName" >
+                <Link to="/" sx={{ color: variantColorValues?.primary, textDecoration: "none" }}>HOME</Link> /{" "}
+                <Link to={`/collections/${collection.handle}`} sx={{ color: variantColorValues?.primary, textDecoration: "none" }}>
                   {collection.title}
                 </Link>{" "}
-                / <Link to={`/products/${handle}`}>{title}</Link>
+                / <Link to={`/products/${handle}`} sx={{ color: variantColorValues?.primary, textDecoration: "none" }}>{title}</Link>
               </Typography>
               <ButtonGroup variant="outlined" aria-label="navigation button group">
                 {prev.handle && (
@@ -493,6 +486,15 @@ const ProductPage = ({ data, pageContext }) => {
                       size="small"
                       component={Link}
                       to={`/products/${prev.handle}`}
+                      sx={{
+                        color: variantColorValues?.primary,
+                        borderColor: variantColorValues?.primary,
+                        "&:hover": {
+                          borderColor: variantColorValues?.primary,
+                          backgroundColor: variantColorValues?.primary,
+                          color: variantColorValues?.primary && "#fff",
+                        },
+                      }}
                     >
                       Prev
                     </Button>
@@ -504,6 +506,15 @@ const ProductPage = ({ data, pageContext }) => {
                       size="small"
                       component={Link}
                       to={`/products/${next.handle}`}
+                      sx={{
+                        color: variantColorValues?.primary,
+                        borderColor: variantColorValues?.primary,
+                        "&:hover": {
+                          borderColor: variantColorValues?.primary,
+                          backgroundColor: variantColorValues?.primary,
+                          color: variantColorValues?.primary && "#fff",
+                        },
+                      }}
                     >
                       Next
                     </Button>
@@ -512,12 +523,19 @@ const ProductPage = ({ data, pageContext }) => {
               </ButtonGroup>
             </Stack>
 
-            <Typography
-              variant="body1"
-              color="#414042"
-            >
-              {description}
-            </Typography>
+
+            {product?.descriptionHtml ? (
+              <Typography component="div">
+                <div dangerouslySetInnerHTML={{ __html: product?.descriptionHtml }} />
+              </Typography>
+            ) : (
+              <Typography
+                variant="body1"
+              >
+                {description}
+              </Typography>
+            )}
+
 
             {selectedVariant && metaFBT && (
               <Fbt
@@ -527,34 +545,30 @@ const ProductPage = ({ data, pageContext }) => {
               />
             )}
 
-            <ProductDetailsTabs
-              specs={selectedVariantStatic?.metafields}
-              features={metaMain?.value}
-              included={metaIncluded?.value}
-              materials={metaMaterials?.value}
-              manufacturing={metaManufacturing?.value}
-              manualUrl={metaManualUrl?.value}
-              oshwaId={metaOshwaId?.value}
-              oshwaUrl={metaOshwaUrl?.value}
-              careInstructions={metaCareInstructions?.value}
-              video={metaVideo?.value}
-              repo={metaReository?.value}
-              backgroundColor={variantColorValues?.background}
-              accentColor={variantColorValues?.primary}
-            />
+            {!title.includes("Bargain") && !title.includes("rec") && (
+              <ProductDetailsTabs
+                specs={selectedVariantStatic?.metafields}
+                features={metaMain?.value}
+                included={metaIncluded?.value}
+                materials={metaMaterials?.value}
+                manufacturing={metaManufacturing?.value}
+                manualUrl={metaManualUrl?.value}
+                oshwaId={metaOshwaId?.value}
+                oshwaUrl={metaOshwaUrl?.value}
+                careInstructions={metaCareInstructions?.value}
+                video={metaVideo?.value}
+                repo={metaReository?.value}
+                backgroundColor={variantColorValues?.background}
+                accentColor={variantColorValues?.primary}
+              />
+            )}
 
             {details && (
-              <Container maxWidth="lg">
-                {details.details.map((item, index) => (
-                  <Details
-                    key={index}
-                    order={index % 2 === 0 && 2}
-                    data={{ title: item.title, htmlText: item.html_text }}
-                  >
-                    <DetailsImage title={item.title} src={item.image_url} />
-                  </Details>
-                ))}
-              </Container>
+              <ProductFeatures
+                details={details?.details}
+                backgroundColor={variantColorValues?.background}
+                accentColor={variantColorValues?.primary}
+              />
             )}
 
             {/* Review */}
@@ -563,7 +577,7 @@ const ProductPage = ({ data, pageContext }) => {
             {metaVideo && <YouTubeEmbed url={metaVideo.value} title={title} />}
 
             {recentViewedProducts.length > 1 && (
-              <RecentViewed title="RECENTLY VIEWED PRODUCTS" />
+              <RecentlyViewed title="RECENTLY VIEWED" />
             )}
           </Container>
         </MainWrapper >
@@ -598,6 +612,13 @@ export const query = graphql`
     metaMain: shopifyProductMetafield(
       productId: { eq: $id }
       key: { eq: "main" }
+    ) {
+      value
+    }
+
+    metaSaleReason: shopifyProductMetafield(
+      productId: { eq: $id }
+      key: { eq: "sale_reason" }
     ) {
       value
     }
