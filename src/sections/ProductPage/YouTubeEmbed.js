@@ -9,7 +9,8 @@ export const YouTubeEmbed = ({ url, title }) => {
         position: "relative",
         width: "100%",
         paddingBottom: "56.25%",
-        marginTop: "70px",
+        marginTop: "32px",
+        marginBottom: "32px",
       }}>
       <iframe
         style={{

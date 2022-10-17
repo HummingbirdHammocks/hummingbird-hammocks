@@ -27,7 +27,7 @@ export function ProductFeatures({ details, backgroundColor, accentColor }) {
       setImage(details[0].image_url)
       setImageAlt(details[0].title)
     }
-  }, [details, expanded])
+  }, [details])
 
   useEffect(() => {
     if (details) {

@@ -55,19 +55,22 @@ export function FeaturedProduct() {
         }}
         breakpoints={{
           "@0.00": {
+            slidesPerView: 1,
+            spaceBetween: 10,
+          },
+          "@0.50": {
             slidesPerView: 2,
             spaceBetween: 10,
           },
-
-          "@1.00": {
+          "@0.75": {
             slidesPerView: 3,
             spaceBetween: 40,
           },
-          "@1.50": {
+          "@1.00": {
             slidesPerView: 4,
             spaceBetween: 50,
           },
-          "@2.00": {
+          "@1.50": {
             slidesPerView: 5,
             spaceBetween: 60,
           },
@@ -92,7 +95,7 @@ export function FeaturedProduct() {
                   },
                 },
               }}>
-              <Link to={`products/${item.handle}`}>
+              <Link to={`/products/${item.handle}`}>
                 {item.featuredImage &&
                   <AbsoluteImage
                     className="image-1"
@@ -123,7 +126,7 @@ export function FeaturedProduct() {
                   marginTop: "40px",
                   textAlign: "center",
                 }}>
-                <Link to={`products/${item.handle}`}>
+                <Link to={`/products/${item.handle}`}>
                   <Typography
                     textAlign={"center"}
                     variant="subtitle2"
