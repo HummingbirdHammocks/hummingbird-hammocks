@@ -68,52 +68,52 @@ const ContactUsPage = () => {
           placeholder="blurred"
         />
       </Hero>
-      <Grid
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="flex-start"
-      >
-        <Grid item xs={12} md={6}>
-          <Info title="CONTACT US" >
-            We know you don't want to talk to a robot. Our support team is completely
-            internal (and human), nothing is outsourced, and you won't be asked to
-            jump through a bunch of hoops. We offer informed and concise help so you
-            can get off the computer and back outside.
-            <br />
-            <br />
-            If you have a question, need help with anything, or are just looking for
-            advice. Reach out to us using the contact form or through our support portal and we will get back to you as soon as
-            possible.
-            <Box mt="40px" display="flex" justifyContent="center">
-              <Button
-                variant="contained"
-                component="a"
-                href="https://help.hummingbirdhammocks.com/help/1694808310"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Support Portal
-              </Button>
-            </Box>
-          </Info>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Box sx={{
-            padding: "60px 15px",
-
-            [theme.breakpoints.down("md")]: {
-              padding: "50px 0",
-              wordBreak: "break-word",
-            },
-          }}
-          >
-            <ContactUsForm />
-          </Box>
-        </Grid>
-      </Grid>
 
       <MainWrapper>
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="flex-start"
+        >
+          <Grid item xs={12} md={6}>
+            <Info title="CONTACT US" >
+              We know you don't want to talk to a robot. Our support team is completely
+              internal (and human), nothing is outsourced, and you won't be asked to
+              jump through a bunch of hoops. We offer informed and concise help so you
+              can get off the computer and back outside.
+              <br />
+              <br />
+              If you have a question, need help with anything, or are just looking for
+              advice. Reach out to us using the contact form or through our support portal and we will get back to you as soon as
+              possible.
+              <Box mt="40px" display="flex" justifyContent="center">
+                <Button
+                  variant="contained"
+                  component="a"
+                  href="https://help.hummingbirdhammocks.com/help/1694808310"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Support Portal
+                </Button>
+              </Box>
+            </Info>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Box sx={{
+              padding: "60px 15px",
+
+              [theme.breakpoints.down("md")]: {
+                padding: "50px 0",
+                wordBreak: "break-word",
+              },
+            }}
+            >
+              <ContactUsForm />
+            </Box>
+          </Grid>
+        </Grid>
         <Box
           sx={{
             display: "grid",
