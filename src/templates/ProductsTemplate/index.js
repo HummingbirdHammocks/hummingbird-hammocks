@@ -477,14 +477,15 @@ const ProductPage = ({ data, pageContext }) => {
               sx={{
                 marginTop: 2,
                 marginBottom: 6,
+                color: variantColorValues?.primary,
               }}
             >
-              <Typography variant="collectionName">
-                <Link to="/">HOME</Link> /{" "}
-                <Link to={`/collections/${collection.handle}`}>
+              <Typography variant="collectionName" >
+                <Link to="/" sx={{ color: variantColorValues?.primary, textDecoration: "none" }}>HOME</Link> /{" "}
+                <Link to={`/collections/${collection.handle}`} sx={{ color: variantColorValues?.primary, textDecoration: "none" }}>
                   {collection.title}
                 </Link>{" "}
-                / <Link to={`/products/${handle}`}>{title}</Link>
+                / <Link to={`/products/${handle}`} sx={{ color: variantColorValues?.primary, textDecoration: "none" }}>{title}</Link>
               </Typography>
               <ButtonGroup variant="outlined" aria-label="navigation button group">
                 {prev.handle && (
@@ -493,6 +494,15 @@ const ProductPage = ({ data, pageContext }) => {
                       size="small"
                       component={Link}
                       to={`/products/${prev.handle}`}
+                      sx={{
+                        color: variantColorValues?.primary,
+                        borderColor: variantColorValues?.primary,
+                        "&:hover": {
+                          borderColor: variantColorValues?.primary,
+                          backgroundColor: variantColorValues?.primary,
+                          color: variantColorValues?.primary && "#fff",
+                        },
+                      }}
                     >
                       Prev
                     </Button>
@@ -504,6 +514,15 @@ const ProductPage = ({ data, pageContext }) => {
                       size="small"
                       component={Link}
                       to={`/products/${next.handle}`}
+                      sx={{
+                        color: variantColorValues?.primary,
+                        borderColor: variantColorValues?.primary,
+                        "&:hover": {
+                          borderColor: variantColorValues?.primary,
+                          backgroundColor: variantColorValues?.primary,
+                          color: variantColorValues?.primary && "#fff",
+                        },
+                      }}
                     >
                       Next
                     </Button>
