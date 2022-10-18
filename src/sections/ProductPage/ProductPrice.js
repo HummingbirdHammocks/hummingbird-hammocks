@@ -63,7 +63,7 @@ export function ProductPrice({ price, compareAtPrice, saleReason }) {
               paddingBottom: 1,
             }}
           >
-            ${price}
+            ${compareAtPrice}
           </Typography>
         </Box>
         <Typography
@@ -74,7 +74,7 @@ export function ProductPrice({ price, compareAtPrice, saleReason }) {
             paddingBottom: 1,
           }}
         >
-          ${compareAtPrice} USD
+          ${price} USD
         </Typography>
         {saleReason && (
           <>
