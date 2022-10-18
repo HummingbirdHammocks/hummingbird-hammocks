@@ -8,7 +8,7 @@ export const FooterShapeDivider = (props) => {
       <Box
         sx={{
           position: "absolute",
-          bottom: 0,
+          bottom: -2,
           left: 0,
           width: "100%",
           overflow: "hidden",
