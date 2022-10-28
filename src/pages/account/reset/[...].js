@@ -16,7 +16,7 @@ import {
 } from "components"
 
 const validationSchema = yup.object({
-  newPassword: yup
+  password: yup
     .string()
     .trim()
     .required('Please specify your password')
@@ -25,7 +25,7 @@ const validationSchema = yup.object({
     .string()
     .trim()
     .required('Please specify your password')
-    .oneOf([yup.ref('newPassword'), null], 'Passwords must match'),
+    .oneOf([yup.ref('password'), null], 'Passwords must match'),
 });
 
 const ResetPage = ({ params }) => {
@@ -41,12 +41,12 @@ const ResetPage = ({ params }) => {
   } = useContext(UserContext)
 
   const initialValues = {
-    newPassword: '',
+    password: '',
     repeatPassword: '',
   };
 
   const onSubmit = async (values, { resetForm }) => {
-    const response = await handlePasswordReset(values.newPassword)
+    const response = await handlePasswordReset(values.password)
     if (response) {
       resetForm({})
     }
@@ -58,7 +58,7 @@ const ResetPage = ({ params }) => {
     onSubmit,
   });
 
-  const resetUrl = `https://hummingbirdhammocks.com/reset/${params["*"]}`
+  const resetUrl = `https://hummingbirdhammocks.com/account/reset/${params["*"]}`
 
   const handleCustomerAccessToken = value => {
     setValue(value)
@@ -68,7 +68,7 @@ const ResetPage = ({ params }) => {
     CUSTOMER_PASSWORD_RESET
   )
 
-  const handlePasswordReset = async ({ password }) => {
+  const handlePasswordReset = async (password) => {
     const { data } = await resetPassword({
       variables: {
         password,
@@ -141,7 +141,7 @@ const ResetPage = ({ params }) => {
                         <TextField
                           label="New Password *"
                           variant="outlined"
-                          name={'newPassword'}
+                          name={'password'}
                           type={showPassword ? 'text' : 'password'}
                           fullWidth
                           InputProps={{
@@ -153,14 +153,14 @@ const ResetPage = ({ params }) => {
                               </InputAdornment>
                             ),
                           }}
-                          value={formik.values.newPassword}
+                          value={formik.values.password}
                           onChange={formik.handleChange}
                           error={
-                            formik.touched.newPassword &&
-                            Boolean(formik.errors.newPassword)
+                            formik.touched.password &&
+                            Boolean(formik.errors.password)
                           }
                           helperText={
-                            formik.touched.newPassword && formik.errors.newPassword
+                            formik.touched.password && formik.errors.password
                           }
                         />
                         <TextField
