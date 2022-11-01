@@ -7,11 +7,17 @@ import {
   Button,
   IconButton,
   useMediaQuery,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemButton,
+  ListItemIcon,
+  Tooltip
 } from "@mui/material"
-import { Add, Remove, Delete } from "@mui/icons-material"
+import { Add, Remove, Delete, Forest, Co2 } from "@mui/icons-material"
 
 import { CartContext, RecentViewedContext } from "contexts"
-import { Seo, Layout, MainWrapper, Link, AnotherLink } from "components"
+import { Seo, Layout, MainWrapper, Link } from "components"
 import { RecentlyViewed, CartExtras } from "sections"
 
 
@@ -233,10 +239,29 @@ const CartPage = () => {
                     Proceed to Checkout
                   </Button>
 
-                  <Box sx={{ padding: 2 }}>
-                    <Typography variant="cartVariant" color="grey.600">
-                      We plant two trees for every order <AnotherLink href="https://ecologi.com/hummingbirdhammocks?r=60b8efa8e6e3c022ec95c2bb" target="_blank">Learn More</AnotherLink>
-                    </Typography>
+                  <Box sx={{ paddingTop: 2, paddingBottom: 2 }}>
+                    <List>
+                      <ListItem disablePadding>
+                        <Tooltip title="Learn More" placement="bottom">
+                          <ListItemButton component='a' href="https://www.shopify.com/climate/sustainability-fund/partners" target="_blank">
+                            <ListItemIcon>
+                              <Co2 />
+                            </ListItemIcon>
+                            <ListItemText primary="All deliveries are carbon neutral" />
+                          </ListItemButton>
+                        </Tooltip>
+                      </ListItem>
+                      <ListItem disablePadding>
+                        <Tooltip title="Learn More" placement="bottom">
+                          <ListItemButton component='a' href="https://ecologi.com/hummingbirdhammocks?r=60b8efa8e6e3c022ec95c2bb" target="_blank">
+                            <ListItemIcon>
+                              <Forest />
+                            </ListItemIcon>
+                            <ListItemText primary="We plant two trees for every order" />
+                          </ListItemButton>
+                        </Tooltip>
+                      </ListItem>
+                    </List>
                   </Box>
                 </Box>
               </Box>
