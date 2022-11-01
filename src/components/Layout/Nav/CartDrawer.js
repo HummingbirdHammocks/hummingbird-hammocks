@@ -7,6 +7,12 @@ import {
   IconButton,
   Button,
   Stack,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemButton,
+  ListItemIcon,
+  Tooltip
 } from "@mui/material"
 import {
   ShoppingCartOutlined,
@@ -14,11 +20,13 @@ import {
   Remove,
   Close,
   Delete,
+  Forest,
+  Co2,
 } from "@mui/icons-material"
 import window from "global"
 
 import { useUICartContext, CartContext } from "contexts"
-import { Link, AnotherLink } from "components"
+import { Link } from "components"
 
 export const CartDrawer = () => {
   const { cartOpen, setCartOpen } = useUICartContext()
@@ -191,10 +199,29 @@ export const CartDrawer = () => {
           padding: "15px 25px 30px  25px"
         }}
       >
-        <Box sx={{ padding: 2 }}>
-          <Typography variant="cartVariant" color="grey.600" justifyContent={"center"}>
-            We plant two trees for every order <AnotherLink href="https://ecologi.com/hummingbirdhammocks?r=60b8efa8e6e3c022ec95c2bb" target="_blank">Learn More</AnotherLink>
-          </Typography>
+        <Box sx={{ paddingTop: 2, paddingBottom: 2 }}>
+          <List>
+            <ListItem disablePadding>
+              <Tooltip title="Learn More" placement="bottom">
+                <ListItemButton component='a' href="https://www.shopify.com/climate/sustainability-fund/partners" target="_blank">
+                  <ListItemIcon>
+                    <Co2 />
+                  </ListItemIcon>
+                  <ListItemText primary="All deliveries are carbon neutral" />
+                </ListItemButton>
+              </Tooltip>
+            </ListItem>
+            <ListItem disablePadding>
+              <Tooltip title="Learn More" placement="bottom">
+                <ListItemButton component='a' href="https://ecologi.com/hummingbirdhammocks?r=60b8efa8e6e3c022ec95c2bb" target="_blank">
+                  <ListItemIcon>
+                    <Forest />
+                  </ListItemIcon>
+                  <ListItemText primary="We plant two trees for every order" />
+                </ListItemButton>
+              </Tooltip>
+            </ListItem>
+          </List>
         </Box>
         {!checkout?.lineItems.length ? (
           <Button
