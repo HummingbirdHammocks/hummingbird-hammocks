@@ -30,6 +30,7 @@ const CartPage = () => {
   let totalQuantity = 0
 
   if (checkout) {
+    console.log(checkout);
     checkout.lineItems.forEach(lineItem => {
       totalQuantity = totalQuantity + lineItem.quantity
     })
@@ -213,6 +214,20 @@ const CartPage = () => {
                   ))}
                 </Box>
                 <Box>
+                  {checkout?.discountApplications.length >= 1 && (
+                    checkout.discountApplications.map((discount, index) => (
+                      <Box mb="20px" display="flex" justifyContent="space-between">
+                        <Typography sx={{ color: "#F41901" }} variant="subtitle2">
+                          {discount.title}
+                        </Typography>
+                        {discount.value.percentage !== null && (
+                          <Typography sx={{ color: "#F41901" }} variant="subtitle2">
+                            <b>{discount.value.percentage}% OFF</b>
+                          </Typography>
+                        )}
+                      </Box>
+                    ))
+                  )}
                   <Box mb="20px" display="flex" justifyContent="space-between">
                     <Typography sx={{ color: "#000" }} variant="subtitle1">
                       <b>Subtotal: </b>
