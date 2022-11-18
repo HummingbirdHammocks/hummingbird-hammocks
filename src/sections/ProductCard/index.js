@@ -65,7 +65,7 @@ export const ProductCard = ({ products, minHeight, mdMinHeight }) => {
     ProductsData()
   }, [products])
 
-  console.log(products)
+  /* console.log(products) */
 
   return (
     <>

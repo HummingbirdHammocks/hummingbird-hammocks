@@ -10,7 +10,7 @@ import ExtensionsBackground from "../assets/images/product-backgrounds/Extension
 import WallHangingKitBackground from "../assets/images/product-backgrounds/WallHangingKitBackground.jpg"
 
 export const productBackgrounds = (handle) => {
-  console.log(handle)
+  /* console.log(handle) */
 
   switch (handle) {
     case "single-hammock":
