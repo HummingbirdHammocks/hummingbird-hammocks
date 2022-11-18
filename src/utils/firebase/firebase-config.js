@@ -56,7 +56,7 @@ export function remoteConfig() {
     /* remoteConfig.settings.minimumFetchIntervalMillis = 43200000; */
 
     remoteConfig.defaultConfig = {
-        "top_banner": "{\"description\":\"25% OFF Site Wide for Black Friday 11/9-11/30\"}"
+        "top_banner": "{\"description\":\"FREE SHIPPING for all USA orders over $25!\"}"
     }
 
     return remoteConfig;
