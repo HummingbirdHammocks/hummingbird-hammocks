@@ -71,7 +71,7 @@ export const TopBanner = () => {
             size="small"
             sx={{
               position: "absolute",
-              top: "8px",
+              top: "2px",
               right: "20px",
 
               [theme.breakpoints.down("md")]: {
