@@ -28,7 +28,7 @@ const validationSchema = yup.object({
     .min(8, 'The password should have at minimum length of 8'),
 });
 
-const LoginPage = () => {
+const LoginPage = ({ location }) => {
   const theme = useTheme();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -51,7 +51,16 @@ const LoginPage = () => {
     if (data.customerAccessTokenCreate.customerAccessToken) {
       setValue(data.customerAccessTokenCreate.customerAccessToken.accessToken)
       toast.success("Login Success!")
-      navigate("/account/orders")
+
+      const params = new URLSearchParams(location.search);
+      const cartUrl = params.get("checkout_url");
+
+      if (cartUrl) {
+        navigate("https://hummingbird-hammocks.myshopify.com" + cartUrl)
+      } else {
+        navigate("/account/orders")
+      }
+
     } else {
       toast.error("Invalid email or password, please try again")
     }
