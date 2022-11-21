@@ -266,7 +266,7 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
             borderRadius="10px"
           >
             <Box onClick={() => setDrawerOpen(false)}>
-              <Link style={{ display: "inline-block" }} to="/login">
+              <Link style={{ display: "inline-block" }} to="/account/login">
                 <Typography variant="navMenu">Login</Typography>
               </Link>
             </Box>

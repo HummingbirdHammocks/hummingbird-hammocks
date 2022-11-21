@@ -45,7 +45,7 @@ const AccountOrdersPage = () => {
       if (index >= 0) {
         setAccountDetails({ open: true, index })
       } else {
-        navigate("/login")
+        navigate("/account/login")
       }
     }
   }, [q, data])
@@ -84,7 +84,7 @@ const AccountOrdersPage = () => {
         >
           <Typography variant="h1">You need to log in first!</Typography>
           <Button>
-            <Link to="/login">Go to Log In</Link>
+            <Link to="/account/login">Go to Log In</Link>
           </Button>
         </Box>
       )}

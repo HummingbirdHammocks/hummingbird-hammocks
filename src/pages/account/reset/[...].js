@@ -127,7 +127,7 @@ const ResetPage = ({ params }) => {
                   </Typography>
                   <Button
                     variant="outlined"
-                    onClick={() => navigate("/login")}
+                    onClick={() => navigate("/account/login")}
                   >
                     Login
                   </Button>
