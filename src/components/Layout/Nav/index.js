@@ -152,7 +152,7 @@ const AppbarDesktop = ({
               <Tooltip title="Account Login">
                 <IconButton
                   component={Link}
-                  to="/login"
+                  to="/account/login"
                 >
                   <AccountCircle />
                 </IconButton>

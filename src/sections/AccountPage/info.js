@@ -117,7 +117,7 @@ const AccountInfoPage = () => {
         })
 
         logout()
-        navigate("/login")
+        navigate("/account/login")
       })
       .catch(error => {
         console.log(error)
@@ -264,7 +264,7 @@ const AccountInfoPage = () => {
         >
           <Typography variant="h1">You need to log in first!</Typography>
           <Button>
-            <Link to="/login">Go to Log In</Link>
+            <Link to="/account/login">Go to Log In</Link>
           </Button>
         </Box>
       )}

@@ -9,7 +9,7 @@ export const PrivateRoute = ({ component: Component, location, ...rest }) => {
     } = useContext(UserContext)
 
     if (!customerAccessToken) {
-        navigate("/login")
+        navigate("/account/login")
         return null
     }
 

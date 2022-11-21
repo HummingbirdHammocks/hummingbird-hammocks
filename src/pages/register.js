@@ -79,7 +79,7 @@ const RegisterPage = () => {
         hideProgressBar: false,
       })
       setTimeout(function () {
-        navigate("/login")
+        navigate("/account/login")
       }, 3000)
     }
   };
@@ -135,7 +135,7 @@ const RegisterPage = () => {
                   </Typography>
                   <Button
                     variant="outlined"
-                    onClick={() => navigate("/login")}
+                    onClick={() => navigate("/account/login")}
                   >
                     Login
                   </Button>

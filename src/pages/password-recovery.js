@@ -44,7 +44,7 @@ const PasswordRecovery = () => {
       })
 
       setTimeout(function () {
-        navigate("/login")
+        navigate("/account/login")
       }, 5000)
     } else {
       console.log(error)
@@ -101,7 +101,7 @@ const PasswordRecovery = () => {
                   </Typography>
                   <Button
                     variant="outlined"
-                    onClick={() => navigate("/login")}
+                    onClick={() => navigate("/account/login")}
                   >
                     Login
                   </Button>
