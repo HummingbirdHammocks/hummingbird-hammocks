@@ -39,7 +39,7 @@ export function ProductHero({ children, handle, backgroundColor, accentColor }) 
           >
             <Paper
               sx={{
-                backgroundColor: "rgba(255, 255, 255, 0.65)",
+                backgroundColor: "rgba(255, 255, 255, 0.75)",
                 borderColor: accentColor ? accentColor : "rgba(0, 0, 0, 0.12)",
                 borderStyle: "solid",
                 borderWidth: "2px",
