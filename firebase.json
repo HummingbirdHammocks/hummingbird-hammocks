@@ -84,6 +84,10 @@
         {
           "source": "/account/**",
           "destination": "/account/[...]/index.html"
+        },
+        {
+          "source": "/3170631789/**",
+          "destination": "https://hummingbird-hammocks.myshopify.com/3170631789/[...]"
         }
       ]
     },
@@ -99,6 +103,10 @@
         {
           "source": "/account/**",
           "destination": "/account/[...]/index.html"
+        },
+        {
+          "source": "/3170631789/**",
+          "destination": "https://hummingbird-hammocks.myshopify.com/3170631789/[...]"
         }
       ]
     }
