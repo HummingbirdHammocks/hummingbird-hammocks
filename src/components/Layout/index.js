@@ -7,6 +7,7 @@ import firebaseApp, { logAnalyticsEvent } from '../../utils/firebase/firebase-co
 
 import Nav from "./Nav"
 import Footer from "./Footer"
+import GDPRConsent from "./GDPRBanner";
 import { AppDrawer } from "./Nav/AppDrawer"
 import { CartDrawer } from "./Nav/CartDrawer"
 import { TopBanner } from "./TopBanner"
@@ -60,6 +61,7 @@ export const Layout = ({ children }) => {
       />
       <CartDrawer />
       <Footer />
+      <GDPRConsent />
     </>
   )
 }
