@@ -62,6 +62,7 @@ const LoginPage = ({ location }) => {
       }
 
     } else {
+      console.log(data.customerAccessTokenCreate.customerUserErrors[0].message)
       toast.error("Invalid email or password, please try again")
     }
 
