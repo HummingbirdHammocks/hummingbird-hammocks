@@ -77,6 +77,7 @@ const ActivatePage = ({ params }) => {
     })
 
     if (data?.customerActivateByUrl) {
+      console.log(data.customerActivateByUrl)
       handleCustomerAccessToken(
         data.customerActivateByUrl.customerAccessToken.accessToken
       )
@@ -89,6 +90,7 @@ const ActivatePage = ({ params }) => {
         navigate("/account")
       }, 3000)
     } else {
+      console.log(data.customerActivateByUrl.customerUserErrors[0].message)
       toast.error("Unable to activate account, please try again using the link in your email")
     }
   }
@@ -213,8 +215,18 @@ const CUSTOMER_ACTIVATE = gql`
       activationUrl: $activationUrl,
       password: $password
     ) {
-      customer { id }
-      customerUserErrors { code field message }
+      customer { 
+        id 
+      }
+      customerAccessToken {
+        accessToken
+        expiresAt
+      }
+      customerUserErrors { 
+        code 
+        field 
+        message 
+      }
     }
   }
 `
