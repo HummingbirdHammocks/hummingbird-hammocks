@@ -18,7 +18,6 @@ const GDPRConsent = () => {
             style={{ background: "#10220E" }}
             buttonStyle={{ color: "#FFFFFF", backgroundColor: "#34542A", fontSize: "16px", padding: "10px 16px 10px 16px", borderRadius: "10px" }}
             declineButtonStyle={{ color: "#FFFFFF", backgroundColor: "#C12A2A", fontSize: "16px", padding: "10px 16px 10px 16px", borderRadius: "10px" }}
-            debug={true}
         >
             <Typography variant="body2" color="white" sx={{ padding: 0.5 }}>
                 <b>We Value Your Privacy</b>: This website uses cookies to ensure you get the best experience on our website, and to analyze traffic.
