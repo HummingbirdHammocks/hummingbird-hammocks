@@ -13,7 +13,7 @@ export const TopBanner = () => {
 
   const getConfig = useCallback(async () => {
     const val = await getRemoteValue("top_banner");
-    console.log(val)
+    /* console.log(val) */
     if (val && val._value !== "") {
       setBanner(JSON.parse(val._value))
     }
