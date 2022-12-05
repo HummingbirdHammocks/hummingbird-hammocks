@@ -29,9 +29,18 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-plugin-facebook-pixel`,
+      resolve: `gatsby-plugin-gdpr-cookies`,
       options: {
-        pixelId: "560472584330855",
+        googleAnalytics: {
+          trackingId: 'G-0XCJVE8GYC',
+          // Setting this parameter is optional
+          anonymize: true
+        },
+        facebookPixel: {
+          pixelId: '560472584330855'
+        },
+        // Defines the environments where the tracking should be available  - default is ["production"]
+        environments: ['production', 'development']
       },
     },
     {
