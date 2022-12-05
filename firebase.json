@@ -136,14 +136,6 @@
           "source": "/account/**",
           "destination": "/account/[...]/index.html"
         },
-        {
-          "source": "/3170631789/**/orders/**",
-          "destination": "https://hummingbird-hammocks.myshopify.com/3170631789/[...]/orders/[...]"
-        },
-        {
-          "source": "/3170631789/**/order_payment/**",
-          "destination": "https://hummingbird-hammocks.myshopify.com/3170631789/[...]/orders/[...]"
-        }
       ]
     }
   ],
