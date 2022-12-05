@@ -84,10 +84,7 @@ const ResetPage = ({ params }) => {
         autoClose: 3000,
         hideProgressBar: false,
       })
-
-      setTimeout(function () {
-        navigate("/account")
-      }, 3000)
+      navigate("/account")
     } else {
       toast.error("Unable to reset password, please try again using the link in your email")
     }

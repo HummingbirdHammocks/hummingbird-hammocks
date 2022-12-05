@@ -81,14 +81,11 @@ const ActivatePage = ({ params }) => {
       handleCustomerAccessToken(
         data.customerActivateByUrl.customerAccessToken.accessToken
       )
-      toast.success("Account Activated! You'll logged in automatically in 3s...", {
+      toast.success("Account Activated!", {
         autoClose: 3000,
         hideProgressBar: false,
       })
-
-      setTimeout(function () {
-        navigate("/account")
-      }, 3000)
+      navigate("/account")
     } else {
       console.log(data.customerActivateByUrl.customerUserErrors[0].message)
       toast.error("Unable to activate account, please try again using the link in your email")
@@ -110,17 +107,23 @@ const ActivatePage = ({ params }) => {
         <MainWrapper>
           <Box padding={{ xs: "0", md: "0 200px" }}>
             {customerAccessToken ? (
-              <Box
-                minHeight="450px"
+              <Stack
+                direction="column"
                 justifyContent="center"
                 alignItems="center"
-                display="flex"
-              >
-                <Typography variant="h1">
-                  You're already Logged in! Please Logout First:
+                spacing={2}
+                sx={{
+                  marginTop: 20,
+                  marginBottom: 20,
+                }}>
+                <Typography variant="h2">
+                  You're already Logged in!
                 </Typography>
-                <Button variant="contained" onClick={() => logout()}>Logout</Button>
-              </Box>
+                <Typography variant="h5">
+                  Please Log Out First
+                </Typography>
+                <Button variant="contained" size="large" onClick={() => logout()}>Logout</Button>
+              </Stack>
             ) : (
               <>
                 <Stack spacing={2} direction={{ xs: "column", sm: "row" }} justifyContent="space-between" sx={{ paddingBottom: "30px" }}>
