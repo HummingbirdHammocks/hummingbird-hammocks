@@ -33,8 +33,7 @@ const LoginPage = ({ location }) => {
   const theme = useTheme();
 
   const [showPassword, setShowPassword] = useState(false);
-
-  const { customerAccessToken } = useAuthStore();
+  
   const authDispatch = useAuthDispatch();
 
   const initialValues = {

@@ -3,7 +3,6 @@ import { toast } from 'react-toastify';
 
 const initialState = {
     customerAccessToken: null,
-    user: null,
 }
 
 const reducer = (state, action) => {
@@ -13,17 +12,11 @@ const reducer = (state, action) => {
                 ...state,
                 customerAccessToken: action.customerAccessToken,
             };
-        case "setUser":
-            return {
-                ...state,
-                user: action.user,
-            };
         case "setLogout":
             toast.success("Logged Out")
             return {
                 ...state,
                 customerAccessToken: null,
-                user: null
             };
         default:
             throw new Error("Unknown action!"/*  + action */);
