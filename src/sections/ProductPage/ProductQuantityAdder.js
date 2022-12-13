@@ -108,7 +108,7 @@ export function ProductQuantityAdder({ variantId, available, productHandle, prod
     console.log(email)
     const payload = {
       email: `${email}`,
-      variantTitle: `${variantTitle}`,
+      variantTitle: variantTitle != "Default Title" ? `${variantTitle}` : "",
       variantSku: `${variantSku}`,
       variantId: `${variantId}`,
       productTitle: `${productTitle}`,
