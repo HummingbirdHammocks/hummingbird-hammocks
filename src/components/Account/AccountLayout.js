@@ -1,7 +1,7 @@
 import React from "react"
-import { useTheme, Typography, Divider, Box, Stack, Grid, Button, } from "@mui/material"
 import { navigate } from "gatsby"
 import { useQuery, gql } from "@apollo/client"
+import { useTheme, Typography, Divider, Box, Stack, Grid, Button, } from "@mui/material"
 // stores
 import { useAuthStore, useAuthDispatch } from "../../stores/useAuthStore";
 // components
