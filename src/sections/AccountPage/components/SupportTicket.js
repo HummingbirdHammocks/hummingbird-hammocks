@@ -14,7 +14,7 @@ import { fShopify } from "utils/formatTime"
 
 /* /products/single-hammock */
 export const SupportTicket = ({ ticket }) => {
-  console.log(ticket)
+  /* console.log(ticket) */
 
   const getStatusColor = (status) => {
     switch (status) {
