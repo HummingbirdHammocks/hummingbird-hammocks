@@ -432,7 +432,7 @@ const AccountAddressPage = () => {
                   <TextField
                     label="Street Address 2"
                     variant="outlined"
-                    name={'address'}
+                    name={'address2'}
                     fullWidth
                     value={formik.values.address2}
                     onChange={formik.handleChange}
