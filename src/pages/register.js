@@ -1,5 +1,7 @@
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
 import { toast } from 'react-toastify';
+import { useMutation, gql } from "@apollo/client"
+import { navigate } from "gatsby"
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import {
@@ -15,10 +17,9 @@ import {
 } from "@mui/material"
 import { LoadingButton } from '@mui/lab';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { useMutation, gql } from "@apollo/client"
-import { navigate } from "gatsby"
-
-import { UserContext } from "contexts"
+// stores
+import { useAuthStore, useAuthDispatch } from "../stores/useAuthStore";
+// components
 import {
   Seo,
   Layout,
@@ -50,6 +51,9 @@ const RegisterPage = () => {
   const theme = useTheme();
 
   const [showPassword, setShowPassword] = useState(false);
+
+  const { customerAccessToken } = useAuthStore();
+  const authDispatch = useAuthDispatch();
 
   const initialValues = {
     firstName: '',
@@ -88,11 +92,6 @@ const RegisterPage = () => {
     onSubmit,
   });
 
-  const {
-    store: { customerAccessToken },
-    logout,
-  } = useContext(UserContext)
-
   const [customerRegister/* , { loading, error } */] = useMutation(CUSTOMER_REGISTER)
 
   const handleShowPassword = () => {
@@ -129,7 +128,7 @@ const RegisterPage = () => {
                 <Typography variant="h5">
                   Please Log Out First
                 </Typography>
-                <Button variant="contained" size="large" onClick={() => logout()}>Logout</Button>
+                <Button variant="contained" size="large" onClick={() => authDispatch({ type: "setLogout" })}>Logout</Button>
               </Stack>
             ) : (
               <>

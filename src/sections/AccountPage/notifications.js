@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { toast } from 'react-toastify'
 import {
   Typography,
@@ -12,8 +12,9 @@ import {
 } from "@mui/material"
 import { LoadingButton } from "@mui/lab"
 import { useMutation, useQuery, gql } from "@apollo/client"
-
-import { UserContext } from "contexts"
+// stores
+import { useAuthStore } from "../../stores/useAuthStore";
+// components
 import {
   AccountLayout,
   Link,
@@ -24,8 +25,9 @@ import { RestockNotifications } from "./components"
 
 const AccountNotificationsPage = () => {
   const [submitLoading, setSubmitLoading] = useState(false)
-
   const [acceptsMarketing, setAcceptsMarketing] = useState(false)
+
+  const { customerAccessToken } = useAuthStore();
 
   const handleSavePreferences = async () => {
     setSubmitLoading(true)
@@ -50,10 +52,6 @@ const AccountNotificationsPage = () => {
 
     setSubmitLoading(false)
   }
-
-  const {
-    store: { customerAccessToken },
-  } = useContext(UserContext)
 
   const { data, loading, error, refetch } = useQuery(CUSTOMER_INFO, {
     variables: {

@@ -17,7 +17,6 @@ import {
   NavProvider,
   UICartProvider,
   CartContextProvider,
-  UserContextProvider,
   RecentViewedContextProvider,
   TopBannerProvider,
 } from "contexts"
@@ -52,25 +51,23 @@ const client = new ApolloClient({
 export const wrapRootElement = ({ element }) => (
   <ApolloProvider client={client}>
     <AuthProvider>
-      <UserContextProvider>
-        <ProductContextProvider>
-          <RecentViewedContextProvider>
-            <CartContextProvider>
-              <ThemeProvider theme={theme}>
-                <TopBannerProvider>
-                  <NavProvider>
-                    <UICartProvider>{element}</UICartProvider>
-                    <ToastContainer
-                      pauseOnFocusLoss={false}
-                    />
-                    <ReviewWidgetScripts />
-                  </NavProvider>
-                </TopBannerProvider>
-              </ThemeProvider>
-            </CartContextProvider>
-          </RecentViewedContextProvider>
-        </ProductContextProvider>
-      </UserContextProvider>
+      <ProductContextProvider>
+        <RecentViewedContextProvider>
+          <CartContextProvider>
+            <ThemeProvider theme={theme}>
+              <TopBannerProvider>
+                <NavProvider>
+                  <UICartProvider>{element}</UICartProvider>
+                  <ToastContainer
+                    pauseOnFocusLoss={false}
+                  />
+                  <ReviewWidgetScripts />
+                </NavProvider>
+              </TopBannerProvider>
+            </ThemeProvider>
+          </CartContextProvider>
+        </RecentViewedContextProvider>
+      </ProductContextProvider>
     </AuthProvider>
   </ApolloProvider>
 )

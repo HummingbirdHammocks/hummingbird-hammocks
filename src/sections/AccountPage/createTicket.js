@@ -1,13 +1,14 @@
-import React, { useContext } from "react"
+import React from "react"
+import { useQuery, gql } from "@apollo/client"
 import {
   Typography,
   Button,
   Box,
   Grid,
 } from "@mui/material"
-import { useQuery, gql } from "@apollo/client"
-
-import { UserContext } from "contexts"
+// stores
+import { useAuthStore } from "../../stores/useAuthStore";
+// components
 import {
   AccountLayout,
   Link,
@@ -18,9 +19,7 @@ import { SupportTicketForm } from "./components/SupportTicketForm"
 
 const AccountCreateTicket = () => {
 
-  const {
-    store: { customerAccessToken },
-  } = useContext(UserContext)
+  const { customerAccessToken } = useAuthStore();
 
   const { data, loading, error } = useQuery(CUSTOMER_INFO, {
     variables: {

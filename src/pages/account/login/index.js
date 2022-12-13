@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -7,8 +7,9 @@ import { navigate } from "gatsby"
 import { useTheme, Box, Typography, Divider, TextField, Stack, InputAdornment, IconButton, Button } from "@mui/material"
 import { LoadingButton } from '@mui/lab';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-
-import { UserContext } from "contexts"
+// stores
+import { useAuthStore, useAuthDispatch } from "../../../stores/useAuthStore";
+// components
 import {
   Seo,
   Layout,
@@ -33,6 +34,9 @@ const LoginPage = ({ location }) => {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  const { customerAccessToken } = useAuthStore();
+  const authDispatch = useAuthDispatch();
+
   const initialValues = {
     email: '',
     password: '',
@@ -49,7 +53,7 @@ const LoginPage = ({ location }) => {
     })
 
     if (data.customerAccessTokenCreate.customerAccessToken) {
-      setValue(data.customerAccessTokenCreate.customerAccessToken.accessToken)
+      authDispatch({ type: "setCustomerAccessToken", customerAccessToken: data.customerAccessTokenCreate.customerAccessToken.accessToken })
       toast.success("Login Success!")
 
       const params = new URLSearchParams(location.search);
@@ -73,10 +77,6 @@ const LoginPage = ({ location }) => {
     validationSchema: validationSchema,
     onSubmit,
   });
-
-  const {
-    setValue,
-  } = useContext(UserContext)
 
   const [customerLogin, { error }] = useMutation(CUSTOMER_LOGIN)
 

@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React from "react"
 import { toast } from "react-toastify"
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -7,8 +7,9 @@ import { navigate } from "gatsby"
 import { useTheme, Typography, Divider, Box, Stack, TextField, IconButton, InputAdornment, Button } from "@mui/material"
 import { LoadingButton } from '@mui/lab';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-
-import { UserContext } from "contexts"
+// stores
+import { useAuthStore, useAuthDispatch } from "../../../stores/useAuthStore";
+// components
 import {
   Seo,
   Layout,
@@ -34,11 +35,8 @@ const ActivatePage = ({ params }) => {
   const [showPassword, setShowPassword] = React.useState(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] = React.useState(false);
 
-  const {
-    store: { customerAccessToken },
-    setValue,
-    logout,
-  } = useContext(UserContext)
+  const { customerAccessToken } = useAuthStore();
+  const authDispatch = useAuthDispatch();
 
   const initialValues = {
     password: '',
@@ -61,7 +59,7 @@ const ActivatePage = ({ params }) => {
   const activationUrl = `https://hummingbirdhammocks.com/account/activate/${params["*"]}`
 
   const handleCustomerAccessToken = value => {
-    setValue(value)
+    authDispatch({ type: "setCustomerAccessToken", customerAccessToken: value })
   }
 
   const [activateAccount] = useMutation(
@@ -122,7 +120,7 @@ const ActivatePage = ({ params }) => {
                 <Typography variant="h5">
                   Please Log Out First
                 </Typography>
-                <Button variant="contained" size="large" onClick={() => logout()}>Logout</Button>
+                <Button variant="contained" size="large" onClick={() => authDispatch({ type: "setLogout" })}>Logout</Button>
               </Stack>
             ) : (
               <>

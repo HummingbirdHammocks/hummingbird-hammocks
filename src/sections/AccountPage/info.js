@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useCallback } from "react"
+import React, { useEffect, useState, useCallback } from "react"
 import { toast } from "react-toastify"
 import { useFormik } from 'formik';
 import { navigate } from "gatsby"
@@ -12,8 +12,9 @@ import {
   Box,
   Button,
 } from "@mui/material"
-
-import { UserContext } from "contexts"
+// stores
+import { useAuthStore, useAuthDispatch } from "../../stores/useAuthStore";
+// components
 import {
   AccountLayout,
   MiddleSpinner,
@@ -45,10 +46,8 @@ const AccountInfoPage = () => {
   const [newPassword, setNewPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
 
-  const {
-    store: { customerAccessToken },
-    logout,
-  } = useContext(UserContext)
+  const { customerAccessToken } = useAuthStore();
+  const authDispatch = useAuthDispatch();
 
   const initialValues = {
     firstName: '',
@@ -116,7 +115,7 @@ const AccountInfoPage = () => {
           hideProgressBar: false,
         })
 
-        logout()
+        authDispatch({ type: "setLogout" })
         navigate("/account/login")
       })
       .catch(error => {

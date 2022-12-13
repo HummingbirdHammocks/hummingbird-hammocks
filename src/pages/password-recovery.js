@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React from "react"
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -6,8 +6,9 @@ import { useMutation, gql } from "@apollo/client"
 import { navigate } from "gatsby"
 import { LoadingButton } from '@mui/lab';
 import { useTheme, Typography, Divider, Box, Stack, TextField, Button } from "@mui/material"
-
-import { UserContext } from "contexts"
+// stores
+import { useAuthStore, useAuthDispatch } from "../stores/useAuthStore";
+// components
 import {
   Seo,
   Layout,
@@ -24,6 +25,9 @@ const validationSchema = yup.object({
 
 const PasswordRecovery = () => {
   const theme = useTheme();
+
+  const { customerAccessToken } = useAuthStore();
+  const authDispatch = useAuthDispatch();
 
   const initialValues = {
     email: '',
@@ -57,11 +61,6 @@ const PasswordRecovery = () => {
     validationSchema: validationSchema,
     onSubmit,
   });
-
-  const {
-    store: { customerAccessToken },
-    logout,
-  } = useContext(UserContext)
 
   const [forgetPassword, { /* loading, */ error }] = useMutation(
     CUSTOMER_PASSWORD_FORGET
@@ -97,7 +96,7 @@ const PasswordRecovery = () => {
                 <Typography variant="h5">
                   Please Log Out First
                 </Typography>
-                <Button variant="contained" size="large" onClick={() => logout()}>Logout</Button>
+                <Button variant="contained" size="large" onClick={() => authDispatch({ type: "setLogout" })}>Logout</Button>
               </Stack>
             ) : (
               <>

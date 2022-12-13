@@ -4,8 +4,9 @@ import { navigate } from "gatsby"
 import { useQuery, gql } from "@apollo/client"
 import { useLocation } from "@gatsbyjs/reach-router"
 import queryString from "query-string"
-
-import { UserContext } from "contexts"
+// stores
+import { useAuthStore } from "../../stores/useAuthStore";
+// components
 import {
   AccountLayout,
   Link,
@@ -20,9 +21,7 @@ const AccountOrdersPage = () => {
     index: null,
   })
 
-  const {
-    store: { customerAccessToken },
-  } = useContext(UserContext)
+  const { customerAccessToken } = useAuthStore();
 
   // Variants & Product Image
   const { search } = useLocation()

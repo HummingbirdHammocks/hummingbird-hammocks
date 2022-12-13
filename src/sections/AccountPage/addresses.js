@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
 import { toast } from "react-toastify"
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -16,8 +16,9 @@ import {
   Button,
   Stack,
 } from "@mui/material"
-
-import { UserContext } from "contexts"
+// stores
+import { useAuthStore } from "../../stores/useAuthStore";
+// components
 import {
   AccountLayout,
   MiddleSpinner,
@@ -80,9 +81,7 @@ const AccountAddressPage = () => {
   const [formType, setFormType] = useState("Add")
   const [checkDefaultAddress, setCheckDefaultAddress] = useState(false)
 
-  const {
-    store: { customerAccessToken },
-  } = useContext(UserContext)
+  const { customerAccessToken } = useAuthStore();
 
   const initialValues = {
     id: '',
