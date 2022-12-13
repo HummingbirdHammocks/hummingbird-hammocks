@@ -21,12 +21,12 @@ export const RestockNotifications = ({ email }) => {
 
   const loadingArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
-  if (error || state == "error") { return null }
+  if (error || state === "error") { return null }
 
   return (
 
     <List >
-      {state == "loading" ? (
+      {state === "loading" ? (
         loadingArray.map(index =>
           <Skeleton key={index} />
         )

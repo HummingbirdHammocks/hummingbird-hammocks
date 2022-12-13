@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react"
 import { useFormik } from 'formik';
+import { useQueryClient } from "react-query";
 import { useQuery, gql } from "@apollo/client"
 import * as yup from 'yup';
 import { toast } from 'react-toastify'
@@ -45,6 +46,8 @@ export function ProductQuantityAdder({ variantId, available, productHandle, prod
   })
 
   const { data: notificationData, } = useRestockNotifications(data && data.customer && data.customer.email)
+
+  const queryClient = useQueryClient();
 
   const handleAlreadySignedUp = (notifications) => {
     if (!notifications || notifications.length < 0) return false
@@ -114,6 +117,7 @@ export function ProductQuantityAdder({ variantId, available, productHandle, prod
     const response = await saveDocumentGenerateID("restock_notifications", payload)
     if (response) {
       toast.success("Thanks! We will let you know as soon as this item is back in stock")
+      queryClient.invalidateQueries(["restock_notifications"]);
       formik.resetForm({})
       setOpen(false)
     }
