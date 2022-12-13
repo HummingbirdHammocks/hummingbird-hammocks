@@ -18,7 +18,7 @@ const deleteNotification = async (id) => {
 
 export default function useRestockNotifications(email) {
     return useQuery(
-        ["restockNotifications", email],
+        ["restock_notifications", email],
         () => getNotifications(email),
         { staleTime: 1000 * 600 },
         { enabled: !!email });
