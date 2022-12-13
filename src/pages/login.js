@@ -9,6 +9,9 @@ import { LoadingButton } from '@mui/lab';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 import { UserContext } from "contexts"
+// stores
+import { useAuthDispatch } from "../stores/useAuthStore";
+// components
 import {
   Seo,
   Layout,
@@ -33,6 +36,8 @@ const LoginPage = () => {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  const authDispatch = useAuthDispatch();
+
   const initialValues = {
     email: '',
     password: '',
@@ -50,6 +55,7 @@ const LoginPage = () => {
 
     if (data.customerAccessTokenCreate.customerAccessToken) {
       setValue(data.customerAccessTokenCreate.customerAccessToken.accessToken)
+      authDispatch({ type: "setCustomerAccessToken", customerAccessToken: data.customerAccessTokenCreate.customerAccessToken.accessToken })
       toast.success("Login Success!")
       navigate("/account/orders")
     } else {

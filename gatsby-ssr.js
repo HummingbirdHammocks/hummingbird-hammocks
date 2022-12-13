@@ -22,6 +22,9 @@ import {
   TopBannerProvider,
 } from "contexts"
 
+// context stores
+import { AuthProvider } from "stores/useAuthStore";
+
 import { ReviewWidgetScripts } from "utils/judgeMe"
 
 // Import Swiper styles
@@ -48,24 +51,26 @@ const client = new ApolloClient({
 
 export const wrapRootElement = ({ element }) => (
   <ApolloProvider client={client}>
-    <UserContextProvider>
-      <ProductContextProvider>
-        <RecentViewedContextProvider>
-          <CartContextProvider>
-            <ThemeProvider theme={theme}>
-              <TopBannerProvider>
-                <NavProvider>
-                  <UICartProvider>{element}</UICartProvider>
-                  <ToastContainer
-                    pauseOnFocusLoss={false}
-                  />
-                  <ReviewWidgetScripts />
-                </NavProvider>
-              </TopBannerProvider>
-            </ThemeProvider>
-          </CartContextProvider>
-        </RecentViewedContextProvider>
-      </ProductContextProvider>
-    </UserContextProvider>
+    <AuthProvider>
+      <UserContextProvider>
+        <ProductContextProvider>
+          <RecentViewedContextProvider>
+            <CartContextProvider>
+              <ThemeProvider theme={theme}>
+                <TopBannerProvider>
+                  <NavProvider>
+                    <UICartProvider>{element}</UICartProvider>
+                    <ToastContainer
+                      pauseOnFocusLoss={false}
+                    />
+                    <ReviewWidgetScripts />
+                  </NavProvider>
+                </TopBannerProvider>
+              </ThemeProvider>
+            </CartContextProvider>
+          </RecentViewedContextProvider>
+        </ProductContextProvider>
+      </UserContextProvider>
+    </AuthProvider>
   </ApolloProvider>
 )
