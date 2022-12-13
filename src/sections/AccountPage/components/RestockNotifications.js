@@ -17,7 +17,7 @@ import { Link } from "components"
 
 /* /products/single-hammock */
 export const RestockNotifications = ({ email }) => {
-  const { data, state, isFetching, error } = useRestockNotifications(email)
+  const { data, state, error } = useRestockNotifications(email)
 
   const loadingArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 

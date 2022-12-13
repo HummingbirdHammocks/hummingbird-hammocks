@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 //firebase
-import { findInCollection, deleteDocument } from 'utils/firebase';
+import { findInCollection/* , deleteDocument  */} from 'utils/firebase';
 
 const getNotifications = async (email) => {
 
@@ -9,12 +9,12 @@ const getNotifications = async (email) => {
     return data;
 };
 
-const deleteNotification = async (id) => {
+/* const deleteNotification = async (id) => {
 
     const res = await deleteDocument("restock_notifications", id)
 
     return res;
-};
+}; */
 
 export default function useRestockNotifications(email) {
     return useQuery(

@@ -1,7 +1,7 @@
 import React from "react"
 import { navigate } from "gatsby"
 // stores
-import { useAuthStore, useAuthDispatch } from "../../stores/useAuthStore";
+import { useAuthStore } from "../../stores/useAuthStore";
 
 export const PrivateRoute = ({ component: Component, location, ...rest }) => {
 

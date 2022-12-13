@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Typography, Button, Box, Grid } from "@mui/material"
 import { navigate } from "gatsby"
 import { useQuery, gql } from "@apollo/client"

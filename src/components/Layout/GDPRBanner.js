@@ -1,6 +1,6 @@
 import React from "react"
 import CookieConsent from 'react-cookie-consent';
-import { Button, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { Link } from "components"
 
 

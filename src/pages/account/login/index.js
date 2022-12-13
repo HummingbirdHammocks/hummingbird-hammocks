@@ -8,7 +8,7 @@ import { useTheme, Box, Typography, Divider, TextField, Stack, InputAdornment, I
 import { LoadingButton } from '@mui/lab';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 // stores
-import { useAuthStore, useAuthDispatch } from "../../../stores/useAuthStore";
+import { useAuthDispatch } from "../../../stores/useAuthStore";
 // components
 import {
   Seo,

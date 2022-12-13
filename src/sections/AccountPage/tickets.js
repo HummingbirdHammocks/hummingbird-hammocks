@@ -48,11 +48,11 @@ const AccountTicketsPage = () => {
     }
 
     setTicketsLoading(false)
-  }, [data])
+  }, [])
 
   useEffect(() => {
     getTickets(data)
-  }, [data])
+  }, [data, getTickets])
 
   return (
     <AccountLayout title="Support Tickets" currentPage="tickets">
