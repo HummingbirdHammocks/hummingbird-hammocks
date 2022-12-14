@@ -1,4 +1,3 @@
-var path = require('path');
 const { saveDocumentGenerateID, findInCollection } = require('../../utils/firestore');
 
 exports.restock_notification = async function (req, res) {
