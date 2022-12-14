@@ -144,7 +144,7 @@ const AccountInfoPage = () => {
         phone: data.customer.phone,
       })
     }
-  }, [formik])
+  }, [data])
 
   useEffect(() => {
     handleDefaultValues(data)
