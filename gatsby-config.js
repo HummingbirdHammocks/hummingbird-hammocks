@@ -40,7 +40,7 @@ module.exports = {
           pixelId: '560472584330855'
         },
         // Defines the environments where the tracking should be available  - default is ["production"]
-        environments: ['production', 'development']
+        environments: ['production']
       },
     },
     {

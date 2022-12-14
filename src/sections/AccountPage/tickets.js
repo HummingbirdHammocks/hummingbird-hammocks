@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import {
   Typography,
   Button,
@@ -10,8 +10,9 @@ import {
   ListItemText,
 } from "@mui/material"
 import { useQuery, gql } from "@apollo/client"
-
-import { UserContext } from "contexts"
+// stores
+import { useAuthStore } from "../../stores/useAuthStore";
+// components
 import {
   AccountLayout,
   Link,
@@ -27,9 +28,7 @@ const AccountTicketsPage = () => {
   const [selectedTicket, setSelectedTicket] = useState(null)
   const [ticketsLoading, setTicketsLoading] = useState(false)
 
-  const {
-    store: { customerAccessToken },
-  } = useContext(UserContext)
+  const { customerAccessToken } = useAuthStore();
 
   const { data, loading, error } = useQuery(CUSTOMER_INFO, {
     variables: {
@@ -49,11 +48,11 @@ const AccountTicketsPage = () => {
     }
 
     setTicketsLoading(false)
-  }, [data])
+  }, [])
 
   useEffect(() => {
     getTickets(data)
-  }, [data])
+  }, [data, getTickets])
 
   return (
     <AccountLayout title="Support Tickets" currentPage="tickets">

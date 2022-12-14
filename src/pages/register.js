@@ -1,5 +1,7 @@
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
 import { toast } from 'react-toastify';
+import { useMutation, gql } from "@apollo/client"
+import { navigate } from "gatsby"
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import {
@@ -15,10 +17,9 @@ import {
 } from "@mui/material"
 import { LoadingButton } from '@mui/lab';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { useMutation, gql } from "@apollo/client"
-import { navigate } from "gatsby"
-
-import { UserContext } from "contexts"
+// stores
+import { useAuthStore, useAuthDispatch } from "../stores/useAuthStore";
+// components
 import {
   Seo,
   Layout,
@@ -51,6 +52,9 @@ const RegisterPage = () => {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  const { customerAccessToken } = useAuthStore();
+  const authDispatch = useAuthDispatch();
+
   const initialValues = {
     firstName: '',
     lastName: '',
@@ -78,9 +82,7 @@ const RegisterPage = () => {
         autoClose: 3000,
         hideProgressBar: false,
       })
-      setTimeout(function () {
-        navigate("/account/login")
-      }, 3000)
+      navigate("/account/login")
     }
   };
 
@@ -89,11 +91,6 @@ const RegisterPage = () => {
     validationSchema: validationSchema,
     onSubmit,
   });
-
-  const {
-    store: { customerAccessToken },
-    logout,
-  } = useContext(UserContext)
 
   const [customerRegister/* , { loading, error } */] = useMutation(CUSTOMER_REGISTER)
 
@@ -116,17 +113,23 @@ const RegisterPage = () => {
         <MainWrapper>
           <Box padding={{ xs: "0", md: "0 200px" }}>
             {customerAccessToken ? (
-              <Box
-                minHeight="450px"
+              <Stack
+                direction="column"
                 justifyContent="center"
                 alignItems="center"
-                display="flex"
-              >
-                <Typography variant="h1">
-                  You're already Logged in! Please Logout First:
+                spacing={2}
+                sx={{
+                  marginTop: 20,
+                  marginBottom: 20,
+                }}>
+                <Typography variant="h2">
+                  You're already Logged in!
                 </Typography>
-                <Button variant="contained" onClick={() => logout()}>Logout</Button>
-              </Box>
+                <Typography variant="h5">
+                  Please Log Out First
+                </Typography>
+                <Button variant="contained" size="large" onClick={() => authDispatch({ type: "setLogout" })}>Logout</Button>
+              </Stack>
             ) : (
               <>
                 <Stack spacing={2} direction={{ xs: "column", sm: "row" }} justifyContent="space-between" sx={{ paddingBottom: "30px" }}>

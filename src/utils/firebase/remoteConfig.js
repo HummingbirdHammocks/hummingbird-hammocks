@@ -5,7 +5,7 @@ export function fetchConfig() {
 
     return fetchAndActivate(remoteConfig())
         .then((response) => {
-            console.log(response)
+           /*  console.log(response) */
             return response
         })
         .catch((error) => {

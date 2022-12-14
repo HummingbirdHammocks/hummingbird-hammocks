@@ -148,7 +148,7 @@ const ContactUsPage = () => {
                 component={Link}
                 to="/paffiliate-program"
                 alt="AFFILIATE PROGRAM"
-                src="../assets/images/contact-us/affliate-programmin.png"
+                src="../assets/images/contact-us/affliate-program.png"
                 placeholder="blurred"
               />
             </Link>

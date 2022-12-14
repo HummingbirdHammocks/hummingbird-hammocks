@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React from "react"
 import { toast } from "react-toastify"
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -7,8 +7,9 @@ import { navigate } from "gatsby"
 import { useTheme, Typography, Divider, Box, Stack, TextField, IconButton, InputAdornment, Button } from "@mui/material"
 import { LoadingButton } from '@mui/lab';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-
-import { UserContext } from "contexts"
+// stores
+import { useAuthStore, useAuthDispatch } from "../../../stores/useAuthStore";
+// components
 import {
   Seo,
   Layout,
@@ -34,11 +35,8 @@ const ResetPage = ({ params }) => {
   const [showPassword, setShowPassword] = React.useState(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] = React.useState(false);
 
-  const {
-    store: { customerAccessToken },
-    setValue,
-    logout,
-  } = useContext(UserContext)
+  const { customerAccessToken } = useAuthStore();
+  const authDispatch = useAuthDispatch();
 
   const initialValues = {
     password: '',
@@ -60,10 +58,6 @@ const ResetPage = ({ params }) => {
 
   const resetUrl = `https://hummingbirdhammocks.com/account/reset/${params["*"]}`
 
-  const handleCustomerAccessToken = value => {
-    setValue(value)
-  }
-
   const [resetPassword] = useMutation(
     CUSTOMER_PASSWORD_RESET
   )
@@ -77,17 +71,12 @@ const ResetPage = ({ params }) => {
     })
 
     if (data?.customerResetByUrl) {
-      handleCustomerAccessToken(
-        data.customerResetByUrl.customerAccessToken.accessToken
-      )
+      authDispatch({ type: "setCustomerAccessToken", customerAccessToken: data.customerResetByUrl.customerAccessToken.accessToken })
       toast.success("Password Reset Succesfully! You'll logged in automatically in 3s...", {
         autoClose: 3000,
         hideProgressBar: false,
       })
-
-      setTimeout(function () {
-        navigate("/account")
-      }, 3000)
+      navigate("/account")
     } else {
       toast.error("Unable to reset password, please try again using the link in your email")
     }
@@ -117,7 +106,7 @@ const ResetPage = ({ params }) => {
                 <Typography variant="h1">
                   You're already Logged in! Please Logout First:
                 </Typography>
-                <Button variant="contained" onClick={() => logout()}>Logout</Button>
+                <Button variant="contained" onClick={() => authDispatch({ type: "setLogout" })}>Logout</Button>
               </Box>
             ) : (
               <>

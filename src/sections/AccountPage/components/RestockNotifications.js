@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react"
+import React from "react"
 import {
   List,
   ListItem,
@@ -6,37 +6,32 @@ import {
   IconButton,
   Tooltip,
   Stack,
-  Typography
+  Typography,
+  Skeleton
 } from "@mui/material"
 import { Launch/* , Delete */ } from '@mui/icons-material';
-//firebase
-import { findInCollection/* , deleteDocument */ } from 'utils/firebase';
+// hooks
+import useRestockNotifications from "../../../hooks/useRestockNotifications";
 
 import { Link } from "components"
 
 /* /products/single-hammock */
 export const RestockNotifications = ({ email }) => {
-  const [notifications, setNotifications] = useState(null)
+  const { data, state, error } = useRestockNotifications(email)
 
-  /* console.log(notifications) */
+  const loadingArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
-  const getNotifications = useCallback(async () => {
-    const result = await findInCollection("restock_notifications", "email", email)
-    setNotifications(result)
-  }, [email])
-
-  /* const handleDelete = async (id) => {
-    await deleteDocument("restock_notifications", id)
-  } */
-
-  useEffect(() => {
-    getNotifications()
-  }, [email, getNotifications])
+  if (error || state === "error") { return null }
 
   return (
+
     <List >
-      {notifications ? (
-        notifications.map((item, index) => (
+      {state === "loading" ? (
+        loadingArray.map(index =>
+          <Skeleton key={index} />
+        )
+      ) : data ? (
+        data.map((item, index) => (
           <ListItem
             key={index}
             sx={{ marginTop: 1, marginBottom: 1, border: "1px solid #e0e0e0", borderRadius: 2, }}

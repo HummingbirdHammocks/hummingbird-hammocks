@@ -1,5 +1,7 @@
 import React, { useState, useContext } from "react"
 import { useFormik } from 'formik';
+import { useQueryClient } from "react-query";
+import { useQuery, gql } from "@apollo/client"
 import * as yup from 'yup';
 import { toast } from 'react-toastify'
 import {
@@ -15,8 +17,11 @@ import { LoadingButton } from "@mui/lab"
 import { Add, Remove, Close } from "@mui/icons-material"
 //firebase
 import { saveDocumentGenerateID } from 'utils/firebase';
-
+// stores
+import { useAuthStore } from "../../stores/useAuthStore"
 import { CartContext } from "contexts"
+// hooks
+import useRestockNotifications from "../../hooks/useRestockNotifications";
 
 const validationSchema = yup.object({
   email: yup
@@ -32,6 +37,33 @@ export function ProductQuantityAdder({ variantId, available, productHandle, prod
   const [loading, setLoading] = useState(false)
   const { updateLineItem } = useContext(CartContext)
 
+  const { customerAccessToken } = useAuthStore()
+
+  const { data } = useQuery(CUSTOMER_INFO, {
+    variables: {
+      customerAccessToken,
+    },
+  })
+
+  const { data: notificationData, } = useRestockNotifications(data && data.customer && data.customer.email)
+
+  const queryClient = useQueryClient();
+
+  const handleAlreadySignedUp = (notifications) => {
+    if (!notifications || notifications.length < 0) return false
+
+    if (quantity - 1 <= 0) {
+      const notification = notifications.filter(item => item.variantSku === variantSku)
+      if (notification.length > 0) {
+        return true
+      } else {
+        return false
+      }
+    } else {
+      return false
+    }
+  }
+
   const handleDecreaseQuantity = () => {
     if (quantity - 1 <= 0) {
       setQuantity(0)
@@ -39,7 +71,6 @@ export function ProductQuantityAdder({ variantId, available, productHandle, prod
       setQuantity(quantity - 1)
     }
   }
-
 
   const handleQuantityChange = e => {
     if (e.currentTarget.value <= 0) {
@@ -59,7 +90,6 @@ export function ProductQuantityAdder({ variantId, available, productHandle, prod
     }
   }
 
-
   const handleSubmit = async e => {
     setLoading(true)
 
@@ -71,14 +101,14 @@ export function ProductQuantityAdder({ variantId, available, productHandle, prod
   }
 
   const initialValues = {
-    email: '',
+    email: data && data.customer ? data.customer.email : '',
   };
 
   const onSubmit = async ({ email }) => {
     console.log(email)
     const payload = {
       email: `${email}`,
-      variantTitle: `${variantTitle}`,
+      variantTitle: variantTitle !== "Default Title" ? `${variantTitle}` : "",
       variantSku: `${variantSku}`,
       variantId: `${variantId}`,
       productTitle: `${productTitle}`,
@@ -87,6 +117,7 @@ export function ProductQuantityAdder({ variantId, available, productHandle, prod
     const response = await saveDocumentGenerateID("restock_notifications", payload)
     if (response) {
       toast.success("Thanks! We will let you know as soon as this item is back in stock")
+      queryClient.invalidateQueries(["restock_notifications"]);
       formik.resetForm({})
       setOpen(false)
     }
@@ -194,31 +225,42 @@ export function ProductQuantityAdder({ variantId, available, productHandle, prod
                 <Close />
               </IconButton>
             </Stack>
-            <Typography mb="20px" variant="body1">
-              Enter your email and we will notify you when this product becomes available.
-            </Typography>
-            <form onSubmit={formik.handleSubmit}>
-              <Stack
-                direction={{ xs: "column", sm: "row" }}
-                justifyContent="space-between"
-                alignItems="center"
-                spacing={2}
-              >
-                <TextField
-                  label="Email *"
-                  variant="outlined"
-                  name={'email'}
-                  fullWidth
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  helperText={formik.touched.email && formik.errors.email}
-                />
-                <LoadingButton sx={{ minWidth: "160px" }} size={'large'} variant={'contained'} type={'submit'} loading={formik.isSubmitting}>
-                  Notify Me
-                </LoadingButton>
-              </Stack>
-            </form>
+            {handleAlreadySignedUp(notificationData) ? (
+              <Typography mb="20px" variant="body1">
+                You are already signed up to be notified when this product becomes available.
+                <br />
+                <br />
+                We are working hard to get this product back in stock as soon as possible, thank you for your patience!
+              </Typography>
+            ) : (
+              <Box>
+                <Typography mb="20px" variant="body1">
+                  Enter your email and we will notify you when this product becomes available.
+                </Typography>
+                <form onSubmit={formik.handleSubmit}>
+                  <Stack
+                    direction={{ xs: "column", sm: "row" }}
+                    justifyContent="space-between"
+                    alignItems="center"
+                    spacing={2}
+                  >
+                    <TextField
+                      label="Email *"
+                      variant="outlined"
+                      name={'email'}
+                      fullWidth
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
+                      error={formik.touched.email && Boolean(formik.errors.email)}
+                      helperText={formik.touched.email && formik.errors.email}
+                    />
+                    <LoadingButton sx={{ minWidth: "160px" }} size={'large'} variant={'contained'} type={'submit'} loading={formik.isSubmitting}>
+                      Notify Me
+                    </LoadingButton>
+                  </Stack>
+                </form>
+              </Box>
+            )}
           </Box>
         </Dialog>
       )
@@ -226,3 +268,11 @@ export function ProductQuantityAdder({ variantId, available, productHandle, prod
     </Box >
   )
 }
+
+const CUSTOMER_INFO = gql`
+  query ($customerAccessToken: String!) {
+    customer(customerAccessToken: $customerAccessToken) {
+      email
+    }
+  }
+`

@@ -1,8 +1,10 @@
-import React, { useContext } from "react"
-import { useTheme, Typography, Divider, Box, Stack, Grid, Button, } from "@mui/material"
+import React from "react"
 import { navigate } from "gatsby"
 import { useQuery, gql } from "@apollo/client"
-
+import { useTheme, Typography, Divider, Box, Stack, Grid, Button, } from "@mui/material"
+// stores
+import { useAuthStore, useAuthDispatch } from "../../stores/useAuthStore";
+// components
 import {
   Seo,
   Layout,
@@ -11,16 +13,14 @@ import {
 
 import AccountNav from "./AccoutNav"
 
-import { UserContext } from "contexts"
+
 
 
 export const AccountLayout = ({ title, currentPage, children }) => {
   const theme = useTheme();
 
-  const {
-    store: { customerAccessToken },
-    logout,
-  } = useContext(UserContext)
+  const { customerAccessToken } = useAuthStore();
+  const authDispatch = useAuthDispatch();
 
   const { data } = useQuery(CUSTOMER_INFO, {
     variables: {
@@ -29,7 +29,7 @@ export const AccountLayout = ({ title, currentPage, children }) => {
   })
 
   const userLogout = () => {
-    logout()
+    authDispatch({ type: "setLogout" })
     navigate("/")
   }
 

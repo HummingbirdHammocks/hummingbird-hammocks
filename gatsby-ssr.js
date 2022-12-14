@@ -8,6 +8,9 @@ import {
   InMemoryCache,
   ApolloProvider,
 } from "@apollo/client"
+// react query
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 import theme from "./src/ui/theme"
 import "./src/ui/style.css";
@@ -17,10 +20,12 @@ import {
   NavProvider,
   UICartProvider,
   CartContextProvider,
-  UserContextProvider,
   RecentViewedContextProvider,
   TopBannerProvider,
 } from "contexts"
+
+// context stores
+import { AuthProvider } from "stores/useAuthStore";
 
 import { ReviewWidgetScripts } from "utils/judgeMe"
 
@@ -32,6 +37,8 @@ import "swiper/css/thumbs"
 import "swiper/css/free-mode"
 
 import 'react-toastify/dist/ReactToastify.css';
+
+const rqClient = new QueryClient();
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -47,25 +54,28 @@ const client = new ApolloClient({
 })
 
 export const wrapRootElement = ({ element }) => (
-  <ApolloProvider client={client}>
-    <UserContextProvider>
-      <ProductContextProvider>
-        <RecentViewedContextProvider>
-          <CartContextProvider>
-            <ThemeProvider theme={theme}>
-              <TopBannerProvider>
-                <NavProvider>
-                  <UICartProvider>{element}</UICartProvider>
-                  <ToastContainer
-                    pauseOnFocusLoss={false}
-                  />
-                  <ReviewWidgetScripts />
-                </NavProvider>
-              </TopBannerProvider>
-            </ThemeProvider>
-          </CartContextProvider>
-        </RecentViewedContextProvider>
-      </ProductContextProvider>
-    </UserContextProvider>
-  </ApolloProvider>
+  <QueryClientProvider client={rqClient}>
+    <ApolloProvider client={client}>
+      <AuthProvider>
+        <ProductContextProvider>
+          <RecentViewedContextProvider>
+            <CartContextProvider>
+              <ThemeProvider theme={theme}>
+                <TopBannerProvider>
+                  <NavProvider>
+                    <UICartProvider>{element}</UICartProvider>
+                    <ToastContainer
+                      pauseOnFocusLoss={false}
+                    />
+                    <ReactQueryDevtools initialIsOpen={false} />
+                    <ReviewWidgetScripts />
+                  </NavProvider>
+                </TopBannerProvider>
+              </ThemeProvider>
+            </CartContextProvider>
+          </RecentViewedContextProvider>
+        </ProductContextProvider>
+      </AuthProvider>
+    </ApolloProvider>
+  </QueryClientProvider>
 )
