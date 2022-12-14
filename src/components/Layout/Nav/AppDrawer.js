@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { navigate } from "gatsby"
 import {
   Drawer,
   List,
@@ -11,17 +12,28 @@ import {
   Collapse,
   Typography,
 } from "@mui/material"
-import { useNavContext } from "contexts"
 import { ChevronLeft, ExpandLess, ExpandMore } from "@mui/icons-material"
 import { StaticImage } from "gatsby-plugin-image"
-
+// stores
+import { useUIStore, useUIDispatch, useAuthStore, useAuthDispatch } from "../../../stores"
+// components
 import { AnotherLink, Link } from "components"
 
-export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
-  const { drawerOpen, setDrawerOpen } = useNavContext()
+export const AppDrawer = ({ data }) => {
   const [nav1, setNav1] = useState(false)
   const [nav2, setNav2] = useState(false)
   const [nav3, setNav3] = useState(false)
+
+  const { customerAccessToken } = useAuthStore()
+  const authDispatch = useAuthDispatch()
+  const { navDrawerOpen } = useUIStore()
+  const uiDispatch = useUIDispatch()
+
+  const userLogout = () => {
+    authDispatch({ type: "setLogout" })
+    uiDispatch({ type: "toggleNavDrawerOpen" })
+    navigate("/")
+  }
 
   return (
     <Drawer
@@ -29,8 +41,8 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
         sx: { width: { xs: "90%", md: "450px" }, borderRadius: "0 20px 20px 0" },
       }}
       anchor="left"
-      open={drawerOpen}
-      onClose={() => setDrawerOpen(!drawerOpen)}
+      open={navDrawerOpen}
+      onClose={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
     >
       <Box
         sx={{
@@ -55,7 +67,7 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
         </Box>
 
         <Box mr="20px">
-          <IconButton onClick={() => setDrawerOpen(!drawerOpen)} size="large">
+          <IconButton onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })} size="large">
             <ChevronLeft />
           </IconButton>
         </Box>
@@ -63,7 +75,7 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
       <List>
         <ListItem>
           <ListItemButton
-            onClick={() => setDrawerOpen(false)}
+            onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
             component={Link}
             to="/collections/hammocks"
           >
@@ -72,7 +84,7 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
         </ListItem>
         <ListItem >
           <ListItemButton
-            onClick={() => setDrawerOpen(false)}
+            onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
             component={Link}
             to="/collections/tree-straps"
           >
@@ -81,7 +93,7 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
         </ListItem>
         <ListItem>
           <ListItemButton
-            onClick={() => setDrawerOpen(false)}
+            onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
             component={Link}
             to="/collections/shelter"
           >
@@ -111,7 +123,7 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
               <List sx={{ pl: 4 }} component="div" disablePadding>
                 <ListItem>
                   <ListItemButton
-                    onClick={() => setDrawerOpen(false)}
+                    onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
                     component={Link}
                     to="/collections/hammock-accessories"
                   >
@@ -120,7 +132,7 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
                 </ListItem>
                 <ListItem>
                   <ListItemButton
-                    onClick={() => setDrawerOpen(false)}
+                    onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
                     component={Link}
                     to="/collections/tree-strap-accessories"
                   >
@@ -129,7 +141,7 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
                 </ListItem>
                 <ListItem>
                   <ListItemButton
-                    onClick={() => setDrawerOpen(false)}
+                    onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
                     component={Link}
                     to="/collections/shelter-accessories"
                   >
@@ -140,7 +152,7 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
             </Collapse>
             <ListItem>
               <ListItemButton
-                onClick={() => setDrawerOpen(false)}
+                onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
                 component={Link}
                 to="/collections/care-and-repair"
               >
@@ -149,7 +161,7 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
             </ListItem>
             <ListItem>
               <ListItemButton
-                onClick={() => setDrawerOpen(false)}
+                onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
                 component={Link}
                 to="/collections/merchandise"
               >
@@ -158,7 +170,7 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
             </ListItem>
             <ListItem>
               <ListItemButton
-                onClick={() => setDrawerOpen(false)}
+                onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
                 component={Link}
                 to="/collections/bargain-bin"
               >
@@ -180,7 +192,7 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
           <List sx={{ pl: 4, pr: 4 }} component="div" disablePadding>
             <ListItem>
               <ListItemButton
-                onClick={() => setDrawerOpen(false)}
+                onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
                 component={Link}
                 to="/explore"
               >
@@ -189,7 +201,7 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
             </ListItem>
             <ListItem>
               <ListItemButton
-                onClick={() => setDrawerOpen(false)}
+                onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
                 component={Link}
                 to="/contact-us/"
               >
@@ -198,7 +210,7 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
             </ListItem>
             <ListItem>
               <ListItemButton
-                onClick={() => setDrawerOpen(false)}
+                onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
                 component={AnotherLink}
                 href="https://help.hummingbirdhammocks.com/"
               >
@@ -207,7 +219,7 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
             </ListItem>
             <ListItem>
               <ListItemButton
-                onClick={() => setDrawerOpen(false)}
+                onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
                 component={AnotherLink}
                 href="https://returns.hummingbirdhammocks.com/"
               >
@@ -216,7 +228,7 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
             </ListItem>
             <ListItem>
               <ListItemButton
-                onClick={() => setDrawerOpen(false)}
+                onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
                 component={Link}
                 to="/blogs/news"
               >
@@ -236,7 +248,7 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
             border="1px solid #34542a"
             borderRadius="10px"
           >
-            <Box onClick={() => setDrawerOpen(false)}>
+            <Box onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}>
               <Link style={{ display: "inline-block" }} to="/account">
                 <Typography variant="navMenu">
                   {data?.customer?.firstName} {data?.customer?.lastName}
@@ -246,10 +258,7 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
               </Link>
             </Box>
             <Box
-              onClick={() => {
-                userLogout()
-                setDrawerOpen(false)
-              }}
+              onClick={() => userLogout()}
               sx={{ cursor: "pointer" }}
             >
               <Typography variant="navUser">Logout</Typography>
@@ -265,7 +274,7 @@ export const AppDrawer = ({ customerAccessToken, data, userLogout }) => {
             border="1px solid #34542a"
             borderRadius="10px"
           >
-            <Box onClick={() => setDrawerOpen(false)}>
+            <Box onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}>
               <Link style={{ display: "inline-block" }} to="/account/login">
                 <Typography variant="navMenu">Login</Typography>
               </Link>

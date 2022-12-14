@@ -17,7 +17,7 @@ import {
   Stack,
 } from "@mui/material"
 // stores
-import { useAuthStore } from "../../stores/useAuthStore";
+import { useAuthStore } from "../../stores";
 // components
 import {
   AccountLayout,

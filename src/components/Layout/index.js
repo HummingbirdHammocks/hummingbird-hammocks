@@ -1,12 +1,10 @@
 import React, { useEffect } from "react"
 import { Box } from "@mui/material"
 import { useQuery, gql } from "@apollo/client"
-import { navigate } from "gatsby"
 //firebase
 import firebaseApp, { logAnalyticsEvent } from '../../utils/firebase/firebase-config';
 // stores
-import { useAuthStore, useAuthDispatch } from "../../stores/useAuthStore";
-import { useTopBannerContext } from "contexts"
+import { useAuthStore, useUIStore } from "../../stores";
 // components
 import Nav from "./Nav"
 import Footer from "./Footer"
@@ -16,10 +14,9 @@ import { CartDrawer } from "./Nav/CartDrawer"
 import { TopBanner } from "./TopBanner"
 
 export const Layout = ({ children }) => {
-  const { banner, bannerOpen } = useTopBannerContext()
+  const { banner, bannerOpen } = useUIStore()
 
   const { customerAccessToken } = useAuthStore();
-  const authDispatch = useAuthDispatch();
 
   useEffect(() => {
     if (!firebaseApp()) return;
@@ -32,19 +29,12 @@ export const Layout = ({ children }) => {
     },
   })
 
-  const userLogout = () => {
-    authDispatch({ type: "setLogout" })
-    navigate("/")
-  }
-
   return (
     <>
       <TopBanner />
       <Nav
-        customerAccessToken={customerAccessToken}
         loading={loading}
         data={data}
-        banner={(bannerOpen && banner)}
       />
 
       <Box
@@ -55,9 +45,7 @@ export const Layout = ({ children }) => {
         {children}
       </Box>
       <AppDrawer
-        customerAccessToken={customerAccessToken}
         data={data}
-        userLogout={userLogout}
       />
       <CartDrawer />
       <Footer />

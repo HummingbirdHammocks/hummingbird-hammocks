@@ -24,12 +24,16 @@ import {
   Co2,
 } from "@mui/icons-material"
 import window from "global"
+// stores
+import { useUIStore, useUIDispatch } from "../../../stores"
 
-import { useUICartContext, CartContext } from "contexts"
+import { CartContext } from "contexts"
 import { Link } from "components"
 
 export const CartDrawer = () => {
-  const { cartOpen, setCartOpen } = useUICartContext()
+  const { cartOpen } = useUIStore();
+  const uiDispatch = useUIDispatch();
+
   const { checkout, updateLineItem, removeLineItem } = useContext(CartContext)
 
   /* console.log(checkout) */
@@ -56,7 +60,7 @@ export const CartDrawer = () => {
       }}
       anchor="right"
       open={cartOpen}
-      onClose={() => setCartOpen(!cartOpen)}
+      onClose={() => uiDispatch({ type: "toggleCartOpen" })}
     >
       <Box display="flex" justifyContent="space-between" padding="16px 25px">
         <Box display="flex" justifyContent="center" alignItems="center">
@@ -66,7 +70,7 @@ export const CartDrawer = () => {
           </Typography>
         </Box>
         <Box>
-          <IconButton onClick={() => setCartOpen(!cartOpen)} ml={2.5}>
+          <IconButton onClick={() => uiDispatch({ type: "toggleCartOpen" })} ml={2.5}>
             <Close fontSize="lg" />
           </IconButton>
         </Box>
@@ -134,7 +138,7 @@ export const CartDrawer = () => {
                 },
               }}
               to={`/products/${item.variant.product.handle}`}
-              onClick={() => setCartOpen(!cartOpen)}
+              onClick={() => uiDispatch({ type: "toggleCartOpen" })}
             >
               <img
                 alt={item.variant.image.altText}
@@ -153,7 +157,7 @@ export const CartDrawer = () => {
                   },
                 }}
                 to={`/products/${item.variant.product.handle}`}
-                onClick={() => setCartOpen(!cartOpen)}
+                onClick={() => uiDispatch({ type: "toggleCartOpen" })}
               >
                 <Typography variant="cartTitle" fontSize="14px">
                   {item.title}
@@ -241,7 +245,7 @@ export const CartDrawer = () => {
               fullWidth
               component={Link}
               to="/cart"
-              onClick={() => setCartOpen(!cartOpen)}
+              onClick={() => uiDispatch({ type: "toggleCartOpen" })}
             >
               Go to Cart
             </Button>

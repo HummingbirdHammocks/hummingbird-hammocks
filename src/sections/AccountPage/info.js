@@ -13,7 +13,7 @@ import {
   Button,
 } from "@mui/material"
 // stores
-import { useAuthStore, useAuthDispatch } from "../../stores/useAuthStore";
+import { useAuthStore, useAuthDispatch } from "../../stores";
 // components
 import {
   AccountLayout,

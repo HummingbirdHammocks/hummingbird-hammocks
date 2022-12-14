@@ -12,7 +12,7 @@ import {
 } from "@mui/material"
 import { useQuery, gql } from "@apollo/client"
 // stores
-import { useAuthStore } from "../../stores/useAuthStore";
+import { useAuthStore } from "../../stores";
 // hooks
 import useTickets from "../../hooks/useTickets";
 // components

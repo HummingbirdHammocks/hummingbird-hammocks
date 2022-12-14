@@ -3,21 +3,24 @@ import { useTheme, Box, Button, Stack, IconButton, Typography } from "@mui/mater
 import { Close } from "@mui/icons-material"
 //firebase
 import { getRemoteValue } from "../../utils/firebase/remoteConfig"
-
-import { useTopBannerContext } from "contexts"
+// stores
+import { useUIStore, useUIDispatch } from "../../stores"
+// components
 import { MainWrapper } from "components"
 
 export const TopBanner = () => {
   const theme = useTheme();
-  const { bannerOpen, setBannerOpen, banner, setBanner } = useTopBannerContext()
+
+  const { bannerOpen, banner } = useUIStore()
+  const uiDispatch = useUIDispatch()
 
   const getConfig = useCallback(async () => {
     const val = await getRemoteValue("top_banner");
     /* console.log(val) */
     if (val && val._value !== "") {
-      setBanner(JSON.parse(val._value))
+      uiDispatch({ type: "setBanner", banner: JSON.parse(val._value) })
     }
-  }, [setBanner])
+  }, [useUIDispatch])
 
   useEffect(() => {
     getConfig()
@@ -78,7 +81,7 @@ export const TopBanner = () => {
                 right: "7px",
               },
             }}
-            onClick={() => setBannerOpen(false)}
+            onClick={() => uiDispatch({ type: "setBannerOpen", bannerOpen: false })}
           >
             <Close color="white" />
           </IconButton>

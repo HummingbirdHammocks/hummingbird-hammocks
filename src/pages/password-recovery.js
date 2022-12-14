@@ -7,7 +7,7 @@ import { navigate } from "gatsby"
 import { LoadingButton } from '@mui/lab';
 import { useTheme, Typography, Divider, Box, Stack, TextField, Button } from "@mui/material"
 // stores
-import { useAuthStore, useAuthDispatch } from "../stores/useAuthStore";
+import { useAuthStore, useAuthDispatch } from "../stores";
 // components
 import {
   Seo,

@@ -3,7 +3,7 @@ import { navigate } from "gatsby"
 import { useQuery, gql } from "@apollo/client"
 import { useTheme, Typography, Divider, Box, Stack, Grid, Button, } from "@mui/material"
 // stores
-import { useAuthStore, useAuthDispatch } from "../../stores/useAuthStore";
+import { useAuthStore, useAuthDispatch } from "../../stores";
 // components
 import {
   Seo,
