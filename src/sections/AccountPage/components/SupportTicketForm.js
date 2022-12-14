@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useQueryClient } from "react-query";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import {
@@ -10,7 +11,7 @@ import {
   Stack,
 } from "@mui/material"
 import { LoadingButton } from '@mui/lab';
-
+// components
 import DragAndDrop from "./dragAndDrop";
 
 const validationSchema = yup.object({
@@ -43,6 +44,8 @@ const validationSchema = yup.object({
 
 export function SupportTicketForm({ firstName, lastName, email, orderNumber, subject, message }) {
   const [submitting, setSubmitting] = useState(false);
+
+  const queryClient = useQueryClient();
 
   const handleAddAttachment = (file) => {
     console.log(file);
@@ -98,6 +101,7 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
     await axios.post(url, payload)
       .then((response) =>
         toast.success("Ticket created successfully, we will get back to you as soon as possible"),
+        queryClient.invalidateQueries(["tickets"]),
         formik.resetForm({})
       )
       .catch((error) => {

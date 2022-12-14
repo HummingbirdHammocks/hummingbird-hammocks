@@ -27,7 +27,7 @@ const AccountCreateTicket = () => {
     },
   })
 
-  console.log(data)
+  /* console.log(data) */
 
   return (
     <AccountLayout title="Support Tickets" currentPage="tickets">

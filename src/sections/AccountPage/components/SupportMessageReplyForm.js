@@ -1,6 +1,7 @@
 import React from "react";
 import { toast } from "react-toastify";
 import axios from 'axios';
+import { useQueryClient } from "react-query";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import {
@@ -10,7 +11,7 @@ import {
   TextField
 } from "@mui/material"
 import { LoadingButton } from '@mui/lab';
-
+//components
 import DragAndDrop from "./dragAndDrop";
 
 
@@ -24,6 +25,8 @@ const validationSchema = yup.object({
 
 export function SupportMessageReplyForm({ email, customerId, conversationId }) {
   const [submitting, setSubmitting] = React.useState(false);
+
+  const queryClient = useQueryClient();
 
   const initialValues = {
     message: '',
@@ -78,6 +81,7 @@ export function SupportMessageReplyForm({ email, customerId, conversationId }) {
       .then((response) =>
         console.log(response),
         toast.success("Message sent successfully"),
+        queryClient.invalidateQueries(["tickets"]),
         formik.resetForm({})
       )
       .catch((error) => {

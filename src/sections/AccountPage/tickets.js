@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useState } from "react"
 import {
   Typography,
   Button,
@@ -8,10 +8,13 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
+  LinearProgress,
 } from "@mui/material"
 import { useQuery, gql } from "@apollo/client"
 // stores
 import { useAuthStore } from "../../stores/useAuthStore";
+// hooks
+import useTickets from "../../hooks/useTickets";
 // components
 import {
   AccountLayout,
@@ -20,13 +23,9 @@ import {
 } from "components"
 import { SupportTicket } from "./components/SupportTicket"
 
-import { getUserTickets } from "../../utils/freescout"
-
 
 const AccountTicketsPage = () => {
-  const [tickets, setTickets] = useState([])
   const [selectedTicket, setSelectedTicket] = useState(null)
-  const [ticketsLoading, setTicketsLoading] = useState(false)
 
   const { customerAccessToken } = useAuthStore();
 
@@ -36,30 +35,17 @@ const AccountTicketsPage = () => {
     },
   })
 
-  const getTickets = useCallback(async (data) => {
-    setTicketsLoading(true)
+  const { data: ticketsData, state: ticketsState, error: ticketsError, isFetching: ticketsIsFetching } = useTickets(data?.customer?.email)
 
-    if (data?.customer) {
-      const newTickets = await getUserTickets(data.customer.email)
-      console.log(newTickets.data)
-      if (newTickets.data?._embedded?.conversations) {
-        setTickets(newTickets.data._embedded.conversations)
-      }
-    }
-
-    setTicketsLoading(false)
-  }, [])
-
-  useEffect(() => {
-    getTickets(data)
-  }, [data, getTickets])
+  if (ticketsError || ticketsState === "error") { return null }
 
   return (
     <AccountLayout title="Support Tickets" currentPage="tickets">
       {customerAccessToken ? (
         <Box>
           <Box
-            pb="20px"
+            pb={2}
+            mb={4}
             justifyContent="space-between"
             display={{ xs: "inline-block", sm: "flex" }}
           >
@@ -67,6 +53,7 @@ const AccountTicketsPage = () => {
               <Typography variant="h4">
                 Support Tickets
               </Typography>
+              {ticketsIsFetching && <LinearProgress />}
             </Box>
             <Box>
               <Button
@@ -79,8 +66,8 @@ const AccountTicketsPage = () => {
             </Box>
           </Box>
           {error && "Error"}
-          {(loading || ticketsLoading) && <MiddleSpinner divMinHeight="460px" size={20} />}
-          {(data && tickets !== [] && !ticketsLoading) && (
+          {(ticketsState === "loading" || loading) && <MiddleSpinner divMinHeight="460px" size={20} />}
+          {(data && ticketsData) && (
             <Grid container spacing={4} sx={{ paddingBottom: 4 }}>
               <Grid item xs={12} md={4} sx={{ borderRight: { xs: "0", md: "1px solid rgba(0,0,0,0.12)" } }}>
                 <Typography variant="h5" sx={{ marginBottom: 2 }}>
@@ -88,7 +75,7 @@ const AccountTicketsPage = () => {
                 </Typography>
                 <Box>
                   <List>
-                    {tickets.map((ticket) => (
+                    {ticketsData.map((ticket) => (
                       <ListItem
                         key={ticket.id}
                         disablePadding
