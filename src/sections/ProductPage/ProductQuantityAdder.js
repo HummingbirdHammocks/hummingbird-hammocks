@@ -18,7 +18,7 @@ import { Add, Remove, Close } from "@mui/icons-material"
 //firebase
 import { saveDocumentGenerateID } from 'utils/firebase';
 // stores
-import { useAuthStore } from "../../stores/useAuthStore"
+import { useAuthStore } from "../../stores"
 import { CartContext } from "contexts"
 // hooks
 import useRestockNotifications from "../../hooks/useRestockNotifications";

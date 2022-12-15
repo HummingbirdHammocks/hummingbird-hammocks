@@ -5,7 +5,7 @@ import { useQuery, gql } from "@apollo/client"
 import { useLocation } from "@gatsbyjs/reach-router"
 import queryString from "query-string"
 // stores
-import { useAuthStore } from "../../stores/useAuthStore";
+import { useAuthStore } from "../../stores";
 // components
 import {
   AccountLayout,

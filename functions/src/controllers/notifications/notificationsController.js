@@ -1,4 +1,4 @@
-const { saveDocumentGenerateID, findInCollection } = require('../../utils/firestore');
+const { saveDocumentGenerateID, findInCollection, deleteDocument } = require('../../utils/firestore');
 
 exports.restock_notification = async function (req, res) {
     if (!req.body.sku) {
@@ -14,21 +14,28 @@ exports.restock_notification = async function (req, res) {
     if (notifications.length > 0) {
         for (let i = 0; i < notifications.length; i++) {
             const payload = {
-                to: notifications[i].email,
+                to: notifications[i].data().email,
                 template: {
                     name: "restock_notification",
                     data: {
-                        productHandle: notifications[i].productHandle,
-                        productTitle: notifications[i].productTitle,
-                        variantTitle: notifications[i].variantTitle,
-                        variantSku: notifications[i].variantSku,
+                        productHandle: notifications[i].data().productHandle,
+                        productTitle: notifications[i].data().productTitle,
+                        variantTitle: notifications[i].data().variantTitle,
+                        variantSku: notifications[i].data().variantSku,
                     }
                 }
             };
             console.log(payload);
-            await saveDocumentGenerateID("mail", payload);
+            const saveResult = await saveDocumentGenerateID("mail", payload);
+            if (saveResult) {
+                console.log(notifications[i])
+                await deleteDocument("restock_notifications", notifications[i].id);
+            } else {
+                return res.status(500).send(`Error sending email: ${notifications[i].id}`);
+            }
         }
+        return res.status(200).send(`${req.body.sku} Restock Notifications Sent`);
+    } else {
+        return res.status(200).send(`No ${req.body.sku} Notifications Found`);
     }
-
-    res.status(200).send(`${req.body.sku} Restock Notifications Sent`)
 };

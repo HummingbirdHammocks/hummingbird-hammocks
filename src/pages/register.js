@@ -18,7 +18,7 @@ import {
 import { LoadingButton } from '@mui/lab';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 // stores
-import { useAuthStore, useAuthDispatch } from "../stores/useAuthStore";
+import { useAuthStore, useAuthDispatch } from "../stores";
 // components
 import {
   Seo,

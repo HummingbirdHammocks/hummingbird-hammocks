@@ -1,5 +1,5 @@
 import React from "react"
-import { ThemeProvider } from "@mui/material"
+import { ThemeProvider, CssBaseline } from "@mui/material"
 import { ToastContainer } from 'react-toastify';
 import fetch from "isomorphic-fetch"
 import {
@@ -17,15 +17,12 @@ import "./src/ui/style.css";
 
 import {
   ProductContextProvider,
-  NavProvider,
-  UICartProvider,
   CartContextProvider,
   RecentViewedContextProvider,
-  TopBannerProvider,
 } from "contexts"
 
 // context stores
-import { AuthProvider } from "stores/useAuthStore";
+import { AuthProvider, UIProvider } from "stores";
 
 import { ReviewWidgetScripts } from "utils/judgeMe"
 
@@ -57,24 +54,23 @@ export const wrapRootElement = ({ element }) => (
   <QueryClientProvider client={rqClient}>
     <ApolloProvider client={client}>
       <AuthProvider>
-        <ProductContextProvider>
-          <RecentViewedContextProvider>
-            <CartContextProvider>
-              <ThemeProvider theme={theme}>
-                <TopBannerProvider>
-                  <NavProvider>
-                    <UICartProvider>{element}</UICartProvider>
-                    <ToastContainer
-                      pauseOnFocusLoss={false}
-                    />
-                    <ReactQueryDevtools initialIsOpen={false} />
-                    <ReviewWidgetScripts />
-                  </NavProvider>
-                </TopBannerProvider>
-              </ThemeProvider>
-            </CartContextProvider>
-          </RecentViewedContextProvider>
-        </ProductContextProvider>
+        <UIProvider>
+          <ProductContextProvider>
+            <RecentViewedContextProvider>
+              <CartContextProvider>
+                <ThemeProvider theme={theme}>
+                  <CssBaseline />
+                  {element}
+                  <ToastContainer
+                    pauseOnFocusLoss={false}
+                  />
+                  <ReactQueryDevtools initialIsOpen={false} />
+                  <ReviewWidgetScripts />
+                </ThemeProvider>
+              </CartContextProvider>
+            </RecentViewedContextProvider>
+          </ProductContextProvider>
+        </UIProvider>
       </AuthProvider>
     </ApolloProvider>
   </QueryClientProvider>

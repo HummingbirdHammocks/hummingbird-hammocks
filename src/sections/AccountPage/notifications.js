@@ -13,7 +13,7 @@ import {
 import { LoadingButton } from "@mui/lab"
 import { useMutation, useQuery, gql } from "@apollo/client"
 // stores
-import { useAuthStore } from "../../stores/useAuthStore";
+import { useAuthStore } from "../../stores";
 // components
 import {
   AccountLayout,

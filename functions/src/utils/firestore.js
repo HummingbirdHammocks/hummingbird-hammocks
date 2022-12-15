@@ -1,5 +1,4 @@
 const admin = require('firebase-admin');
-const { doc, setDoc, getDoc, updateDoc, deleteDoc } = require('@firebase/firestore/lite');
 
 const db = admin.firestore()
 
@@ -22,7 +21,7 @@ exports.findInCollection = async function (collectionName, field, value) {
             let documents = []
             querySnapshot.forEach(function (doc) {
                 // doc.data() is never undefined for query doc snapshots
-                documents.push(doc.data());
+                documents.push(doc);
             });
             return documents
         })
@@ -31,4 +30,16 @@ exports.findInCollection = async function (collectionName, field, value) {
             return false
         });
     return response
+}
+
+exports.deleteDocument = async function (collectionName, id) {
+    console.log(collectionName, id)
+    await db.collection(collectionName).doc(id).delete()
+        .then(() => {
+            return true
+        })
+        .catch((error) => {
+            console.error('Error saving document: ', error);
+            return false
+        });
 }

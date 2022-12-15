@@ -22,13 +22,15 @@ import {
 } from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu"
 import { ExpandLess, ExpandMore, ShoppingCartOutlined, AccountCircle } from "@mui/icons-material"
+// stores
+import { useUIStore, useUIDispatch, useAuthStore } from "../../../stores"
 
 import HorizontalLogo from "../../../assets/HorizontalLogo"
 import MobileLogo from "../../../assets/MobileLogo"
 
 import NavMenuItems from "./MenuItems"
 import { MainWrapper, Link, MiddleSpinner } from "components"
-import { useNavContext, useUICartContext, CartContext } from "contexts"
+import { CartContext } from "contexts"
 import Search from "../../../utils/algolia/search"
 
 const NavButton = styled(Button)(() => ({
@@ -37,10 +39,12 @@ const NavButton = styled(Button)(() => ({
   textTransform: "uppercase",
 }))
 
-function Nav({ customerAccessToken, data, loading, banner }) {
+function Nav({ data, loading }) {
   const { checkout } = useContext(CartContext)
 
-  const { cartOpen, setCartOpen } = useUICartContext()
+  const { customerAccessToken } = useAuthStore();
+  const { bannerOpen } = useUIStore();
+  const uiDispatch = useUIDispatch();
 
   let totalQuantity = 0
 
@@ -54,24 +58,24 @@ function Nav({ customerAccessToken, data, loading, banner }) {
     <>
       <Box sx={{ display: { xs: 'none', lg: 'block' } }} >
         <AppbarDesktop
-          banner={banner}
+          banner={bannerOpen}
           customerAccessToken={customerAccessToken}
           loading={loading}
           data={data}
           cartQuantity={totalQuantity}
-          cartOpen={cartOpen}
-          setCartOpen={setCartOpen}
+          setCartOpen={() => uiDispatch({ type: "toggleCartOpen" })}
+          setDrawerOpen={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
         />
       </Box>
       <Box sx={{ display: { xs: 'block', lg: 'none' } }} >
         <AppbarMobile
-          banner={banner}
+          banner={bannerOpen}
           customerAccessToken={customerAccessToken}
           loading={loading}
           data={data}
           cartQuantity={totalQuantity}
-          cartOpen={cartOpen}
-          setCartOpen={setCartOpen}
+          setCartOpen={() => uiDispatch({ type: "toggleCartOpen" })}
+          setDrawerOpen={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
         />
       </Box>
     </>
@@ -83,7 +87,6 @@ export default Nav
 const AppbarDesktop = ({
   cartQuantity,
   setCartOpen,
-  cartOpen,
   customerAccessToken,
   data,
   loading,
@@ -159,7 +162,7 @@ const AppbarDesktop = ({
               </Tooltip>
             )}
 
-            <IconButton onClick={() => setCartOpen(!cartOpen)}>
+            <IconButton onClick={setCartOpen}>
               <Badge badgeContent={cartQuantity} color="error">
                 <Tooltip title="Open Cart">
                   <ShoppingCartOutlined />
@@ -173,8 +176,7 @@ const AppbarDesktop = ({
   )
 }
 
-const AppbarMobile = ({ cartQuantity, cartOpen, setCartOpen }) => {
-  const { drawerOpen, setDrawerOpen } = useNavContext()
+const AppbarMobile = ({ cartQuantity, setCartOpen, setDrawerOpen }) => {
 
   return (
     <AppBar
@@ -189,7 +191,7 @@ const AppbarMobile = ({ cartQuantity, cartOpen, setCartOpen }) => {
           <Button
             size="large"
             startIcon={<MenuIcon />}
-            onClick={() => setDrawerOpen(!drawerOpen)}
+            onClick={setDrawerOpen}
             sx={{ color: "#FFFFFF" }}
           >
             Menu
@@ -203,7 +205,7 @@ const AppbarMobile = ({ cartQuantity, cartOpen, setCartOpen }) => {
           <IconButton sx={{ ml: "auto" }}>
             <Search />
           </IconButton>
-          <IconButton color="white" onClick={() => setCartOpen(!cartOpen)}>
+          <IconButton color="white" onClick={setCartOpen}>
             <Badge badgeContent={cartQuantity} color="error">
               <ShoppingCartOutlined />
             </Badge>
