@@ -1,8 +1,10 @@
 import { useQuery } from "react-query";
 //firebase
-import { findInCollection/* , deleteDocument  */} from 'utils/firebase';
+import { findInCollection/* , deleteDocument  */ } from 'utils/firebase';
 
 const getNotifications = async (email) => {
+
+    if (!email || email === "" || email === undefined) return null;
 
     const data = await findInCollection("restock_notifications", "email", email)
 

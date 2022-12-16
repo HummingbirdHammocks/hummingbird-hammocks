@@ -103,10 +103,10 @@ export function ProductFeatures({ details, backgroundColor, accentColor }) {
                   aria-controls={`panel${index}-content`}
                   id={`panel${index}-header`}
                 >
-                  <Typography variant={"h6"}>{item.title}</Typography>
+                  <Typography variant={"h6"} >{item.title}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <Typography>
+                  <Typography component={"span"}>
                     {item.html_text && <div dangerouslySetInnerHTML={{ __html: item.html_text }} />}
                   </Typography>
                 </AccordionDetails>
