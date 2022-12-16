@@ -14,8 +14,7 @@ import { CartDrawer } from "./Nav/CartDrawer"
 import { TopBanner } from "./TopBanner"
 
 export const Layout = ({ children }) => {
-  const { banner, bannerOpen } = useUIStore()
-
+  const { banner, bannerOpen } = useUIStore();
   const { customerAccessToken } = useAuthStore();
 
   useEffect(() => {
