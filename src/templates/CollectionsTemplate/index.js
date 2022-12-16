@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useContext } from "react"
+import React, { useEffect, useState } from "react"
 import { graphql } from "gatsby"
+import { GatsbyImage } from "gatsby-plugin-image"
 import {
   useTheme,
   Box,
@@ -21,18 +22,19 @@ import {
   Select,
   MenuItem,
 } from "@mui/material"
-import { GatsbyImage } from "gatsby-plugin-image"
 import { ExpandLess, ExpandMore, Delete } from "@mui/icons-material"
-
+// stores
+import { useRecentlyViewedStore } from "../../stores"
+// components
 import { Seo, Layout, MainWrapper, Link } from "components"
 import { ProductCard } from "sections"
-import { RecentViewedContext } from "contexts"
 
 const CollectionsPage = ({ data }) => {
   const theme = useTheme();
   const { title, image, products, description } = data.shopifyCollection
   const { collections } = data.allShopifyCollection
-  const { recentViewedProducts } = useContext(RecentViewedContext)
+
+  const { recentlyViewedProducts } = useRecentlyViewedStore()
 
   const productType = Array.from(new Set(products.map(j => j.productType)))
 
@@ -566,7 +568,7 @@ const CollectionsPage = ({ data }) => {
                     textTransform: "uppercase",
                     color: "#000",
                   }}
-                  secondary="Recent Viewed Products"
+                  secondary="Recently Viewed"
                 />
                 {collapse["recentViewed"] ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
@@ -575,14 +577,14 @@ const CollectionsPage = ({ data }) => {
                 timeout="auto"
                 unmountOnExit
               >
-                {recentViewedProducts.length > 0 ? (
+                {recentlyViewedProducts.length > 0 ? (
                   <ProductCard
                     minHeight="230px"
-                    products={recentViewedProducts.slice(0, 3)}
+                    products={recentlyViewedProducts.slice(0, 3)}
                   />
                 ) : (
                   <Box m="20px">
-                    <Typography variant="body1">No Product Found!</Typography>
+                    <Typography variant="body1">No Products Found!</Typography>
                   </Box>
                 )}
               </Collapse>

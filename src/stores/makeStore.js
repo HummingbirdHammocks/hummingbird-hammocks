@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { createContext, useReducer, useContext } from 'react'
 import PropTypes from 'prop-types'
 
 const windowVar = typeof window !== "undefined"
 
 export default function makeStore(userReducer, initialState, key) {
-    const dispatchContext = React.createContext(null)
-    const storeContext = React.createContext(null)
+    const dispatchContext = createContext(null)
+    const storeContext = createContext(null)
 
     if (windowVar) {
         try {
@@ -20,7 +20,7 @@ export default function makeStore(userReducer, initialState, key) {
     }
 
     const StoreProvider = ({ children }) => {
-        const [store, dispatch] = React.useReducer(
+        const [store, dispatch] = useReducer(
             reducer,
             initialState
         )
@@ -39,11 +39,11 @@ export default function makeStore(userReducer, initialState, key) {
     };
 
     function useDispatch() {
-        return React.useContext(dispatchContext)
+        return useContext(dispatchContext)
     }
 
     function useStore() {
-        return React.useContext(storeContext)
+        return useContext(storeContext)
     }
 
     return [StoreProvider, useDispatch, useStore]

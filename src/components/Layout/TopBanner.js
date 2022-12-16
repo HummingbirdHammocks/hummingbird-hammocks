@@ -20,7 +20,7 @@ export const TopBanner = () => {
     if (val && val._value !== "") {
       uiDispatch({ type: "setBanner", banner: JSON.parse(val._value) })
     }
-  }, [useUIDispatch])
+  }, [uiDispatch])
 
   useEffect(() => {
     getConfig()

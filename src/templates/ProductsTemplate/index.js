@@ -14,7 +14,10 @@ import {
 } from "@mui/material"
 import { useLocation } from "@gatsbyjs/reach-router"
 import queryString from "query-string"
-
+// stores
+import { useRecentlyViewedDispatch } from "../../stores"
+import { CartContext } from "contexts"
+// components
 import {
   Seo,
   Layout,
@@ -24,7 +27,6 @@ import {
   ProductReviewWidget,
   ProductPreviewBadge,
 } from "components"
-import { CartContext, RecentViewedContext } from "contexts"
 import Color from "utils/color"
 import {
   ProductHero,
@@ -73,9 +75,9 @@ const ProductPage = ({ data, pageContext }) => {
   const [variantSizeName, setVariantSizeName] = useState("")
   const [variantColorValues, setVariantColorValues] = useState({})
 
+  const rvpDispatch = useRecentlyViewedDispatch()
+
   const { getProductById } = useContext(CartContext)
-  const { addRecentProducts, recentViewedProducts } =
-    useContext(RecentViewedContext)
 
   // Product Details
   let details
@@ -124,7 +126,7 @@ const ProductPage = ({ data, pageContext }) => {
   }
 
   useEffect(() => {
-    addRecentProducts(data.shopifyProduct)
+    rvpDispatch({ type: "addRecentlyViewedProduct", recentlyViewedProduct: data.shopifyProduct })
 
     getProductById(shopifyId).then(result => {
       setProduct(result)
@@ -576,9 +578,7 @@ const ProductPage = ({ data, pageContext }) => {
 
             {metaVideo && <YouTubeEmbed url={metaVideo.value} title={title} />}
 
-            {recentViewedProducts.length > 1 && (
-              <RecentlyViewed title="RECENTLY VIEWED" />
-            )}
+            <RecentlyViewed title="RECENTLY VIEWED" />
           </Container>
         </MainWrapper >
       </Box >

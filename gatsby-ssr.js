@@ -11,21 +11,17 @@ import {
 // react query
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools'
-
-import theme from "./src/ui/theme"
-import "./src/ui/style.css";
-
+// stores
+import { AuthProvider, UIProvider, ProductsProvider, RecentlyViewedProvider } from "stores";
 import {
   ProductContextProvider,
   CartContextProvider,
-  RecentViewedContextProvider,
 } from "contexts"
-
-// context stores
-import { AuthProvider, UIProvider } from "stores";
-
+// theme
+import theme from "./src/ui/theme"
+import "./src/ui/style.css";
+// Judge.me
 import { ReviewWidgetScripts } from "utils/judgeMe"
-
 // Import Swiper styles
 import "swiper/css"
 import "swiper/css/navigation"
@@ -55,21 +51,23 @@ export const wrapRootElement = ({ element }) => (
     <ApolloProvider client={client}>
       <AuthProvider>
         <UIProvider>
-          <ProductContextProvider>
-            <RecentViewedContextProvider>
-              <CartContextProvider>
-                <ThemeProvider theme={theme}>
-                  <CssBaseline />
-                  {element}
-                  <ToastContainer
-                    pauseOnFocusLoss={false}
-                  />
-                  <ReactQueryDevtools initialIsOpen={false} />
-                  <ReviewWidgetScripts />
-                </ThemeProvider>
-              </CartContextProvider>
-            </RecentViewedContextProvider>
-          </ProductContextProvider>
+          <ProductsProvider>
+            <RecentlyViewedProvider>
+              <ProductContextProvider>
+                <CartContextProvider>
+                  <ThemeProvider theme={theme}>
+                    <CssBaseline />
+                    {element}
+                    <ToastContainer
+                      pauseOnFocusLoss={false}
+                    />
+                    <ReactQueryDevtools initialIsOpen={false} />
+                    <ReviewWidgetScripts />
+                  </ThemeProvider>
+                </CartContextProvider>
+              </ProductContextProvider>
+            </RecentlyViewedProvider>
+          </ProductsProvider>
         </UIProvider>
       </AuthProvider>
     </ApolloProvider>

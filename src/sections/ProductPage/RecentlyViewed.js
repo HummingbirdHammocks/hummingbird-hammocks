@@ -1,11 +1,12 @@
-import React, { useContext } from "react"
+import React from "react"
 import { useTheme, styled, Box, Typography, Divider } from "@mui/material"
 import { Navigation, Autoplay, Pagination } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { GatsbyImage } from "gatsby-plugin-image"
-
+// stores
+import { useRecentlyViewedStore } from "../../stores"
+// components
 import { Link/* , ProductPreviewBadge */ } from "components"
-import { RecentViewedContext } from "contexts"
 
 const AbsoluteImage = styled(GatsbyImage)(({ theme }) => ({
   borderRadius: "20px",
@@ -17,9 +18,13 @@ const AbsoluteImage = styled(GatsbyImage)(({ theme }) => ({
 
 export function RecentlyViewed({ title }) {
   const theme = useTheme();
-  const { recentViewedProducts } = useContext(RecentViewedContext)
+  const { recentlyViewedProducts } = useRecentlyViewedStore();
 
-  /* console.log(recentViewedProducts) */
+  /* console.log(recentlyViewedProducts) */
+
+  if (!recentlyViewedProducts || recentlyViewedProducts.length < 1 || recentlyViewedProducts === {}) {
+    return null;
+  }
 
   return (
     <Box
@@ -82,7 +87,7 @@ export function RecentlyViewed({ title }) {
         modules={[Navigation, Autoplay, Pagination]}
         className="mySwiper"
       >
-        {recentViewedProducts.map(item => (
+        {recentlyViewedProducts.map(item => (
           <SwiperSlide key={item.shopifyId}>
             <Box
               sx={{
