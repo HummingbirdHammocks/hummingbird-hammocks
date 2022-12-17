@@ -15,8 +15,9 @@ import {
   Tooltip
 } from "@mui/material"
 import { Add, Remove, Delete, Forest, Co2 } from "@mui/icons-material"
-
-import { CartContext, RecentViewedContext } from "contexts"
+// stores
+import { CartContext } from "contexts"
+// components
 import { Seo, Layout, MainWrapper, Link } from "components"
 import { RecentlyViewed, CartExtras } from "sections"
 
@@ -24,8 +25,8 @@ import { RecentlyViewed, CartExtras } from "sections"
 const CartPage = () => {
   const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
+
   const { checkout, updateLineItem, removeLineItem } = useContext(CartContext)
-  const { recentViewedProducts } = useContext(RecentViewedContext)
 
   let totalQuantity = 0
 
@@ -285,9 +286,7 @@ const CartPage = () => {
           <Box sx={{ marginTop: 4 }}>
             <CartExtras />
           </Box>
-          {recentViewedProducts.length > 1 && (
-            <RecentlyViewed title="YOU MAY ALSO BE INTERESTED IN" />
-          )}
+          <RecentlyViewed title="YOU MAY ALSO BE INTERESTED IN" />
         </MainWrapper>
       </Box >
     </Layout >
