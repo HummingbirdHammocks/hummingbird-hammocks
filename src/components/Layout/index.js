@@ -1,4 +1,5 @@
 import React, { useEffect } from "react"
+import { useLocation } from '@reach/router';
 import { Box } from "@mui/material"
 import { useQuery, gql } from "@apollo/client"
 //firebase
@@ -17,16 +18,29 @@ export const Layout = ({ children }) => {
   const { banner, bannerOpen } = useUIStore();
   const { customerAccessToken } = useAuthStore();
 
+  const location = useLocation();
+
   useEffect(() => {
     if (!firebaseApp()) return;
-    logAnalyticsEvent('page_view', window.location.pathname);
-  }, []);
+    logAnalyticsEvent('page_view', location.pathname);
+    handleAffiliateIdCookie(location);
+  }, [location]);
 
   const { data, loading/* , error */ } = useQuery(CUSTOMER_NAME, {
     variables: {
       customerAccessToken,
     },
   })
+
+  const handleAffiliateIdCookie = (loc) => {
+    if (!loc || !loc.search) return;
+    const params = new URLSearchParams(loc.search);
+    const affiliateId = params.get("p");
+    if (affiliateId) {
+      document.cookie = `p=${affiliateId}; path=/; max-age=31536000;`;
+    }
+  }
+
 
   return (
     <>
