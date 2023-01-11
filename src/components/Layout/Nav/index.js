@@ -12,7 +12,6 @@ import {
   ListItemButton,
   Collapse,
   Toolbar,
-  Tooltip,
   Typography,
   Button,
   IconButton,
@@ -131,42 +130,34 @@ const AppbarDesktop = ({
             spacing={1}
             sx={{ marginLeft: "auto" }}
           >
-            <Tooltip title="Search Gear">
-              <Search />
-            </Tooltip>
+            <Search />
 
 
             {customerAccessToken ? (
-              <Tooltip title="Visit Account">
-                <Button
-                  sx={{ m: "0 20px" }}
-                  variant="outlined"
-                  startIcon={<AccountCircle />}
-                  component={Link}
-                  to="/account"
-                >
-                  {loading && <MiddleSpinner size={10} />}
-                  <Typography variant="navUser">
-                    {data?.customer?.firstName}
-                  </Typography>
-                </Button>
-              </Tooltip>
+              <Button
+                sx={{ m: "0 20px" }}
+                variant="outlined"
+                startIcon={<AccountCircle />}
+                component={Link}
+                to="/account"
+              >
+                {loading && <MiddleSpinner size={10} />}
+                <Typography variant="navUser">
+                  {data?.customer?.firstName}
+                </Typography>
+              </Button>
             ) : (
-              <Tooltip title="Account Login">
-                <IconButton
-                  component={Link}
-                  to="/account/login"
-                >
-                  <AccountCircle />
-                </IconButton>
-              </Tooltip>
+              <IconButton
+                component={Link}
+                to="/account/login"
+              >
+                <AccountCircle />
+              </IconButton>
             )}
 
             <IconButton onClick={setCartOpen}>
               <Badge badgeContent={cartQuantity} color="error">
-                <Tooltip title="Open Cart">
-                  <ShoppingCartOutlined />
-                </Tooltip>
+                <ShoppingCartOutlined />
               </Badge>
             </IconButton>
           </Stack>

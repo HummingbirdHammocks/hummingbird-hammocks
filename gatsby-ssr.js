@@ -71,5 +71,5 @@ export const wrapRootElement = ({ element }) => (
         </UIProvider>
       </AuthProvider>
     </ApolloProvider>
-  </QueryClientProvider>
+  </QueryClientProvider >
 )
