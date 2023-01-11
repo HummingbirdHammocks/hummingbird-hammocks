@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useContext } from "react"
 import { useLocation } from '@reach/router';
 import { Box } from "@mui/material"
 import { useQuery, gql } from "@apollo/client"
@@ -6,6 +6,7 @@ import { useQuery, gql } from "@apollo/client"
 import firebaseApp, { logAnalyticsEvent } from '../../utils/firebase/firebase-config';
 // stores
 import { useAuthStore, useUIStore } from "../../stores";
+import { CartContext } from "contexts"
 // components
 import Nav from "./Nav"
 import Footer from "./Footer"
@@ -17,6 +18,8 @@ import { TopBanner } from "./TopBanner"
 export const Layout = ({ children }) => {
   const { banner, bannerOpen } = useUIStore();
   const { customerAccessToken } = useAuthStore();
+
+  const { updateAttributes } = useContext(CartContext)
 
   const location = useLocation();
 
@@ -32,7 +35,7 @@ export const Layout = ({ children }) => {
     },
   })
 
-  const handleAffiliateIdCookie = (loc) => {
+  const handleAffiliateIdCookie = async (loc) => {
     if (!loc || !loc.search) return;
     const params = new URLSearchParams(loc.search);
     const affiliateId = params.get("p");
@@ -41,6 +44,7 @@ export const Layout = ({ children }) => {
       date.setTime(date.getTime() + 90 * 24 * 60 * 60 * 1000);
 
       document.cookie = `p=${affiliateId}; path=/; expires=${date.toGMTString()};`;
+      await updateAttributes({ customAttributes: { key: "affID", value: affiliateId } })
     }
   }
 
