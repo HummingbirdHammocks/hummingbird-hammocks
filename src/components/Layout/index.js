@@ -37,7 +37,10 @@ export const Layout = ({ children }) => {
     const params = new URLSearchParams(loc.search);
     const affiliateId = params.get("p");
     if (affiliateId) {
-      document.cookie = `p=${affiliateId}; path=/; max-age=31536000;`;
+      var date = new Date()
+      date.setTime(date.getTime() + 90 * 24 * 60 * 60 * 1000);
+
+      document.cookie = `p=${affiliateId}; path=/; expires=${date.toGMTString()};`;
     }
   }
 
