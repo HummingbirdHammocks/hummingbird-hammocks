@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react"
+import React, { useEffect, useContext, useCallback } from "react"
 import { useLocation } from '@reach/router';
 import { Box } from "@mui/material"
 import { useQuery, gql } from "@apollo/client"
@@ -26,18 +26,12 @@ export const Layout = ({ children }) => {
   useEffect(() => {
     if (!firebaseApp()) return;
     logAnalyticsEvent('page_view', location.pathname);
-    handleAffiliateIdCookie(location);
-  }, [location]);
+    handleAffiliateIdCookie();
+  }, [location, handleAffiliateIdCookie]);
 
-  const { data, loading/* , error */ } = useQuery(CUSTOMER_NAME, {
-    variables: {
-      customerAccessToken,
-    },
-  })
-
-  const handleAffiliateIdCookie = async (loc) => {
-    if (!loc || !loc.search) return;
-    const params = new URLSearchParams(loc.search);
+  const handleAffiliateIdCookie = useCallback(async () => {
+    if (!location || !location.search) return;
+    const params = new URLSearchParams(location.search);
     const affiliateId = params.get("p");
     if (affiliateId) {
       var date = new Date()
@@ -46,7 +40,13 @@ export const Layout = ({ children }) => {
       document.cookie = `p=${affiliateId}; path=/; expires=${date.toGMTString()};`;
       await updateAttributes({ customAttributes: { key: "affID", value: affiliateId } })
     }
-  }
+  }, [location, updateAttributes])
+
+  const { data, loading/* , error */ } = useQuery(CUSTOMER_NAME, {
+    variables: {
+      customerAccessToken,
+    },
+  })
 
 
   return (
