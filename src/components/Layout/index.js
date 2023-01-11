@@ -23,12 +23,6 @@ export const Layout = ({ children }) => {
 
   const location = useLocation();
 
-  useEffect(() => {
-    if (!firebaseApp()) return;
-    logAnalyticsEvent('page_view', location.pathname);
-    handleAffiliateIdCookie();
-  }, [location, handleAffiliateIdCookie]);
-
   const handleAffiliateIdCookie = useCallback(async () => {
     if (!location || !location.search) return;
     const params = new URLSearchParams(location.search);
@@ -41,6 +35,12 @@ export const Layout = ({ children }) => {
       await updateAttributes({ customAttributes: { key: "affID", value: affiliateId } })
     }
   }, [location, updateAttributes])
+
+  useEffect(() => {
+    if (!firebaseApp()) return;
+    logAnalyticsEvent('page_view', location.pathname);
+    handleAffiliateIdCookie();
+  }, [location, handleAffiliateIdCookie]);
 
   const { data, loading/* , error */ } = useQuery(CUSTOMER_NAME, {
     variables: {
