@@ -177,6 +177,12 @@ const ProductPage = ({ data, pageContext }) => {
 
       /* eslint-disable react-hooks/exhaustive-deps */
     })
+
+    /* Reload Review Widget Cache */
+    if (!window || !window.jdgmCacheServer) return;
+    const jdgmCacheServer = window.jdgmCacheServer;
+    jdgmCacheServer.reloadAll();
+
   }, [variantId])
 
   /* console.log(details) */
@@ -240,8 +246,15 @@ const ProductPage = ({ data, pageContext }) => {
                       alignItems={{ xs: "flex-start", sm: "center", md: "flex-start", lg: "center" }}
                       spacing={2}
                     >
-                      <ProductPrice price={selectedVariant.price} compareAtPrice={selectedVariant.compareAtPrice} saleReason={metaSaleReason} />
-                      <ProductPreviewBadge id={product?.id} />
+                      <Stack
+                        direction={{ xs: "column", sm: "row", md: "row", lg: "row" }}
+                        justifyContent="space-between"
+                        alignItems={{ xs: "flex-start", sm: "center", md: "space-between", lg: "center" }}
+                        spacing={2}
+                      >
+                        <ProductPrice price={selectedVariant.price} compareAtPrice={selectedVariant.compareAtPrice} saleReason={metaSaleReason} />
+                        <ProductPreviewBadge id={product?.id} />
+                      </Stack>
                       {!selectedVariant?.available && (
                         <Box
                           sx={{

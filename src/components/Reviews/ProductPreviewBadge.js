@@ -4,6 +4,7 @@ import { Typography } from "@mui/material"
 /* import { getProductPreviewBadge } from "utils/judgeMe" */
 
 export const ProductPreviewBadge = ({ id }) => {
+
   if (!id) {
     return null
   }
