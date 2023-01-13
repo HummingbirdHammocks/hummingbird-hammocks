@@ -1,15 +1,15 @@
 import React from "react"
 import { styled, Box, CircularProgress } from "@mui/material"
 
-export const MiddleBox = styled(Box)(({ divMinHeight, itemPosition }) => ({
+export const MiddleBox = styled(Box)(({ divminheight, itemposition }) => ({
   display: "flex",
-  alignItems: itemPosition ? itemPosition : "center",
-  justifyContent: itemPosition ? itemPosition : "center",
-  minHeight: divMinHeight && divMinHeight,
+  alignItems: itemposition ? itemposition : "center",
+  justifyContent: itemposition ? itemposition : "center",
+  minHeight: divminheight && divminheight,
 }))
 
-export const MiddleSpinner = ({ divMinHeight, size, itemPosition }) => (
-  <MiddleBox itemPosition={itemPosition} divMinHeight={divMinHeight}>
+export const MiddleSpinner = ({ divminheight, size, itemposition }) => (
+  <MiddleBox itemposition={itemposition} divminheight={divminheight}>
     <CircularProgress size={size} />
   </MiddleBox>
 )

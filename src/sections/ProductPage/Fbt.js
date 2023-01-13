@@ -142,8 +142,8 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
                   {selectedVariant.map((item, index) => {
                     if (item.selected) {
                       return (
-                        <>
-                          <Box p={2} key={item.id}>
+                        <React.Fragment key={item.id}>
+                          <Box p={2}>
                             <Link to={"/products/" + data[index].handle}>
                               <img
                                 src={item.image.src}
@@ -163,7 +163,7 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
                           ) : (
                             ""
                           )}
-                        </>
+                        </React.Fragment>
                       )
                     }
                     return null;

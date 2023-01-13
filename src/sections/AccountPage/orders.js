@@ -54,7 +54,7 @@ const AccountOrdersPage = () => {
       {customerAccessToken && !accountDetails.open ? (
         <Box>
           {error && "Error"}
-          {loading && <MiddleSpinner divMinHeight="460px" size={20} />}
+          {loading && <MiddleSpinner divminheight="460px" size={20} />}
           {data && (
             <Grid container spacing={2} sx={{ paddingBottom: 4 }}>
               <Grid item xs={12}>

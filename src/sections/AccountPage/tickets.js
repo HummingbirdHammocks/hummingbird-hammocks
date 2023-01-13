@@ -66,7 +66,7 @@ const AccountTicketsPage = () => {
             </Box>
           </Box>
           {error && "Error"}
-          {(ticketsState === "loading" || loading) && <MiddleSpinner divMinHeight="460px" size={20} />}
+          {(ticketsState === "loading" || loading) && <MiddleSpinner divminheight="460px" size={20} />}
           {(data && ticketsData) && (
             <Grid container spacing={4} sx={{ paddingBottom: 4 }}>
               <Grid item xs={12} md={4} sx={{ borderRight: { xs: "0", md: "1px solid rgba(0,0,0,0.12)" } }}>

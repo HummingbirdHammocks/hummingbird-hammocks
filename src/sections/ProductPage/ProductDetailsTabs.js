@@ -6,7 +6,7 @@ import { Specs } from "./Specs"
 import { SupportLinks } from "./SupportLinks"
 
 const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
-  ({ accentColor, theme }) => ({
+  ({ accentcolor, theme }) => ({
     textTransform: 'none',
     fontWeight: theme.typography.fontWeightRegular,
     fontSize: theme.typography.pxToRem(15),
@@ -16,7 +16,7 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
       color: "rgba(0, 0, 0, 0.87)",
     },
     '&.Mui-focusVisible': {
-      backgroundColor: accentColor ? accentColor : theme.palette.secondary.main,
+      backgroundColor: accentcolor ? accentcolor : theme.palette.secondary.main,
     },
   }),
 );
@@ -68,7 +68,7 @@ export const ProductDetailsTabs = ({
   video,
   repo,
   backgroundColor,
-  accentColor,
+  accentcolor,
 }) => {
   const theme = useTheme();
   const matches = useMediaQuery("(max-width:900px)")
@@ -82,7 +82,7 @@ export const ProductDetailsTabs = ({
     <Box
       sx={{
         backgroundColor: backgroundColor ? backgroundColor : "#FDFDF5",
-        borderColor: accentColor ? accentColor : 'divider',
+        borderColor: accentcolor ? accentcolor : 'divider',
         borderStyle: "solid",
         borderWidth: "1px",
         borderRadius: "20px",
@@ -107,7 +107,7 @@ export const ProductDetailsTabs = ({
             aria-label="product details tabs"
             TabIndicatorProps={{
               style: {
-                background: accentColor ? accentColor : theme.palette.secondary.main
+                background: accentcolor ? accentcolor : theme.palette.secondary.main
               }
             }}
             sx={{
@@ -115,10 +115,10 @@ export const ProductDetailsTabs = ({
               borderColor: 'divider'
             }}
           >
-            <StyledTab accentColor={accentColor} icon={<SquareFoot />} label="SPECS" {...a11yProps(0)} />
-            <StyledTab accentColor={accentColor} icon={<Category />} label="FEATURES" {...a11yProps(1)} />
-            <StyledTab accentColor={accentColor} icon={<TravelExplore />} label="TRANSPARENCY" {...a11yProps(2)} />
-            <StyledTab accentColor={accentColor} icon={<Support />} label="SUPPORT" {...a11yProps(3)} />
+            <StyledTab accentcolor={accentcolor} icon={<SquareFoot />} label="SPECS" {...a11yProps(0)} />
+            <StyledTab accentcolor={accentcolor} icon={<Category />} label="FEATURES" {...a11yProps(1)} />
+            <StyledTab accentcolor={accentcolor} icon={<TravelExplore />} label="TRANSPARENCY" {...a11yProps(2)} />
+            <StyledTab accentcolor={accentcolor} icon={<Support />} label="SUPPORT" {...a11yProps(3)} />
           </Tabs>
         </Grid>
 

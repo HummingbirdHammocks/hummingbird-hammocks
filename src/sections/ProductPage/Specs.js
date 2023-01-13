@@ -75,10 +75,10 @@ export const Specs = ({ metas, top }) => {
         </Typography>
       </Grid>
       <Grid item xs={12} lg={6}>
-        <Typography marginBottom={2} variant="h5" component={"div"}>
+        <Typography marginBottom={2} variant="h5">
           In Use
         </Typography>
-        <Typography variant="body1">
+        <Typography variant="body1" component={"div"}>
           {weightRating && (
             <p>
               <b>Weight Rating:</b> {`${weightRating} lbs (${Number(parseFloat(weightRating * 0.453592)).toFixed(1)} kg)`}

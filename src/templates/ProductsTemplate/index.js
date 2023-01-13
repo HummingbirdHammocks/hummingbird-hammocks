@@ -177,12 +177,6 @@ const ProductPage = ({ data, pageContext }) => {
 
       /* eslint-disable react-hooks/exhaustive-deps */
     })
-
-    /* Reload Review Widget Cache */
-    if (!window || !window.jdgmCacheServer) return;
-    const jdgmCacheServer = window.jdgmCacheServer;
-    jdgmCacheServer.reloadAll();
-
   }, [variantId])
 
   /* console.log(details) */
@@ -206,7 +200,7 @@ const ProductPage = ({ data, pageContext }) => {
         <ProductHero
           handle={handle}
           backgroundColor={variantColorValues?.background}
-          accentColor={variantColorValues?.primary}
+          accentcolor={variantColorValues?.primary}
         >
           <Grid
             container
@@ -219,7 +213,7 @@ const ProductPage = ({ data, pageContext }) => {
               <ProductGallery
                 images={images}
                 variantImageId={selectedVariant?.image.id}
-                accentColor={variantColorValues?.primary}
+                accentcolor={variantColorValues?.primary}
               />
             </Grid>
 
@@ -458,7 +452,7 @@ const ProductPage = ({ data, pageContext }) => {
                       productTitle={product.title}
                       variantSku={selectedVariant.sku}
                       variantTitle={selectedVariant.title}
-                      accentColor={variantColorValues?.primary}
+                      accentcolor={variantColorValues?.primary}
                     />
                   )}
                 </Box>
@@ -574,7 +568,7 @@ const ProductPage = ({ data, pageContext }) => {
                 video={metaVideo?.value}
                 repo={metaReository?.value}
                 backgroundColor={variantColorValues?.background}
-                accentColor={variantColorValues?.primary}
+                accentcolor={variantColorValues?.primary}
               />
             )}
 
@@ -582,7 +576,7 @@ const ProductPage = ({ data, pageContext }) => {
               <ProductFeatures
                 details={details?.details}
                 backgroundColor={variantColorValues?.background}
-                accentColor={variantColorValues?.primary}
+                accentcolor={variantColorValues?.primary}
               />
             )}
 

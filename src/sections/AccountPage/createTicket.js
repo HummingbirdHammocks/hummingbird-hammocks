@@ -54,7 +54,7 @@ const AccountCreateTicket = () => {
             </Box>
           </Box>
           {error && "Error"}
-          {loading && <MiddleSpinner divMinHeight="460px" size={20} />}
+          {loading && <MiddleSpinner divminheight="460px" size={20} />}
           {data && (
             <Grid container spacing={4} sx={{ paddingBottom: 4 }}>
               <Grid item xs={12}>

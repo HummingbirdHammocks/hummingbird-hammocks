@@ -269,7 +269,7 @@ const AccountAddressPage = () => {
         </Typography>
         <Grid container spacing={4} sx={{ paddingBottom: 4 }}>
           {error && "Error"}
-          {loading && <MiddleSpinner divMinHeight="460px" size={20} />}
+          {loading && <MiddleSpinner divminheight="460px" size={20} />}
 
           {data && (
             <>
