@@ -1,17 +1,9 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { Typography } from "@mui/material"
 
 /* import { getProductPreviewBadge } from "utils/judgeMe" */
 
 export const ProductPreviewBadge = ({ id }) => {
-
-  useEffect(() => {
-    if (!window || !window.jdgmCacheServer) return;
-    const jdgmCacheServer = window.jdgmCacheServer;
-    console.log("jdgmCacheServer", jdgmCacheServer)
-    jdgmCacheServer.reloadPreviewBadges();
-  }, [id])
-
   if (!id) {
     return null
   }

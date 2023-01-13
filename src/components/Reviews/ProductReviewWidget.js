@@ -1,13 +1,7 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { Typography } from "@mui/material"
 
 export const ProductReviewWidget = ({ title, id }) => {
-
-  useEffect(() => {
-    if (!window || !window.jdgmCacheServer) return;
-    const jdgmCacheServer = window.jdgmCacheServer;
-    jdgmCacheServer.reloadAllWidgets();
-  }, [id])
 
   if (!id) {
     return null

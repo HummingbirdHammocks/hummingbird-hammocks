@@ -1,13 +1,8 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { Typography, Box, Grid } from "@mui/material"
 
 
 export const FeaturedReviewsCarousel = () => {
-  useEffect(() => {
-    if (!window || !window.jdgmCacheServer) return;
-    const jdgmCacheServer = window.jdgmCacheServer;
-    jdgmCacheServer.reloadAll();
-  }, [])
 
   return (
     <div className="jdgm-carousel-wrapper">
