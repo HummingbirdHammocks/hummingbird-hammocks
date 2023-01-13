@@ -9,14 +9,14 @@ export const ProductDetailsGrid = ({
   body2,
   children,
   backgroundColor,
-  accentColor,
+  accentcolor,
 }) => {
 
   return (
     <Box
       sx={{
         backgroundColor: backgroundColor ? backgroundColor : "#FDFDF5",
-        borderColor: accentColor ? accentColor : "rgba(0, 0, 0, 0.12)",
+        borderColor: accentcolor ? accentcolor : "rgba(0, 0, 0, 0.12)",
         borderStyle: "solid",
         borderWidth: "2px",
         borderRadius: "20px",

@@ -35,7 +35,7 @@ const AbsoluteImage = styled(GatsbyImage)(({ theme }) => ({
   },
 }))
 
-export const ProductCard = ({ products, minHeight, mdMinHeight }) => {
+export const ProductCard = ({ products, minHeight, mdminheight }) => {
   const [loading, setLoading] = useState(true)
   const [productsData, setProductsData] = useState([])
 
@@ -69,7 +69,7 @@ export const ProductCard = ({ products, minHeight, mdMinHeight }) => {
 
   return (
     <>
-      {loading && <MiddleSpinner divMinHeight="460px" size={20} />}
+      {loading && <MiddleSpinner divminheight="460px" size={20} />}
       {!loading &&
         productsData.length > 0 &&
         productsData?.map(product => (
@@ -77,7 +77,7 @@ export const ProductCard = ({ products, minHeight, mdMinHeight }) => {
             {!product.notSoldout && <SoldOutWrap>Sold Out</SoldOutWrap>}
             {product.tags.includes("bargain-bin") && <BargainBinWrap>Bargain Bin</BargainBinWrap>}
             <Link to={`/products/${product.handle}`}>
-              <ImageBox mdMinHeight={mdMinHeight} minHeight={minHeight}>
+              <ImageBox mdminheight={mdminheight} minHeight={minHeight}>
                 <AbsoluteImage
                   className={product.images[1] ? "image-1" : ""}
                   image={product.images[0].gatsbyImageData}

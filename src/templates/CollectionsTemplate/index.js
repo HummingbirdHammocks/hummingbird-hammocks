@@ -613,7 +613,7 @@ const CollectionsPage = ({ data }) => {
                 },
               }}>
               {theProducts && (
-                <ProductCard mdMinHeight="250px" products={theProducts} />
+                <ProductCard mdminheight="250px" products={theProducts} />
               )}
             </Box>
           </Box>

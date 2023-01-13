@@ -39,7 +39,13 @@ export const Layout = ({ children }) => {
   useEffect(() => {
     if (!firebaseApp()) return;
     logAnalyticsEvent('page_view', location.pathname);
+
     handleAffiliateIdCookie();
+
+    if (!window || typeof window == 'undefined' || !window.jdgmCacheServer) return;
+    const jdgmCacheServer = window.jdgmCacheServer;
+    jdgmCacheServer.reloadAll();
+
   }, [location, handleAffiliateIdCookie]);
 
   const { data, loading/* , error */ } = useQuery(CUSTOMER_NAME, {

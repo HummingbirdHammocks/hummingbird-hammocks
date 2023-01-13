@@ -159,7 +159,7 @@ const AccountInfoPage = () => {
           </Typography>
           <Grid container spacing={4} sx={{ paddingBottom: 4 }}>
             {error && "Error"}
-            {loading && <MiddleSpinner divMinHeight="460px" size={20} />}
+            {loading && <MiddleSpinner divminheight="460px" size={20} />}
             {data && (
               <>
                 <Grid item xs={12} md={4} sx={{ padding: 2, borderRight: { xs: "0", md: "1px solid rgba(0,0,0,0.12)" } }}>

@@ -200,7 +200,7 @@ const ProductPage = ({ data, pageContext }) => {
         <ProductHero
           handle={handle}
           backgroundColor={variantColorValues?.background}
-          accentColor={variantColorValues?.primary}
+          accentcolor={variantColorValues?.primary}
         >
           <Grid
             container
@@ -213,7 +213,7 @@ const ProductPage = ({ data, pageContext }) => {
               <ProductGallery
                 images={images}
                 variantImageId={selectedVariant?.image.id}
-                accentColor={variantColorValues?.primary}
+                accentcolor={variantColorValues?.primary}
               />
             </Grid>
 
@@ -240,8 +240,15 @@ const ProductPage = ({ data, pageContext }) => {
                       alignItems={{ xs: "flex-start", sm: "center", md: "flex-start", lg: "center" }}
                       spacing={2}
                     >
-                      <ProductPrice price={selectedVariant.price} compareAtPrice={selectedVariant.compareAtPrice} saleReason={metaSaleReason} />
-                      <ProductPreviewBadge id={product?.id} />
+                      <Stack
+                        direction={{ xs: "column", sm: "row", md: "row", lg: "row" }}
+                        justifyContent="space-between"
+                        alignItems={{ xs: "flex-start", sm: "center", md: "space-between", lg: "center" }}
+                        spacing={2}
+                      >
+                        <ProductPrice price={selectedVariant.price} compareAtPrice={selectedVariant.compareAtPrice} saleReason={metaSaleReason} />
+                        <ProductPreviewBadge id={product?.id} />
+                      </Stack>
                       {!selectedVariant?.available && (
                         <Box
                           sx={{
@@ -445,7 +452,7 @@ const ProductPage = ({ data, pageContext }) => {
                       productTitle={product.title}
                       variantSku={selectedVariant.sku}
                       variantTitle={selectedVariant.title}
-                      accentColor={variantColorValues?.primary}
+                      accentcolor={variantColorValues?.primary}
                     />
                   )}
                 </Box>
@@ -561,7 +568,7 @@ const ProductPage = ({ data, pageContext }) => {
                 video={metaVideo?.value}
                 repo={metaReository?.value}
                 backgroundColor={variantColorValues?.background}
-                accentColor={variantColorValues?.primary}
+                accentcolor={variantColorValues?.primary}
               />
             )}
 
@@ -569,7 +576,7 @@ const ProductPage = ({ data, pageContext }) => {
               <ProductFeatures
                 details={details?.details}
                 backgroundColor={variantColorValues?.background}
-                accentColor={variantColorValues?.primary}
+                accentcolor={variantColorValues?.primary}
               />
             )}
 

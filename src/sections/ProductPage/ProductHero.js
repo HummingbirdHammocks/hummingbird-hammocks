@@ -7,7 +7,7 @@ import {
 
 import { productBackgrounds } from "utils/productBackgrounds"
 
-export function ProductHero({ children, handle, backgroundColor, accentColor }) {
+export function ProductHero({ children, handle, backgroundColor, accentcolor }) {
   const [background, setBackground] = useState(null)
 
 
@@ -40,7 +40,7 @@ export function ProductHero({ children, handle, backgroundColor, accentColor }) 
             <Paper
               sx={{
                 backgroundColor: "rgba(255, 255, 255, 0.75)",
-                borderColor: accentColor ? accentColor : "rgba(0, 0, 0, 0.12)",
+                borderColor: accentcolor ? accentcolor : "rgba(0, 0, 0, 0.12)",
                 borderStyle: "solid",
                 borderWidth: "2px",
                 borderRadius: "20px",

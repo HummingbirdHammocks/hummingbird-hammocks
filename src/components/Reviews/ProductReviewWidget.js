@@ -2,6 +2,7 @@ import React from "react"
 import { Typography } from "@mui/material"
 
 export const ProductReviewWidget = ({ title, id }) => {
+
   if (!id) {
     return null
   }

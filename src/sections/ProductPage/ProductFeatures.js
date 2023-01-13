@@ -9,7 +9,7 @@ import {
 } from "@mui/material"
 import { ExpandMore } from '@mui/icons-material';
 
-export function ProductFeatures({ details, backgroundColor, accentColor }) {
+export function ProductFeatures({ details, backgroundColor, accentcolor }) {
   const [expanded, setExpanded] = useState(false);
   const [image, setImage] = useState(0)
   const [imageAlt, setImageAlt] = useState("")
@@ -44,7 +44,7 @@ export function ProductFeatures({ details, backgroundColor, accentColor }) {
     <Box
       sx={{
         backgroundColor: backgroundColor ? backgroundColor : "#FDFDF5",
-        borderColor: accentColor ? accentColor : 'divider',
+        borderColor: accentcolor ? accentcolor : 'divider',
         borderStyle: "solid",
         borderWidth: "1px",
         borderRadius: "20px",
@@ -79,7 +79,7 @@ export function ProductFeatures({ details, backgroundColor, accentColor }) {
                 onChange={handleChange(index)}
                 sx={{
                   padding: 2,
-                  borderColor: accentColor ? accentColor : 'divider',
+                  borderColor: accentcolor ? accentcolor : 'divider',
                   borderStyle: "solid",
                   borderTopWidth: expanded === index ? "1px" : "0px",
                   borderLeftWidth: "1px",

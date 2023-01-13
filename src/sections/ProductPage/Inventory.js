@@ -19,7 +19,7 @@ export const Inventory = ({ handle, id }) => {
   return (
     <>
       {loading ? (
-        <MiddleSpinner size="10px" itemPosition="left" />
+        <MiddleSpinner size="10px" itemposition="left" />
       ) : (
         <>
           {inventory?.quantityAvailable === 1 ? (

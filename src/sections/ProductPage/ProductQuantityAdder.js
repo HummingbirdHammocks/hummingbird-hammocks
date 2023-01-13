@@ -31,7 +31,7 @@ const validationSchema = yup.object({
     .required('Email is required.'),
 });
 
-export function ProductQuantityAdder({ variantId, available, productHandle, productTitle, variantTitle, variantSku, accentColor }) {
+export function ProductQuantityAdder({ variantId, available, productHandle, productTitle, variantTitle, variantSku, accentcolor }) {
   const [quantity, setQuantity] = useState(1)
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -184,7 +184,7 @@ export function ProductQuantityAdder({ variantId, available, productHandle, prod
               disabled={!available}
               loading={loading}
               sx={{
-                backgroundColor: accentColor ? accentColor : "primary",
+                backgroundColor: accentcolor ? accentcolor : "primary",
               }}
             >
               {!available ? "Sold Out" : "Add to Cart"}
@@ -195,7 +195,7 @@ export function ProductQuantityAdder({ variantId, available, productHandle, prod
               variant="contained"
               onClick={handleClickOpen}
               sx={{
-                backgroundColor: accentColor ? accentColor : "primary",
+                backgroundColor: accentcolor ? accentcolor : "primary",
               }}
             >
               Notify Me
