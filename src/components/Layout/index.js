@@ -42,11 +42,11 @@ export const Layout = ({ children }) => {
 
     handleAffiliateIdCookie();
 
-    if (!window || !window.jdgmCacheServer) return;
+    if (!window || typeof window == 'undefined' || !window.jdgmCacheServer) return;
     const jdgmCacheServer = window.jdgmCacheServer;
     jdgmCacheServer.reloadAll();
 
-  }, [window, location, handleAffiliateIdCookie]);
+  }, [location, handleAffiliateIdCookie]);
 
   const { data, loading/* , error */ } = useQuery(CUSTOMER_NAME, {
     variables: {
