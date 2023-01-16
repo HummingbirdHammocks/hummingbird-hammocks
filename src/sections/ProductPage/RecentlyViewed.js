@@ -18,7 +18,7 @@ const AbsoluteImage = styled(GatsbyImage)(({ theme }) => ({
 
 export function RecentlyViewed({ title }) {
   const theme = useTheme();
-  const { recentlyViewedProducts } = useRecentlyViewedStore();
+  const [recentlyViewedProducts] = useRecentlyViewedStore();
 
   /* console.log(recentlyViewedProducts) */
 
