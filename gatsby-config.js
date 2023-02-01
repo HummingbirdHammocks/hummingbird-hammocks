@@ -65,22 +65,6 @@ module.exports = {
     },
     `gatsby-plugin-material-ui`,
     {
-      resolve: `gatsby-plugin-google-fonts-with-attributes`,
-      options: {
-        fonts: [
-          `poppins\::300,400,500,600,700,800,900`,
-          `montserrat\::300,400,500,600,700`,
-        ],
-        display: "swap",
-        attributes: {
-          rel: "preload",
-          as: "font",
-          // rel: "stylesheet preload prefetch",
-          // as: "style",
-        },
-      },
-    },
-    {
       resolve: "gatsby-source-shopify",
       options: {
         password: process.env.SHOPIFY_SHOP_PASSWORD,

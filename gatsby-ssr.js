@@ -20,6 +20,13 @@ import {
 // theme
 import theme from "./src/ui/theme"
 import "./src/ui/style.css";
+//fonts
+import "@fontsource/poppins/400.css"
+import "@fontsource/poppins/600.css"
+import "@fontsource/poppins/700.css"
+import "@fontsource/montserrat/400.css"
+import "@fontsource/montserrat/500.css"
+import "@fontsource/montserrat/700.css"
 // Judge.me
 import { ReviewWidgetScripts } from "utils/judgeMe"
 // Import Swiper styles
