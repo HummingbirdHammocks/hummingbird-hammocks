@@ -100,8 +100,8 @@
       ],
       "redirects": [
         {
-          "source": "/_t/**",
-          "destination": "https://hummingbird-hammocks.myshopify.com/_t/**",
+          "source": "/_t/c/:linkdata",
+          "destination": "https://hummingbird-hammocks.myshopify.com/_t/c/:linkdata",
           "type": 307
         },
         {
