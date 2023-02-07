@@ -100,6 +100,11 @@
       ],
       "redirects": [
         {
+          "source": "/_t/**",
+          "destination": "https://hummingbird-hammocks.myshopify.com/_t/**",
+          "type": 307
+        },
+        {
           "source": "/3170631789/orders/:orderId",
           "destination": "https://hummingbird-hammocks.myshopify.com/3170631789/orders/:orderId",
           "type": 307
