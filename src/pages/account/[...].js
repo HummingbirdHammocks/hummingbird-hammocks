@@ -9,7 +9,7 @@ import AccountNotificationsPage from "../../sections/AccountPage/notifications"
 import AccountTicketsPage from "../../sections/AccountPage/tickets"
 import AccountCreateTicket from "../../sections/AccountPage/createTicket"
 
-const App = () => {
+const Account = () => {
     return (
         <Router basepath="/account">
             <PrivateRoute path="/" component={AccountOrdersPage} />
@@ -23,4 +23,4 @@ const App = () => {
     )
 }
 
-export default App
+export default Account
