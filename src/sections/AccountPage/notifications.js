@@ -21,6 +21,8 @@ import {
   MiddleSpinner,
 } from "components"
 import { RestockNotifications } from "./components"
+// hooks
+import useBargainBinNotifications from "../../hooks/useBargainBinNotifications";
 
 
 const AccountNotificationsPage = () => {
@@ -28,6 +30,7 @@ const AccountNotificationsPage = () => {
   const [acceptsMarketing, setAcceptsMarketing] = useState(false)
 
   const { customerAccessToken } = useAuthStore();
+  const { data: bargainNotifications, } = useBargainBinNotifications(data && data.customer && data.customer.email)
 
   const handleSavePreferences = async () => {
     setSubmitLoading(true)
@@ -85,6 +88,9 @@ const AccountNotificationsPage = () => {
                 <Box>
                   <FormGroup>
                     <FormControlLabel control={<Checkbox checked={acceptsMarketing} onChange={() => setAcceptsMarketing(!acceptsMarketing)} />} label="Promotions" />
+                  </FormGroup>
+                  <FormGroup>
+                    <FormControlLabel control={<Checkbox checked={bargainNotifications} onChange={() => setAcceptsMarketing(!acceptsMarketing)} />} label="Bargain Bin Restock" />
                   </FormGroup>
                   <Divider variant="middle" sx={{ marginTop: 2, marginBottom: 2 }} />
                   <LoadingButton size={'large'} variant={'contained'} onClick={() => handleSavePreferences()} loading={submitLoading}>

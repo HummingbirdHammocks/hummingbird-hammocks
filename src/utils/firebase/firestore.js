@@ -18,6 +18,7 @@ export async function saveDocumentGenerateID(collectionName, data) {
 }
 
 export async function saveDocument(collectionName, id, data) {
+    //console.log(collectionName, id, data);
     const existingDoc = await getDocument(collectionName, id)
     if (existingDoc) {
         toast.error("ID already exists. Please use a different ID")

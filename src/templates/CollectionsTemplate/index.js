@@ -27,7 +27,7 @@ import { ExpandLess, ExpandMore, Delete } from "@mui/icons-material"
 import { useRecentlyViewedStore } from "../../stores"
 // components
 import { Seo, Layout, MainWrapper, Link } from "components"
-import { ProductCard } from "sections"
+import { ProductCard, BargainBinNotifications } from "sections"
 
 const CollectionsPage = ({ data }) => {
   const theme = useTheme();
@@ -589,6 +589,10 @@ const CollectionsPage = ({ data }) => {
                 )}
               </Collapse>
             </List>
+
+            {title === "Bargain Bin" && (
+              <BargainBinNotifications />
+            )}
           </Box>
 
           <Box
