@@ -106,7 +106,7 @@ export function CartContextProvider({ children }) {
   }
 
   const addDiscount = async ({ discountCode }) => {
-    // if no checkout id, create a new checkout
+    // if no checkout, create a new checkout
     let newCheckout = checkout || (await client.checkout.create())
 
     console.log(discountCode);
