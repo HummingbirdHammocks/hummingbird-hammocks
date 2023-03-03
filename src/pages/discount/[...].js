@@ -17,12 +17,12 @@ const Discounts = () => {
     const location = useLocation();
 
     const handleRedirection = useCallback(async () => {
-        console.log(location)
+        /* console.log(location) */
         if (!location || !location.search) return navigate("/");
 
         const params = new URLSearchParams(location.search);
         const redirectURL = params.get("redirect");
-        console.log(redirectURL);
+        /* console.log(redirectURL); */
         if (redirectURL) {
             navigate(redirectURL);
         }
