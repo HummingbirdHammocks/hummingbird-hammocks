@@ -31,7 +31,7 @@ const CartPage = () => {
   let totalQuantity = 0
 
   if (checkout) {
-    console.log(checkout);
+    /* console.log(checkout); */
     checkout.lineItems.forEach(lineItem => {
       totalQuantity = totalQuantity + lineItem.quantity
     })
