@@ -44,6 +44,10 @@
         {
           "source": "/account/**",
           "destination": "/account/[...]/index.html"
+        },
+        {
+          "source": "/discount/**",
+          "destination": "/discount/[...]/index.html"
         }
       ]
     },
@@ -175,6 +179,10 @@
         {
           "source": "/account/**",
           "destination": "/account/[...]/index.html"
+        },
+        {
+          "source": "/discount/**",
+          "destination": "/discount/[...]/index.html"
         }
       ]
     }

@@ -94,9 +94,35 @@ export function CartContextProvider({ children }) {
       customAttributes: customAttributes
     };
 
-    newCheckout = await client.checkout.updateAttributes(checkoutId, input)
+    newCheckout = await client.checkout.updateAttributes(newCheckout.id, input)
 
     /* console.log(newCheckout.customAttributes) */
+
+    setCheckout(newCheckout)
+    setSuccessfulOrder(null)
+    if (typeof window !== "undefined") {
+      localStorage.setItem("checkout", JSON.stringify(newCheckout))
+    }
+  }
+
+  const addDiscount = async ({ discountCode }) => {
+    // if no checkout, create a new checkout
+    let newCheckout = checkout || (await client.checkout.create())
+
+    console.log(discountCode);
+
+    if (newCheckout.discountApplications && newCheckout.discountApplications.length > 0) {
+      let found = newCheckout.discountApplications.find(function (element) {
+        return element.code === discountCode;
+      });
+      if (!found) {
+        newCheckout = await client.checkout.addDiscount(newCheckout.id, discountCode)
+      }
+    } else {
+      newCheckout = await client.checkout.addDiscount(newCheckout.id, discountCode)
+    }
+
+    console.log(newCheckout)
 
     setCheckout(newCheckout)
     setSuccessfulOrder(null)
@@ -127,6 +153,7 @@ export function CartContextProvider({ children }) {
         successfulOrder,
         dismissSuccessfulOrder,
         updateAttributes,
+        addDiscount,
       }}
     >
       {children}
