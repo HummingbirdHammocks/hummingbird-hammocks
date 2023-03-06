@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useCallback } from "react"
+import React, { useEffect, useState, useContext, useCallback } from "react"
 import { useLocation } from '@reach/router';
 import { Box } from "@mui/material"
 import { useQuery, gql } from "@apollo/client"
@@ -14,12 +14,17 @@ import GDPRConsent from "./GDPRBanner";
 import { AppDrawer } from "./Nav/AppDrawer"
 import { CartDrawer } from "./Nav/CartDrawer"
 import { TopBanner } from "./TopBanner"
+// hooks
+import { useDiscountCode } from "hooks"
 
 export const Layout = ({ children }) => {
+  const [code, setCode] = useState(null);
+
   const { banner, bannerOpen } = useUIStore();
   const { customerAccessToken } = useAuthStore();
 
   const { updateAttributes } = useContext(CartContext)
+  const registeredCode = useDiscountCode(code);
 
   const location = useLocation();
 
@@ -36,17 +41,39 @@ export const Layout = ({ children }) => {
     }
   }, [location, updateAttributes])
 
+  const handleDiscountCode = useCallback(async () => {
+    let pathCode;
+    if (location && location.search) {
+      const params = new URLSearchParams(location.search);
+      pathCode = params.get("discount_code");
+    };
+
+    const localStoredCode = localStorage.getItem('discount_code');
+
+    if (pathCode) {
+      localStorage.setItem('discount_code', pathCode);
+      setCode(pathCode);
+      return;
+    } else if (localStoredCode) {
+      setCode(localStoredCode);
+      return;
+    }
+  }, [location, code])
+
   useEffect(() => {
     if (!firebaseApp()) return;
     logAnalyticsEvent('page_view', location.pathname);
 
     handleAffiliateIdCookie();
+    if (code !== registeredCode) {
+      handleDiscountCode();
+    }
 
     if (!window || typeof window == 'undefined' || !window.jdgmCacheServer) return;
     const jdgmCacheServer = window.jdgmCacheServer;
     jdgmCacheServer.reloadAll();
 
-  }, [location, handleAffiliateIdCookie]);
+  }, [location, code, registeredCode, handleAffiliateIdCookie, handleDiscountCode]);
 
   const { data, loading/* , error */ } = useQuery(CUSTOMER_NAME, {
     variables: {

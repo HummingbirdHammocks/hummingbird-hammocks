@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useCallback } from "react"
+import React, { useEffect, useState, useContext, useCallback } from "react"
 import { navigate } from "gatsby"
 import { useLocation } from "@reach/router"
 import { Box, Typography, Button } from "@mui/material"
@@ -7,22 +7,22 @@ import {
     Layout,
     Link,
 } from "components"
-// stores
-import { CartContext } from "contexts"
+// hooks
+import { useDiscountCode } from "hooks"
 
 
 const Discounts = () => {
-    const { addDiscount } = useContext(CartContext)
+    const [code, setCode] = useState(null);
 
     const location = useLocation();
 
+    const registeredCode = useDiscountCode(code);
+
     const handleRedirection = useCallback(async () => {
-        /* console.log(location) */
         if (!location || !location.search) return navigate("/");
 
         const params = new URLSearchParams(location.search);
         const redirectURL = params.get("redirect");
-        /* console.log(redirectURL); */
         if (redirectURL) {
             navigate(redirectURL);
         }
@@ -31,18 +31,27 @@ const Discounts = () => {
     const handleDiscountCode = useCallback(async () => {
         if (!location || !location.pathname) return;
         const discountPath = location.pathname;
-        console.log(discountPath.substring(discountPath.lastIndexOf('/')));
-        if (discountPath === "/discount") {
-            handleRedirection();
+
+        if (discountPath !== "/discount") {
+            setCode(discountPath.substring(discountPath.lastIndexOf('/') + 1));
+
+            var date = new Date()
+
+            localStorage.setItem('discount_code', code);
+            document.cookie = `discount_code=${code}; path=/; expires=${date.toGMTString()};`;
         } else {
-            await addDiscount({ discountCode: discountPath.substring(discountPath.lastIndexOf('/') + 1) })
             handleRedirection();
         }
-    }, [location, addDiscount, handleRedirection])
+    }, [location, code, handleRedirection])
 
     useEffect(() => {
-        handleDiscountCode();
-    }, [location, handleDiscountCode]);
+        console.log(registeredCode)
+        if (code !== registeredCode) {
+            handleDiscountCode();
+        } else {
+            handleRedirection();
+        }
+    }, [location, code, registeredCode, handleDiscountCode, handleRedirection]);
 
     return (
         <Layout>
@@ -52,10 +61,14 @@ const Discounts = () => {
                 alignItems="center"
                 display="flex"
             >
-                <Typography variant="h5">Registering Your Discount...</Typography>
-                <Button>
-                    <Link to="/">Return To Homepage</Link>
-                </Button>
+                <Box>
+                    <Typography variant="h5">Registering Your Discount...</Typography>
+                    <Typography variant="h6">You will be redirected once complete</Typography>
+                    <br />
+                    <Button>
+                        <Link to="/">Return To Homepage</Link>
+                    </Button>
+                </Box>
             </Box>
         </Layout>
     )
