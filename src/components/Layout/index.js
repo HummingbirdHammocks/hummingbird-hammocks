@@ -58,7 +58,7 @@ export const Layout = ({ children }) => {
       setCode(localStoredCode);
       return;
     }
-  }, [location, code])
+  }, [location])
 
   useEffect(() => {
     if (!firebaseApp()) return;
