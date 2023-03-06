@@ -7,16 +7,10 @@ import {
     Layout,
     Link,
 } from "components"
-// hooks
-import { useDiscountCode } from "hooks"
 
 
 const Discounts = () => {
-    const [code, setCode] = useState(null);
-
     const location = useLocation();
-
-    const registeredCode = useDiscountCode(code);
 
     const handleRedirection = useCallback(async () => {
         if (!location || !location.search) return navigate("/");
@@ -33,25 +27,22 @@ const Discounts = () => {
         const discountPath = location.pathname;
 
         if (discountPath !== "/discount") {
-            setCode(discountPath.substring(discountPath.lastIndexOf('/') + 1));
-
+            let code = discountPath.substring(discountPath.lastIndexOf('/') + 1)
             var date = new Date()
 
             localStorage.setItem('discount_code', code);
             document.cookie = `discount_code=${code}; path=/; expires=${date.toGMTString()};`;
+
+            handleRedirection();
         } else {
             handleRedirection();
         }
-    }, [location, code, handleRedirection])
+    }, [location, handleRedirection])
 
     useEffect(() => {
-        console.log(registeredCode)
-        if (code !== registeredCode) {
-            handleDiscountCode();
-        } else {
-            handleRedirection();
-        }
-    }, [location, code, registeredCode, handleDiscountCode, handleRedirection]);
+        handleDiscountCode();
+
+    }, [location, handleDiscountCode]);
 
     return (
         <Layout>
