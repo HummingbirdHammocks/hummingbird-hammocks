@@ -10,7 +10,7 @@ export const useDiscountCode = (code) => {
 
   if (lastCode === code) return code;
 
-  console.log(code);
+  /* console.log(code); */
 
   addDiscount({ discountCode: code })
     .then(() => {

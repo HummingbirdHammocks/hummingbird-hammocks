@@ -120,7 +120,7 @@ export function CartContextProvider({ children }) {
     if (!found) {
       client.checkout.addDiscount(newCheckout.id, discountCode)
         .then((updatedCheckout) => {
-          console.log(updatedCheckout)
+          /* console.log(updatedCheckout) */
           setCheckout(updatedCheckout)
           setSuccessfulOrder(null)
           if (typeof window !== "undefined") {
