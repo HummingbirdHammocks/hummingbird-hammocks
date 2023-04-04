@@ -74,6 +74,10 @@ const menuItems = [
       },
     ],
   },
+  {
+    title: "Gear Selector",
+    url: "/gear-selector",
+  },
 ]
 
 export default menuItems
