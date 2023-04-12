@@ -56,7 +56,7 @@ export function ActivityUseSelector({ selectedActivity, saveActivity }) {
             backgroundImage: DoubleHammockBackground,
         },
         {
-            name: 'Other',
+            name: 'Other / Unsure',
             id: 'other',
             description: 'General use gear is designed to be used in a variety of conditions and environments. It is typically heavier and less expensive than gear designed for specific activities.',
             backgroundImage: DoubleHammockBackground,
@@ -66,7 +66,7 @@ export function ActivityUseSelector({ selectedActivity, saveActivity }) {
     return (
         <Box>
             <Typography sx={{ marginBottom: 3 }}>
-                What will you be using this gear for primarily?
+                What will you be using this gear for primarily? Some items are better suited for specific use cases, including compromises on size or weight to achieve a specific goal.
             </Typography>
             <Grid container spacing={2}>
                 {activities.map((activity, index) => (

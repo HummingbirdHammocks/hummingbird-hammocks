@@ -11,46 +11,14 @@ import {
 
 import DoubleHammockBackground from "../../assets/images/product-backgrounds/DoubleHammockBackground.jpg"
 
-export function ClimateSelector({ selectedClimate, saveClimate }) {
-    const allClimates = [
-        {
-            name: 'Tropical',
-            id: 'tropical',
-            description: '0°–23.5°',
-            backgroundImage: DoubleHammockBackground,
-        },
-        {
-            name: 'Subtropics',
-            id: 'subtropics',
-            description: '23.5°–40°',
-            backgroundImage: DoubleHammockBackground,
-        },
-        {
-            name: 'Temperate',
-            id: 'temperate',
-            description: '40°–60°',
-            backgroundImage: DoubleHammockBackground,
-        },
-        {
-            name: 'Polar',
-            id: 'polar',
-            description: '60°–90°',
-            backgroundImage: DoubleHammockBackground,
-        },
-        {
-            name: 'Multiple / Unsure',
-            id: 'unsure',
-            description: '60°–90°',
-            backgroundImage: DoubleHammockBackground,
-        },
-    ];
+export function RecommendedGear({ activity, climate, weight, height }) {
 
     return (
         <Box>
             <Typography sx={{ marginBottom: 3 }}>
-                In which climate do you expect to use this gear primarily? The size of your hammock and the accessories you might need are often very dependent on the climate you expect to use your gear in.
+                The following gear should work well for your activity, climate, and user dimensions. Your recommendations will follow you through the rest of the site, look for the "Good Fit" tag on gear pages.
             </Typography>
-            <Grid container spacing={2}>
+            {/* <Grid container spacing={2}>
                 {allClimates.map((climate, index) => (
                     <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
                         <Card
@@ -74,7 +42,7 @@ export function ClimateSelector({ selectedClimate, saveClimate }) {
                         </Card>
                     </Grid>
                 ))}
-            </Grid>
+            </Grid> */}
         </Box >
     );
 }

@@ -6,7 +6,12 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-import { ActivityUseSelector, ClimateSelector } from 'sections';
+import {
+  ActivityUseSelector,
+  ClimateSelector,
+  UserDimensionsSelector,
+  RecommendedGear
+} from 'sections';
 
 const steps = [
   {
@@ -15,7 +20,7 @@ const steps = [
   },
   {
     label: 'Climate',
-    optional: true,
+    optional: false,
   },
   {
     label: 'User Dimensions',
@@ -28,9 +33,10 @@ const steps = [
 ];
 
 export function GearSelectorStepper() {
-  const [activity, setActivity] = useState('');
-  const [climate, setClimate] = useState('');
-  const [userDimensions, setUserDimensions] = useState(null);
+  const [activity, setActivity] = useState(null);
+  const [climate, setClimate] = useState(null);
+  const [height, setHeight] = useState(null);
+  const [weight, setWeight] = useState(null);
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set());
 
@@ -42,6 +48,14 @@ export function GearSelectorStepper() {
     setClimate(climate);
   };
 
+  const saveHeight = (height) => {
+    setHeight(height);
+  };
+
+  const saveWeight = (weight) => {
+    setWeight(weight);
+  };
+
 
   const isStepOptional = (step) => {
     return step === 1;
@@ -49,6 +63,31 @@ export function GearSelectorStepper() {
 
   const isStepSkipped = (step) => {
     return skipped.has(step);
+  };
+
+  const handleActiveNext = (step) => {
+    let active = true;
+    switch (step) {
+      case 0:
+        if (activity) {
+          active = false;
+        }
+        break;
+      case 1:
+        if (climate) {
+          active = false;
+        }
+        break;
+      case 2:
+        if (height && weight) {
+          active = false;
+        }
+        break;
+      default:
+        break;
+    }
+
+    return active;
   };
 
   const handleNext = () => {
@@ -82,11 +121,15 @@ export function GearSelectorStepper() {
   };
 
   const handleReset = () => {
+    setActivity(null);
+    setClimate(null);
+    setHeight(null);
+    setWeight(null);
     setActiveStep(0);
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%', marginBottom: 5 }}>
       <Stepper activeStep={activeStep}>
         {steps.map((step, index) => {
           const stepProps = {};
@@ -103,7 +146,11 @@ export function GearSelectorStepper() {
             <Step key={index} {...stepProps}>
               <StepLabel
                 {...labelProps}
-                onClick={() => setActiveStep(index)}
+                onClick={() => {
+                  if (!handleActiveNext(index)) {
+                    setActiveStep(index)
+                  }
+                }}
                 sx={{
                   cursor: 'pointer'
                 }}
@@ -131,8 +178,8 @@ export function GearSelectorStepper() {
 
           {activeStep === 0 && <ActivityUseSelector selectedActivity={activity} saveActivity={saveActivity} />}
           {activeStep === 1 && <ClimateSelector selectedClimate={climate} saveClimate={saveClimate} />}
-          {/* {activeStep === 2 && <ActivityUseSelector activeActivity={activity} saveActivity={saveActivity} />}
-          {activeStep === 3 && <ActivityUseSelector activeActivity={activity} saveActivity={saveActivity} />} */}
+          {activeStep === 2 && <UserDimensionsSelector selectedHeight={height} saveHeight={saveHeight} selectedWeight={weight} saveWeight={saveWeight} />}
+          {activeStep === 3 && <RecommendedGear activity={activity} climate={climate} weight={weight} height={height} />}
 
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Button
@@ -150,7 +197,7 @@ export function GearSelectorStepper() {
               </Button>
             )}
 
-            <Button onClick={handleNext}>
+            <Button onClick={handleNext} disabled={handleActiveNext(activeStep)}>
               {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
             </Button>
           </Box>
