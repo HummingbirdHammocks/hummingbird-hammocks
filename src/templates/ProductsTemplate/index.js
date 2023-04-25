@@ -12,6 +12,7 @@ import {
   Container,
   Tooltip,
 } from "@mui/material"
+import { Info } from "@mui/icons-material"
 import { useLocation } from "@gatsbyjs/reach-router"
 import queryString from "query-string"
 // stores
@@ -270,7 +271,6 @@ const ProductPage = ({ data, pageContext }) => {
                               background: "#f41901",
                               padding: "8px 10px",
                               color: theme.palette.white.main,
-                              fontFamily: theme.typography.fontFamily,
                               borderRadius: "10px",
                               letterSpacing: "2px",
 
@@ -280,14 +280,14 @@ const ProductPage = ({ data, pageContext }) => {
                               },
                             }}
                           >
-                            Sold Out
+                            <Typography align={"center"}>
+                              Sold Out
+                            </Typography>
                           </Box>
                           {variantRestockDate && (
                             <Box
                               sx={{
                                 padding: "8px 10px",
-                                color: "inherit",
-                                fontFamily: theme.typography.fontFamily,
                                 letterSpacing: "2px",
 
                                 [theme.breakpoints.down("md")]: {
@@ -296,7 +296,9 @@ const ProductPage = ({ data, pageContext }) => {
                                 },
                               }}
                             >
-                              ~{variantRestockDate} Weeks ETA
+                              <Typography align={"center"}>
+                                ~{variantRestockDate} Weeks ETA
+                              </Typography>
                             </Box>
                           )}
                         </Box>
