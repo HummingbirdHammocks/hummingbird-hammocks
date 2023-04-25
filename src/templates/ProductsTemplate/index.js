@@ -12,7 +12,6 @@ import {
   Container,
   Tooltip,
 } from "@mui/material"
-import { Info } from "@mui/icons-material"
 import { useLocation } from "@gatsbyjs/reach-router"
 import queryString from "query-string"
 // stores
