@@ -74,6 +74,7 @@ const ProductPage = ({ data, pageContext }) => {
   const [variantColorName, setVariantColorName] = useState("")
   const [variantSizeName, setVariantSizeName] = useState("")
   const [variantColorValues, setVariantColorValues] = useState({})
+  const [variantRestockDate, setVariantRestockDate] = useState(null)
 
   const rvpDispatch = useRecentlyViewedDispatch()
 
@@ -150,9 +151,22 @@ const ProductPage = ({ data, pageContext }) => {
 
         if (staticVariant?.metafields.length > 0) {
           for (let i = 0; i < staticVariant.metafields.length; i++) {
+            //Get Accent Colors
             if (staticVariant.metafields[i].key === "colors") {
               setVariantColorValues(JSON.parse(staticVariant.metafields[i].value))
               /* console.log(JSON.parse(staticVariant.metafields[i].value)) */
+            }
+            //Get Restock Date
+            if (staticVariant.metafields[i].key === "restock_date") {
+              if (staticVariant.metafields[i].value) {
+                const currentDate = new Date();
+                let restockDate = new Date(staticVariant.metafields[i].value)
+                if (restockDate.getTime() > currentDate.getTime()) {
+                  setVariantRestockDate(Math.round((restockDate.getTime() - currentDate.getTime()) / (1000 * 3600 * 24 * 7)))
+                  /* console.log(staticVariant.metafields[i].value) */
+                }
+              }
+
             }
           }
         }
@@ -250,22 +264,41 @@ const ProductPage = ({ data, pageContext }) => {
                         <ProductPreviewBadge id={product?.id} />
                       </Stack>
                       {!selectedVariant?.available && (
-                        <Box
-                          sx={{
-                            background: "#f41901",
-                            padding: "8px 10px",
-                            color: theme.palette.white.main,
-                            fontFamily: theme.typography.fontFamily,
-                            borderRadius: "10px",
-                            letterSpacing: "2px",
+                        <Box>
+                          <Box
+                            sx={{
+                              background: "#f41901",
+                              padding: "8px 10px",
+                              color: theme.palette.white.main,
+                              fontFamily: theme.typography.fontFamily,
+                              borderRadius: "10px",
+                              letterSpacing: "2px",
 
-                            [theme.breakpoints.down("md")]: {
-                              top: "70px",
-                              right: "80px",
-                            },
-                          }}
-                        >
-                          Sold Out
+                              [theme.breakpoints.down("md")]: {
+                                top: "70px",
+                                right: "80px",
+                              },
+                            }}
+                          >
+                            Sold Out
+                          </Box>
+                          {variantRestockDate && (
+                            <Box
+                              sx={{
+                                padding: "8px 10px",
+                                color: "inherit",
+                                fontFamily: theme.typography.fontFamily,
+                                letterSpacing: "2px",
+
+                                [theme.breakpoints.down("md")]: {
+                                  top: "70px",
+                                  right: "80px",
+                                },
+                              }}
+                            >
+                              ~{variantRestockDate} Weeks ETA
+                            </Box>
+                          )}
                         </Box>
                       )}
                     </Stack>
@@ -600,6 +633,13 @@ export const query = graphql`
     shopifyProduct(id: { eq: $id }) {
       ...ShopifyProductFields
       ...ProductTileFields
+    }
+
+    metaRestockDate: shopifyProductMetafield(
+      productId: { eq: $id }
+      key: { eq: "restock_date" }
+    ) {
+      value
     }
 
     metaTitle: shopifyProductMetafield(
