@@ -44,9 +44,14 @@ exports.sourceNodes = async ({
 }) => {
   const { createNode } = actions
   const {
-    data: { articles },
+    data: { articles }
   } = await axios(
-    `https://${process.env.SHOPIFY_API_KEY}:${process.env.SHOPIFY_PASSWORD}@${process.env.GATSBY_SHOPIFY_SHOP_NAME}.myshopify.com/admin/api/2022-01/blogs/${process.env.SHOPIFY_BLOG_ID}/articles.json`
+    `https://${process.env.GATSBY_SHOPIFY_SHOP_NAME}.myshopify.com/admin/api/${process.env.GATSBY_SHOPIFY_API_VERSION}/blogs/${process.env.GATSBY_SHOPIFY_BLOG_ID}/articles.json`,
+    {
+      headers: {
+        "X-Shopify-Access-Token": process.env.GATSBY_SHOPIFY_ADMIN_ACCESS_TOKEN
+      }
+    },
   )
 
   articles.forEach((node, index) => {

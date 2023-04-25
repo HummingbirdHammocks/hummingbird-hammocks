@@ -7,68 +7,74 @@ name: Deploy to Firebase Hosting on PR
     branches:
       - main
 
-env:
-  SITE_URL: "${{ secrets.SITE_URL }}"
-  NODE_OPTIONS: "${{ secrets.NODE_OPTIONS }}"
-  GATSBY_SHOPIFY_STORE_URL: "${{ secrets.GATSBY_SHOPIFY_STORE_URL }}"
-  GATSBY_SHOPIFY_SHOP_NAME: "${{ secrets.GATSBY_SHOPIFY_SHOP_NAME }}"
-  GATSBY_STOREFRONT_ACCESS_TOKEN: "${{ secrets.GATSBY_STOREFRONT_ACCESS_TOKEN }}"
-  SHOPIFY_SHOP_PASSWORD: "${{ secrets.SHOPIFY_SHOP_PASSWORD }}"
-  SHOPIFY_API_KEY: "${{ secrets.SHOPIFY_API_KEY }}"
-  SHOPIFY_PASSWORD: "${{ secrets.SHOPIFY_PASSWORD }}"
-  SHOPIFY_BLOG_ID: "${{ secrets.SHOPIFY_BLOG_ID }}"
-  GATSBY_ALGOLIA_APP_ID: "${{ secrets.GATSBY_ALGOLIA_APP_ID }}"
-  GATSBY_ALGOLIA_PRODUCTS_INDEX_NAME: "${{ secrets.GATSBY_ALGOLIA_PRODUCTS_INDEX_NAME }}"
-  GATSBY_ALGOLIA_ARTICLES_INDEX_NAME: "${{ secrets.GATSBY_ALGOLIA_ARTICLES_INDEX_NAME }}"
-  GATSBY_ALGOLIA_SEARCH_KEY: "${{ secrets.GATSBY_ALGOLIA_SEARCH_KEY }}"
-  GATSBY_ALGOLIA_ADMIN_KEY: "${{ secrets.GATSBY_ALGOLIA_ADMIN_KEY }}"
-  GATSBY_JUDGE_ME_PRIVATE_API_TOKEN: "${{ secrets.GATSBY_JUDGE_ME_PRIVATE_API_TOKEN }}"
-  GATSBY_JUDGE_ME_PUBLIC_API_TOKEN: "${{ secrets.GATSBY_JUDGE_ME_PUBLIC_API_TOKEN }}"
-  GATSBY_FIREBASE_API_KEY: "${{ secrets.GATSBY_FIREBASE_API_KEY }}"
-  GATSBY_FIREBASE_AUTH_DOMAIN: "${{ secrets.GATSBY_FIREBASE_AUTH_DOMAIN }}"
-  GATSBY_FIREBASE_PROJECT_ID: "${{ secrets.GATSBY_FIREBASE_PROJECT_ID }}"
-  GATSBY_FIREBASE_STORAGE_BUCKET: "${{ secrets.GATSBY_FIREBASE_STORAGE_BUCKET }}"
-  GATSBY_FIREBASE_MESSAGING_SENDERID: "${{ secrets.GATSBY_FIREBASE_MESSAGING_SENDERID }}"
-  GATSBY_FIREBASE_APP_ID: "${{ secrets.GATSBY_FIREBASE_APP_ID }}"
-  GATSBY_FIREBASE_MEASUREMENT_ID: "${{ secrets.GATSBY_FIREBASE_MEASUREMENT_ID }}"
-  GATSBY_FIREBASE_FUNCTIONS_URL: "${{ secrets.GATSBY_FIREBASE_FUNCTIONS_URL }}"
+concurrency:
+  group: ci-tests-${{ github.ref }}-1
+  cancel-in-progress: true
 
 jobs:
-  build_and_preview:
-    if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
+  build-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Set Node.js
         uses: actions/setup-node@master
         with:
-          node-version: 14.x
+          node-version: 18.x
 
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Cache Dependencies
+      - name: Cache NPM Dependencies
         uses: actions/cache@v2
+        id: npm-cache
         with:
           path: ./node_modules
-          key: modules-${{ hashFiles('package-lock.json') }}
+          key: npm-cache-${{ hashFiles('package-lock.json') }}
 
       - name: Install Dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
+        if: steps.npm-cache.outputs.cache-hit != 'true'
+        run: npm ci --legacy-peer-deps
 
-      - name: Caching Gatsby
-        id: gatsby-cache-build
+      - name: Cache Gatsby
+        id: gatsby-cache
         uses: actions/cache@v2
         with:
           path: |
             public
             .cache
-          key: ${{ runner.os }}-gatsby-build-${{ github.run_id }}
+          key: ${{ runner.os }}-gatsby-build
           restore-keys: |
-            ${{ runner.os }}-gatsby-build-
+            ${{ runner.os }}-gatsby-build
 
       - name: Build
-        run: npm run build
+        run: npm run build --log-pages
+        env:
+          CI: false
+          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
+          SITE_URL: "${{ secrets.SITE_URL }}"
+          NODE_OPTIONS: "${{ secrets.NODE_OPTIONS }}"
+          GATSBY_SHOPIFY_STORE_URL: "${{ secrets.GATSBY_SHOPIFY_STORE_URL }}"
+          GATSBY_SHOPIFY_SHOP_NAME: "${{ secrets.GATSBY_SHOPIFY_SHOP_NAME }}"
+          GATSBY_SHOPIFY_API_VERSION: "${{ secrets.GATSBY_SHOPIFY_API_VERSION }}"
+          GATSBY_SHOPIFY_STOREFRONT_ACCESS_TOKEN: "${{ secrets.GATSBY_SHOPIFY_STOREFRONT_ACCESS_TOKEN }}"
+          GATSBY_SHOPIFY_ADMIN_ACCESS_TOKEN: "${{ secrets.GATSBY_SHOPIFY_ADMIN_ACCESS_TOKEN }}"
+          GATSBY_SHOPIFY_API_KEY: "${{ secrets.GATSBY_SHOPIFY_API_KEY }}"
+          GATSBY_SHOPIFY_API_PASSWORD: "${{ secrets.GATSBY_SHOPIFY_API_PASSWORD }}"
+          GATSBY_SHOPIFY_BLOG_ID: "${{ secrets.GATSBY_SHOPIFY_BLOG_ID }}"
+          GATSBY_ALGOLIA_APP_ID: "${{ secrets.GATSBY_ALGOLIA_APP_ID }}"
+          GATSBY_ALGOLIA_PRODUCTS_INDEX_NAME: "${{ secrets.GATSBY_ALGOLIA_PRODUCTS_INDEX_NAME }}"
+          GATSBY_ALGOLIA_ARTICLES_INDEX_NAME: "${{ secrets.GATSBY_ALGOLIA_ARTICLES_INDEX_NAME }}"
+          GATSBY_ALGOLIA_SEARCH_KEY: "${{ secrets.GATSBY_ALGOLIA_SEARCH_KEY }}"
+          GATSBY_ALGOLIA_ADMIN_KEY: "${{ secrets.GATSBY_ALGOLIA_ADMIN_KEY }}"
+          GATSBY_JUDGE_ME_PRIVATE_API_TOKEN: "${{ secrets.GATSBY_JUDGE_ME_PRIVATE_API_TOKEN }}"
+          GATSBY_JUDGE_ME_PUBLIC_API_TOKEN: "${{ secrets.GATSBY_JUDGE_ME_PUBLIC_API_TOKEN }}"
+          GATSBY_FIREBASE_API_KEY: "${{ secrets.GATSBY_FIREBASE_API_KEY }}"
+          GATSBY_FIREBASE_AUTH_DOMAIN: "${{ secrets.GATSBY_FIREBASE_AUTH_DOMAIN }}"
+          GATSBY_FIREBASE_PROJECT_ID: "${{ secrets.GATSBY_FIREBASE_PROJECT_ID }}"
+          GATSBY_FIREBASE_STORAGE_BUCKET: "${{ secrets.GATSBY_FIREBASE_STORAGE_BUCKET }}"
+          GATSBY_FIREBASE_MESSAGING_SENDERID: "${{ secrets.GATSBY_FIREBASE_MESSAGING_SENDERID }}"
+          GATSBY_FIREBASE_APP_ID: "${{ secrets.GATSBY_FIREBASE_APP_ID }}"
+          GATSBY_FIREBASE_MEASUREMENT_ID: "${{ secrets.GATSBY_FIREBASE_MEASUREMENT_ID }}"
+          GATSBY_FIREBASE_FUNCTIONS_URL: "${{ secrets.GATSBY_FIREBASE_FUNCTIONS_URL }}"
 
       - name: Deploy to Firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
@@ -77,6 +83,3 @@ jobs:
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_HUMMINGBIRD_HAMMOCKS }}"
           projectId: hummingbird-hammocks
           target: prod
-        env:
-          CI: false
-          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true

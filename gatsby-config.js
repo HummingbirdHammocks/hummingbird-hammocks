@@ -67,10 +67,11 @@ module.exports = {
     {
       resolve: "gatsby-source-shopify",
       options: {
-        password: process.env.SHOPIFY_SHOP_PASSWORD,
+        password: process.env.GATSBY_SHOPIFY_ADMIN_ACCESS_TOKEN,
         storeUrl: process.env.GATSBY_SHOPIFY_STORE_URL,
+        salesChannel: process.env.GATSBY_SHOPIFY_SALES_CHANNEL,
         shopifyConnections: ["collections"],
-        apiVersion: "2022-04",
+        apiVersion: process.env.GATSBY_SHOPIFY_API_VERSION,
         // downloadImages: true,
       },
     },

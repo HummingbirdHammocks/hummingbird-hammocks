@@ -28,7 +28,7 @@ import "@fontsource/montserrat/400.css"
 import "@fontsource/montserrat/500.css"
 import "@fontsource/montserrat/700.css"
 // Judge.me
-import { ReviewWidgetScripts } from "utils/judgeMe"
+/* import { ReviewWidgetScripts } from "utils/judgeMe" */
 // Import Swiper styles
 import "swiper/css"
 import "swiper/css/navigation"
@@ -46,7 +46,7 @@ const client = new ApolloClient({
     uri: `https://hummingbird-hammocks.myshopify.com/api/2022-04/graphql.json`,
     headers: {
       "X-Shopify-Storefront-Access-Token":
-        process.env.GATSBY_STOREFRONT_ACCESS_TOKEN,
+        process.env.GATSBY_SHOPIFY_STOREFRONT_ACCESS_TOKEN,
       Accept: "application/graphql",
     },
     fetch,
@@ -69,7 +69,7 @@ export const wrapRootElement = ({ element }) => (
                       pauseOnFocusLoss={false}
                     />
                     <ReactQueryDevtools initialIsOpen={false} />
-                    <ReviewWidgetScripts />
+                    {/* <ReviewWidgetScripts /> */}
                   </ThemeProvider>
                 </CartContextProvider>
               </ProductContextProvider>
