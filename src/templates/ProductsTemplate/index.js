@@ -132,6 +132,7 @@ const ProductPage = ({ data, pageContext }) => {
 
     getProductById(shopifyId).then(result => {
       setProduct(result)
+      setVariantRestockDate(null);
 
       if (result?.variants) {
         const resultVariant =
