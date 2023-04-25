@@ -46,7 +46,7 @@ const client = new ApolloClient({
     uri: `https://hummingbird-hammocks.myshopify.com/api/2022-04/graphql.json`,
     headers: {
       "X-Shopify-Storefront-Access-Token":
-        process.env.GATSBY_STOREFRONT_ACCESS_TOKEN,
+        process.env.GATSBY_SHOPIFY_STOREFRONT_ACCESS_TOKEN,
       Accept: "application/graphql",
     },
     fetch,
