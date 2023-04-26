@@ -29,6 +29,7 @@ import "@fontsource/montserrat/500.css"
 import "@fontsource/montserrat/700.css"
 // Judge.me
 import { ReviewWidgetScripts } from "utils/judgeMe"
+import { HelpWidgetScripts } from "utils/freescout"
 // Import Swiper styles
 import "swiper/css"
 import "swiper/css/navigation"
@@ -70,6 +71,7 @@ export const wrapRootElement = ({ element }) => (
                     />
                     <ReactQueryDevtools initialIsOpen={false} />
                     <ReviewWidgetScripts />
+                    <HelpWidgetScripts />
                   </ThemeProvider>
                 </CartContextProvider>
               </ProductContextProvider>
