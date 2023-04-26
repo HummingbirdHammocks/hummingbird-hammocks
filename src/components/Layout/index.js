@@ -70,6 +70,9 @@ export const Layout = ({ children }) => {
     }
 
     if (!window || typeof window == 'undefined' || !window.jdgmCacheServer) return;
+    window.BOOMR = {
+      themeName: 'Hummingbird Hammocks'
+    }
     const jdgmCacheServer = window.jdgmCacheServer;
     jdgmCacheServer.reloadAll();
 
