@@ -3,7 +3,7 @@
 
 name: Deploy to Firebase Hosting on cron or manual
 on:
-  repository_dispatch:
+  workflow_dispatch:
   schedule:
     - cron: "0 2 * * *"
 
