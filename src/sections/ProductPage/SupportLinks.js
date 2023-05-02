@@ -10,8 +10,6 @@ export const SupportLinks = ({
     repo,
 }) => {
 
-    console.log(repo)
-
     return (
         <Grid
             container
