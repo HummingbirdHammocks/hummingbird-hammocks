@@ -21,5 +21,10 @@ export function fToNow(date) {
 }
 
 export function fShopify(date) {
-  return (new Date(date)).toLocaleString({ dateStyle: "short", timeStyle: "short" });
+  var newDateOptions = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+}
+  return (new Date(date)).toLocaleString("en-US", newDateOptions );
 }

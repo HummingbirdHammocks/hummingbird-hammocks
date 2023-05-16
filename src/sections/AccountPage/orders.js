@@ -61,7 +61,7 @@ const AccountOrdersPage = () => {
                 <Typography sx={{ marginBottom: 7 }} variant="h4">
                   Order History
                 </Typography>
-                <OrderHistory rows={data.customer.orders?.edges} />
+                <OrderHistory rows={data.customer.orders?.edges} data={data?.customer.orders?.edges[accountDetails.index]} />
               </Grid>
             </Grid>
           )}
@@ -94,86 +94,92 @@ const AccountOrdersPage = () => {
 export default AccountOrdersPage
 
 const CUSTOMER_INFO = gql`
-      query ($customerAccessToken: String!) {
-        customer(customerAccessToken: $customerAccessToken) {
-        email
+  query ($customerAccessToken: String!) {
+    customer(customerAccessToken: $customerAccessToken) {
+      email
       firstName
       lastName
       defaultAddress {
         firstName
         lastName
-      address1
-      address2
-      phone
-      city
-      zip
-      country
+        address1
+        address2
+        phone
+        city
+        zip
+        country
       }
       orders(first: 10) {
         edges {
-        node {
-        name
+          node {
+            name
             id
-      totalPrice
-      processedAt
-      currencyCode
-      fulfillmentStatus
-      financialStatus
-      shippingAddress {
-        address1
+            totalPrice
+            processedAt
+            currencyCode
+            fulfillmentStatus
+            financialStatus
+            shippingAddress {
+              address1
               address2
-      city
-      lastName
-      firstName
-      country
-      phone
-      name
-      zip
+              city
+              lastName
+              firstName
+              country
+              phone
+              name
+              zip
             }
-      currentTotalTax {
-        amount
-      }
-      totalShippingPrice
-      lineItems(first: 10) {
-        edges {
-        node {
-        title
+            currentTotalTax {
+              amount
+            }
+            totalShippingPrice
+            lineItems(first: 10) {
+              edges {
+                node {
+                  title
                   variant {
-        sku
-      }
-
-      originalTotalPrice {
-        amount
+                    sku
+                    title
+                    image {
+                      originalSrc
+                      height
+                      id
+                      url
+                      width
+                    }
+                  }
+                  originalTotalPrice {
+                    amount
                     currencyCode
                   }
-      discountedTotalPrice {
-        amount
-      }
-      quantity
+                  discountedTotalPrice {
+                    amount
+                  }
+                  quantity
                 }
               }
             }
-
-      subtotalPrice
-      totalPrice
+            subtotalPrice
+            totalPrice
           }
         }
       }
       addresses(first: 10) {
         edges {
-        node {
-        address1
+          node {
+            address1
             address2
-      city
-      lastName
-      firstName
-      country
-      phone
-      name
-      zip
+            city
+            lastName
+            firstName
+            country
+            phone
+            name
+            zip
           }
         }
       }
     }
   }
-      `
+`

@@ -62,7 +62,7 @@ const AccountNotificationsPage = () => {
 
   useEffect(() => {
     if (data?.customer) {
-      console.log(data.customer)
+      //console.log(data.customer)
       setAcceptsMarketing(data?.customer?.acceptsMarketing)
     }
   }, [data])
