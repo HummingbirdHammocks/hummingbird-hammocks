@@ -1,32 +1,37 @@
-import React from "react"
+import React, { useState } from "react"
 import { navigate } from "gatsby"
 import { useLocation } from "@gatsbyjs/reach-router"
 import {
   Typography,
   Box,
+  Grid,
   Stack,
   Badge,
   Chip,
   Paper,
   Button,
   Divider,
-  Tooltip
+  Tooltip,
 } from "@mui/material"
-import { Pageview } from "@mui/icons-material"
 
+import { SupportTicketDialog } from "./SupportTicketDialog"
+import { ReturnDialog } from "./ReturnDialog"
 import { fShopify } from "utils/formatTime";
+import { fulfillmentStatusChipColor, financialStatusColor } from "../../../utils/shopify"
 
-export const OrderCard = ({ order }) => {
+export const OrderCard = ({ order, firstName, lastName, email }) => {
+  const [ticketDialogOpen, setTicketDialogOpen] = useState(false)
+  const [returnDialogOpen, setReturnDialogOpen] = useState(false)
+
   const {
     name,
     processedAt,
     fulfillmentStatus,
     financialStatus,
     currencyCode,
-    subtotalPrice,
-    totalShippingPrice,
     totalPrice,
-    lineItems
+    lineItems,
+    shippingAddress,
   } = order.node
 
   const { pathname } = useLocation()
@@ -37,52 +42,12 @@ export const OrderCard = ({ order }) => {
     })
   }
 
-  const handleFulfillmentStatusColor = status => {
-    switch (status) {
-      case "FULFILLED":
-        return "success"
-      case "IN_PROGRESS":
-        return "warning"
-      case "ON_HOLD":
-        return "warning"
-      case "OPEN":
-        return "default"
-      case "PARTIALLY_FULFILLED":
-        return "info"
-      case "PENDING_FULFILLMENT":
-        return "info"
-      case "RESTOCKED":
-        return "default"
-      case "SCHEDULED":
-        return "warning"
-      case "UNFULFILLED":
-        return "info"
-      default:
-        return "default"
-    }
+  const handleSupportDialogClose = () => {
+    setTicketDialogOpen(false)
   }
 
-  const handleFinancialStatusColor = status => {
-    switch (status) {
-      case "AUTHORIZED":
-        return "success"
-      case "EXPIRED":
-        return "error"
-      case "PAID":
-        return "success"
-      case "PARTIALLY_PAID":
-        return "warning"
-      case "PARTIALLY_REFUNDED":
-        return "warning"
-      case "PENDING":
-        return "warning"
-      case "REFUNDED":
-        return "error"
-      case "VOIDED":
-        return "error"
-      default:
-        return "default"
-    }
+  const handleReturnDialogClose = () => {
+    setReturnDialogOpen(false)
   }
 
   console.log(order);
@@ -97,52 +62,74 @@ export const OrderCard = ({ order }) => {
         sx={{ paddingTop: 1, paddingBottom: 1, paddingLeft: 2, paddingRight: 2 }}
       >
         <Box>
+          <Typography variant="caption">
+            Order #:
+          </Typography>
           <Typography variant="h5">
             {name}
           </Typography>
         </Box>
         <Box>
+          <Typography variant="caption">
+            Date Placed:
+          </Typography>
           <Typography>
             {fShopify(processedAt)}
           </Typography>
         </Box>
-        <Chip label={fulfillmentStatus} variant="filled" color={handleFulfillmentStatusColor(fulfillmentStatus)} />
-        <Button startIcon={<Pageview />} onClick={() => handleOrderDetails(name)}>
-          View
-        </Button>
+        <Chip label={fulfillmentStatus} variant="filled" color={fulfillmentStatusChipColor(fulfillmentStatus)} />
       </Stack>
 
       <Divider />
 
-      <Box sx={{ marginTop: 2, marginBottom: 2 }}>
-        {lineItems && lineItems.edges.map((item, index) => {
-          const {
-            title,
-            variant: {
-              title: variantTitle,
-              image: {
-                url,
-                altText,
-              },
-            },
-            quantity,
-          } = item.node;
-          return (
-            <Box sx={{ margin: 1 }}>
-              <Tooltip title={title} key={index}>
-                <Badge badgeContent={quantity} color="primary">
-                  <img
-                    src={url}
-                    alt={altText}
-                    height={"80px"}
-                    width={"80px"}
-                    onClick={() => navigate(`/products/${variantTitle}`)}
-                  />
-                </Badge>
-              </Tooltip>
-            </Box>
-          )
-        })}
+      <Box sx={{ margin: 2 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={8} lg={7}>
+            {lineItems && lineItems.edges.map((item, index) => {
+              const {
+                title,
+                variant: {
+                  title: variantTitle,
+                  image: {
+                    url,
+                    altText,
+                  },
+                },
+                quantity,
+              } = item.node;
+              return (
+                <Box sx={{ margin: 1 }}>
+                  <Tooltip title={`${title} ${variantTitle}`} key={index}>
+                    <Badge badgeContent={quantity} color="primary">
+                      <img
+                        src={url}
+                        alt={altText}
+                        height={"80px"}
+                        width={"80px"}
+                      />
+                    </Badge>
+                  </Tooltip>
+                </Box>
+              )
+            })}
+          </Grid>
+          <Grid item xs={12} sm={4} lg={5}>
+            <Stack spacing={1}>
+              <Button variant="outlined" onClick={() => handleOrderDetails(name)}>
+                View Order
+              </Button>
+              <Button variant="outlined" onClick={() => handleOrderDetails(name)}>
+                Track Package
+              </Button>
+              <Button variant="outlined" onClick={() => setReturnDialogOpen(true)}>
+                Return / Replace
+              </Button>
+              <Button variant="outlined" onClick={() => setTicketDialogOpen(true)}>
+                Get Help
+              </Button>
+            </Stack>
+          </Grid>
+        </Grid>
       </Box>
 
       <Divider />
@@ -155,19 +142,40 @@ export const OrderCard = ({ order }) => {
         sx={{ paddingTop: 1, paddingBottom: 1, paddingLeft: 2, paddingRight: 2 }}
       >
         <Box>
+          <Typography variant="caption">
+            Ship To:
+          </Typography>
           <Typography>
-            {currencyCode} {totalPrice}
+            {shippingAddress && `${shippingAddress.firstName} ${shippingAddress.lastName}`}
           </Typography>
         </Box>
         <Box>
+          <Typography variant="caption">
+            {`Total (${currencyCode}):`}
+          </Typography>
           <Typography>
-            {fShopify(processedAt)}
+            {`$${totalPrice}`}
           </Typography>
         </Box>
-        <Stack direction="row" spacing={2} sx={{ marginTop: 2 }}>
-          <Chip label={financialStatus} color={handleFinancialStatusColor(financialStatus)} />
-        </Stack>
+        <Chip label={financialStatus} color={financialStatusColor(financialStatus)} />
       </Stack>
+
+      <SupportTicketDialog
+        firstName={firstName}
+        lastName={lastName}
+        email={email}
+        orderNumber={name}
+        open={ticketDialogOpen}
+        handleClose={handleSupportDialogClose}
+      />
+      <ReturnDialog
+        firstName={firstName}
+        lastName={lastName}
+        email={email}
+        orderNumber={name}
+        open={returnDialogOpen}
+        handleClose={handleReturnDialogClose}
+      />
     </Paper>
   )
 }

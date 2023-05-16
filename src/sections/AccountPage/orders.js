@@ -61,7 +61,13 @@ const AccountOrdersPage = () => {
                 <Typography sx={{ marginBottom: 7 }} variant="h4">
                   Order History
                 </Typography>
-                <OrderHistory rows={data.customer.orders?.edges} data={data?.customer.orders?.edges[accountDetails.index]} />
+                <OrderHistory
+                  rows={data.customer.orders?.edges}
+                  data={data?.customer.orders?.edges[accountDetails.index]}
+                  firstName={data.customer.firstName}
+                  lastName={data.customer.lastName}
+                  email={data.customer.email}
+                />
               </Grid>
             </Grid>
           )}
@@ -99,16 +105,6 @@ const CUSTOMER_INFO = gql`
       email
       firstName
       lastName
-      defaultAddress {
-        firstName
-        lastName
-        address1
-        address2
-        phone
-        city
-        zip
-        country
-      }
       orders(first: 10) {
         edges {
           node {
@@ -162,21 +158,6 @@ const CUSTOMER_INFO = gql`
             }
             subtotalPrice
             totalPrice
-          }
-        }
-      }
-      addresses(first: 10) {
-        edges {
-          node {
-            address1
-            address2
-            city
-            lastName
-            firstName
-            country
-            phone
-            name
-            zip
           }
         }
       }
