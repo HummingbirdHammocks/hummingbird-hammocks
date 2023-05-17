@@ -19,6 +19,6 @@ router.post('/get_orders_by_email', shopify_admin_controller.get_orders_by_email
 router.post('/check_return_eligible', shopify_admin_controller.check_return_eligible);
 
 //Create a return request for an order id
-/* router.post('/request_return', shopify_admin_controller.request_return); */
+router.post('/request_return', shopify_admin_controller.request_return);
 
 module.exports = router;

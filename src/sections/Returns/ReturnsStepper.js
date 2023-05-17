@@ -1,15 +1,13 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+import React, { useState } from 'react';
 import axios from 'axios';
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import { toast } from 'react-toastify';
+import { Box, Stepper, Step, StepLabel, Button, Typography } from '@mui/material';
 
+import { SupportTicketDialog } from "../AccountPage/components";
 import {
     ReturnsOrderLookup,
+    ReturnsItemSelector,
+    ReturnReviewSubmit
 } from 'sections';
 
 const steps = [
@@ -18,86 +16,139 @@ const steps = [
         optional: false,
     },
     {
-        label: 'Items',
+        label: 'Select Items',
         optional: false,
     },
     {
-        label: 'Reason',
+        label: 'Review & Submit',
         optional: false,
     },
-    {
-        label: 'Review',
-        optional: false,
-    }
 ];
 
-export function ReturnsStepper({ id }) {
+export function ReturnsStepper() {
     const [orders, setOrders] = useState(null);
     const [selectedOrder, setSelectedOrder] = useState(null);
-    const [lineItems, setLineItems] = useState(null);
-    const [returnReason, setReturnReason] = useState(null);
-    const [customerComments, setCustomerComments] = useState(null);
+    const [lineItems, setLineItems] = useState([]);
     const [activeStep, setActiveStep] = useState(0);
-    const [skipped, setSkipped] = useState(new Set());
+    const [ticketDialogOpen, setTicketDialogOpen] = useState(false);
+    const [ticketOrderName, setTicketOrderName] = useState("");
 
     const saveOrders = (newOrders) => {
         setOrders(newOrders);
     };
 
     const saveSelectedOrder = (selected) => {
-        setSelectedOrder(selected);
+        if (selectedOrder && selectedOrder.id === selected.id) {
+            setSelectedOrder(null);
+        } else {
+            setSelectedOrder(selected);
+        }
     };
 
-    const saveLineItems = (lineItems) => {
-        setLineItems(lineItems);
+    const saveLineItem = (newItem) => {
+        console.log(newItem);
+        if (lineItems && lineItems.length !== 0 && lineItems.find(item => item.id === newItem.id)) {
+            setLineItems(lineItems.filter(item => item.id !== newItem.id));
+        } else {
+            newItem.returnReason = '';
+            newItem.customerComments = '';
+            newItem.returnQuantity = newItem.lineItem.refundableQuantity || 0;
+
+            setLineItems([...lineItems, newItem]);
+        }
     };
 
-    const saveReturnReason = (returnReason) => {
-        setReturnReason(returnReason);
+    const saveReturnReason = (id, value) => {
+        if (!id || !value) return null;
+        console.log(id, value)
+
+        if (lineItems && lineItems.length !== 0) {
+            let newItem = lineItems.find(item => item.id === id);
+            console.log(newItem)
+            if (newItem) {
+                newItem.returnReason = value;
+                console.log(newItem)
+                setLineItems([...lineItems.filter(item => item.id !== id), newItem]);
+            }
+        }
     };
 
-    const saveCustomerComments = (customerComments) => {
-        setCustomerComments(customerComments);
+    const saveCustomerComments = (id, value) => {
+        if (!id || !value) return null;
+        console.log(id, value)
+
+        if (lineItems && lineItems.length !== 0) {
+            let newItem = lineItems.find(item => item.id === id);
+            if (newItem) {
+                newItem.customerComments = value;
+                console.log(newItem)
+                setLineItems([...lineItems.filter(item => item.id !== id), newItem]);
+            }
+        }
     };
 
-    const isStepSkipped = (step) => {
-        return skipped.has(step);
+    const saveQuantity = (id, value) => {
+        if (!id || !value) return null;
+        console.log(id, value)
+
+        if (lineItems && lineItems.length !== 0) {
+            let newItem = lineItems.find(item => item.id === id);
+            console.log(newItem)
+            if (newItem) {
+                newItem.returnQuantity = value;
+                console.log(newItem)
+                setLineItems([...lineItems.filter(item => item.id !== id), newItem]);
+            }
+        }
     };
+
+    const handleOpenTicketDialog = (orderName) => {
+        setTicketOrderName(orderName);
+        setTicketDialogOpen(true);
+    };
+
+    const handleTicketDialogClose = () => {
+        setTicketOrderName("");
+        setTicketDialogOpen(false);
+    }
 
     const handleActiveNext = (step) => {
-        let active = true;
+        let disabled = true;
         switch (step) {
             case 0:
                 if (selectedOrder) {
-                    active = false;
+                    disabled = false;
                 }
                 break;
             case 1:
-                if (lineItems) {
-                    active = false;
+                if (lineItems && lineItems.length !== 0) {
+                    lineItems.map((item) => {
+                        if (item.returnReason !== '' && item.customerComments !== '' && item.returnQuantity !== 0) {
+                            disabled = false;
+                        }
+                    });
                 }
                 break;
             case 2:
-                if (returnReason && customerComments) {
-                    active = false;
+                if (selectedOrder && selectedOrder.id) {
+                    if (lineItems && lineItems.length !== 0) {
+                        lineItems.map((item) => {
+                            if (item.id && item.returnReason !== '' && item.customerComments !== '' && item.returnQuantity !== 0) {
+                                disabled = false;
+                            }
+                        });
+                    }
                 }
                 break;
             default:
                 break;
         }
 
-        return active;
+        return disabled;
     };
 
     const handleNext = () => {
-        let newSkipped = skipped;
-        if (isStepSkipped(activeStep)) {
-            newSkipped = new Set(newSkipped.values());
-            newSkipped.delete(activeStep);
-        }
-
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setSkipped(newSkipped);
     };
 
     const handleBack = () => {
@@ -107,33 +158,40 @@ export function ReturnsStepper({ id }) {
     const handleReset = () => {
         setOrders(null);
         setSelectedOrder(null);
-        setLineItems(null);
-        setReturnReason(null);
-        setCustomerComments(null);
+        setLineItems([]);
         setActiveStep(0);
     };
 
-    const hydrateOrderFromId = useCallback(async (id) => {
-        const url = process.env.GATSBY_FIREBASE_FUNCTIONS_URL + '/api/v1/shopifyAdmin/get_order_by_id';
+    const handleSubmit = async () => {
+        if (!selectedOrder.id || !lineItems || lineItems.length === 0) return null;
 
-        await axios.post(url, { id: id })
+        const url = process.env.GATSBY_FIREBASE_FUNCTIONS_URL + '/api/v1/shopifyAdmin/request_return';
+
+        let formattedLineItems = [];
+        lineItems.map((item) => {
+            formattedLineItems.push({
+                fulfillmentLineItemId: item.id,
+                quantity: item.returnQuantity,
+                returnReason: item.returnReason,
+                customerNote: item.customerComments
+            })
+        });
+
+        const payload = {
+            orderId: selectedOrder.id,
+            returnItems: formattedLineItems
+        }
+
+        await axios.post(url, payload)
             .then((res) => {
                 console.log(res);
-                setSelectedOrder(res.data.data.orders.edges[0]);
+                setActiveStep((prevActiveStep) => prevActiveStep + 1);
             })
             .catch((error) => {
                 console.log(error);
-                toast.error("Error retreiving order by id, please try again")
+                toast.error("Error submitting return request, please try again");
             });
-    }, [id]);
-
-
-    useEffect(() => {
-        if (id && !selectedOrder) {
-            hydrateOrderFromId(id);
-            setActiveStep(1);
-        }
-    }, [id]);
+    };
 
     return (
         <Box sx={{ width: '100%', marginBottom: 5 }}>
@@ -162,8 +220,14 @@ export function ReturnsStepper({ id }) {
             </Stepper>
             {activeStep === steps.length ? (
                 <React.Fragment>
+                    <Typography variant="h4" sx={{ mt: 3, mb: 3 }}>
+                        Return Request Sent
+                    </Typography>
                     <Typography sx={{ mt: 2, mb: 1 }}>
-                        All steps completed - you&apos;re finished
+                        We will review your request and get back to you as soon as possible. Thank you!
+                    </Typography>
+                    <Typography sx={{ mt: 2, mb: 1 }}>
+                        If you would like to start a new request, please click the "reset" button below or refresh the page.
                     </Typography>
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                         <Box sx={{ flex: '1 1 auto' }} />
@@ -181,11 +245,26 @@ export function ReturnsStepper({ id }) {
                             orders={orders}
                             handleSelectedOrder={saveSelectedOrder}
                             handleOrders={saveOrders}
+                            handleOpenTicketDialog={handleOpenTicketDialog}
                         />
                     }
-                    {activeStep === 1 && "test"}
-                    {activeStep === 2 && "test"}
-                    {activeStep === 3 && "test"}
+                    {activeStep === 1 &&
+                        <ReturnsItemSelector
+                            selectedOrder={selectedOrder}
+                            selectedItems={lineItems}
+                            handleReasonChange={saveReturnReason}
+                            handleCommentChange={saveCustomerComments}
+                            handleQuantityChange={saveQuantity}
+                            handleSelectedItem={saveLineItem}
+                            handleOpenTicketDialog={handleOpenTicketDialog}
+                        />
+                    }
+                    {activeStep === 2 &&
+                        <ReturnReviewSubmit
+                            selectedOrder={selectedOrder}
+                            selectedItems={lineItems}
+                            handleOpenTicketDialog={handleOpenTicketDialog}
+                        />}
 
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                         <Button
@@ -198,12 +277,24 @@ export function ReturnsStepper({ id }) {
                         </Button>
                         <Box sx={{ flex: '1 1 auto' }} />
 
-                        <Button onClick={handleNext} disabled={handleActiveNext(activeStep)}>
-                            {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                        </Button>
+
+                        {activeStep === steps.length - 1 ? (
+                            <Button onClick={handleSubmit} disabled={handleActiveNext(activeStep)}>
+                                Request Return
+                            </Button>
+                        ) : (
+                            <Button onClick={handleNext} disabled={handleActiveNext(activeStep)}>
+                                Next
+                            </Button>
+                        )}
                     </Box>
                 </React.Fragment>
             )}
+            <SupportTicketDialog
+                orderNumber={ticketOrderName}
+                open={ticketDialogOpen}
+                handleClose={handleTicketDialogClose}
+            />
         </Box>
     );
 }

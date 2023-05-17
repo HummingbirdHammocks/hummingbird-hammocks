@@ -133,11 +133,33 @@ exports.checkReturnEligible = async function (orderId) {
           fulfillment {
             id
           }
-          returnableFulfillmentLineItems(first: 20) {
+          # Return the first ten returnable fulfillment line items that belong to the order.
+          returnableFulfillmentLineItems(first: 10) {
             edges {
               node {
                 fulfillmentLineItem {
                   id
+                  discountedTotalSet {
+                      presentmentMoney {
+                          amount
+                          currencyCode
+                      }
+                  }
+                  lineItem {
+                      id
+                      sku
+                      title
+                      name
+                      refundableQuantity
+                      image {
+                          altText
+                          height
+                          id
+                          url
+                          width
+                      }
+                  }
+                  quantity
                 }
                 quantity
               }
@@ -157,6 +179,52 @@ exports.checkReturnEligible = async function (orderId) {
         return response.data;
       } else {
         console.log("error_checkReturnEligible: " + JSON.stringify(response.data));
+        throw new Error(JSON.stringify(response.data));
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      throw new Error(error);
+    });
+}
+
+exports.sendReturnRequest = async function (orderId, returnItems) {
+  if (!orderId || !returnItems) {
+    return false
+  };
+
+  console.log("sendReturnRequest: ", returnItems)
+
+  let data = JSON.stringify({
+    query: `mutation RequestReturnMutation {
+      returnRequest(
+        input: {
+          # The ID of the order to return.
+          orderId: "${orderId}"
+          # The return line items list to be handled.
+          returnLineItems: ${returnItems}
+        }
+      ) {
+        return {
+          id
+          status
+        }
+        userErrors {
+          field
+          message
+        }
+        }
+      }`,
+    variables: {}
+  });
+
+  return await axios
+    .post(url, data, config)
+    .then((response) => {
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        console.log("error_sendReturnRequest: " + JSON.stringify(response.data));
         throw new Error(JSON.stringify(response.data));
       }
     })

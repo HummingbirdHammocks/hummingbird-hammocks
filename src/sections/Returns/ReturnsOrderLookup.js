@@ -1,5 +1,6 @@
-import React, { useCallback, useState } from "react"
+import React, { useState, useCallback, useEffect } from "react"
 import axios from "axios"
+import { useLocation } from '@reach/router';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -13,12 +14,12 @@ import {
     Button,
     Checkbox,
     Chip,
+    CircularProgress
 } from "@mui/material"
 import { LoadingButton } from '@mui/lab';
 
 import { getNumberOfDays } from "utils/formatTime";
-import { SupportTicketDialog } from "../AccountPage/components/SupportTicketDialog";
-import { fulfillmentStatusChipColor } from "../../utils/shopify";
+import { fulfillmentStatusChipColor, getReturnEligible } from "../../utils/shopify";
 
 const validationSchema = yup.object({
     orderName: yup
@@ -30,22 +31,17 @@ const validationSchema = yup.object({
         .email('Please enter a valid email address'),
 });
 
-export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder, handleOrders }) {
+export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder, handleOrders, handleOpenTicketDialog }) {
     const [submitting, setSubmitting] = useState(false);
-    const [ticketDialogOpen, setTicketDialogOpen] = useState(false);
-    const [ticketOrderName, setTicketOrderName] = useState("");
+    const [returnStatusLoading, setReturnStatusLoading] = useState(false);
+    const [localOrders, setLocalOrders] = useState([]);
+
+    const location = useLocation();
+
+    const params = new URLSearchParams(location.search);
+    const paramsOrderName = params.get("orderName");
 
     const timestamp = new Date().getTime() + (180 * 24 * 60 * 60 * 1000)
-
-    const handleOpenTicketDialog = (name) => {
-        setTicketOrderName(name);
-        setTicketDialogOpen(true);
-    }
-
-    const handleSupportDialogClose = () => {
-        setTicketOrderName("");
-        setTicketDialogOpen(false);
-    }
 
     const handleOrderAge = (orderDate) => {
         if (!orderDate) return null;
@@ -92,8 +88,7 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
 
     const onSubmit = async ({ orderName, email }) => {
         setSubmitting(true);
-
-        console.log(orderName, email);
+        /* console.log(orderName, email); */
 
         let newOrders;
 
@@ -107,7 +102,7 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
                 })
                 .catch((error) => {
                     console.log(error);
-                    toast.error("Error searching for orders, please try again")
+                    toast.error("Error searching for orders, please try again");
                 });
         }
 
@@ -121,43 +116,49 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
                 })
                 .catch((error) => {
                     console.log(error);
-                    toast.error("Error searching for orders, please try again")
+                    toast.error("Error searching for orders, please try again");
                 });
         }
 
         if (newOrders) {
-            console.log(newOrders);
-
-            const url = process.env.GATSBY_FIREBASE_FUNCTIONS_URL + '/api/v1/shopifyAdmin/check_return_eligible';
+            setReturnStatusLoading(true);
 
             Promise.all(
                 newOrders.map(async (order, index) => {
-                    if (Date.parse(order.node.createdAt) > timestamp || true) {
-                        axios.post(url, { orderId: order.node.id })
-                            .then((res) => {
-                                console.log(res);
-                                if (res.data.data.returnableFulfillments.edges.length > 0) {
-                                    newOrders[index].node.returnableFulfillment = res.data.data.returnableFulfillments.edges[0].node;
-                                }
-                            })
-                            .catch((error) => {
-                                console.log(error);
-                                toast.error("Error getting order return elgibility, please try again")
-                            });
-                    } else {
-                        return false;
-                    }
+                    await getReturnEligible({ order: order, overrideDate: true }).then((res) => {
+                        console.log(res);
+                        if (res.data.data.returnableFulfillments.edges.length > 0) {
+                            newOrders[index].node.returnableFulfillment = res.data.data.returnableFulfillments.edges[0].node;
+                        }
+                    });
                 })
             ).then(() => {
+                setReturnStatusLoading(false);
                 console.log("checkReturnElgibility: ", newOrders);
                 handleOrders(newOrders);
             });
         }
-
         setSubmitting(false);
     };
 
-    console.log(orders)
+    const hydrateOrderFromParams = useCallback(async (paramsOrderName) => {
+        if (!paramsOrderName) return null;
+
+        onSubmit({ orderName: paramsOrderName })
+
+    }, [paramsOrderName]);
+
+
+    useEffect(() => {
+        if (paramsOrderName && !orders && !selectedOrder) {
+            hydrateOrderFromParams(paramsOrderName);
+        }
+        if (orders && orders.length > 0) {
+            setLocalOrders([...orders]);
+        }
+    }, [paramsOrderName, orders]);
+
+    /* console.log(localOrders) */
 
     const formik = useFormik({
         initialValues,
@@ -202,11 +203,18 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
                         </Stack>
                     </form>
                 </Grid>
-                {orders && orders.length > 0 ? (
+                {localOrders && localOrders.length > 0 ? (
                     <Grid item xs={12} md={8}>
                         <Stack>
-                            {orders.map((order) => (
-                                <Paper sx={{ padding: 2, marginBottom: 2 }} key={order.node.id}>
+                            {localOrders.map((order) => (
+                                <Paper
+                                    key={order.node.id}
+                                    sx={{
+                                        padding: 2,
+                                        marginBottom: 2,
+                                        border: selectedOrder && selectedOrder.id === order.node.id ? '2px solid #000' : 'none',
+                                    }}
+                                >
                                     <Stack
                                         direction="row"
                                         justifyContent="space-between"
@@ -229,7 +237,7 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
                                         </Stack>
                                         <Stack alignItems="center">
                                             <Typography variant="caption">
-                                                Items:
+                                                Order Items:
                                             </Typography>
                                             <Typography >
                                                 {order.node.lineItems.edges.length}
@@ -238,15 +246,19 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
                                         {order.node.displayFulfillmentStatus &&
                                             <Chip label={order.node.displayFulfillmentStatus} variant="filled" color={fulfillmentStatusChipColor(order.node.displayFulfillmentStatus)} />
                                         }
-                                        <Box>
-                                            {order.node.returnableFulfillment && order.node.returnableFulfillment.length !== 0 ? (
-                                                <Checkbox checked={selectedOrder && selectedOrder.id === order.node.id ? true : false} onClick={() => handleSelectedOrder(order.node)} />
-                                            ) : (
-                                                <Button variant="outlined" onClick={() => handleOpenTicketDialog(order.node.name)}>
-                                                    Get Help
-                                                </Button>
-                                            )}
-                                        </Box>
+                                        {returnStatusLoading ? (
+                                            <CircularProgress />
+                                        ) : (
+                                            <Box>
+                                                {order.node.returnableFulfillment ? (
+                                                    <Checkbox checked={selectedOrder && selectedOrder.id === order.node.id ? true : false} onClick={() => handleSelectedOrder(order.node)} />
+                                                ) : (
+                                                    <Button variant="outlined" onClick={() => handleOpenTicketDialog(order.node.name)}>
+                                                        Get Help
+                                                    </Button>
+                                                )}
+                                            </Box>
+                                        )}
                                     </Stack>
                                 </Paper>
                             ))}
@@ -263,11 +275,6 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
                     </Grid>
                 )}
             </Grid>
-            <SupportTicketDialog
-                orderNumber={ticketOrderName}
-                open={ticketDialogOpen}
-                handleClose={handleSupportDialogClose}
-            />
         </Box >
     )
 }

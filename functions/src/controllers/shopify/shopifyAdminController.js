@@ -1,5 +1,5 @@
 var path = require('path');
-const { getOrderByName, getOrdersByEmail, checkReturnEligible } = require('../../utils/shopifyAdmin');
+const { getOrderByName, getOrdersByEmail, checkReturnEligible, sendReturnRequest } = require('../../utils/shopifyAdmin');
 
 exports.get_order_by_id = async function (req, res) {
     if (!req.body.id) {
@@ -48,7 +48,24 @@ exports.check_return_eligible = async function (req, res) {
     return await checkReturnEligible(req.body.orderId)
         .then((response) => res.status(200).send(response))
         .catch((error) => {
-            console.log("get_orders_by_email: " + error);
+            console.log("check_return_eligible: " + error);
+            return res.status(500).send(error.message);
+        });
+};
+
+exports.request_return = async function (req, res) {
+    if (!req.body.orderId) {
+        return res.status(500).send("orderId is required");
+    }
+
+    if (!req.body.returnItems) {
+        return res.status(500).send("returnItems are required");
+    }
+
+    return await sendReturnRequest(req.body.orderId, req.body.returnItems)
+        .then((response) => res.status(200).send(response))
+        .catch((error) => {
+            console.log("request_return: " + error);
             return res.status(500).send(error.message);
         });
 };
