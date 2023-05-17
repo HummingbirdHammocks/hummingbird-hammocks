@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useCallback, useState } from "react"
 import axios from "axios"
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
@@ -16,7 +16,7 @@ import {
 } from "@mui/material"
 import { LoadingButton } from '@mui/lab';
 
-import { fShopify } from "utils/formatTime";
+import { getNumberOfDays } from "utils/formatTime";
 import { SupportTicketDialog } from "../AccountPage/components/SupportTicketDialog";
 import { fulfillmentStatusChipColor } from "../../utils/shopify";
 
@@ -35,6 +35,8 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
     const [ticketDialogOpen, setTicketDialogOpen] = useState(false);
     const [ticketOrderName, setTicketOrderName] = useState("");
 
+    const timestamp = new Date().getTime() + (180 * 24 * 60 * 60 * 1000)
+
     const handleOpenTicketDialog = (name) => {
         setTicketOrderName(name);
         setTicketDialogOpen(true);
@@ -43,6 +45,44 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
     const handleSupportDialogClose = () => {
         setTicketOrderName("");
         setTicketDialogOpen(false);
+    }
+
+    const handleOrderAge = (orderDate) => {
+        if (!orderDate) return null;
+
+        const days = getNumberOfDays(Date.parse(orderDate), timestamp);
+
+        if (days <= 60) {
+            return (
+                <Typography color="success">
+                    {days} days
+                </Typography >
+            )
+        } else if (days > 60 && days <= 180) {
+            return (
+                <Typography color="warning">
+                    {days} days
+                </Typography >
+            )
+        } else if (days > 180 && days <= 360) {
+            return (
+                <Typography color="error">
+                    {days} days
+                </Typography >
+            )
+        } else if (days > 360) {
+            return (
+                <Typography color="error">
+                    {(days / 360).toFixed(1)} years
+                </Typography >
+            )
+        } else {
+            return (
+                <Typography>
+                    {days} days
+                </Typography >
+            )
+        }
     }
 
     const initialValues = {
@@ -86,25 +126,33 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
         }
 
         if (newOrders) {
-            const url = process.env.GATSBY_FIREBASE_FUNCTIONS_URL + '/api/v1/shopifyAdmin/check_return_eligible';
-
             console.log(newOrders);
 
-            newOrders.forEach(async (order, index) => {
-                await axios.post(url, { orderId: order.node.id })
-                    .then((res) => {
-                        console.log(res);
-                        newOrders[index].node.returnEligible = res.data.data.checkReturnEligible;
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        toast.error("Error checking order return elgibility, please try again")
-                    });
+            const url = process.env.GATSBY_FIREBASE_FUNCTIONS_URL + '/api/v1/shopifyAdmin/check_return_eligible';
+
+            Promise.all(
+                newOrders.map(async (order, index) => {
+                    if (Date.parse(order.node.createdAt) > timestamp || true) {
+                        axios.post(url, { orderId: order.node.id })
+                            .then((res) => {
+                                console.log(res);
+                                if (res.data.data.returnableFulfillments.edges.length > 0) {
+                                    newOrders[index].node.returnableFulfillment = res.data.data.returnableFulfillments.edges[0].node;
+                                }
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                                toast.error("Error getting order return elgibility, please try again")
+                            });
+                    } else {
+                        return false;
+                    }
+                })
+            ).then(() => {
+                console.log("checkReturnElgibility: ", newOrders);
+                handleOrders(newOrders);
             });
-
         }
-
-        handleOrders(newOrders);
 
         setSubmitting(false);
     };
@@ -175,11 +223,9 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
                                         </Stack>
                                         <Stack alignItems="center">
                                             <Typography variant="caption">
-                                                Order Date:
+                                                Order Age:
                                             </Typography>
-                                            <Typography >
-                                                {fShopify(order.node.createdAt)}
-                                            </Typography>
+                                            {handleOrderAge(order.node.createdAt)}
                                         </Stack>
                                         <Stack alignItems="center">
                                             <Typography variant="caption">
@@ -193,7 +239,7 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
                                             <Chip label={order.node.displayFulfillmentStatus} variant="filled" color={fulfillmentStatusChipColor(order.node.displayFulfillmentStatus)} />
                                         }
                                         <Box>
-                                            {order.node.returnEligible ? (
+                                            {order.node.returnableFulfillment && order.node.returnableFulfillment.length !== 0 ? (
                                                 <Checkbox checked={selectedOrder && selectedOrder.id === order.node.id ? true : false} onClick={() => handleSelectedOrder(order.node)} />
                                             ) : (
                                                 <Button variant="outlined" onClick={() => handleOpenTicketDialog(order.node.name)}>
@@ -205,6 +251,9 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
                                 </Paper>
                             ))}
                         </Stack>
+                        <Typography>
+                            Orders up to <b>180 days</b> old are eligible for a quick return. For older orders, please contact support.
+                        </Typography>
                     </Grid>
                 ) : (
                     <Grid item xs={12} md={8}>
