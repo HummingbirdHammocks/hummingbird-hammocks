@@ -42,7 +42,7 @@ export const OrderDetails = ({ firstName, lastName, email, data, returnAccount }
   const handleReturnEligibility = async (ord) => {
     if (!ord) return false;
 
-    const res = await getReturnEligible({ order: ord, overrideDate: true });
+    const res = await getReturnEligible({ order: ord, overrideDate: false });
 
     if (res && res.data && res.data.data && res.data.data.returnableFulfillments) {
       if (res.data.data.returnableFulfillments.edges && res.data.data.returnableFulfillments.edges.length > 0) {
