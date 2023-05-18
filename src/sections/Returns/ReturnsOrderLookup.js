@@ -121,14 +121,14 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
                 });
         }
 
-        if (newOrders) {
+        if (newOrders && newOrders.length > 0) {
             setReturnStatusLoading(true);
 
             Promise.all(
                 newOrders.map(async (order, index) => {
-                    await getReturnEligible({ order: order, overrideDate: true }).then((res) => {
+                    await getReturnEligible({ order: order, overrideDate: false }).then((res) => {
                         /* console.log(res); */
-                        if (res.data.data.returnableFulfillments.edges.length > 0) {
+                        if (res && res.data && res.data.data && res.data.data.returnableFulfillments && res.data.data.returnableFulfillments.edges.length > 0) {
                             newOrders[index].node.returnableFulfillment = res.data.data.returnableFulfillments.edges[0].node;
                         }
                     });
@@ -138,7 +138,10 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
                 /* console.log("checkReturnElgibility: ", newOrders); */
                 handleOrders(newOrders);
             });
-        }
+        } else {
+            handleOrders(null)
+        };
+
         setSubmitting(false);
     };
 
@@ -156,6 +159,8 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
         }
         if (orders && orders.length > 0) {
             setLocalOrders([...orders]);
+        } else {
+            setLocalOrders([]);
         }
     }, [paramsOrderName, orders]);
 
