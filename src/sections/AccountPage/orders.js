@@ -126,6 +126,13 @@ const CUSTOMER_INFO = gql`
               name
               zip
             }
+            successfulFulfillments {
+              trackingCompany
+              trackingInfo {
+                number
+                url
+              }
+            }
             currentTotalTax {
               amount
             }

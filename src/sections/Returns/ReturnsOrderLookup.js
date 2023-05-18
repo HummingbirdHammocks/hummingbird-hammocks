@@ -98,7 +98,7 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
 
             newOrders = await axios.post(url, { orderName: orderName })
                 .then((res) => {
-                    console.log(res);
+                    /* console.log(res); */
                     return res.data.data.orders.edges;
                 })
                 .catch((error) => {
@@ -112,7 +112,7 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
 
             newOrders = await axios.post(url, { email: email })
                 .then((res) => {
-                    console.log(res);
+                    /* console.log(res); */
                     return res.data.data.orders.edges;
                 })
                 .catch((error) => {
@@ -127,7 +127,7 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
             Promise.all(
                 newOrders.map(async (order, index) => {
                     await getReturnEligible({ order: order, overrideDate: true }).then((res) => {
-                        console.log(res);
+                        /* console.log(res); */
                         if (res.data.data.returnableFulfillments.edges.length > 0) {
                             newOrders[index].node.returnableFulfillment = res.data.data.returnableFulfillments.edges[0].node;
                         }
@@ -135,7 +135,7 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
                 })
             ).then(() => {
                 setReturnStatusLoading(false);
-                console.log("checkReturnElgibility: ", newOrders);
+                /* console.log("checkReturnElgibility: ", newOrders); */
                 handleOrders(newOrders);
             });
         }

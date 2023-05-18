@@ -46,7 +46,6 @@ export function ReturnsStepper() {
     };
 
     const saveLineItem = (newItem) => {
-        console.log(newItem);
         if (lineItems && lineItems.length !== 0 && lineItems.find(item => item.id === newItem.id)) {
             setLineItems(lineItems.filter(item => item.id !== newItem.id));
         } else {
@@ -60,14 +59,11 @@ export function ReturnsStepper() {
 
     const saveReturnReason = (id, value) => {
         if (!id || !value) return null;
-        console.log(id, value)
 
         if (lineItems && lineItems.length !== 0) {
             let newItem = lineItems.find(item => item.id === id);
-            console.log(newItem)
             if (newItem) {
                 newItem.returnReason = value;
-                console.log(newItem)
                 setLineItems([...lineItems.filter(item => item.id !== id), newItem]);
             }
         }
@@ -75,13 +71,11 @@ export function ReturnsStepper() {
 
     const saveCustomerComments = (id, value) => {
         if (!id || !value) return null;
-        console.log(id, value)
 
         if (lineItems && lineItems.length !== 0) {
             let newItem = lineItems.find(item => item.id === id);
             if (newItem) {
                 newItem.customerComments = value;
-                console.log(newItem)
                 setLineItems([...lineItems.filter(item => item.id !== id), newItem]);
             }
         }
@@ -89,14 +83,11 @@ export function ReturnsStepper() {
 
     const saveQuantity = (id, value) => {
         if (!id || !value) return null;
-        console.log(id, value)
 
         if (lineItems && lineItems.length !== 0) {
             let newItem = lineItems.find(item => item.id === id);
-            console.log(newItem)
             if (newItem) {
                 newItem.returnQuantity = value;
-                console.log(newItem)
                 setLineItems([...lineItems.filter(item => item.id !== id), newItem]);
             }
         }
@@ -177,7 +168,7 @@ export function ReturnsStepper() {
             })
         });
 
-        console.log(formattedLineItems)
+        /* console.log(formattedLineItems) */
 
         const payload = {
             orderId: selectedOrder.id,

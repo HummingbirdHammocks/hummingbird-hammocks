@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { navigate } from "gatsby"
 import { useLocation } from "@gatsbyjs/reach-router"
 import {
@@ -15,15 +15,15 @@ import {
 } from "@mui/material"
 
 import { SupportTicketDialog } from "./SupportTicketDialog"
-import { ReturnDialog } from "./ReturnDialog"
 import { fShopify } from "utils/formatTime";
-import { fulfillmentStatusChipColor, financialStatusColor } from "../../../utils/shopify"
+import { fulfillmentStatusChipColor, financialStatusColor, getReturnEligible } from "../../../utils/shopify"
 
 export const OrderCard = ({ order, firstName, lastName, email }) => {
   const [ticketDialogOpen, setTicketDialogOpen] = useState(false)
-  const [returnDialogOpen, setReturnDialogOpen] = useState(false)
+  const [returnEligible, setReturnEligible] = useState(false)
 
   const {
+    id,
     name,
     processedAt,
     fulfillmentStatus,
@@ -32,6 +32,7 @@ export const OrderCard = ({ order, firstName, lastName, email }) => {
     totalPrice,
     lineItems,
     shippingAddress,
+    successfulFulfillments,
   } = order.node
 
   const { pathname } = useLocation()
@@ -46,11 +47,30 @@ export const OrderCard = ({ order, firstName, lastName, email }) => {
     setTicketDialogOpen(false)
   }
 
-  const handleReturnDialogClose = () => {
-    setReturnDialogOpen(false)
+  const handleReturnEligibility = async (ord) => {
+    if (!ord) return false;
+
+    const res = await getReturnEligible({ order: ord, overrideDate: true });
+
+    if (res && res.data && res.data.data && res.data.data.returnableFulfillments) {
+      if (res.data.data.returnableFulfillments.edges && res.data.data.returnableFulfillments.edges.length > 0) {
+        /* console.log(res) */
+        return true;
+      }
+    }
+
+    return false;
   }
 
-  console.log(order);
+  useEffect(() => {
+    if (order) {
+      handleReturnEligibility(order).then((res) => {
+        setReturnEligible(res);
+      });
+    }
+  }, [order])
+
+  /* console.log(order); */
 
   return (
     <Paper>
@@ -85,7 +105,7 @@ export const OrderCard = ({ order, firstName, lastName, email }) => {
       <Box sx={{ margin: 2 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={8} lg={7}>
-            {lineItems && lineItems.edges.map((item, index) => {
+            {lineItems && lineItems.edges.map((item) => {
               const {
                 title,
                 variant: {
@@ -98,8 +118,8 @@ export const OrderCard = ({ order, firstName, lastName, email }) => {
                 quantity,
               } = item.node;
               return (
-                <Box sx={{ margin: 1 }}>
-                  <Tooltip title={`${title} ${variantTitle}`} key={index}>
+                <Box sx={{ margin: 1 }} key={title}>
+                  <Tooltip title={`${title} ${variantTitle}`} >
                     <Badge badgeContent={quantity} color="primary">
                       <img
                         src={url}
@@ -118,12 +138,24 @@ export const OrderCard = ({ order, firstName, lastName, email }) => {
               <Button variant="outlined" onClick={() => handleOrderDetails(name)}>
                 View Order
               </Button>
-              <Button variant="outlined" onClick={() => handleOrderDetails(name)}>
-                Track Package
-              </Button>
-              <Button variant="outlined" onClick={() => setReturnDialogOpen(true)}>
-                Return / Replace
-              </Button>
+              {successfulFulfillments &&
+                successfulFulfillments.length > 0 &&
+                successfulFulfillments[0].trackingInfo &&
+                successfulFulfillments[0].trackingInfo.url && (
+                  <Button variant="outlined" onClick={() => window.open(successfulFulfillments[0].trackingInfo.url, '_blank')}>
+                    Track Package
+                  </Button>
+                )}
+              {returnEligible && (
+                <Button
+                  variant="outlined"
+                  onClick={() => navigate(`/returns?orderName=${encodeURIComponent(name)}`, {
+                    replace: true,
+                  })}
+                >
+                  Return / Replace
+                </Button>
+              )}
               <Button variant="outlined" onClick={() => setTicketDialogOpen(true)}>
                 Get Help
               </Button>
@@ -167,14 +199,6 @@ export const OrderCard = ({ order, firstName, lastName, email }) => {
         orderNumber={name}
         open={ticketDialogOpen}
         handleClose={handleSupportDialogClose}
-      />
-      <ReturnDialog
-        firstName={firstName}
-        lastName={lastName}
-        email={email}
-        orderNumber={name}
-        open={returnDialogOpen}
-        handleClose={handleReturnDialogClose}
       />
     </Paper>
   )

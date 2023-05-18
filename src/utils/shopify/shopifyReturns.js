@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 export const getReturnEligible = async ({ order, overrideDate }) => {
     if (!order) return null;
 
-    const timestamp = new Date().getTime() + (180 * 24 * 60 * 60 * 1000)
+    const timestamp = new Date().getTime() + (90 * 24 * 60 * 60 * 1000)
 
     const url = process.env.GATSBY_FIREBASE_FUNCTIONS_URL + '/api/v1/shopifyAdmin/check_return_eligible';
 

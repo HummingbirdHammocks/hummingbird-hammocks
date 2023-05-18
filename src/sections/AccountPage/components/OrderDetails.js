@@ -1,4 +1,5 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
+import { navigate } from "gatsby"
 import {
   Typography,
   Box,
@@ -19,8 +20,11 @@ import {
 import { SupportTicketForm } from "./SupportTicketForm"
 
 import { fShopify } from "utils/formatTime";
+import { getReturnEligible } from "../../../utils/shopify";
 
 export const OrderDetails = ({ firstName, lastName, email, data, returnAccount }) => {
+  const [returnEligible, setReturnEligible] = useState(false)
+
   const {
     name,
     processedAt,
@@ -32,7 +36,31 @@ export const OrderDetails = ({ firstName, lastName, email, data, returnAccount }
     fulfillmentStatus,
     lineItems,
     shippingAddress,
+    successfulFulfillments
   } = data.node
+
+  const handleReturnEligibility = async (ord) => {
+    if (!ord) return false;
+
+    const res = await getReturnEligible({ order: ord, overrideDate: true });
+
+    if (res && res.data && res.data.data && res.data.data.returnableFulfillments) {
+      if (res.data.data.returnableFulfillments.edges && res.data.data.returnableFulfillments.edges.length > 0) {
+        /* console.log(res) */
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  useEffect(() => {
+    if (data) {
+      handleReturnEligibility(data).then((res) => {
+        setReturnEligible(res);
+      });
+    }
+  }, [data])
 
   return (
     <Box >
@@ -49,14 +77,32 @@ export const OrderDetails = ({ firstName, lastName, email, data, returnAccount }
             {fShopify(processedAt)}
           </Typography>
         </Box>
-        <Box>
+        <Stack spacing={1}>
           <Button
             variant="outlined"
             onClick={() => returnAccount()}
           >
             Return to All Orders
           </Button>
-        </Box>
+          {successfulFulfillments &&
+            successfulFulfillments.length > 0 &&
+            successfulFulfillments[0].trackingInfo &&
+            successfulFulfillments[0].trackingInfo.url && (
+              <Button variant="outlined" onClick={() => window.open(successfulFulfillments[0].trackingInfo.url, '_blank')}>
+                Track Package
+              </Button>
+            )}
+          {returnEligible && (
+            <Button
+              variant="outlined"
+              onClick={() => navigate(`/returns?orderName=${encodeURIComponent(name)}`, {
+                replace: true,
+              })}
+            >
+              Return / Replace
+            </Button>
+          )}
+        </Stack>
       </Box>
 
       <Stack direction="row" spacing={2} sx={{ marginTop: 2 }}>

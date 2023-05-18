@@ -43,13 +43,7 @@ const navItems = [
         name: "Tickets",
         type: "internal",
         link: "/account/tickets"
-    },
-    {
-        id: "returnsExternal",
-        name: "ReturnsExt",
-        type: "external",
-        link: "https://returns.hummingbirdhammocks.com/"
-    },
+    }
 ]
 
 
