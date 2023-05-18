@@ -42,7 +42,7 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
     const params = new URLSearchParams(location.search);
     const paramsOrderName = params.get("orderName");
 
-    const timestamp = new Date().getTime() + (180 * 24 * 60 * 60 * 1000)
+    const timestamp = new Date().getTime()
 
     const handleOrderAge = (orderDate) => {
         if (!orderDate) return null;
