@@ -170,12 +170,14 @@ export function ReturnsStepper() {
         let formattedLineItems = [];
         lineItems.map((item) => {
             formattedLineItems.push({
-                fulfillmentLineItemId: item.id,
+                fulfillmentLineItemId: `${item.id}`,
                 quantity: item.returnQuantity,
                 returnReason: item.returnReason,
-                customerNote: item.customerComments
+                customerNote: `${item.customerComments}`
             })
         });
+
+        console.log(formattedLineItems)
 
         const payload = {
             orderId: selectedOrder.id,
@@ -185,7 +187,18 @@ export function ReturnsStepper() {
         await axios.post(url, payload)
             .then((res) => {
                 console.log(res);
-                setActiveStep((prevActiveStep) => prevActiveStep + 1);
+                if (res.data && res.data.data.returnRequest && res.data.data.returnRequest.return) {
+                    console.log(res);
+                    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+                } else if (res.data && res.data.data.returnRequest && res.data.data.returnRequest.userErrors) {
+                    console.log(res);
+                    if (res.data.data.returnRequest.userErrors.length > 0) {
+                        toast.error(res.data.data.returnRequest.userErrors[0].message);
+                    }
+                } else {
+                    console.log(res.data.errors);
+                    toast.error("Error submitting return request, please try again");
+                }
             })
             .catch((error) => {
                 console.log(error);

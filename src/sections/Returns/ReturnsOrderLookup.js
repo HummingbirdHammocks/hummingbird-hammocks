@@ -14,12 +14,13 @@ import {
     Button,
     Checkbox,
     Chip,
+    Divider,
     CircularProgress
 } from "@mui/material"
 import { LoadingButton } from '@mui/lab';
 
 import { getNumberOfDays } from "utils/formatTime";
-import { fulfillmentStatusChipColor, getReturnEligible } from "../../utils/shopify";
+import { fulfillmentStatusChipColor, getReturnEligible, returnStatusChipColor } from "../../utils/shopify";
 
 const validationSchema = yup.object({
     orderName: yup
@@ -218,7 +219,6 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
                                     <Stack
                                         direction="row"
                                         justifyContent="space-between"
-                                        alignItems="center"
                                         spacing={2}
                                     >
                                         <Stack>
@@ -243,8 +243,19 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
                                                 {order.node.lineItems.edges.length}
                                             </Typography>
                                         </Stack>
+                                    </Stack>
+                                    <Divider />
+                                    <Stack
+                                        direction="row"
+                                        justifyContent="space-between"
+                                        spacing={2}
+                                        sx={{ marginTop: 2 }}
+                                    >
                                         {order.node.displayFulfillmentStatus &&
                                             <Chip label={order.node.displayFulfillmentStatus} variant="filled" color={fulfillmentStatusChipColor(order.node.displayFulfillmentStatus)} />
+                                        }
+                                        {order.node.returnStatus && order.node.returnStatus !== 'null' && order.node.returnStatus !== 'NO_RETURN' &&
+                                            <Chip label={order.node.returnStatus} variant="filled" color={returnStatusChipColor(order.node.returnStatus)} />
                                         }
                                         {returnStatusLoading ? (
                                             <CircularProgress />
@@ -264,7 +275,7 @@ export function ReturnsOrderLookup({ selectedOrder, orders, handleSelectedOrder,
                             ))}
                         </Stack>
                         <Typography>
-                            Orders up to <b>180 days</b> old are eligible for a quick return. For older orders, please contact support.
+                            Orders up to <b>90 days</b> old are eligible for a quick return. For older orders, please contact support.
                         </Typography>
                     </Grid>
                 ) : (

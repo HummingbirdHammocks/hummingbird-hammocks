@@ -45,3 +45,20 @@ export const financialStatusColor = status => {
             return "default"
     }
 }
+
+export const returnStatusChipColor = status => {
+    switch (status) {
+        case "RETURN_CANCELED":
+            return "default"
+        case "RETURN_CLOSED":
+            return "error"
+        case "RETURN_DECLINED":
+            return "error"
+        case "RETURN_PEN":
+            return "green"
+        case "RETURN_REQUESTED":
+            return "warning"
+        default:
+            return "default"
+    }
+}
