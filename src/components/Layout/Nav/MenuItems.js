@@ -61,12 +61,12 @@ const menuItems = [
         url: "/contact-us",
       },
       {
-        title: "Knowledgebase",
-        otherUrl: "https://help.hummingbirdhammocks.com/",
+        title: "Returns",
+        url: "/returns",
       },
       {
-        title: "Returns",
-        otherUrl: "https://returns.hummingbirdhammocks.com/",
+        title: "Knowledgebase",
+        otherUrl: "https://help.hummingbirdhammocks.com/",
       },
       {
         title: "Outdoor Articles",

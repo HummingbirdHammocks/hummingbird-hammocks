@@ -82,7 +82,7 @@ const Footer = () => {
       name: "Knowledgebase",
       url: "https://help.hummingbirdhammocks.com/",
     },
-    { id: 4, name: "Returns", url: "https://returns.hummingbirdhammocks.com/" },
+    { id: 4, name: "Returns", url: "/returns" },
   ]
 
   const companyLink = [
