@@ -1,89 +1,16 @@
 import React from "react"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  IconButton,
-} from "@mui/material"
-import { Pageview } from "@mui/icons-material"
-import { navigate } from "gatsby"
-import { useLocation } from "@gatsbyjs/reach-router"
+import { Grid } from "@mui/material"
+import { OrderCard } from "./OrderCard";
 
-import { fShopify } from "utils/formatTime"
-
-export const OrderHistory = ({ rows }) => {
-  // Variants & Product Image
-  const { pathname } = useLocation()
-
-  const handleOrderDetails = name => {
-    navigate(`${pathname}?orders=${encodeURIComponent(name)}`, {
-      replace: true,
-    })
-  }
+export const OrderHistory = ({ rows, firstName, lastName, email }) => {
 
   return (
-    <Paper>
-      <TableContainer>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Order</TableCell>
-              <TableCell align="center">Date</TableCell>
-              <TableCell align="center">Payment Status</TableCell>
-              <TableCell align="center">Fulfillment Status</TableCell>
-              <TableCell align="center">Total</TableCell>
-              <TableCell align="center">View</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row, index) => {
-              const {
-                name,
-                currencyCode,
-                totalPrice,
-                fulfillmentStatus,
-                processedAt,
-                financialStatus,
-              } = row.node
-
-              return (
-                <TableRow
-                  key={index}
-                  sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                  }}
-                >
-                  <TableCell
-                    onClick={() => handleOrderDetails(name)}
-                    component="th"
-                    scope="row"
-                    sx={{ cursor: "pointer" }}
-                  >
-                    {name}
-                  </TableCell>
-                  <TableCell align="center">{fShopify(processedAt)}</TableCell>
-                  <TableCell align="center">{financialStatus}</TableCell>
-                  <TableCell align="center">{fulfillmentStatus}</TableCell>
-                  <TableCell align="center">
-                    {currencyCode} {totalPrice}
-                  </TableCell>
-                  <TableCell align="center">
-                    <IconButton
-                      onClick={() => handleOrderDetails(name)}
-                    >
-                      <Pageview />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              )
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Paper>
+    <Grid container spacing={2}>
+      {rows.map((order, index) => (
+        <Grid item xs={12} lg={6} key={index}>
+          <OrderCard key={index} order={order} firstName={firstName} lastName={lastName} email={email} />
+        </Grid>
+      ))}
+    </Grid>
   )
 }
