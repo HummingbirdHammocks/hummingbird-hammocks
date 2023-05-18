@@ -58,6 +58,7 @@ const cors = require('cors')({ origin: true });
 var indexRouter = require('./routes/index');
 var freescoutRouter = require('./routes/freescout');
 var notificationsRouter = require('./routes/notifications');
+var shopifyAdamRouter = require('./routes/shopifyAdmin');
 
 //initialize express server
 const app = express();
@@ -75,6 +76,7 @@ main.use(bodyParser.urlencoded({ extended: false }));
 main.use('/api/v1/', indexRouter);
 main.use('/api/v1/freescout', freescoutRouter);
 main.use('/api/v1/notifications', notificationsRouter);
+main.use('/api/v1/shopifyAdmin', shopifyAdamRouter);
 
 //define google cloud function name
 exports.hhApi = functions.https.onRequest(main);

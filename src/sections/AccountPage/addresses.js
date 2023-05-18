@@ -24,7 +24,7 @@ import {
   MiddleSpinner,
 } from "components"
 
-import shopify_countries from "../../utils/shopify_countries.json"
+import shopify_countries from "../../utils/shopify/shopify_countries.json"
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 

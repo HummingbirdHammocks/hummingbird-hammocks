@@ -1,13 +1,13 @@
 import React from "react"
 import { ThemeProvider, CssBaseline } from "@mui/material"
 import { ToastContainer } from 'react-toastify';
-import fetch from "isomorphic-fetch"
 import {
+  ApolloProvider,
   ApolloClient,
   createHttpLink,
   InMemoryCache,
-  ApolloProvider,
 } from "@apollo/client"
+import fetch from "isomorphic-fetch"
 // react query
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools'
@@ -41,10 +41,11 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const rqClient = new QueryClient();
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
+  ssrMode: true,
   cache: new InMemoryCache(),
   link: new createHttpLink({
-    uri: `https://hummingbird-hammocks.myshopify.com/api/2022-04/graphql.json`,
+    uri: `https://${process.env.GATSBY_SHOPIFY_STORE_URL}/api/${process.env.GATSBY_SHOPIFY_API_VERSION}/graphql.json`,
     headers: {
       "X-Shopify-Storefront-Access-Token":
         process.env.GATSBY_SHOPIFY_STOREFRONT_ACCESS_TOKEN,

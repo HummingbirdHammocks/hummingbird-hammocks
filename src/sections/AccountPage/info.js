@@ -148,7 +148,7 @@ const AccountInfoPage = () => {
 
   useEffect(() => {
     handleDefaultValues(data)
-  }, [data, handleDefaultValues])
+  }, [data])
 
   return (
     <AccountLayout title="Account Info" currentPage="info">
