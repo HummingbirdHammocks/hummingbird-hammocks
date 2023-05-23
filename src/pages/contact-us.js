@@ -78,10 +78,8 @@ const ContactUsPage = () => {
         >
           <Grid item xs={12} md={6}>
             <Info title="CONTACT US" >
-              We know you don't want to talk to a robot. Our support team is completely
-              internal (and human), nothing is outsourced, and you won't be asked to
-              jump through a bunch of hoops. We offer informed and concise help so you
-              can get off the computer and back outside.
+              Our support team is completely internal and nothing is outsourced, and you won't be asked to
+              jump through a bunch of hoops. We offer informed and concise help so you can get off the computer and back outside.
               <br />
               <br />
               If you have a question, need help with anything, or are just looking for
