@@ -38,7 +38,7 @@ const detailsData4 = {
   subText:
     "<p>We take immense pride in our work and fully stand by the quality of our products. However, should you ever find yourself less than completely satisfied with any of our gear, or if it doesn't meet your expectations, don't worry; we've got you covered. Simply reach out to us through our Support Form. Whether you're seeking a repair, replacement, or refund, we promise to help—always and forever. Our easy-to-use, hassle-free return system ensures you can find the perfect gear effortlessly. Our support specialists are never outsourced and are always just a message away, ready and eager to answer any questions you may have. Your satisfaction is our guarantee!</p>",
   buttonText: "Support",
-  hrefLink: "https://help.hummingbirdhammocks.com/help/1694808310",
+  hrefLink: "/account/create-ticket",
 }
 
 const ExplorePage = () => {

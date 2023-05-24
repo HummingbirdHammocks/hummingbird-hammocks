@@ -74,7 +74,7 @@ const Footer = () => {
     {
       id: 1,
       name: "Get Help",
-      url: "https://help.hummingbirdhammocks.com/help/1694808310",
+      url: "/account/create-ticket",
     },
     { id: 2, name: "Manuals", url: "https://help.hummingbirdhammocks.com/" },
     {

@@ -203,7 +203,7 @@ export const AppDrawer = ({ data }) => {
               <ListItemButton
                 onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
                 component={Link}
-                to="/contact-us/"
+                to="/contact-us"
               >
                 <ListItemText primary="CONTACT US" />
               </ListItemButton>
@@ -224,6 +224,15 @@ export const AppDrawer = ({ data }) => {
                 href="https://returns.hummingbirdhammocks.com/"
               >
                 <ListItemText primary="RETURNS" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem>
+              <ListItemButton
+                onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
+                component={Link}
+                to="/account/create-ticket"
+              >
+                <ListItemText primary="SUPPORT TICKET" />
               </ListItemButton>
             </ListItem>
             <ListItem>

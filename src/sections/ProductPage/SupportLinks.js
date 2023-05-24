@@ -69,7 +69,7 @@ export const SupportLinks = ({
                     <ListItem disablePadding>
                         <ListItemButton
                             component={"a"}
-                            href={"https://help.hummingbirdhammocks.com/help/1694808310"}
+                            href={"/account/create-ticket"}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
