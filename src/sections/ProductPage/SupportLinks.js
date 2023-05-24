@@ -93,7 +93,7 @@ export const SupportLinks = ({
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    <ListItemText primary={"OSHWA UID" + oshwaId} />
+                                    <ListItemText primary={`OSHWA UID ${oshwaId}`} />
                                 </ListItemButton>
                             </ListItem>
                         }
