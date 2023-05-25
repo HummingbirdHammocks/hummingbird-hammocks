@@ -1,4 +1,5 @@
 import React from "react"
+import { navigate } from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
 import { useTheme, Box, Typography, Button, Grid } from "@mui/material"
 
@@ -78,22 +79,17 @@ const ContactUsPage = () => {
         >
           <Grid item xs={12} md={6}>
             <Info title="CONTACT US" >
-              Our support team is completely internal and nothing is outsourced, and you won't be asked to
-              jump through a bunch of hoops. We offer informed and concise help so you can get off the computer and back outside.
+              Our support team is completely internal and nothing is outsourced, and you won't be asked to jump through a bunch of hoops. We offer informed and concise help so you can get off the computer and back outside.
               <br />
               <br />
-              If you have a question, need help with anything, or are just looking for
-              advice. Reach out to us using the contact form or through our support portal and we will get back to you as soon as
-              possible.
+              Please reach out to us using the contact form on this page for general questions or create a support ticket using the button below for more in-depth and detailed help. We will get back to you as soon as possible.
               <Box mt="40px" display="flex" justifyContent="center">
                 <Button
                   variant="contained"
                   component="a"
-                  href="https://help.hummingbirdhammocks.com/help/1694808310"
-                  rel="noopener noreferrer"
-                  target="_blank"
+                  onClick={() => navigate("/account/create-ticket")}
                 >
-                  Support Portal
+                  Create Support Ticket
                 </Button>
               </Box>
             </Info>
@@ -139,7 +135,7 @@ const ContactUsPage = () => {
             buttonLink="/affiliate-program"
             buttonText="Get Started"
             title="AFFILIATE PROGRAM"
-            subText="We are a small team that relies heavily on our faithful community spreading the news about what we do. Join our team and earn commissions on the future happy campers you send our way!"
+            subText="We are a small team that relies heavily on our faithful community spreading the news about what we do. Join our team and earn commissions on the happy campers you send our way!"
           >
             <Link to="/affiliate-program">
               <StaticImage

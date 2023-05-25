@@ -7,6 +7,10 @@ export function Details({ data, children }) {
   const theme = useTheme();
   const { title, subText, htmlText, buttonText, buttonLink, hrefLink } = data
 
+  const renderHtmlFromString = (htmlText) => {
+    return <div dangerouslySetInnerHTML={{ __html: htmlText }} />
+  }
+
   return (
     <Box
       sx={{
@@ -48,7 +52,7 @@ export function Details({ data, children }) {
                 variant="body1"
                 component={"span"}
               >
-                {subText}
+                {renderHtmlFromString(subText)}
               </Typography>
             )}
 

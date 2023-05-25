@@ -38,30 +38,21 @@ const ProDealPage = () => (
       below and we will get back to you shortly.
       <br />
       <br />
-      The use of real parachute materials, combined with the design and
-      construction techniques borrowed from the Parachute Industry Association
-      created a hammock that is stronger, far lighter, and much smaller packing
-      than any other hammock on the market.
+      <b>By sending this application you agree to the following terms and conditions:</b>
       <br />
       <br />
-      <b>
-        By sending this application you agree to the following terms and
-        conditions:
-      </b>
+      <i>This special pricing program is strictly confidential, you are not to
+        disclose these special prices to anyone outside our pro customer program.
+        We may limit the quantities of products you may purchase using your pro
+        deal. You may not resell products purchased with this program, purchase
+        products for anyone else using this program, or allow anyone to purchase
+        items under your name. Modifying, obscuring or removing the logo on
+        products is prohibited. Sales using this program are final. Failure to
+        follow these terms and conditions will result in your pro customer status
+        being revoked.</i>
       <br />
       <br />
-      This special pricing program is strictly confidential, you are not to
-      disclose these special prices to anyone outside our pro customer program.
-      We may limit the quantities of products you may purchase using your pro
-      deal. You may not resell products purchased with this program, purchase
-      products for anyone else using this program, or allow anyone to purchase
-      items under your name. Modifying, obscuring or removing the logo on
-      products is prohibited. Sales using this program are final. Failure to
-      follow these terms and conditions will result in your pro customer status
-      being revoked.
-      <br />
-      <br />
-      Thank you for your hard work in the outdoor industry!
+      <b>Thank you for your hard work in the outdoor industry!</b>
     </Info>
 
     <IframeWrap>

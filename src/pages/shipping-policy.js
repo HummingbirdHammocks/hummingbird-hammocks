@@ -8,7 +8,8 @@ const ShippingPolicyPage = () => (
     <Seo title="Shipping Policy" />
 
     <Info subTextAlign="left" title="SHIPPING POLICY">
-      <b>GENERAL</b> <br />
+      <b>GENERAL</b>
+      <br />
       <br />
       We will always try our best to get your order to you as quickly as
       possible. <br /> <br /> We do not guarantee shipping times or delivery
@@ -19,16 +20,18 @@ const ShippingPolicyPage = () => (
       anywhere in the world except Indonesia.
       <br />
       <br />
-      DELIVERY TIME
+      <b>DELIVERY TIME</b>
       <br />
       <br />
       Your order will be processed and shipped in 1-3 days from the time we
       receive your order, typically within 24 hours.
-      <br /> <br />
+      <br />
+      <br />
       Shipping time to most locations in the continental United States is about
       5-7 days from the time the post office receives the package to the time it
       arrives at your location.
-      <br /> <br />
+      <br />
+      <br />
       Shipping time to international locations can vary drastically. Please
       account for 2-4 weeks for your package to be delivered after we ship it.
       <br />
@@ -57,10 +60,9 @@ const ShippingPolicyPage = () => (
       <br /> <br />
       If in the United States, sales tax is charged according to the state and
       county to which the item is shipped.
-      <br /> <br />
       <br />
       <br />
-      <b> INTERNATIONAL SHIPPING</b>
+      <b>INTERNATIONAL SHIPPING</b>
       <br />
       <br />
       Customs charges and duty fees are the responsibility of the customer. We
@@ -69,11 +71,13 @@ const ShippingPolicyPage = () => (
       country when calculating the total cost of our products. Additionally, we
       will not falsely claim the value of any of our products to avoid customs
       charges or duty fees.
-      <br /> <br />
+      <br />
+      <br />
       <b>DAMAGED OR MISSING ITEMS</b>
-      <br /> <br />
+      <br />
+      <br />
       Please inform us immediately of any damaged or missing items in your
-      shipment. You can submit a support ticket on our website, (preferred) or
+      shipment. You can submit a{" "}<a href="https://hummingbirdhammocks.com/contact-us">Support Ticket</a> on our website, (preferred) or
       email us at{" "}
       <a href="mailto:help@hummingbirdhammocks.com">
         help@hummingbirdhammocks.com

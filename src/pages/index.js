@@ -7,9 +7,9 @@ import { Hero, Info, Details, FeaturedProduct, OutDoorArticles } from "sections"
 
 const heroData = {
   position: "center",
-  subtitle1: "Tiny on the Scale, Tiny in your Pocket",
-  mainText: "ULTRALIGHT HAMMOCKS FOR EVERY ADVENTURE",
-  subtitle2: "One Order Placed = Two Trees Planted",
+  subtitle1: "Ultralight and Beyond",
+  mainText: "EXPLORE THE OUTDOORS UNENCUMBERED",
+  subtitle2: "Ultralight Gear For Every Adventure",
   button: [
     {
       id: 1,
@@ -33,7 +33,7 @@ const secondData = {
   subtitle1: "FAA Certified Parachute Fabric",
   mainText: "REAL PARACHUTE FABRIC",
   subtitle2:
-    "All of our hammocks use actual FAA certified reserve parachute material. This fabric is trusted by skydivers, BASE jumpers, and aerobatic pilots every day.",
+    "All of our hammocks use actual FAA-certified reserve parachute material. This fabric is trusted by skydivers, BASE jumpers, and aerobatic pilots daily.",
 }
 
 const thirdData = {
@@ -95,7 +95,7 @@ const detailsData3 = {
   order: 2,
   title: "BUG PROTECTION FOR EVERY ADVENTURE",
   subText:
-    "Relax and sleep without concern for our small creepy, crawly, airborne friends. At only 5.5 oz (156 g,) the Warbler Bug Net provides full 360-degree protection from mosquitos, other bugs, and possibly even small birds.",
+    "Relax and sleep without concern for our small creepy, crawly, airborne friends. At only 5.5 oz, the Warbler Bug Net provides complete 360-degree protection from mosquitos, other bugs, and possibly even small birds.",
   buttonText: "Shop Bug Nets",
   buttonLink: "/products/warbler-bug-net",
 }
@@ -118,15 +118,12 @@ const IndexPage = () => {
         />
       </Hero>
       <Info title="MORE THAN JUST ULTRALIGHT">
-        Our gear weighs about 30% less than anything else on the market, but
-        weight isn’t the only thing we care about. We also demand that the hammock
-        packs small and travels well. We believe the volume in your pack deserves
-        as much love as its weight.
+        The ultralight camping gear we design is an industry standout, weighing in at a remarkable 30% less than similar gear on the market. But at our company, we go beyond just creating ultralight equipment; we're equally dedicated to packability and portability.
         <br /> <br />
-        You'll find no bulky metal parts or thick webbing here. Using actual
-        reserve parachute nylon and our button link system, we compress the
-        hammock into a very small stuff sack, keeping it as unnoticed in your pack
-        as it is on the scale.
+        We understand that both volume and weight in your backpack can affect your outdoor experience. That's why we've meticulously crafted our gear to respect both factors, designing ultralight hammocks that not only weigh less but also compress to an impressively small size.
+        <br /> <br />
+        Say goodbye to cumbersome metal components and chunky webbing. Our innovative hammock gear employs actual reserve parachute nylon and our unique button link system, allowing you to squeeze it down into a surprisingly tiny stuff sack. This way, our gear stays virtually unnoticed, whether it's tucked away in your pack or weighed on a scale.
+        Elevate your camping and hiking adventures with our ultralight hammock gear, designed to go the distance without weighing you down. Discover the freedom of traveling lighter and smarter with us.
       </Info>
       <Hero data={secondData}>
         <StaticImage

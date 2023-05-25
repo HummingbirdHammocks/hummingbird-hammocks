@@ -14,13 +14,13 @@ const heroData = {
 const detailsData = {
   title: "DIRECT TO CONSUMER",
   subText:
-    "We design and build our hammocks using premium, hand-picked, certified, materials. The vast majority of our materials are Military Spec, even down to the non-load bearing thread! These wonderful materials are hand cut and sewn by skilled sewing machine operators in Alamo, TN.\n \nAll of this effort is to ensure our gear is something you will be proud to own and use, we know we sure are!\n \nUnwilling to compromise our materials and build quality to meet margins required for retail sale, we decided to sell our gear directly to the people we care about most, our customers.\n \nSo what you’re getting for the price is far better than what you might find on a store shelf. You can kick your feet up and relax knowing that your hard-earned money went directly to excellent materials and build quality, and you bypassed the 50% to 100% retail store mark up.",
+    "<p>We stand out in the ultralight hammock and camping gear industry by putting our valued customers first. Our company operates under a Direct to Consumer model, a strategic move that places our focus squarely on you and ensures your hard-earned money is well-spent.</p><p>Instead of navigating through retail markups that can inflate prices by 50% to 100%, we deliver our top-tier, Military Spec ultralight camping gear straight to you. This guarantees better value for your investment and emphasizes our commitment to you as our priority.</p><p>Our range of camping gear, including our ultralight hammocks, are more than just products - they are a promise of quality, resilience, and customer satisfaction. As you gear up for your next outdoor adventure, know that by choosing us, you're selecting a customer-centric company that values your trust and aims to provide unrivaled comfort and durability in every product.</p>",
 }
 
 const detailsData2 = {
   title: "CERTIFIED OPEN HARDWARE",
   subText:
-    "Our gear is completely open-source and certified by the Open Source Hardware Association.\n \nWhy would we want to give away designs for free? We believe ideas and designs should be shared so that others may benefit from them, be inspired to make something new, or contribute an idea that leads to a better or more useful product!\n \nBelow you will find all of our design files and associated information for our current products as well as for products we are currently developing.    ",
+    "<p>We're proud to say that all of our gear designs are not only open-source, but they are also officially certified by the Open Source Hardware Association. Why would we choose to share our design blueprints freely? The answer is simple - we firmly believe in the power of sharing and collective innovation. By opening up our designs, we hope to inspire others, foster a sense of community, and invite you to contribute your ingenious ideas to enhance our products. In our GitHub repositories, you'll find all the necessary design files and detailed information for our entire range of current and upcoming ultralight hammock and camping gear products. We look forward to seeing how our shared knowledge can lead to even better and more practical outdoor gear!</p>",
   buttonText: "GITHUB REPOSITORY",
   hrefLink: "https://github.com/HummingbirdHammocks",
 }
@@ -28,7 +28,7 @@ const detailsData2 = {
 const detailsData3 = {
   title: "TWO TREES PER ORDER",
   subText:
-    "Through a partnership with Ecologi and the Eden Reforestation Projects, we are planting two mangrove trees for every order we receive. \n \nMangroves are four times more effective at capturing carbon per acre than tropical rainforests, provide a natural coastal erosion barrier and habitat, and are effective in filtering waterborne pollutants.\n \nCheck out Hummingbird Hammocks' Forest to learn more or donate more trees!",
+    "<p>We've teamed up with Ecologi and the Eden Reforestation Projects, committing to plant two mangrove trees with every order you place. Why mangroves? They're incredibly efficient carbon warriors, capturing four times more carbon per acre than tropical rainforests. But their benefits don't stop there. They also naturally curb coastal erosion, create crucial habitats for diverse species, and act as nature's water filter, cleansing waterborne pollutants. Want to learn more? Swing by the Hummingbird Hammocks' Forest page or donate to plant even more trees if you're feeling generous!</p>",
   buttonText: "Learn More",
   hrefLink: "https://ecologi.com/hummingbirdhammocks",
 }
@@ -36,9 +36,9 @@ const detailsData3 = {
 const detailsData4 = {
   title: "LIFETIME GUARANTEE",
   subText:
-    "We are proud of what we do and stand behind it. If you are not satisfied with one of our products, or if one of our products does not perform to your satisfaction, contact us via our Support Form below for a repair, replacement, or refund. FOREVER.\n \nOur hassle-free return system makes it easy to get the right hammock for you and our support specialists are here to help if you have any questions!",
+    "<p>We take immense pride in our work and fully stand by the quality of our products. However, should you ever find yourself less than completely satisfied with any of our gear, or if it doesn't meet your expectations, don't worry; we've got you covered. Simply reach out to us through our Support Form. Whether you're seeking a repair, replacement, or refund, we promise to help—always and forever. Our easy-to-use, hassle-free return system ensures you can find the perfect gear effortlessly. Our support specialists are never outsourced and are always just a message away, ready and eager to answer any questions you may have. Your satisfaction is our guarantee!</p>",
   buttonText: "Support",
-  hrefLink: "https://help.hummingbirdhammocks.com/help/1694808310",
+  hrefLink: "/account/create-ticket",
 }
 
 const ExplorePage = () => {
@@ -59,29 +59,19 @@ const ExplorePage = () => {
         />
       </Hero>
       <Info>
-        It all began about 10 years ago. Chris Loidolt, a Certified Parachute
-        Rigger, sitting in a room full of top-quality parachute material decided
-        he wanted to relax in a hammock that afternoon. Flash forward to today
-        and that simple idea has led to an ultralight hammock company that is
-        obsessed with weight, quality, and thinking outside the box.
+        Nearly a decade ago, our founder, certified Parachute Rigger Chris Loidolt, envisioned a hammock crafted from quality parachute material. Today, we've become a thriving, family-run business centered around producing ultralight, small-packing hammocks.
         <br />
         <br />
-        The use of real parachute materials, combined with the design and
-        construction techniques borrowed from the Parachute Industry Association
-        created a hammock that is stronger, far lighter, and much smaller
-        packing than any other hammock on the market.
+        Our products, derived from authentic parachute materials, use design principles inspired by the Parachute Industry Association. The outcome is market-leading hammocks that are stronger, lighter, and more compact than anything else on the market.
         <br />
         <br />
-        He thought “cool, a new hammock”, and we thought “we want one”. Turns
-        out, everyone else wanted one too!
+        Being a direct-to-consumer business allows us to maintain a strong bond with our customers, providing the highest possible quality gear for the price by minimizing overhead and eliminating retail markups. Our open-source design philosophy encourages a collaborative community that supports innovation and mutual growth.
         <br />
         <br />
-        We are a family-run business, doing our best to create the best gear we
-        can and provide the kind of customer service we wish other companies
-        would. Our products are all meticulously designed, hand-made, packed
-        with love, and shipped to locations all over the globe. So order
-        yourself one, order a friend one, get outside and help us change the way
-        the world hangs out with nature.
+        We're proud to offer a lifetime guarantee on all our products, a testament to our confidence in their quality and durability. Furthermore, our commitment to sustainability ensures we actively strive to reduce our environmental impact, using responsibly sourced materials and eco-friendly practices.
+        <br />
+        <br />
+        Join us in revolutionizing how we enjoy nature, and help us reshape outdoor relaxation, one hammock at a time.
       </Info>
 
       <MainWrapper>

@@ -117,6 +117,7 @@ export function ReturnsStepper() {
                         if (item.returnReason !== '' && item.customerComments !== '' && item.returnQuantity !== 0) {
                             disabled = false;
                         }
+                        return false;
                     });
                 }
                 break;
@@ -127,6 +128,7 @@ export function ReturnsStepper() {
                             if (item.id && item.returnReason !== '' && item.customerComments !== '' && item.returnQuantity !== 0) {
                                 disabled = false;
                             }
+                            return false;
                         });
                     }
                 }
@@ -160,7 +162,7 @@ export function ReturnsStepper() {
 
         let formattedLineItems = [];
         lineItems.map((item) => {
-            formattedLineItems.push({
+            return formattedLineItems.push({
                 fulfillmentLineItemId: `${item.id}`,
                 quantity: item.returnQuantity,
                 returnReason: item.returnReason,

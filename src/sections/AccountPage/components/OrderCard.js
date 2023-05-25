@@ -23,7 +23,6 @@ export const OrderCard = ({ order, firstName, lastName, email }) => {
   const [returnEligible, setReturnEligible] = useState(false)
 
   const {
-    id,
     name,
     processedAt,
     fulfillmentStatus,
