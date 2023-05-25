@@ -1,6 +1,5 @@
 import React from "react"
 import { useQuery, gql } from "@apollo/client"
-import { toast } from 'react-toastify';
 import { navigate } from "gatsby"
 import {
     useTheme,
@@ -27,7 +26,7 @@ const CreateTicketPage = () => {
 
     const { customerAccessToken } = useAuthStore();
 
-    const { data, loading, error } = useQuery(CUSTOMER_INFO, {
+    const { data, loading } = useQuery(CUSTOMER_INFO, {
         variables: {
             customerAccessToken,
         },
