@@ -1,16 +1,16 @@
 import React from "react"
 import { GatsbyImage } from "gatsby-plugin-image"
-import { Box, Typography, Button } from "@mui/material"
+import { Box, Paper, Typography, Button, Stack } from "@mui/material"
 
 import { Link } from "components"
 
 import { fShopify } from '../../utils/formatTime'
 
-export const KnowledgebaseItem = ({ item, description }) => {
+export const KnowledgebaseItem = ({ item, description, linkType }) => {
   return (
-    <Box key={item.id}>
+    <Paper key={item.id} sx={{ padding: 2 }}>
       <Box>
-        <Link to={`/knowledgebase/articles/${item.handle}`}>
+        <Link to={`/knowledgebase/${linkType}/${item.handle}`}>
           {item.localFile && (
             <GatsbyImage
               imgStyle={{
@@ -20,10 +20,9 @@ export const KnowledgebaseItem = ({ item, description }) => {
               image={item.localFile.childImageSharp.gatsbyImageData}
             />
           )}
-          <Typography mt="40px" variant="h5" color="black">
+          <Typography variant="body1" color="black" sx={{ fontSize: 16 }}>
             {item.title}
           </Typography>
-          <Typography variant="collectionName">{fShopify(item.published_at)}</Typography>
           {description && (
             <Typography m="20px 0" variant="body1" color="black">
               <div
@@ -35,16 +34,22 @@ export const KnowledgebaseItem = ({ item, description }) => {
           )}
         </Link>
       </Box>
-
-      <Box mt="20px" display="flex">
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        spacing={2}
+      >
+        <Stack>
+          <Typography variant="caption" sx={{ fontSize: 12 }}>{fShopify(item.published_at)}</Typography>
+        </Stack>
         <Button
-          variant="outlined"
           component={Link}
-          to={`/knowledgebase/articles/${item.handle}`}
+          to={`/knowledgebase/${linkType}/${item.handle}`}
         >
           Read More
         </Button>
-      </Box>
-    </Box>
+      </Stack>
+    </Paper>
   )
 }
