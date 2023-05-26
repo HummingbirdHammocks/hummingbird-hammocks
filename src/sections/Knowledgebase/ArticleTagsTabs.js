@@ -70,7 +70,7 @@ export const ArticleTagsTabs = ({
   return (
     <Box
       sx={{
-        backgroundColor: backgroundColor ? backgroundColor : "#FDFDF5",
+        backgroundColor: backgroundColor ? backgroundColor : "#ECEFF1",
         borderColor: accentcolor ? accentcolor : 'divider',
         borderStyle: "solid",
         borderWidth: "1px",
@@ -105,9 +105,8 @@ export const ArticleTagsTabs = ({
             }}
           >
             {allArticles.group.map((group) => {
-              if (group.nodes[0].tags && group.nodes[0].tags !== "") {
-                return <StyledTab accentcolor={accentcolor} label={group.nodes[0].tags} {...a11yProps(group.nodes[0].tags)} key={group.nodes[0].tags} />
-              }
+              if (!group.nodes[0].tags || group.nodes[0].tags === "") return null;
+              return <StyledTab accentcolor={accentcolor} label={group.nodes[0].tags} {...a11yProps(group.nodes[0].tags)} key={group.nodes[0].tags} />;
             })}
           </Tabs>
         </Grid>

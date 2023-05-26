@@ -11,7 +11,8 @@ import {
 } from "@mui/material"
 import { graphql } from "gatsby"
 
-import { Seo, Layout, MainWrapper, Link, Socials } from "components"
+import { Layout, MainWrapper, Link, Socials } from "components"
+import { ArticlesHeader } from "sections"
 
 import { fShopify } from '../../utils/formatTime'
 
@@ -24,60 +25,48 @@ const ManualArticles = ({ data: { manualArticles }, pageContext: { next, prev } 
 
   return (
     <Layout>
-      <Seo title={title} />
+      <ArticlesHeader title={title} backpath={"/knowledgebase/manuals"} date={fShopify(published_at)} />
       <MainWrapper>
-        <Container maxWidth="md">
-          <Box sx={{ marginBottom: 6 }}>
-            <Typography
-              sx={{ margin: "20px 10px" }}
-              textAlign="center"
-              variant="h2"
-            >
-              {title}
-            </Typography>
-          </Box>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-            spacing={2}
-            sx={{ marginTop: 2, marginBottom: 6 }}
-          >
-            <Box>
-              <Typography variant="collectionName">
-                <Link to="/">HOME</Link> /{" "}
-                <Link to={`/knowledgebase/`}>KNOWLEDGEBASE</Link> /{" "}
-                <Link to={`/knowledgebase/manuals/`}>MANUALS</Link>{" "}
-              </Typography>
-              <br />
-              <Typography variant="collectionName">{fShopify(published_at)}</Typography>
-            </Box>
-            <ButtonGroup variant="outlined" aria-label="navigation button group">
-              {prev && prev.handle && (
-                <Tooltip title={prev.title}>
-                  <Button
-                    size="small"
-                    component={Link}
-                    to={`/knowledgebase/manuals/${prev.handle}`}
-                  >
-                    Prev
-                  </Button>
-                </Tooltip>
-              )}
-              {next && next.handle && (
-                <Tooltip title={next.title}>
-                  <Button
-                    size="small"
-                    component={Link}
-                    to={`/knowledgebase/manuals/${next.handle}`}
-                  >
-                    Next
-                  </Button>
-                </Tooltip>
-              )}
-            </ButtonGroup>
-          </Stack>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={2}
+          sx={{ marginTop: 1 }}
+        >
+          <Typography variant="collectionName">
+            <Link to="/">HOME</Link> /{" "}
+            <Link to={`/knowledgebase/`}>KNOWLEDGEBASE</Link> /{" "}
+            <Link to={`/knowledgebase/manuals/`}>MANUALS</Link> /{" "}
+            {title}
+          </Typography>
 
+          <ButtonGroup variant="outlined" aria-label="navigation button group">
+            {prev && prev.handle && (
+              <Tooltip title={prev.title}>
+                <Button
+                  size="small"
+                  component={Link}
+                  to={`/knowledgebase/manuals/${prev.handle}`}
+                >
+                  Prev
+                </Button>
+              </Tooltip>
+            )}
+            {next && next.handle && (
+              <Tooltip title={next.title}>
+                <Button
+                  size="small"
+                  component={Link}
+                  to={`/knowledgebase/manuals/${next.handle}`}
+                >
+                  Next
+                </Button>
+              </Tooltip>
+            )}
+          </ButtonGroup>
+        </Stack>
+        <Container maxWidth="md">
           <Box
             sx={{
 
@@ -112,9 +101,7 @@ const ManualArticles = ({ data: { manualArticles }, pageContext: { next, prev } 
                 width: "100%",
               },
 
-              [theme.breakpoints.down("md")]: {
-                margin: "0",
-              },
+              marginTop: 6,
             }}>
             <div
               dangerouslySetInnerHTML={{

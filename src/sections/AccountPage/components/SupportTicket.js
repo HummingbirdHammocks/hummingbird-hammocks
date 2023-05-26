@@ -79,7 +79,7 @@ export const SupportTicket = ({ ticket }) => {
       {
         ticket?._embedded?.threads
         && ticket._embedded.threads.map((thread) => (
-          <SupportTicketMessage thread={thread} />
+          <SupportTicketMessage thread={thread} key={thread.id} />
         ))
       }
     </Box >

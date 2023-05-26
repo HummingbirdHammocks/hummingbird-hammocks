@@ -9,30 +9,26 @@ import { fShopify } from '../../utils/formatTime'
 export const KnowledgebaseItem = ({ item, description, linkType }) => {
   return (
     <Paper key={item.id} sx={{ padding: 2 }}>
-      <Box>
-        <Link to={`/knowledgebase/${linkType}/${item.handle}`}>
-          {item.localFile && (
-            <GatsbyImage
-              imgStyle={{
-                borderRadius: "20px",
-              }}
-              alt={item.title}
-              image={item.localFile.childImageSharp.gatsbyImageData}
-            />
-          )}
-          <Typography variant="body1" color="black" sx={{ fontSize: 16 }}>
-            {item.title}
-          </Typography>
-          {description && (
-            <Typography m="20px 0" variant="body1" color="black">
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: item.summary_html,
-                }}
-              />
-            </Typography>
-          )}
-        </Link>
+      <Box component={Link} to={`/knowledgebase/${linkType}/${item.handle}`}>
+        {item.localFile && (
+          <GatsbyImage
+            imgStyle={{
+              borderRadius: "20px",
+            }}
+            alt={item.title}
+            image={item.localFile.childImageSharp.gatsbyImageData}
+          />
+        )}
+        <Typography variant="body1" color="black" sx={{ fontSize: 16 }}>
+          {item.title}
+        </Typography>
+        {description && (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: item.summary_html,
+            }}
+          />
+        )}
       </Box>
       <Stack
         direction="row"

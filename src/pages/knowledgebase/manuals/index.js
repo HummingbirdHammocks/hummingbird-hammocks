@@ -1,10 +1,8 @@
 import React, { useState } from "react"
-import { graphql, navigate } from "gatsby"
+import { graphql } from "gatsby"
 import {
   Box,
   Typography,
-  Divider,
-  Pagination,
   List,
   ListItem,
   ListItemText,
@@ -14,92 +12,40 @@ import {
   Button,
   Grid,
 } from "@mui/material"
-import { ExpandLess, ExpandMore, ArrowBack } from "@mui/icons-material"
+import { ExpandLess, ExpandMore } from "@mui/icons-material"
 
-import { Seo, Layout, MainWrapper, Link } from "components"
-import { KnowledgebaseItem } from "sections"
-import ManualsSearch from "../../utils/algolia/manualsSearch"
+import { Layout, MainWrapper, Link } from "components"
+import { ArticlesHeader, ArticlesSection } from "sections"
+import ManualsSearch from "utils/algolia/manualsSearch"
 
-const ManualsTemplate = ({ data: { allManualArticles, manualArticles }, pageContext }) => {
+const ManualsPage = ({ data: { allManualArticles, manualArticles } }) => {
   const [collapse, setCollapse] = useState(true)
-
-  //pagination
-  let numberOfPages = Math.ceil(allManualArticles.totalCount / 9)
-
-  const handleChange = (e, value) => {
-    if (value === 1) {
-      navigate(`/knowledgebase/manuals/`)
-    } else {
-      navigate(`/knowledgebase/manuals/${value}`)
-    }
-  }
 
   return (
     <Layout>
-      <Seo title="Knowledgebase Manuals" />
-      <Box pt={"10px"}>
-        <MainWrapper>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-            spacing={2}
-            sx={{ margin: "20px 10px" }}
-          >
-            <Typography
-              variant="h4"
-            >
-              MANUALS / GUIDES
-            </Typography>
-            <Stack
-              direction="row"
-              justifyContent="flex-end"
-              alignItems="center"
-              spacing={2}
-            >
-              <Button
-                variant="contained"
-                component={Link}
-                to={`/knowledgebase`}
-                startIcon={<ArrowBack />}
-              >
-                BACK TO ALL
-              </Button>
-            </Stack>
-          </Stack>
-          <Divider color="#e2dfd9" />
-        </MainWrapper>
-      </Box>
+      <ArticlesHeader title="Manuals & Guides" backpath="/knowledgebase" />
 
       <MainWrapper>
+        <Box sx={{ marginTop: 1 }}>
+          <Typography variant="collectionName" >
+            <Link to="/">HOME</Link> /{" "}
+            <Link to={`/knowledgebase/`}>KNOWLEDGEBASE</Link> / MANUALS
+          </Typography>
+        </Box>
+
         <Grid
           container
           spacing={2}
         >
           <Grid item xs={12} md={9}>
-            <Grid
-              container
-              direction="row"
-              justifyContent="center"
-              alignItems="flex-start"
-              spacing={2}
-              padding={2}
-            >
-              {allManualArticles.nodes.map(item => (
-                <Grid item xs={12} sm={6} md={6} lg={4}>
-                  <KnowledgebaseItem description item={item} linkType="manuals" />
-                </Grid>
-              ))}
-              <Grid item xs={12}>
-                <Box m="50px 0" display="flex" justifyContent="center">
-                  <Pagination
-                    count={numberOfPages}
-                    page={pageContext.currentPage}
-                    onChange={handleChange}
-                  />
-                </Box>
-              </Grid>
-            </Grid>
+            <Stack>
+              {allManualArticles.group.map((group) => {
+                if (!group.nodes[0].tags || group.nodes[0].tags === "") return null;
+                return (
+                  <ArticlesSection group={group} type="manuals" key={group.nodes[0].tags} />
+                )
+              })}
+            </Stack>
           </Grid>
 
           <Grid item xs={12} md={3} mt={2}>
@@ -168,27 +114,28 @@ const ManualsTemplate = ({ data: { allManualArticles, manualArticles }, pageCont
   )
 }
 
-export default ManualsTemplate
+export default ManualsPage
 
 export const query = graphql`
-  query manualArticlesTemplate($skip: Int!, $limit: Int!) {
+  query manualArticlesTemplate {
     allManualArticles(
-      limit: $limit
-      skip: $skip
       sort: { fields: published_at, order: DESC }
     ) {
       totalCount
-      nodes {
-        localFile {
-          childImageSharp {
-            gatsbyImageData(placeholder: BLURRED)
+      group(field: tags) {
+        nodes {
+          localFile {
+            childImageSharp {
+              gatsbyImageData(placeholder: BLURRED)
+            }
           }
+          summary_html
+          published_at
+          title
+          handle
+          id
+          tags
         }
-        summary_html
-        published_at
-        title
-        handle
-        id
       }
     }
 

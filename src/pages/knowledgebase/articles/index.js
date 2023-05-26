@@ -1,83 +1,52 @@
 import React, { useState } from "react"
-import { graphql, navigate } from "gatsby"
+import { graphql } from "gatsby"
 import {
   Box,
   Typography,
-  Divider,
-  Pagination,
   List,
   ListItem,
   ListItemText,
   ListItemButton,
   Collapse,
   Stack,
+  Button,
   Grid,
 } from "@mui/material"
 import { ExpandLess, ExpandMore } from "@mui/icons-material"
 
-import { Seo, Layout, MainWrapper, Link } from "components"
-import { KnowledgebaseItem } from "sections"
-import ArtclesSearch from "../../utils/algolia/articlesSearch"
+import { Layout, MainWrapper, Link } from "components"
+import { ArticlesHeader, ArticlesSection } from "sections"
+import KnowledgebaseArticlesSearch from "utils/algolia/knowledgebaseArticlesSearch"
 
-const KnowledgebaseTemplate = ({ data: { allKnowledgebaseArticles, knowledgebaseArticles }, pageContext }) => {
+const KnowledgebaseArticlesPage = ({ data: { allKnowledgebaseArticles, knowledgebaseArticles } }) => {
   const [collapse, setCollapse] = useState(true)
-
-  //pagination
-  let numberOfPages = Math.ceil(allKnowledgebaseArticles.totalCount / 9)
-
-  const handleChange = (e, value) => {
-    if (value === 1) {
-      navigate(`/knowledgebase/article/`)
-    } else {
-      navigate(`/knowledgebase/article/${value}`)
-    }
-  }
 
   return (
     <Layout>
-      <Seo title="Knowledgebase Articles" />
-      <Box pt={"10px"}>
-        <MainWrapper>
-          <Typography
-            sx={{ margin: "20px 10px" }}
-            variant="h2"
-            color="black.main"
-          >
-            KNOWLEDGEBASE ARTICLES
-          </Typography>
-          <Divider color="#e2dfd9" />
-        </MainWrapper>
-      </Box>
+      <ArticlesHeader title="FAQs & Articles" backpath="/knowledgebase" />
 
       <MainWrapper>
+        <Box sx={{ marginTop: 1 }}>
+          <Typography variant="collectionName">
+            <Link to="/">HOME</Link> /{" "}
+            <Link to={`/knowledgebase/`}>KNOWLEDGEBASE</Link> / MANUALS
+          </Typography>
+        </Box>
+
         <Grid
           container
+          alignItems="flex-start"
           spacing={2}
         >
           <Grid item xs={12} md={9}>
-            <Grid
-              container
-              direction="row"
-              justifyContent="center"
-              alignItems="flex-start"
-              spacing={2}
-              padding={2}
-            >
-              {allKnowledgebaseArticles.nodes.map(item => (
-                <Grid item xs={12} sm={6} md={6} lg={4}>
-                  <KnowledgebaseItem description item={item} />
-                </Grid>
-              ))}
-              <Grid item xs={12}>
-                <Box m="50px 0" display="flex" justifyContent="center">
-                  <Pagination
-                    count={numberOfPages}
-                    page={pageContext.currentPage}
-                    onChange={handleChange}
-                  />
-                </Box>
-              </Grid>
-            </Grid>
+            <Stack>
+              {allKnowledgebaseArticles.group.map((group) => {
+                if (!group.nodes[0].tags || group.nodes[0].tags === "") return null;
+                return (
+                  <ArticlesSection group={group} type="articles" key={group.nodes[0].tags} />
+                )
+              })}
+            </Stack>
           </Grid>
 
           <Grid item xs={12} md={3} mt={2}>
@@ -89,8 +58,29 @@ const KnowledgebaseTemplate = ({ data: { allKnowledgebaseArticles, knowledgebase
                 paddingRight: 2,
               }}>
               <Box className="articles">
-                <ArtclesSearch />
+                <KnowledgebaseArticlesSearch />
               </Box>
+              <Button
+                variant="outlined"
+                component={Link}
+                to={`/knowledgebase/manuals`}
+              >
+                MANUALS / GUIDES
+              </Button>
+              <Button
+                variant="outlined"
+                component={Link}
+                to={`/account/create-ticket`}
+              >
+                Create Ticket
+              </Button>
+              <Button
+                variant="outlined"
+                component={Link}
+                to={`/account/tickets`}
+              >
+                Your Tickets
+              </Button>
               <Box>
                 <ListItemButton onClick={() => setCollapse(!collapse)}>
                   <ListItemText
@@ -125,27 +115,28 @@ const KnowledgebaseTemplate = ({ data: { allKnowledgebaseArticles, knowledgebase
   )
 }
 
-export default KnowledgebaseTemplate
+export default KnowledgebaseArticlesPage
 
 export const query = graphql`
-  query knowledgebaseArticlesTemplate($skip: Int!, $limit: Int!) {
+  query knowlegebaseArticlesTemplate {
     allKnowledgebaseArticles(
-      limit: $limit
-      skip: $skip
       sort: { fields: published_at, order: DESC }
     ) {
       totalCount
-      nodes {
-        localFile {
-          childImageSharp {
-            gatsbyImageData(placeholder: BLURRED)
+      group(field: tags) {
+        nodes {
+          localFile {
+            childImageSharp {
+              gatsbyImageData(placeholder: BLURRED)
+            }
           }
+          summary_html
+          published_at
+          title
+          handle
+          id
+          tags
         }
-        summary_html
-        published_at
-        title
-        handle
-        id
       }
     }
 

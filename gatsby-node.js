@@ -312,20 +312,6 @@ exports.createPages = async ({ graphql, actions }) => {
 
   // create knowledgebase pages with pagination
   const knowledgebaseArticles = data.allKnowledgebaseArticles.edges
-  const numKnowledgebasePages = Math.ceil(knowledgebaseArticles.length / articlesPerPage)
-
-  Array.from({ length: numKnowledgebasePages }).forEach((_, i) => {
-    createPage({
-      path: i === 0 ? `/knowledgebase/articles` : `/knowledgebase/articles/${i + 1}`,
-      component: path.resolve("./src/templates/KnowledgebaseTemplate/index.js"),
-      context: {
-        limit: articlesPerPage,
-        skip: i * articlesPerPage,
-        numPages,
-        currentPage: i + 1,
-      },
-    })
-  })
 
   // create single knowledgebase articles pages
   knowledgebaseArticles.forEach(({ node, previous, next }) => {
@@ -349,20 +335,6 @@ exports.createPages = async ({ graphql, actions }) => {
 
   // create manual pages with pagination
   const manualArticles = data.allManualArticles.edges
-  const numManualPages = Math.ceil(manualArticles.length / articlesPerPage)
-
-  Array.from({ length: numManualPages }).forEach((_, i) => {
-    createPage({
-      path: i === 0 ? `/knowledgebase/manuals` : `/knowledgebase/manuals/${i + 1}`,
-      component: path.resolve("./src/templates/ManualsTemplate/index.js"),
-      context: {
-        limit: articlesPerPage,
-        skip: i * articlesPerPage,
-        numPages,
-        currentPage: i + 1,
-      },
-    })
-  })
 
   // create single manual articles pages
   manualArticles.forEach(({ node, previous, next }) => {
