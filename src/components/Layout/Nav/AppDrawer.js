@@ -17,7 +17,7 @@ import { StaticImage } from "gatsby-plugin-image"
 // stores
 import { useUIStore, useUIDispatch, useAuthStore, useAuthDispatch } from "../../../stores"
 // components
-import { AnotherLink, Link } from "components"
+import { Link } from "components"
 
 export const AppDrawer = ({ data }) => {
   const [nav1, setNav1] = useState(false)

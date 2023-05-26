@@ -179,7 +179,7 @@ const HelpCenter = ({ data: { allKnowledgebaseArticles, allManualArticles } }) =
                 alignItems="center"
                 spacing={2}
               >
-                <ManualsSearch />
+                <KnowledgebaseArticlesSearch />
                 <Button
                   variant="outlined"
                   component={Link}
