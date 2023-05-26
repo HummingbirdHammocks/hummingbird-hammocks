@@ -56,7 +56,7 @@ export default function KnowledgebaseArticlesSearch() {
               )
             },
             item({ item, components }) {
-              return <KnowledgebaseItem hit={item} components={components} linkType={"article"} />
+              return <KnowledgebaseItem hit={item} components={components} linkType={"articles"} />
             },
             noResults() {
               return "No Matching Knowlege Base Articles"
