@@ -36,7 +36,7 @@ const HelpCenter = ({ data: { allKnowledgebaseArticles, allManualArticles } }) =
             >
               How Can We Help?
             </Typography>
-            <Box className="articles">
+            <Box className="articles" sx={{ width: 300 }}>
               <KnowledgebaseComboSearch />
             </Box>
             <Stack spacing={2} direction="row" sx={{ paddingTop: 4 }}>
