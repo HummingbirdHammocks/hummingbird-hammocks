@@ -108,10 +108,10 @@ const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
               </Box>
               <Collapse in={collapse} timeout="auto" unmountOnExit>
                 <List>
-                  {articles.nodes.map(collection => (
-                    <ListItem m="20px" key={collection.id}>
-                      <Link to={`/collections/${collection.handle}`}>
-                        <Typography>{collection.title}</Typography>
+                  {articles.nodes.map(article => (
+                    <ListItem m="20px" key={article.id}>
+                      <Link to={`/blogs/news/${article.handle}`}>
+                        <Typography>{article.title}</Typography>
                       </Link>
                     </ListItem>
                   ))}

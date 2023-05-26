@@ -76,11 +76,11 @@ const Footer = () => {
       name: "Get Help",
       url: "/account/create-ticket",
     },
-    { id: 2, name: "Manuals", url: "https://help.hummingbirdhammocks.com/" },
+    { id: 2, name: "Manuals", url: "/knowledgebase/manuals" },
     {
       id: 3,
       name: "Knowledgebase",
-      url: "https://help.hummingbirdhammocks.com/",
+      url: "/knowledgebase",
     },
     { id: 4, name: "Returns", url: "/returns" },
   ]

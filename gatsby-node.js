@@ -2,7 +2,10 @@ const path = require(`path`)
 const axios = require("axios")
 const { createRemoteFileNode } = require(`gatsby-source-filesystem`)
 
-const NODE_TYPE = "Articles"
+const articlesPerPage = 12
+const NODE_TYPE_ARTICLES = "Articles"
+const NODE_TYPE_KNOWLEDGEBASE_ARTICLES = "KnowledgebaseArticles"
+const NODE_TYPE_MANUAL_ARTICLES = "ManualArticles"
 
 // called each time a node is created
 exports.onCreateNode = async ({
@@ -11,18 +14,20 @@ exports.onCreateNode = async ({
   createNodeId,
   getCache,
 }) => {
-  if (node.internal.type === NODE_TYPE) {
-    const fileNode = await createRemoteFileNode({
-      // the url of the remote image to generate a node for
-      url: node.image.src,
-      parentNodeId: node.id,
-      createNode,
-      createNodeId,
-      getCache,
-    })
+  if (node.internal.type === NODE_TYPE_ARTICLES || node.internal.type === NODE_TYPE_KNOWLEDGEBASE_ARTICLES) {
+    if (node.image && node.image.src && node.image.src !== null) {
+      const fileNode = await createRemoteFileNode({
+        // the url of the remote image to generate a node for
+        url: node.image.src,
+        parentNodeId: node.id,
+        createNode,
+        createNodeId,
+        getCache,
+      })
 
-    if (fileNode) {
-      createNodeField({ node, name: "localFile", value: fileNode.id })
+      if (fileNode) {
+        createNodeField({ node, name: "localFile", value: fileNode.id })
+      }
     }
   }
 }
@@ -31,7 +36,19 @@ exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions
 
   createTypes(`
-    type Articles implements Node {
+    type ${NODE_TYPE_ARTICLES} implements Node {
+      localFile: File @link(from: "fields.localFile")
+    }
+  `)
+
+  createTypes(`
+    type ${NODE_TYPE_KNOWLEDGEBASE_ARTICLES} implements Node {
+      localFile: File @link(from: "fields.localFile")
+    }
+  `)
+
+  createTypes(`
+    type ${NODE_TYPE_MANUAL_ARTICLES} implements Node {
       localFile: File @link(from: "fields.localFile")
     }
   `)
@@ -43,6 +60,8 @@ exports.sourceNodes = async ({
   createContentDigest,
 }) => {
   const { createNode } = actions
+
+  //Blog articles
   const {
     data: { articles }
   } = await axios(
@@ -54,14 +73,66 @@ exports.sourceNodes = async ({
     },
   )
 
-  articles.forEach((node, index) => {
+  articles.forEach((node) => {
     createNode({
       ...node,
-      id: createNodeId(`${NODE_TYPE}-${node.id}`),
+      id: createNodeId(`${NODE_TYPE_ARTICLES}-${node.id}`),
       parent: null,
       children: [],
       internal: {
-        type: NODE_TYPE,
+        type: NODE_TYPE_ARTICLES,
+        content: JSON.stringify(node),
+        contentDigest: createContentDigest(node),
+      },
+    })
+  })
+
+  //Knowledgebase articles
+  const {
+    data: { articles: knowledgebaseArticles }
+  } = await axios(
+    `https://${process.env.GATSBY_SHOPIFY_SHOP_NAME}.myshopify.com/admin/api/${process.env.GATSBY_SHOPIFY_API_VERSION}/blogs/${process.env.GATSBY_SHOPIFY_KNOWLEDGEBASE_ID}/articles.json`,
+    {
+      headers: {
+        "X-Shopify-Access-Token": process.env.GATSBY_SHOPIFY_ADMIN_ACCESS_TOKEN
+      }
+    },
+  )
+
+  knowledgebaseArticles.forEach((node) => {
+    createNode({
+      ...node,
+      id: createNodeId(`${NODE_TYPE_KNOWLEDGEBASE_ARTICLES}-${node.id}`),
+      parent: null,
+      children: [],
+      internal: {
+        type: NODE_TYPE_KNOWLEDGEBASE_ARTICLES,
+        content: JSON.stringify(node),
+        contentDigest: createContentDigest(node),
+      },
+    })
+  })
+
+  //Manuals
+  const {
+    data: { articles: manualArticles }
+  } = await axios(
+    `https://${process.env.GATSBY_SHOPIFY_SHOP_NAME}.myshopify.com/admin/api/${process.env.GATSBY_SHOPIFY_API_VERSION}/blogs/${process.env.GATSBY_SHOPIFY_MANUALS_ID}/articles.json`,
+    {
+      headers: {
+        "X-Shopify-Access-Token": process.env.GATSBY_SHOPIFY_ADMIN_ACCESS_TOKEN
+      }
+    },
+  )
+
+  manualArticles.forEach((node) => {
+    createNode({
+      ...node,
+      id: createNodeId(`${NODE_TYPE_MANUAL_ARTICLES}-${node.id}`),
+      parent: null,
+      children: [],
+      internal: {
+        type: NODE_TYPE_MANUAL_ARTICLES,
         content: JSON.stringify(node),
         contentDigest: createContentDigest(node),
       },
@@ -128,6 +199,38 @@ exports.createPages = async ({ graphql, actions }) => {
           }
         }
       }
+      allKnowledgebaseArticles {
+        edges {
+          node {
+            handle
+            id
+          }
+          next {
+            handle
+            title
+          }
+          previous {
+            handle
+            title
+          }
+        }
+      }
+      allManualArticles {
+        edges {
+          node {
+            handle
+            id
+          }
+          next {
+            handle
+            title
+          }
+          previous {
+            handle
+            title
+          }
+        }
+      }
     }
   `)
 
@@ -172,7 +275,6 @@ exports.createPages = async ({ graphql, actions }) => {
 
   // create blog pages with pagination
   const articles = data.allArticles.edges
-  const articlesPerPage = 12
   const numPages = Math.ceil(articles.length / articlesPerPage)
 
   Array.from({ length: numPages }).forEach((_, i) => {
@@ -188,7 +290,7 @@ exports.createPages = async ({ graphql, actions }) => {
     })
   })
 
-  // create single articles pages
+  // create single blog articles pages
   articles.forEach(({ node, previous, next }) => {
     createPage({
       path: `blogs/news/${node.handle}`,
@@ -205,6 +307,52 @@ exports.createPages = async ({ graphql, actions }) => {
         },
       },
       component: path.resolve("./src/templates/ArticlesTemplate/index.js"),
+    })
+  })
+
+  // create knowledgebase pages with pagination
+  const knowledgebaseArticles = data.allKnowledgebaseArticles.edges
+
+  // create single knowledgebase articles pages
+  knowledgebaseArticles.forEach(({ node, previous, next }) => {
+    createPage({
+      path: `knowledgebase/articles/${node.handle}`,
+      context: {
+        id: node.id,
+        handle: node.handle,
+        prev: {
+          handle: previous?.handle,
+          title: previous?.title,
+        },
+        next: {
+          handle: next?.handle,
+          title: next?.title,
+        },
+      },
+      component: path.resolve("./src/templates/KnowledgebaseArticlesTemplate/index.js"),
+    })
+  })
+
+  // create manual pages with pagination
+  const manualArticles = data.allManualArticles.edges
+
+  // create single manual articles pages
+  manualArticles.forEach(({ node, previous, next }) => {
+    createPage({
+      path: `knowledgebase/manuals/${node.handle}`,
+      context: {
+        id: node.id,
+        handle: node.handle,
+        prev: {
+          handle: previous?.handle,
+          title: previous?.title,
+        },
+        next: {
+          handle: next?.handle,
+          title: next?.title,
+        },
+      },
+      component: path.resolve("./src/templates/ManualArticlesTemplate/index.js"),
     })
   })
 }
