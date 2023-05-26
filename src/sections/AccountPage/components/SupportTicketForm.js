@@ -119,7 +119,7 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
   });
 
   return (
-    <Box padding="30px" justifyContent="center" display="flex">
+    <Box sx={{ paddingLeft: { xs: 0, sm: 2 }, paddingRight: { xs: 0, sm: 2 } }} justifyContent="center" display="flex">
       <Box>
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>

@@ -59,11 +59,11 @@ export const SupportLinks = ({
                     <ListItem disablePadding>
                         <ListItemButton
                             component={"a"}
-                            href={"https://help.hummingbirdhammocks.com/"}
+                            href={"/knowledgebase"}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <ListItemText primary="Knowledgebase" />
+                            <ListItemText primary="Knowledge Base" />
                         </ListItemButton>
                     </ListItem>
                     <ListItem disablePadding>

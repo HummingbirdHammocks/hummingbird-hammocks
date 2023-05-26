@@ -1,0 +1,152 @@
+import React from "react"
+import {
+  useTheme,
+  Box,
+  Tooltip,
+  Container,
+  Stack,
+  Typography,
+  Button,
+  ButtonGroup
+} from "@mui/material"
+import { graphql } from "gatsby"
+
+import { Layout, MainWrapper, Link, Socials } from "components"
+import { ArticlesHeader } from "sections"
+
+import { fShopify } from '../../utils/formatTime'
+
+
+const ManualArticles = ({ data: { manualArticles }, pageContext: { next, prev } }) => {
+  const theme = useTheme();
+
+  const { title, published_at, /* author, */ body_html, /* handle, */ localFile } = manualArticles
+  const url = typeof window !== "undefined" ? window.location.href : ""
+
+  return (
+    <Layout>
+      <ArticlesHeader title={title} backpath={"/knowledgebase/manuals"} date={fShopify(published_at)} />
+      <MainWrapper>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={2}
+          sx={{ marginTop: 1 }}
+        >
+          <Typography variant="collectionName">
+            <Link to="/">HOME</Link> /{" "}
+            <Link to={`/knowledgebase/`}>KNOWLEDGEBASE</Link> /{" "}
+            <Link to={`/knowledgebase/manuals/`}>MANUALS</Link> /{" "}
+            {title}
+          </Typography>
+
+          <ButtonGroup variant="outlined" aria-label="navigation button group">
+            {prev && prev.handle && (
+              <Tooltip title={prev.title}>
+                <Button
+                  size="small"
+                  component={Link}
+                  to={`/knowledgebase/manuals/${prev.handle}`}
+                >
+                  Prev
+                </Button>
+              </Tooltip>
+            )}
+            {next && next.handle && (
+              <Tooltip title={next.title}>
+                <Button
+                  size="small"
+                  component={Link}
+                  to={`/knowledgebase/manuals/${next.handle}`}
+                >
+                  Next
+                </Button>
+              </Tooltip>
+            )}
+          </ButtonGroup>
+        </Stack>
+        <Container maxWidth="md">
+          <Box
+            sx={{
+
+              "& h2": {
+                ...theme.typography.h2,
+                textTransform: "uppercase",
+              },
+
+              "& a": {
+                textDecoration: "none",
+              },
+
+              "& span": {
+                ...theme.typography.body1,
+              },
+
+              "& h2 a span": {
+                fontSize: "22px",
+                color: "black",
+              },
+
+              "& p": {
+                ...theme.typography.body1,
+              },
+
+              "& table": {
+                ...theme.typography.body1,
+              },
+
+              "& img": {
+                borderRadius: "20px",
+                width: "100%",
+              },
+
+              marginTop: 6,
+            }}>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: body_html,
+              }}
+            />
+          </Box>
+        </Container>
+        <Box
+          display="flex"
+          justifyContent={{ xs: "center", md: "right" }}
+          sx={{
+            margin: { xs: "10px 300px 70px 300px", md: "0 0 60px 0" },
+          }}
+        >
+          {localFile && (
+            <Socials
+              title={title}
+              url={url}
+              media={localFile.childImageSharp.gatsbyImageData}
+            />
+          )}
+        </Box>
+      </MainWrapper>
+    </Layout >
+  )
+}
+
+export default ManualArticles
+
+export const query = graphql`
+  query manualArticleQuery($id: String) {
+    manualArticles(id: { eq: $id }) {
+      localFile {
+        childImageSharp {
+          gatsbyImageData(placeholder: BLURRED)
+        }
+      }
+      author
+      body_html
+      summary_html
+      published_at
+      title
+      handle
+      id
+    }
+  }
+`

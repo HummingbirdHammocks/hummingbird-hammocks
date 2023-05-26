@@ -6,28 +6,28 @@ import "@algolia/autocomplete-theme-classic"
 
 import "./autocomplete.css"
 import Autocomplete from "./customAutocomplete"
-import ArticleItem from "./ArticleItem"
+import ProductItem from "./productItem"
 
 const searchClient = algoliasearch(
   process.env.GATSBY_ALGOLIA_APP_ID,
   process.env.GATSBY_ALGOLIA_ADMIN_KEY
 )
 
-export default function ArticlesSearch() {
+export default function ProductSearch() {
   return (
     <Autocomplete
       openOnFocus={true}
       detachedMediaQuery={""}
       getSources={({ query }) => [
         {
-          sourceId: process.env.GATSBY_ALGOLIA_ARTICLES_INDEX_NAME,
+          sourceId: process.env.GATSBY_ALGOLIA_PRODUCTS_INDEX_NAME,
           getItems() {
             return getAlgoliaResults({
               searchClient,
               queries: [
                 {
                   clickAnalytics: true,
-                  indexName: process.env.GATSBY_ALGOLIA_ARTICLES_INDEX_NAME,
+                  indexName: process.env.GATSBY_ALGOLIA_PRODUCTS_INDEX_NAME,
                   query,
                 },
               ],
@@ -50,16 +50,16 @@ export default function ArticlesSearch() {
             header() {
               return (
                 <>
-                  <span className="aa-SourceHeaderTitle">ARTICLES</span>
+                  <span className="aa-SourceHeaderTitle">PRODUCTS</span>
                   <div className="aa-SourceHeaderLine" />
                 </>
               )
             },
             item({ item, components }) {
-              return <ArticleItem hit={item} components={components} linkType={"news"} />
+              return <ProductItem hit={item} components={components} />
             },
             noResults() {
-              return "No Matching Articles"
+              return "No Matching Products"
             },
           },
         },

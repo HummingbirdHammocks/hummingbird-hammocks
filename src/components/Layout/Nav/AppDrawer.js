@@ -17,7 +17,7 @@ import { StaticImage } from "gatsby-plugin-image"
 // stores
 import { useUIStore, useUIDispatch, useAuthStore, useAuthDispatch } from "../../../stores"
 // components
-import { AnotherLink, Link } from "components"
+import { Link } from "components"
 
 export const AppDrawer = ({ data }) => {
   const [nav1, setNav1] = useState(false)
@@ -211,8 +211,8 @@ export const AppDrawer = ({ data }) => {
             <ListItem>
               <ListItemButton
                 onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
-                component={AnotherLink}
-                href="https://help.hummingbirdhammocks.com/"
+                component={Link}
+                href="/knowledgebase"
               >
                 <ListItemText primary="KNOWLEDGEBASE" />
               </ListItemButton>
@@ -220,8 +220,8 @@ export const AppDrawer = ({ data }) => {
             <ListItem>
               <ListItemButton
                 onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
-                component={AnotherLink}
-                href="https://returns.hummingbirdhammocks.com/"
+                component={Link}
+                href="/returns"
               >
                 <ListItemText primary="RETURNS" />
               </ListItemButton>
