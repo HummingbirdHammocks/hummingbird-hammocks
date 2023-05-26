@@ -11,40 +11,62 @@ import {
   ListItemButton,
   Collapse,
   Stack,
+  Button,
   Grid,
 } from "@mui/material"
-import { ExpandLess, ExpandMore } from "@mui/icons-material"
+import { ExpandLess, ExpandMore, ArrowBack } from "@mui/icons-material"
 
 import { Seo, Layout, MainWrapper, Link } from "components"
 import { KnowledgebaseItem } from "sections"
-import ArtclesSearch from "../../utils/algolia/articlesSearch"
+import ManualsSearch from "../../utils/algolia/manualsSearch"
 
-const KnowledgebaseTemplate = ({ data: { allKnowledgebaseArticles, knowledgebaseArticles }, pageContext }) => {
+const ManualsTemplate = ({ data: { allManualArticles, manualArticles }, pageContext }) => {
   const [collapse, setCollapse] = useState(true)
 
   //pagination
-  let numberOfPages = Math.ceil(allKnowledgebaseArticles.totalCount / 9)
+  let numberOfPages = Math.ceil(allManualArticles.totalCount / 9)
 
   const handleChange = (e, value) => {
     if (value === 1) {
-      navigate(`/knowledgebase/article/`)
+      navigate(`/knowledgebase/manuals/`)
     } else {
-      navigate(`/knowledgebase/article/${value}`)
+      navigate(`/knowledgebase/manuals/${value}`)
     }
   }
 
   return (
     <Layout>
-      <Seo title="Knowledgebase Articles" />
+      <Seo title="Knowledgebase Manuals" />
       <Box pt={"10px"}>
         <MainWrapper>
-          <Typography
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            spacing={2}
             sx={{ margin: "20px 10px" }}
-            variant="h2"
-            color="black.main"
           >
-            KNOWLEDGEBASE ARTICLES
-          </Typography>
+            <Typography
+              variant="h4"
+            >
+              MANUALS / GUIDES
+            </Typography>
+            <Stack
+              direction="row"
+              justifyContent="flex-end"
+              alignItems="center"
+              spacing={2}
+            >
+              <Button
+                variant="contained"
+                component={Link}
+                to={`/knowledgebase`}
+                startIcon={<ArrowBack />}
+              >
+                BACK TO ALL
+              </Button>
+            </Stack>
+          </Stack>
           <Divider color="#e2dfd9" />
         </MainWrapper>
       </Box>
@@ -63,9 +85,9 @@ const KnowledgebaseTemplate = ({ data: { allKnowledgebaseArticles, knowledgebase
               spacing={2}
               padding={2}
             >
-              {allKnowledgebaseArticles.nodes.map(item => (
+              {allManualArticles.nodes.map(item => (
                 <Grid item xs={12} sm={6} md={6} lg={4}>
-                  <KnowledgebaseItem description item={item} />
+                  <KnowledgebaseItem description item={item} linkType="manuals" />
                 </Grid>
               ))}
               <Grid item xs={12}>
@@ -89,8 +111,29 @@ const KnowledgebaseTemplate = ({ data: { allKnowledgebaseArticles, knowledgebase
                 paddingRight: 2,
               }}>
               <Box className="articles">
-                <ArtclesSearch />
+                <ManualsSearch />
               </Box>
+              <Button
+                variant="outlined"
+                component={Link}
+                to={`/knowledgebase/articles`}
+              >
+                ARTICLES / FAQ
+              </Button>
+              <Button
+                variant="outlined"
+                component={Link}
+                to={`/account/create-ticket`}
+              >
+                Create Ticket
+              </Button>
+              <Button
+                variant="outlined"
+                component={Link}
+                to={`/account/tickets`}
+              >
+                Your Tickets
+              </Button>
               <Box>
                 <ListItemButton onClick={() => setCollapse(!collapse)}>
                   <ListItemText
@@ -101,16 +144,16 @@ const KnowledgebaseTemplate = ({ data: { allKnowledgebaseArticles, knowledgebase
                       textTransform: "uppercase",
                       color: "#000",
                     }}
-                    secondary="RECENT ARTICLES"
+                    secondary="RECENT MANUALS"
                   />
                   {collapse ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
               </Box>
               <Collapse in={collapse} timeout="auto" unmountOnExit>
                 <List>
-                  {knowledgebaseArticles.nodes.map(article => (
+                  {manualArticles.nodes.map(article => (
                     <ListItem m="20px" key={article.id}>
-                      <Link to={`/knowledgebase/articles/${article.handle}`}>
+                      <Link to={`/knowledgebase/manuals/${article.handle}`}>
                         <Typography>{article.title}</Typography>
                       </Link>
                     </ListItem>
@@ -125,11 +168,11 @@ const KnowledgebaseTemplate = ({ data: { allKnowledgebaseArticles, knowledgebase
   )
 }
 
-export default KnowledgebaseTemplate
+export default ManualsTemplate
 
 export const query = graphql`
-  query knowledgebaseArticlesTemplate($skip: Int!, $limit: Int!) {
-    allKnowledgebaseArticles(
+  query manualArticlesTemplate($skip: Int!, $limit: Int!) {
+    allManualArticles(
       limit: $limit
       skip: $skip
       sort: { fields: published_at, order: DESC }
@@ -149,7 +192,7 @@ export const query = graphql`
       }
     }
 
-    knowledgebaseArticles: allKnowledgebaseArticles(
+    manualArticles: allManualArticles(
       limit: 10
       sort: { fields: published_at, order: DESC }
     ) {

@@ -5,6 +5,7 @@ const { createRemoteFileNode } = require(`gatsby-source-filesystem`)
 const articlesPerPage = 12
 const NODE_TYPE_ARTICLES = "Articles"
 const NODE_TYPE_KNOWLEDGEBASE_ARTICLES = "KnowledgebaseArticles"
+const NODE_TYPE_MANUAL_ARTICLES = "ManualArticles"
 
 // called each time a node is created
 exports.onCreateNode = async ({
@@ -42,6 +43,12 @@ exports.createSchemaCustomization = ({ actions }) => {
 
   createTypes(`
     type ${NODE_TYPE_KNOWLEDGEBASE_ARTICLES} implements Node {
+      localFile: File @link(from: "fields.localFile")
+    }
+  `)
+
+  createTypes(`
+    type ${NODE_TYPE_MANUAL_ARTICLES} implements Node {
       localFile: File @link(from: "fields.localFile")
     }
   `)
@@ -100,6 +107,32 @@ exports.sourceNodes = async ({
       children: [],
       internal: {
         type: NODE_TYPE_KNOWLEDGEBASE_ARTICLES,
+        content: JSON.stringify(node),
+        contentDigest: createContentDigest(node),
+      },
+    })
+  })
+
+  //Manuals
+  const {
+    data: { articles: manualArticles }
+  } = await axios(
+    `https://${process.env.GATSBY_SHOPIFY_SHOP_NAME}.myshopify.com/admin/api/${process.env.GATSBY_SHOPIFY_API_VERSION}/blogs/${process.env.GATSBY_SHOPIFY_MANUALS_ID}/articles.json`,
+    {
+      headers: {
+        "X-Shopify-Access-Token": process.env.GATSBY_SHOPIFY_ADMIN_ACCESS_TOKEN
+      }
+    },
+  )
+
+  manualArticles.forEach((node) => {
+    createNode({
+      ...node,
+      id: createNodeId(`${NODE_TYPE_MANUAL_ARTICLES}-${node.id}`),
+      parent: null,
+      children: [],
+      internal: {
+        type: NODE_TYPE_MANUAL_ARTICLES,
         content: JSON.stringify(node),
         contentDigest: createContentDigest(node),
       },
@@ -167,6 +200,22 @@ exports.createPages = async ({ graphql, actions }) => {
         }
       }
       allKnowledgebaseArticles {
+        edges {
+          node {
+            handle
+            id
+          }
+          next {
+            handle
+            title
+          }
+          previous {
+            handle
+            title
+          }
+        }
+      }
+      allManualArticles {
         edges {
           node {
             handle
@@ -295,6 +344,43 @@ exports.createPages = async ({ graphql, actions }) => {
         },
       },
       component: path.resolve("./src/templates/KnowledgebaseArticlesTemplate/index.js"),
+    })
+  })
+
+  // create manual pages with pagination
+  const manualArticles = data.allManualArticles.edges
+  const numManualPages = Math.ceil(manualArticles.length / articlesPerPage)
+
+  Array.from({ length: numManualPages }).forEach((_, i) => {
+    createPage({
+      path: i === 0 ? `/knowledgebase/manuals` : `/knowledgebase/manuals/${i + 1}`,
+      component: path.resolve("./src/templates/ManualsTemplate/index.js"),
+      context: {
+        limit: articlesPerPage,
+        skip: i * articlesPerPage,
+        numPages,
+        currentPage: i + 1,
+      },
+    })
+  })
+
+  // create single manual articles pages
+  manualArticles.forEach(({ node, previous, next }) => {
+    createPage({
+      path: `knowledgebase/manuals/${node.handle}`,
+      context: {
+        id: node.id,
+        handle: node.handle,
+        prev: {
+          handle: previous?.handle,
+          title: previous?.title,
+        },
+        next: {
+          handle: next?.handle,
+          title: next?.title,
+        },
+      },
+      component: path.resolve("./src/templates/ManualArticlesTemplate/index.js"),
     })
   })
 }
