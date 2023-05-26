@@ -34,18 +34,14 @@ const CreateTicketPage = () => {
 
     return (
         <Layout>
-            <Seo title="Login" />
+            <Seo title="Create Support Ticket" />
             <Box
                 sx={{
                     background: theme.palette.white,
                     padding: "60px 15px",
-
-                    [theme.breakpoints.down("md")]: {
-                        padding: "50",
-                    },
                 }}>
                 <MainWrapper>
-                    <Box padding={{ xs: "0", md: "0 200px" }}>
+                    <Box padding={{ xs: "0", lg: "0 200px" }}>
                         <Stack spacing={2} direction={{ xs: "column", sm: "row" }} justifyContent="space-between" sx={{ paddingBottom: "30px" }}>
                             <Typography variant="h2">
                                 Create New Ticket
@@ -70,7 +66,7 @@ const CreateTicketPage = () => {
                         </Stack>
                         <Divider />
 
-                        <Box padding="30px" justifyContent="center" display="flex">
+                        <Box sx={{ paddingLeft: { xs: 0, sm: 2 }, paddingRight: { xs: 0, sm: 2 } }} justifyContent="center" display="flex">
                             <Box>
                                 <Box
                                     pb="20px"
@@ -82,7 +78,7 @@ const CreateTicketPage = () => {
                                 {loading && <MiddleSpinner divminheight="460px" size={20} />}
                                 <Stack sx={{ paddingBottom: 4 }}>
                                     {data &&
-                                        <Box sx={{ paddingLeft: 2, paddingRight: 2 }}>
+                                        <Box sx={{ paddingLeft: { xs: 0, sm: 2 }, paddingRight: { xs: 0, sm: 2 } }}>
                                             <Typography sx={{ padding: 2, }} variant="body1">
                                                 Since you are logged in, your name and email will automatically be added to your ticket so we can assist you efficiently.
                                             </Typography>
