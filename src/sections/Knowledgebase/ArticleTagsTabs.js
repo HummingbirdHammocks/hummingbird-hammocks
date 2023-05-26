@@ -106,7 +106,7 @@ export const ArticleTagsTabs = ({
           >
             {allArticles.group.map((group) => {
               if (group.nodes[0].tags && group.nodes[0].tags !== "") {
-                return <StyledTab accentcolor={accentcolor} label={group.nodes[0].tags} {...a11yProps(group.nodes[0].tags)} />
+                return <StyledTab accentcolor={accentcolor} label={group.nodes[0].tags} {...a11yProps(group.nodes[0].tags)} key={group.nodes[0].tags} />
               }
             })}
           </Tabs>
@@ -114,7 +114,7 @@ export const ArticleTagsTabs = ({
 
         <Grid item xs={12} md={9} lg={10}>
           {allArticles.group.map((group, index) => (
-            <TabPanel value={value} index={index}>
+            <TabPanel value={value} index={index} key={index}>
               <Typography variant="h5" sx={{ marginBottom: 4 }}>
                 {group.nodes[0].tags}
               </Typography>
