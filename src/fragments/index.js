@@ -18,6 +18,7 @@ export const productFields = graphql`
     }
     variants {
       metafields {
+        namespace
         key
         value
       }
