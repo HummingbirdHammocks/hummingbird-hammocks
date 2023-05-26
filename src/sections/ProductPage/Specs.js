@@ -13,8 +13,6 @@ export const Specs = ({ metas, top }) => {
   let in_use_weight_rating
   let in_use_notes
 
-  /* console.log(metas) */
-
   const convertInToCm = (inches) => {
     return Number(parseFloat(inches * 2.54)).toFixed(1)
   }

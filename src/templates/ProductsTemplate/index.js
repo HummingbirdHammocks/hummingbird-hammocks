@@ -641,6 +641,8 @@ export const query = graphql`
       productId: { eq: $id }
       key: { eq: "restock_date" }
     ) {
+      namespace
+      key
       value
     }
 
@@ -648,6 +650,8 @@ export const query = graphql`
       productId: { eq: $id }
       key: { eq: "title_tag" }
     ) {
+      namespace
+      key
       value
     }
 
@@ -662,6 +666,8 @@ export const query = graphql`
       productId: { eq: $id }
       key: { eq: "main" }
     ) {
+      namespace
+      key
       value
     }
 
@@ -669,6 +675,8 @@ export const query = graphql`
       productId: { eq: $id }
       key: { eq: "sale_reason" }
     ) {
+      namespace
+      key
       value
     }
 
@@ -676,6 +684,8 @@ export const query = graphql`
       productId: { eq: $id }
       key: { eq: "included" }
     ) {
+      namespace
+      key
       value
     }
 
@@ -683,6 +693,8 @@ export const query = graphql`
       productId: { eq: $id }
       key: { eq: "materials" }
     ) {
+      namespace
+      key
       value
     }
 
@@ -690,6 +702,8 @@ export const query = graphql`
       productId: { eq: $id }
       key: { eq: "manufacturing" }
     ) {
+      namespace
+      key
       value
     }
 
@@ -697,6 +711,8 @@ export const query = graphql`
       productId: { eq: $id }
       key: { eq: "care_instructions" }
     ) {
+      namespace
+      key
       value
     }
 
@@ -704,6 +720,8 @@ export const query = graphql`
       productId: { eq: $id }
       key: { eq: "manual_url" }
     ) {
+      namespace
+      key
       value
     }
 
@@ -711,6 +729,8 @@ export const query = graphql`
       productId: { eq: $id }
       key: { eq: "oshwa_url" }
     ) {
+      namespace
+      key
       value
     }
 
@@ -718,6 +738,8 @@ export const query = graphql`
       productId: { eq: $id }
       key: { eq: "oshwa_id" }
     ) {
+      namespace
+      key
       value
     }
 
@@ -725,6 +747,8 @@ export const query = graphql`
       productId: { eq: $id }
       key: { eq: "repository" }
     ) {
+      namespace
+      key
       value
     }
 
@@ -732,6 +756,8 @@ export const query = graphql`
       productId: { eq: $id }
       key: { eq: "video" }
     ) {
+      namespace
+      key
       value
     }
 
@@ -739,6 +765,8 @@ export const query = graphql`
       productId: { eq: $id }
       key: { eq: "details" }
     ) {
+      namespace
+      key
       value
     }
 
@@ -746,6 +774,8 @@ export const query = graphql`
       productId: { eq: $id }
       key: { eq: "frequently_bought_together" }
     ) {
+      namespace
+      key
       value
     }
   }
