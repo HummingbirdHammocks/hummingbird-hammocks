@@ -211,8 +211,8 @@ export const AppDrawer = ({ data }) => {
             <ListItem>
               <ListItemButton
                 onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
-                component={AnotherLink}
-                href="https://help.hummingbirdhammocks.com/"
+                component={Link}
+                href="/knowledgebase"
               >
                 <ListItemText primary="KNOWLEDGEBASE" />
               </ListItemButton>
@@ -220,8 +220,8 @@ export const AppDrawer = ({ data }) => {
             <ListItem>
               <ListItemButton
                 onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
-                component={AnotherLink}
-                href="https://returns.hummingbirdhammocks.com/"
+                component={Link}
+                href="/returns"
               >
                 <ListItemText primary="RETURNS" />
               </ListItemButton>

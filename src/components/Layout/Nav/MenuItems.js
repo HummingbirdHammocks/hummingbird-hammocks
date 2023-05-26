@@ -61,8 +61,8 @@ const menuItems = [
         url: "/contact-us",
       },
       {
-        title: "Knowledgebase",
-        otherUrl: "https://help.hummingbirdhammocks.com/",
+        title: "Knowledge Base",
+        otherUrl: "/knowledgebase",
       },
       {
         title: "Returns",
