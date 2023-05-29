@@ -27,7 +27,6 @@ export const ArticlesSidebar = ({ recentArticles, type, page }) => {
     const matches = useMediaQuery(theme => theme.breakpoints.up("lg"))
 
     const { recentlyViewedKBArticles } = useRecentlyViewedStore();
-    console.log(recentlyViewedKBArticles)
 
     return (
         <Box

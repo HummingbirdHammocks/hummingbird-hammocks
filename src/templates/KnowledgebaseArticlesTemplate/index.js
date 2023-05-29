@@ -42,7 +42,7 @@ const KnowledgebaseArticles = ({ data: { knowledgebaseArticles, recentKnowledgeb
         }
       })
     }
-  }, [knowledgebaseArticles])
+  }, [knowledgebaseArticles, rvpDispatch])
 
   return (
     <Layout>

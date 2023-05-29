@@ -42,7 +42,7 @@ const ManualArticles = ({ data: { manualArticles, recentManualArticles }, pageCo
         }
       })
     }
-  }, [manualArticles])
+  }, [manualArticles, rvpDispatch])
 
   return (
     <Layout>
