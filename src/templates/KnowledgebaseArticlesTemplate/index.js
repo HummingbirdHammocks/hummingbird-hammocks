@@ -7,18 +7,21 @@ import {
   Stack,
   Typography,
   Button,
-  ButtonGroup
+  ButtonGroup,
+  Grid
 } from "@mui/material"
 import { graphql } from "gatsby"
 
 import { Layout, MainWrapper, Link, Socials } from "components"
-import { ArticlesHeader } from "sections"
+import { ArticlesHeader, ArticlesSidebar } from "sections"
 
 import { fShopify } from '../../utils/formatTime'
 
 
-const KnowledgebaseArticles = ({ data: { knowledgebaseArticles }, pageContext: { next, prev } }) => {
+const KnowledgebaseArticles = ({ data: { knowledgebaseArticles, recentKnowledgebaseArticles }, pageContext: { next, prev } }) => {
   const theme = useTheme();
+
+  const type = "page";
 
   const { title, published_at, /* author, */ body_html, /* handle, */ localFile } = knowledgebaseArticles
   const url = typeof window !== "undefined" ? window.location.href : ""
@@ -66,65 +69,77 @@ const KnowledgebaseArticles = ({ data: { knowledgebaseArticles }, pageContext: {
             )}
           </ButtonGroup>
         </Stack>
-        <Container maxWidth="md">
-          <Box
-            sx={{
 
-              "& h2": {
-                ...theme.typography.h2,
-                textTransform: "uppercase",
-              },
-
-              "& a": {
-                textDecoration: "none",
-              },
-
-              "& span": {
-                ...theme.typography.body1,
-              },
-
-              "& h2 a span": {
-                fontSize: "22px",
-                color: "black",
-              },
-
-              "& p": {
-                ...theme.typography.body1,
-              },
-
-              "& table": {
-                ...theme.typography.body1,
-              },
-
-              "& img": {
-                borderRadius: "20px",
-                width: "100%",
-              },
-
-              marginTop: 6,
-            }}>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: body_html,
-              }}
-            />
-          </Box>
-        </Container>
-        <Box
-          display="flex"
-          justifyContent={{ xs: "center", md: "right" }}
-          sx={{
-            margin: { xs: "10px 300px 70px 300px", md: "0 0 60px 0" },
-          }}
+        <Grid
+          container
+          alignItems="flex-start"
+          spacing={2}
         >
-          {localFile && (
-            <Socials
-              title={title}
-              url={url}
-              media={localFile.childImageSharp.gatsbyImageData}
-            />
-          )}
-        </Box>
+          <Grid item xs={12} lg={9}>
+            <Container maxWidth="md">
+              <Box
+                sx={{
+
+                  "& h2": {
+                    ...theme.typography.h2,
+                    textTransform: "uppercase",
+                  },
+
+                  "& a": {
+                    textDecoration: "none",
+                  },
+
+                  "& span": {
+                    ...theme.typography.body1,
+                  },
+
+                  "& h2 a span": {
+                    fontSize: "22px",
+                    color: "black",
+                  },
+
+                  "& p": {
+                    ...theme.typography.body1,
+                  },
+
+                  "& table": {
+                    ...theme.typography.body1,
+                  },
+
+                  "& img": {
+                    borderRadius: "20px",
+                    width: "100%",
+                  },
+
+                  marginTop: 6,
+                }}>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: body_html,
+                  }}
+                />
+              </Box>
+            </Container>
+            <Box
+              display="flex"
+              justifyContent={{ xs: "center", md: "right" }}
+              sx={{
+                margin: { xs: "10px 300px 70px 300px", md: "0 0 60px 0" },
+              }}
+            >
+              {localFile && (
+                <Socials
+                  title={title}
+                  url={url}
+                  media={localFile.childImageSharp.gatsbyImageData}
+                />
+              )}
+            </Box>
+          </Grid>
+          <Grid item xs={12} lg={3} mt={2}>
+            <ArticlesSidebar recentArticles={recentKnowledgebaseArticles} type={type} />
+          </Grid>
+        </Grid>
       </MainWrapper>
     </Layout >
   )
@@ -147,6 +162,17 @@ export const query = graphql`
       title
       handle
       id
+    }
+
+    recentKnowledgebaseArticles: allKnowledgebaseArticles(
+      limit: 5
+      sort: { fields: published_at, order: DESC }
+    ) {
+      nodes {
+        title
+        handle
+        id
+      }
     }
   }
 `
