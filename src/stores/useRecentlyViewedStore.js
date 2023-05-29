@@ -2,6 +2,7 @@ import makeStore from './makeStore';
 
 const initialState = {
     recentlyViewedProducts: [],
+    recentlyViewedKBArticles: [],
 }
 
 const reducer = (state, action) => {
@@ -42,6 +43,50 @@ const reducer = (state, action) => {
                     return {
                         ...state,
                         recentlyViewedProducts: [action.recentlyViewedProduct, ...state.recentlyViewedProducts],
+                    };
+                }
+            }
+
+            return {
+                ...state,
+            };
+        case "addRecentlyViewedKBArticle":
+            if (!action.article || !action.article.handle || !action.article.title || !action.article.link) {
+                return {
+                    ...state,
+                };
+            }
+
+            /* console.log(action) */
+            let newRVKBA = state.recentlyViewedKBArticles
+            /* console.log(state.recentlyViewedKBArticles) */
+
+            let existingKBItem = newRVKBA.find(i => i.handle === action.article.handle)
+            /* console.log(existingItem) */
+
+
+            if (existingKBItem && newRVKBA.length < 6) {
+                newRVKBA.unshift(
+                    newRVKBA.splice(
+                        newRVKBA.findIndex(i => i.handle === action.article.handle),
+                        1
+                    )[0]
+                )
+            }
+
+            if (!existingKBItem) {
+                if (newRVKBA.length >= 6) {
+                    newRVKBA.pop()
+                    return {
+                        ...state,
+                        recentlyViewedKBArticles: [action.article, ...newRVKBA.recentlyViewedKBArticles],
+                    };
+                }
+
+                if (newRVKBA.length < 6) {
+                    return {
+                        ...state,
+                        recentlyViewedKBArticles: [action.article, ...state.recentlyViewedKBArticles],
                     };
                 }
             }

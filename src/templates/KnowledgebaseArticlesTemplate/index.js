@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import {
   useTheme,
   Box,
@@ -12,6 +12,8 @@ import {
 } from "@mui/material"
 import { graphql } from "gatsby"
 
+import { useRecentlyViewedDispatch } from "../../stores"
+
 import { Layout, MainWrapper, Link, Socials } from "components"
 import { ArticlesHeader, ArticlesSidebar } from "sections"
 
@@ -21,10 +23,26 @@ import { fShopify } from '../../utils/formatTime'
 const KnowledgebaseArticles = ({ data: { knowledgebaseArticles, recentKnowledgebaseArticles }, pageContext: { next, prev } }) => {
   const theme = useTheme();
 
+  const rvpDispatch = useRecentlyViewedDispatch()
+
   const type = "articles";
 
   const { title, published_at, /* author, */ body_html, /* handle, */ localFile } = knowledgebaseArticles
   const url = typeof window !== "undefined" ? window.location.href : ""
+
+  useEffect(() => {
+    if (knowledgebaseArticles.title && knowledgebaseArticles.handle) {
+      rvpDispatch({
+        type: "addRecentlyViewedKBArticle",
+        article: {
+          id: knowledgebaseArticles.id,
+          title: knowledgebaseArticles.title,
+          handle: knowledgebaseArticles.handle,
+          link: `/knowledgebase/${type}/${knowledgebaseArticles.handle}`,
+        }
+      })
+    }
+  }, [knowledgebaseArticles])
 
   return (
     <Layout>

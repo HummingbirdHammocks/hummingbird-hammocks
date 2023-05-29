@@ -15,6 +15,8 @@ import {
 } from "@mui/material"
 import { ExpandLess, ExpandMore } from "@mui/icons-material"
 
+import { useRecentlyViewedStore } from "../../stores"
+
 import { Link } from "components"
 import KnowledgebaseComboSearch from "utils/algolia/knowledgebaseComboSearch"
 
@@ -23,6 +25,9 @@ export const ArticlesSidebar = ({ recentArticles, type, page }) => {
     const [collapseMoreArticles, setCollapseMoreArticles] = useState(true)
 
     const matches = useMediaQuery(theme => theme.breakpoints.up("lg"))
+
+    const { recentlyViewedKBArticles } = useRecentlyViewedStore();
+    console.log(recentlyViewedKBArticles)
 
     return (
         <Box
@@ -98,34 +103,37 @@ export const ArticlesSidebar = ({ recentArticles, type, page }) => {
                     {matches && (
                         <Divider />
                     )}
-                    <Box>
-                        <ListItemButton onClick={() => setCollapseRecentlyViewed(!collapseRecentlyViewed)}>
-                            <ListItemText
-                                secondaryTypographyProps={{
-                                    fontSize: 20,
-                                    letterSpacing: 1.2,
-                                    fontWeight: 400,
-                                    textTransform: "uppercase",
-                                    color: "#000",
-                                }}
-                                secondary="RECENTLY VIEWED"
-                            />
-                            {collapseRecentlyViewed ? <ExpandLess /> : <ExpandMore />}
-                        </ListItemButton>
-                    </Box>
-                    <Collapse in={collapseRecentlyViewed} timeout="auto" unmountOnExit>
-                        <List>
-                            {recentArticles.nodes.map(article => (
-                                <ListItem m="20px" key={article.id}>
-                                    <Link to={`/knowledgebase/${type}/${article.handle}`}>
-                                        <Typography>{article.title}</Typography>
-                                    </Link>
-                                </ListItem>
-                            ))}
-                        </List>
-                    </Collapse>
-
-                    <Divider />
+                    {recentlyViewedKBArticles && recentlyViewedKBArticles.length > 0 && (
+                        <Box>
+                            <Box>
+                                <ListItemButton onClick={() => setCollapseRecentlyViewed(!collapseRecentlyViewed)}>
+                                    <ListItemText
+                                        secondaryTypographyProps={{
+                                            fontSize: 20,
+                                            letterSpacing: 1.2,
+                                            fontWeight: 400,
+                                            textTransform: "uppercase",
+                                            color: "#000",
+                                        }}
+                                        secondary="RECENTLY VIEWED"
+                                    />
+                                    {collapseRecentlyViewed ? <ExpandLess /> : <ExpandMore />}
+                                </ListItemButton>
+                            </Box>
+                            <Collapse in={collapseRecentlyViewed} timeout="auto" unmountOnExit>
+                                <List>
+                                    {recentlyViewedKBArticles.map(article => (
+                                        <ListItem m="20px" key={article.id}>
+                                            <Link to={article.link}>
+                                                <Typography>{article.title}</Typography>
+                                            </Link>
+                                        </ListItem>
+                                    ))}
+                                </List>
+                            </Collapse>
+                            <Divider />
+                        </Box>
+                    )}
 
                     <Box>
                         <ListItemButton onClick={() => setCollapseMoreArticles(!collapseMoreArticles)}>
