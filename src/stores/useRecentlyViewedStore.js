@@ -17,8 +17,12 @@ const reducer = (state, action) => {
             let newRVP = state.recentlyViewedProducts
             /* console.log(state.recentlyViewedProducts) */
 
-            let existingItem = newRVP.find(i => i.id === action.recentlyViewedProduct.id)
+            let existingItem = null;
             /* console.log(existingItem) */
+
+            if (newRVP !== [] && newRVP.length > 0) {
+                existingItem = newRVP.find(i => i.id === action.recentlyViewedProduct.id)
+            }
 
 
             if (existingItem && newRVP.length < 6) {
@@ -39,7 +43,7 @@ const reducer = (state, action) => {
                     };
                 }
 
-                if (newRVP.length < 6) {
+                if (newRVP === [] || newRVP.length < 6) {
                     return {
                         ...state,
                         recentlyViewedProducts: [action.recentlyViewedProduct, ...state.recentlyViewedProducts],
@@ -64,7 +68,7 @@ const reducer = (state, action) => {
             let existingKBItem = null;
             /* console.log(existingItem) */
 
-            if (newRVKBA.length > 0) {
+            if (newRVKBA !== [] && newRVKBA.length > 0) {
                 existingKBItem = newRVKBA.find(i => i.handle === action.article.handle)
             }
 
@@ -87,7 +91,7 @@ const reducer = (state, action) => {
                     };
                 }
 
-                if (newRVKBA.length < 6) {
+                if (newRVKBA === [] || newRVKBA.length < 6) {
                     return {
                         ...state,
                         recentlyViewedKBArticles: [action.article, ...state.recentlyViewedKBArticles],
