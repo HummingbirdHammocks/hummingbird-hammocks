@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import {
   useTheme,
   Box,
@@ -7,21 +7,42 @@ import {
   Stack,
   Typography,
   Button,
-  ButtonGroup
+  ButtonGroup,
+  Grid
 } from "@mui/material"
 import { graphql } from "gatsby"
 
+import { useRecentlyViewedDispatch } from "../../stores"
+
 import { Layout, MainWrapper, Link, Socials } from "components"
-import { ArticlesHeader } from "sections"
+import { ArticlesHeader, ArticlesSidebar } from "sections"
 
 import { fShopify } from '../../utils/formatTime'
 
 
-const ManualArticles = ({ data: { manualArticles }, pageContext: { next, prev } }) => {
+const ManualArticles = ({ data: { manualArticles, recentManualArticles }, pageContext: { next, prev } }) => {
   const theme = useTheme();
+
+  const rvpDispatch = useRecentlyViewedDispatch()
+
+  const type = "manuals";
 
   const { title, published_at, /* author, */ body_html, /* handle, */ localFile } = manualArticles
   const url = typeof window !== "undefined" ? window.location.href : ""
+
+  useEffect(() => {
+    if (manualArticles.title && manualArticles.handle) {
+      rvpDispatch({
+        type: "addRecentlyViewedKBArticle",
+        article: {
+          id: manualArticles.id,
+          title: manualArticles.title,
+          handle: manualArticles.handle,
+          link: `/knowledgebase/${type}/${manualArticles.handle}`,
+        }
+      })
+    }
+  }, [manualArticles, rvpDispatch])
 
   return (
     <Layout>
@@ -66,65 +87,77 @@ const ManualArticles = ({ data: { manualArticles }, pageContext: { next, prev } 
             )}
           </ButtonGroup>
         </Stack>
-        <Container maxWidth="md">
-          <Box
-            sx={{
 
-              "& h2": {
-                ...theme.typography.h2,
-                textTransform: "uppercase",
-              },
-
-              "& a": {
-                textDecoration: "none",
-              },
-
-              "& span": {
-                ...theme.typography.body1,
-              },
-
-              "& h2 a span": {
-                fontSize: "22px",
-                color: "black",
-              },
-
-              "& p": {
-                ...theme.typography.body1,
-              },
-
-              "& table": {
-                ...theme.typography.body1,
-              },
-
-              "& img": {
-                borderRadius: "20px",
-                width: "100%",
-              },
-
-              marginTop: 6,
-            }}>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: body_html,
-              }}
-            />
-          </Box>
-        </Container>
-        <Box
-          display="flex"
-          justifyContent={{ xs: "center", md: "right" }}
-          sx={{
-            margin: { xs: "10px 300px 70px 300px", md: "0 0 60px 0" },
-          }}
+        <Grid
+          container
+          alignItems="flex-start"
+          spacing={2}
         >
-          {localFile && (
-            <Socials
-              title={title}
-              url={url}
-              media={localFile.childImageSharp.gatsbyImageData}
-            />
-          )}
-        </Box>
+          <Grid item xs={12} lg={9}>
+            <Container maxWidth="md">
+              <Box
+                sx={{
+
+                  "& h2": {
+                    ...theme.typography.h2,
+                    textTransform: "uppercase",
+                  },
+
+                  "& a": {
+                    textDecoration: "none",
+                  },
+
+                  "& span": {
+                    ...theme.typography.body1,
+                  },
+
+                  "& h2 a span": {
+                    fontSize: "22px",
+                    color: "black",
+                  },
+
+                  "& p": {
+                    ...theme.typography.body1,
+                  },
+
+                  "& table": {
+                    ...theme.typography.body1,
+                  },
+
+                  "& img": {
+                    borderRadius: "20px",
+                    width: "100%",
+                  },
+
+                  marginTop: 6,
+                }}>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: body_html,
+                  }}
+                />
+              </Box>
+            </Container>
+            <Box
+              display="flex"
+              justifyContent={{ xs: "center", md: "right" }}
+              sx={{
+                margin: { xs: "10px 300px 70px 300px", md: "0 0 60px 0" },
+              }}
+            >
+              {localFile && (
+                <Socials
+                  title={title}
+                  url={url}
+                  media={localFile.childImageSharp.gatsbyImageData}
+                />
+              )}
+            </Box>
+          </Grid>
+          <Grid item xs={12} lg={3} mt={2}>
+            <ArticlesSidebar recentArticles={recentManualArticles} type={type} page={true} />
+          </Grid>
+        </Grid>
       </MainWrapper>
     </Layout >
   )
@@ -147,6 +180,17 @@ export const query = graphql`
       title
       handle
       id
+    }
+
+    recentManualArticles: allManualArticles(
+      limit: 5
+      sort: { fields: published_at, order: DESC }
+    ) {
+      nodes {
+        title
+        handle
+        id
+      }
     }
   }
 `

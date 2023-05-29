@@ -5,6 +5,10 @@ body.dark {
   --aa-primary-color-rgb: 1 1 1;
 }
 
+.aa-SourceHeaderLine {
+  background-color: #000000;
+}
+
 .aa-DetachedCancelButton,
 .aa-ItemTitle,
 .aa-SourceHeaderTitle {

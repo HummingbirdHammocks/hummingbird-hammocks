@@ -212,7 +212,7 @@ export const AppDrawer = ({ data }) => {
               <ListItemButton
                 onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
                 component={Link}
-                href="/knowledgebase"
+                to="/knowledgebase"
               >
                 <ListItemText primary="KNOWLEDGEBASE" />
               </ListItemButton>
@@ -221,7 +221,7 @@ export const AppDrawer = ({ data }) => {
               <ListItemButton
                 onClick={() => uiDispatch({ type: "toggleNavDrawerOpen" })}
                 component={Link}
-                href="/returns"
+                to="/returns"
               >
                 <ListItemText primary="RETURNS" />
               </ListItemButton>

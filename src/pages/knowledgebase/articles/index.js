@@ -1,25 +1,18 @@
-import React, { useState } from "react"
+import React from "react"
 import { graphql } from "gatsby"
 import {
   Box,
   Typography,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemButton,
-  Collapse,
   Stack,
-  Button,
   Grid,
 } from "@mui/material"
-import { ExpandLess, ExpandMore } from "@mui/icons-material"
 
 import { Layout, MainWrapper, Link } from "components"
-import { ArticlesHeader, ArticlesSection } from "sections"
-import KnowledgebaseArticlesSearch from "utils/algolia/knowledgebaseArticlesSearch"
+import { ArticlesHeader, ArticlesSection, ArticlesSidebar } from "sections"
 
 const KnowledgebaseArticlesPage = ({ data: { allKnowledgebaseArticles, knowledgebaseArticles } }) => {
-  const [collapse, setCollapse] = useState(true)
+
+  const type = "articles"
 
   return (
     <Layout>
@@ -38,76 +31,19 @@ const KnowledgebaseArticlesPage = ({ data: { allKnowledgebaseArticles, knowledge
           alignItems="flex-start"
           spacing={2}
         >
-          <Grid item xs={12} md={9}>
+          <Grid item xs={12} lg={9}>
             <Stack>
               {allKnowledgebaseArticles.group.map((group) => {
                 if (!group.nodes[0].tags || group.nodes[0].tags === "") return null;
                 return (
-                  <ArticlesSection group={group} type="articles" key={group.nodes[0].tags} />
+                  <ArticlesSection group={group} type={type} key={group.nodes[0].tags} />
                 )
               })}
             </Stack>
           </Grid>
 
-          <Grid item xs={12} md={3} mt={2}>
-            <Stack
-              spacing={2}
-              sx={{
-                borderLeft: { xs: "0", md: "1px solid #cccc" },
-                paddingLeft: 2,
-                paddingRight: 2,
-              }}>
-              <Box className="articles">
-                <KnowledgebaseArticlesSearch />
-              </Box>
-              <Button
-                variant="outlined"
-                component={Link}
-                to={`/knowledgebase/manuals`}
-              >
-                MANUALS / GUIDES
-              </Button>
-              <Button
-                variant="outlined"
-                component={Link}
-                to={`/account/create-ticket`}
-              >
-                Create Ticket
-              </Button>
-              <Button
-                variant="outlined"
-                component={Link}
-                to={`/account/tickets`}
-              >
-                Your Tickets
-              </Button>
-              <Box>
-                <ListItemButton onClick={() => setCollapse(!collapse)}>
-                  <ListItemText
-                    secondaryTypographyProps={{
-                      fontSize: 20,
-                      letterSpacing: 1.2,
-                      fontWeight: 400,
-                      textTransform: "uppercase",
-                      color: "#000",
-                    }}
-                    secondary="RECENT ARTICLES"
-                  />
-                  {collapse ? <ExpandLess /> : <ExpandMore />}
-                </ListItemButton>
-              </Box>
-              <Collapse in={collapse} timeout="auto" unmountOnExit>
-                <List>
-                  {knowledgebaseArticles.nodes.map(article => (
-                    <ListItem m="20px" key={article.id}>
-                      <Link to={`/knowledgebase/articles/${article.handle}`}>
-                        <Typography>{article.title}</Typography>
-                      </Link>
-                    </ListItem>
-                  ))}
-                </List>
-              </Collapse>
-            </Stack>
+          <Grid item xs={12} lg={3} mt={2}>
+            <ArticlesSidebar recentArticles={knowledgebaseArticles} type={type} />
           </Grid>
         </Grid>
       </MainWrapper>
@@ -141,7 +77,7 @@ export const query = graphql`
     }
 
     knowledgebaseArticles: allKnowledgebaseArticles(
-      limit: 10
+      limit: 5
       sort: { fields: published_at, order: DESC }
     ) {
       nodes {
