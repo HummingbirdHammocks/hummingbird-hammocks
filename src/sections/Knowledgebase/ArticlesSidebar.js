@@ -18,7 +18,7 @@ import { ExpandLess, ExpandMore } from "@mui/icons-material"
 import { Link } from "components"
 import KnowledgebaseComboSearch from "utils/algolia/knowledgebaseComboSearch"
 
-export const ArticlesSidebar = ({ recentArticles, type }) => {
+export const ArticlesSidebar = ({ recentArticles, type, page }) => {
     const [collapseRecentlyViewed, setCollapseRecentlyViewed] = useState(true)
     const [collapseMoreArticles, setCollapseMoreArticles] = useState(true)
 
@@ -51,7 +51,7 @@ export const ArticlesSidebar = ({ recentArticles, type }) => {
                             <KnowledgebaseComboSearch />
                         </Box>
                         <Button
-                            disabled={type === "manuals"}
+                            disabled={type === "manuals" && !page}
                             variant="outlined"
                             component={Link}
                             to={`/knowledgebase/manuals`}
@@ -59,7 +59,7 @@ export const ArticlesSidebar = ({ recentArticles, type }) => {
                             MANUALS & GUIDES
                         </Button>
                         <Button
-                            disabled={type === "articles"}
+                            disabled={type === "articles" && !page}
                             variant="outlined"
                             component={Link}
                             to={`/knowledgebase/articles`}
@@ -117,7 +117,7 @@ export const ArticlesSidebar = ({ recentArticles, type }) => {
                         <List>
                             {recentArticles.nodes.map(article => (
                                 <ListItem m="20px" key={article.id}>
-                                    <Link to={`/knowledgebase/articles/${article.handle}`}>
+                                    <Link to={`/knowledgebase/${type}/${article.handle}`}>
                                         <Typography>{article.title}</Typography>
                                     </Link>
                                 </ListItem>
@@ -146,7 +146,7 @@ export const ArticlesSidebar = ({ recentArticles, type }) => {
                         <List>
                             {recentArticles.nodes.map(article => (
                                 <ListItem m="20px" key={article.id}>
-                                    <Link to={`/knowledgebase/articles/${article.handle}`}>
+                                    <Link to={`/knowledgebase/${type}/${article.handle}`}>
                                         <Typography>{article.title}</Typography>
                                     </Link>
                                 </ListItem>

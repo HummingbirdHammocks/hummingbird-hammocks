@@ -12,7 +12,7 @@ import { ArticlesHeader, ArticlesSection, ArticlesSidebar } from "sections"
 
 const KnowledgebaseArticlesPage = ({ data: { allKnowledgebaseArticles, knowledgebaseArticles } }) => {
 
-  const type = "page"
+  const type = "articles"
 
   return (
     <Layout>

@@ -21,7 +21,7 @@ import { fShopify } from '../../utils/formatTime'
 const KnowledgebaseArticles = ({ data: { knowledgebaseArticles, recentKnowledgebaseArticles }, pageContext: { next, prev } }) => {
   const theme = useTheme();
 
-  const type = "page";
+  const type = "articles";
 
   const { title, published_at, /* author, */ body_html, /* handle, */ localFile } = knowledgebaseArticles
   const url = typeof window !== "undefined" ? window.location.href : ""
@@ -137,7 +137,7 @@ const KnowledgebaseArticles = ({ data: { knowledgebaseArticles, recentKnowledgeb
             </Box>
           </Grid>
           <Grid item xs={12} lg={3} mt={2}>
-            <ArticlesSidebar recentArticles={recentKnowledgebaseArticles} type={type} />
+            <ArticlesSidebar recentArticles={recentKnowledgebaseArticles} type={type} page={true} />
           </Grid>
         </Grid>
       </MainWrapper>

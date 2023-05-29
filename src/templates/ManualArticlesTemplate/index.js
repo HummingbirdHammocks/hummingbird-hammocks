@@ -21,7 +21,7 @@ import { fShopify } from '../../utils/formatTime'
 const ManualArticles = ({ data: { manualArticles, recentManualArticles }, pageContext: { next, prev } }) => {
   const theme = useTheme();
 
-  const type = "page";
+  const type = "manuals";
 
   const { title, published_at, /* author, */ body_html, /* handle, */ localFile } = manualArticles
   const url = typeof window !== "undefined" ? window.location.href : ""
@@ -137,7 +137,7 @@ const ManualArticles = ({ data: { manualArticles, recentManualArticles }, pageCo
             </Box>
           </Grid>
           <Grid item xs={12} lg={3} mt={2}>
-            <ArticlesSidebar recentArticles={recentManualArticles} type={type} />
+            <ArticlesSidebar recentArticles={recentManualArticles} type={type} page={true} />
           </Grid>
         </Grid>
       </MainWrapper>
