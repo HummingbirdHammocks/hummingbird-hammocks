@@ -61,8 +61,12 @@ const reducer = (state, action) => {
             let newRVKBA = state.recentlyViewedKBArticles
             /* console.log(state.recentlyViewedKBArticles) */
 
-            let existingKBItem = newRVKBA.find(i => i.handle === action.article.handle)
+            let existingKBItem = null;
             /* console.log(existingItem) */
+
+            if (newRVKBA.length > 0) {
+                existingKBItem = newRVKBA.find(i => i.handle === action.article.handle)
+            }
 
 
             if (existingKBItem && newRVKBA.length < 6) {
