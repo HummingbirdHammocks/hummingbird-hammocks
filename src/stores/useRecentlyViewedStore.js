@@ -2,8 +2,37 @@ import makeStore from './makeStore';
 
 const initialState = {
     recentlyViewedProducts: [],
+    recentlyViewedBlogArticles: [],
     recentlyViewedKBArticles: [],
 }
+
+const handleCheckExistingAndAdd = (item, array, maxLength) => {
+    let newArray = array || [];
+
+    let existingItem = null;
+    if (newArray !== [] && newArray.length > 0) {
+        existingItem = newArray.find(i => i.id === item.id)
+    }
+
+    if (existingItem) {
+        newArray.unshift(
+            newArray.splice(
+                newArray.findIndex(i => i.id === item.id),
+                1
+            )[0]
+        )
+    } else {
+        if (newArray.length >= maxLength) {
+            newArray.pop()
+            return [item, ...newArray];
+        }
+
+        if (newArray === [] || newArray.length < maxLength) {
+            return [item, ...newArray];
+        }
+    }
+}
+
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -14,41 +43,24 @@ const reducer = (state, action) => {
                 };
             }
 
-            let newRVP = state.recentlyViewedProducts
-            /* console.log(state.recentlyViewedProducts) */
-
-            let existingItem = newRVP.find(i => i.id === action.recentlyViewedProduct.id)
-            /* console.log(existingItem) */
-
-
-            if (existingItem && newRVP.length < 6) {
-                newRVP.unshift(
-                    newRVP.splice(
-                        newRVP.findIndex(i => i.id === action.recentlyViewedProduct.id),
-                        1
-                    )[0]
-                )
-            }
-
-            if (!existingItem) {
-                if (newRVP.length >= 6) {
-                    newRVP.pop()
-                    return {
-                        ...state,
-                        recentlyViewedProducts: [action.recentlyViewedProduct, ...newRVP.recentlyViewedProducts],
-                    };
-                }
-
-                if (newRVP.length < 6) {
-                    return {
-                        ...state,
-                        recentlyViewedProducts: [action.recentlyViewedProduct, ...state.recentlyViewedProducts],
-                    };
-                }
-            }
+            const updatedRecentlyViewedProducts = handleCheckExistingAndAdd(action.recentlyViewedProduct, state.recentlyViewedProducts, 6);
 
             return {
                 ...state,
+                recentlyViewedProducts: updatedRecentlyViewedProducts,
+            };
+        case "addRecentlyViewedBlogArticle":
+            if (!action.article || !action.article.handle || !action.article.title || !action.article.link) {
+                return {
+                    ...state,
+                };
+            }
+
+            const updatedRecentlyViewdBlogArticles = handleCheckExistingAndAdd(action.article, state.recentlyViewedBlogArticles, 6);
+
+            return {
+                ...state,
+                recentlyViewedBlogArticles: updatedRecentlyViewdBlogArticles,
             };
         case "addRecentlyViewedKBArticle":
             if (!action.article || !action.article.handle || !action.article.title || !action.article.link) {
@@ -57,45 +69,14 @@ const reducer = (state, action) => {
                 };
             }
 
-            /* console.log(action) */
-            let newRVKBA = state.recentlyViewedKBArticles
-            /* console.log(state.recentlyViewedKBArticles) */
-
-            let existingKBItem = newRVKBA.find(i => i.handle === action.article.handle)
-            /* console.log(existingItem) */
-
-
-            if (existingKBItem && newRVKBA.length < 6) {
-                newRVKBA.unshift(
-                    newRVKBA.splice(
-                        newRVKBA.findIndex(i => i.handle === action.article.handle),
-                        1
-                    )[0]
-                )
-            }
-
-            if (!existingKBItem) {
-                if (newRVKBA.length >= 6) {
-                    newRVKBA.pop()
-                    return {
-                        ...state,
-                        recentlyViewedKBArticles: [action.article, ...newRVKBA.recentlyViewedKBArticles],
-                    };
-                }
-
-                if (newRVKBA.length < 6) {
-                    return {
-                        ...state,
-                        recentlyViewedKBArticles: [action.article, ...state.recentlyViewedKBArticles],
-                    };
-                }
-            }
+            const updatedRecentlyViewedKBArticles = handleCheckExistingAndAdd(action.article, state.recentlyViewedKBArticles, 6);
 
             return {
                 ...state,
+                recentlyViewedKBArticles: updatedRecentlyViewedKBArticles,
             };
         default:
-            throw new Error("Unknown action!"/*  + action */);
+            throw new Error("Unknown action!" + action);
     }
 };
 

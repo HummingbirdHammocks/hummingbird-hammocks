@@ -34,7 +34,7 @@ const CollectionsPage = ({ data }) => {
   const { title, image, products, description } = data.shopifyCollection
   const { collections } = data.allShopifyCollection
 
-  const { recentlyViewedProducts } = useRecentlyViewedStore()
+  const { recentlyViewedProducts } = useRecentlyViewedStore();
 
   const productType = Array.from(new Set(products.map(j => j.productType)))
 
@@ -577,7 +577,7 @@ const CollectionsPage = ({ data }) => {
                 timeout="auto"
                 unmountOnExit
               >
-                {recentlyViewedProducts.length > 0 ? (
+                {recentlyViewedProducts && recentlyViewedProducts.length > 0 ? (
                   <ProductCard
                     minHeight="230px"
                     products={recentlyViewedProducts.slice(0, 3)}
