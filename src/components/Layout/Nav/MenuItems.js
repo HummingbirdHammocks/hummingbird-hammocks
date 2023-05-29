@@ -62,7 +62,7 @@ const menuItems = [
       },
       {
         title: "Knowledge Base",
-        otherUrl: "/knowledgebase",
+        url: "/knowledgebase",
       },
       {
         title: "Returns",
@@ -70,7 +70,7 @@ const menuItems = [
       },
       {
         title: "Support Ticket",
-        otherUrl: "/account/create-ticket",
+        url: "/account/create-ticket",
       },
       {
         title: "Outdoor Articles",
