@@ -14,7 +14,7 @@ const reducer = (state, action) => {
                 };
             }
 
-            let newRVP = state.recentlyViewedProducts
+            let newRVP = Array(...state.recentlyViewedProducts)
             /* console.log(state.recentlyViewedProducts) */
 
             let existingItem = null;
@@ -62,8 +62,8 @@ const reducer = (state, action) => {
             }
 
             /* console.log(action) */
-            let newRVKBA = state.recentlyViewedKBArticles
-            /* console.log(state.recentlyViewedKBArticles) */
+            let newRVKBA = Array(...state.recentlyViewedKBArticles)
+            console.log(state.recentlyViewedKBArticles)
 
             let existingKBItem = null;
             /* console.log(existingItem) */
