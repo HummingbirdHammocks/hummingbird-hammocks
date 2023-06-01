@@ -19,7 +19,7 @@ export const ArticlesHeader = ({ title, backpath, date }) => {
             <Box pt={"10px"}>
                 <MainWrapper>
                     <Stack
-                        direction="row"
+                        direction={{ xs: "column", sm: "row" }}
                         justifyContent="space-between"
                         alignItems="center"
                         spacing={2}
