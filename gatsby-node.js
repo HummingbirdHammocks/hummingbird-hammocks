@@ -65,7 +65,7 @@ exports.sourceNodes = async ({
   const {
     data: { articles }
   } = await axios(
-    `https://${process.env.GATSBY_SHOPIFY_SHOP_NAME}.myshopify.com/admin/api/${process.env.GATSBY_SHOPIFY_API_VERSION}/blogs/${process.env.GATSBY_SHOPIFY_BLOG_ID}/articles.json`,
+    `https://${process.env.GATSBY_SHOPIFY_SHOP_NAME}.myshopify.com/admin/api/${process.env.GATSBY_SHOPIFY_API_VERSION}/blogs/${process.env.GATSBY_SHOPIFY_BLOG_ID}/articles.json?published_status=published`,
     {
       headers: {
         "X-Shopify-Access-Token": process.env.GATSBY_SHOPIFY_ADMIN_ACCESS_TOKEN
@@ -91,7 +91,7 @@ exports.sourceNodes = async ({
   const {
     data: { articles: knowledgebaseArticles }
   } = await axios(
-    `https://${process.env.GATSBY_SHOPIFY_SHOP_NAME}.myshopify.com/admin/api/${process.env.GATSBY_SHOPIFY_API_VERSION}/blogs/${process.env.GATSBY_SHOPIFY_KNOWLEDGEBASE_ID}/articles.json`,
+    `https://${process.env.GATSBY_SHOPIFY_SHOP_NAME}.myshopify.com/admin/api/${process.env.GATSBY_SHOPIFY_API_VERSION}/blogs/${process.env.GATSBY_SHOPIFY_KNOWLEDGEBASE_ID}/articles.json?published_status=published`,
     {
       headers: {
         "X-Shopify-Access-Token": process.env.GATSBY_SHOPIFY_ADMIN_ACCESS_TOKEN
@@ -117,7 +117,7 @@ exports.sourceNodes = async ({
   const {
     data: { articles: manualArticles }
   } = await axios(
-    `https://${process.env.GATSBY_SHOPIFY_SHOP_NAME}.myshopify.com/admin/api/${process.env.GATSBY_SHOPIFY_API_VERSION}/blogs/${process.env.GATSBY_SHOPIFY_MANUALS_ID}/articles.json`,
+    `https://${process.env.GATSBY_SHOPIFY_SHOP_NAME}.myshopify.com/admin/api/${process.env.GATSBY_SHOPIFY_API_VERSION}/blogs/${process.env.GATSBY_SHOPIFY_MANUALS_ID}/articles.json?published_status=published`,
     {
       headers: {
         "X-Shopify-Access-Token": process.env.GATSBY_SHOPIFY_ADMIN_ACCESS_TOKEN
