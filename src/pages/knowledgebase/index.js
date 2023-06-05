@@ -162,7 +162,7 @@ const HelpCenter = ({ data: { allKnowledgebaseArticles, allManualArticles } }) =
         >
           <Grid item xs={12}>
             <Stack
-              direction="row"
+              direction={{ xs: "column", sm: "row" }}
               justifyContent="space-between"
               alignItems="center"
               spacing={2}
@@ -194,7 +194,7 @@ const HelpCenter = ({ data: { allKnowledgebaseArticles, allManualArticles } }) =
 
           <Grid item xs={12}>
             <Stack
-              direction="row"
+              direction={{ xs: "column", sm: "row" }}
               justifyContent="space-between"
               alignItems="center"
               spacing={2}
