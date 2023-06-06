@@ -1,9 +1,9 @@
-const functions = require('firebase-functions')
+const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp();
-const express = require('express')
+const express = require('express');
 const cookieParser = require('cookie-parser')();
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 const cors = require('cors')({ origin: true });
 
 //https://github.com/firebase/functions-samples/blob/main/authorized-https-endpoint/functions/index.js

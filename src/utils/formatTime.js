@@ -16,17 +16,17 @@ export function fDateTimeSuffix(date) {
 
 export function fToNow(date) {
   return formatDistanceToNow(new Date(date), {
-    addSuffix: true,
+    addSuffix: true
   });
 }
 
 export function fShopify(date) {
   var newDateOptions = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit"
-  }
-  return (new Date(date)).toLocaleString("en-US", newDateOptions);
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  };
+  return new Date(date).toLocaleString('en-US', newDateOptions);
 }
 
 export function getNumberOfDays(start, end) {

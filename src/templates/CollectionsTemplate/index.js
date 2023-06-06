@@ -1,214 +1,202 @@
-import React, { useEffect, useState } from "react"
-import { graphql } from "gatsby"
-import { GatsbyImage } from "gatsby-plugin-image"
+import { Delete, ExpandLess, ExpandMore } from '@mui/icons-material';
 import {
-  useTheme,
   Box,
-  Typography,
-  List,
-  ListItem,
-  Collapse,
-  ListItemButton,
-  ListItemText,
+  Button,
   Checkbox,
-  ListItemIcon,
+  Collapse,
   Divider,
   FormControl,
   IconButton,
-  Slider,
-  Button,
-  Stack,
   InputLabel,
-  Select,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
   MenuItem,
-} from "@mui/material"
-import { ExpandLess, ExpandMore, Delete } from "@mui/icons-material"
-// stores
-import { useRecentlyViewedStore } from "../../stores"
+  Select,
+  Slider,
+  Stack,
+  Typography
+} from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 // components
-import { Seo, Layout, MainWrapper, Link } from "components"
-import { ProductCard } from "sections"
+import { Layout, Link, MainWrapper, Seo } from 'components';
+import { graphql } from 'gatsby';
+import { GatsbyImage } from 'gatsby-plugin-image';
+import React, { useEffect, useState } from 'react';
+import { ProductCard } from 'sections';
+
+// stores
+import { useRecentlyViewedStore } from '../../stores';
 
 const CollectionsPage = ({ data }) => {
   const theme = useTheme();
-  const { title, image, products, description } = data.shopifyCollection
-  const { collections } = data.allShopifyCollection
+  const { title, image, products, description } = data.shopifyCollection;
+  const { collections } = data.allShopifyCollection;
 
   const { recentlyViewedProducts } = useRecentlyViewedStore();
 
-  const productType = Array.from(new Set(products.map(j => j.productType)))
+  const productType = Array.from(new Set(products.map((j) => j.productType)));
 
   const heightPrice = Math.max(
-    ...products.map(i => Number(i.priceRangeV2.minVariantPrice.amount))
-  )
+    ...products.map((i) => Number(i.priceRangeV2.minVariantPrice.amount))
+  );
 
   const minHeightPrice = Math.min(
-    ...products.map(i => Number(i.priceRangeV2.minVariantPrice.amount))
-  )
+    ...products.map((i) => Number(i.priceRangeV2.minVariantPrice.amount))
+  );
 
-  const [theProducts, setTheProducts] = useState(null)
-  const [productTypeChecked, setProductTypeChecked] = useState([])
+  const [theProducts, setTheProducts] = useState(null);
+  const [productTypeChecked, setProductTypeChecked] = useState([]);
   const [collapse, setCollapse] = useState({
     collections: false,
     price: false,
     productType: false,
     recentViewed: false,
-    availability: false,
-  })
+    availability: false
+  });
   const [filterOptions, setFilterOptions] = useState({
-    sort: "relevance",
-    inStock: false,
-  })
-  const [selectedPrice, setSelectedPrice] = useState([
-    minHeightPrice,
-    heightPrice,
-  ])
+    sort: 'relevance',
+    inStock: false
+  });
+  const [selectedPrice, setSelectedPrice] = useState([minHeightPrice, heightPrice]);
 
   // Handle Collapse
-  const handleCollapse = target => {
-    setCollapse({ ...collapse, [target]: !collapse[target] })
-  }
+  const handleCollapse = (target) => {
+    setCollapse({ ...collapse, [target]: !collapse[target] });
+  };
 
   // Handle Product Sort Change
-  const handleProductSortChange = e => {
-    setFilterOptions({ ...filterOptions, sort: e.target.value })
-  }
+  const handleProductSortChange = (e) => {
+    setFilterOptions({ ...filterOptions, sort: e.target.value });
+  };
 
   //Handle Product Type Checked
-  const handleProductTypeToggle = value => () => {
-    const currentIndex = productTypeChecked.indexOf(value)
-    const newChecked = [...productTypeChecked]
+  const handleProductTypeToggle = (value) => () => {
+    const currentIndex = productTypeChecked.indexOf(value);
+    const newChecked = [...productTypeChecked];
 
     if (currentIndex === -1) {
-      newChecked.push(value)
+      newChecked.push(value);
     } else {
-      newChecked.splice(currentIndex, 1)
+      newChecked.splice(currentIndex, 1);
     }
 
-    setProductTypeChecked(newChecked)
+    setProductTypeChecked(newChecked);
 
     setFilterOptions({
       ...filterOptions,
-      productType: newChecked.map(item => item),
-    })
-  }
+      productType: newChecked.map((item) => item)
+    });
+  };
 
   //Handle Product In Stock Checked
   const handleProductInStock = () => {
     setFilterOptions({
       ...filterOptions,
-      inStock: !filterOptions.inStock,
-    })
-  }
+      inStock: !filterOptions.inStock
+    });
+  };
 
   // Handle Price Filter
   const handleChangePrice = (event, value) => {
-    setSelectedPrice(value)
-  }
+    setSelectedPrice(value);
+  };
 
   // Handle Price Filter OnClick
   const handlePriceFilterClick = () => {
     setFilterOptions({
       ...filterOptions,
-      price: true,
-    })
-  }
+      price: true
+    });
+  };
 
   // Handle Clear Price Filter OnClick
   const handleClearPriceFilterClick = () => {
-    setSelectedPrice([0, heightPrice])
+    setSelectedPrice([0, heightPrice]);
     setFilterOptions({
       ...filterOptions,
-      price: false,
-    })
-  }
+      price: false
+    });
+  };
 
   // Product Sorting
   const productSorting = (data, value) => {
-    if (value === "relevance") {
-      return data
-    } else if (value === "low") {
+    if (value === 'relevance') {
+      return data;
+    } else if (value === 'low') {
       return data.sort(
         (a, b) =>
           Number(a.priceRangeV2.minVariantPrice.amount) -
           Number(b.priceRangeV2.minVariantPrice.amount)
-      )
-    } else if (value === "high") {
+      );
+    } else if (value === 'high') {
       return data.sort(
         (a, b) =>
           Number(b.priceRangeV2.minVariantPrice.amount) -
           Number(a.priceRangeV2.minVariantPrice.amount)
-      )
-    } else if (value === "featured") {
-      return data.filter(i => i.tags.includes("Featured"))
-    } else if (value === "newToOld") {
-      return data.sort(
-        (a, b) => new Date(a.publishedAt) - new Date(b.publishedAt)
-      )
-    } else if ((value = "oldToNew")) {
-      return data.sort(
-        (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)
-      )
+      );
+    } else if (value === 'featured') {
+      return data.filter((i) => i.tags.includes('Featured'));
+    } else if (value === 'newToOld') {
+      return data.sort((a, b) => new Date(a.publishedAt) - new Date(b.publishedAt));
+    } else if (value === 'oldToNew') {
+      return data.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
     }
 
-    return data
-  }
+    return data;
+  };
 
   // Product Filter by Product Type
   const filterByProductType = (data, values) => {
-    return data.filter(item => values.includes(item.productType))
-  }
+    return data.filter((item) => values.includes(item.productType));
+  };
 
   // Product Filter by Availability
-  const filterByAvailability = data => {
-    return data.filter(item =>
-      item.variants.some(i => i.availableForSale === true)
-    )
-  }
+  const filterByAvailability = (data) => {
+    return data.filter((item) => item.variants.some((i) => i.availableForSale === true));
+  };
 
   // Product Filter by Price
-  const filterByPrice = data => {
+  const filterByPrice = (data) => {
     return data.filter(
-      item =>
+      (item) =>
         Number(item.priceRangeV2.minVariantPrice.amount) >= selectedPrice[0] &&
         Number(item.priceRangeV2.minVariantPrice.amount) <= selectedPrice[1]
-    )
-  }
+    );
+  };
 
   // Filter Function
   const filterFunction = () => {
-    let filterProducts = [...products]
+    let filterProducts = [...products];
 
     // Filter for Product Type
     if (filterOptions?.productType?.length > 0) {
-      filterProducts = filterByProductType(
-        filterProducts,
-        filterOptions.productType
-      )
+      filterProducts = filterByProductType(filterProducts, filterOptions.productType);
     }
 
     // Filter for Sorting
     if (filterOptions.sort) {
-      filterProducts = productSorting(filterProducts, filterOptions.sort)
+      filterProducts = productSorting(filterProducts, filterOptions.sort);
     }
 
     // Filter for Availablility
     if (filterOptions.inStock) {
-      filterProducts = filterByAvailability(filterProducts)
+      filterProducts = filterByAvailability(filterProducts);
     }
 
     // Filter by Price
     if (filterOptions.price) {
-      filterProducts = filterByPrice(filterProducts)
+      filterProducts = filterByPrice(filterProducts);
     }
 
-    setTheProducts(filterProducts)
-  }
+    setTheProducts(filterProducts);
+  };
 
   useEffect(() => {
-    filterFunction()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterOptions])
+    filterFunction();
+  }, [filterOptions]);
 
   /* console.log(filterOptions) */
 
@@ -217,9 +205,9 @@ const CollectionsPage = ({ data }) => {
       <Seo title={title} description={description} />
       <Box
         sx={{
-          display: "grid",
-          minHeight: { xs: "200px", md: "340px" },
-          position: "relative",
+          display: 'grid',
+          minHeight: { xs: '200px', md: '340px' },
+          position: 'relative'
         }}>
         <GatsbyImage
           placeholder="blurred"
@@ -229,40 +217,39 @@ const CollectionsPage = ({ data }) => {
         />
         <Box
           sx={{
-            position: "absolute",
-            display: "flex",
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%, -50%)",
-            zIndex: "100",
+            position: 'absolute',
+            display: 'flex',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: '100'
           }}>
           <Box>
             <Typography
-              sx={{ margin: "20px 10px" }}
+              sx={{ margin: '20px 10px' }}
               textAlign="center"
               variant="h1"
-              color="white.main"
-            >
+              color="white.main">
               {title}
             </Typography>
           </Box>
         </Box>
         <Box
           sx={{
-            background: "rgba(0,0,0,.6)",
-            position: "absolute",
-            inset: "0 0 0 0",
-          }} />
+            background: 'rgba(0,0,0,.6)',
+            position: 'absolute',
+            inset: '0 0 0 0'
+          }}
+        />
       </Box>
       <MainWrapper>
         <Stack
-          direction={{ xs: "column", md: "row" }}
+          direction={{ xs: 'column', md: 'row' }}
           justifyContent="space-between"
           alignItems="center"
           spacing={2}
-          sx={{ margin: 2 }}
-        >
-          <Box display={{ xs: "block", md: "row" }}>
+          sx={{ margin: 2 }}>
+          <Box display={{ xs: 'block', md: 'row' }}>
             <Typography variant="collectionName">
               <Link to="/">HAMMOCK SHOP</Link> / {title}
             </Typography>
@@ -277,8 +264,7 @@ const CollectionsPage = ({ data }) => {
                 id="sort-select"
                 value={filterOptions.sort}
                 label="Sort By"
-                onChange={handleProductSortChange}
-              >
+                onChange={handleProductSortChange}>
                 <MenuItem value="featured">Featured</MenuItem>
                 <MenuItem value="relevance">Relevance</MenuItem>
                 <MenuItem value="high">Price(High to Low)</MenuItem>
@@ -293,40 +279,38 @@ const CollectionsPage = ({ data }) => {
         <Divider color="#e2dfd9" />
         <Box
           sx={{
-            padding: "0 15px 10px 15px",
-            display: "grid",
-            gridTemplateColumns: "1fr 3fr",
+            padding: '0 15px 10px 15px',
+            display: 'grid',
+            gridTemplateColumns: '1fr 3fr',
 
-            [theme.breakpoints.down("md")]: {
-              gridTemplateColumns: "repeat(1, 1fr)",
-              padding: "0",
-            },
+            [theme.breakpoints.down('md')]: {
+              gridTemplateColumns: 'repeat(1, 1fr)',
+              padding: '0'
+            }
           }}>
           <Box
             sx={{
-              padding: "20px 15px",
+              padding: '20px 15px',
 
-              [theme.breakpoints.down("md")]: {
-                padding: "0",
-              },
+              [theme.breakpoints.down('md')]: {
+                padding: '0'
+              }
             }}>
             {/* All the filter option that selected */}
 
             <Box
               sx={{
-                padding: "20px",
+                padding: '20px',
                 marginTop: 2,
-                background: "#e3e3e3",
-                borderRadius: "20px",
+                background: '#e3e3e3',
+                borderRadius: '20px',
                 display:
                   filterOptions.inStock ||
-                    filterOptions.price ||
-                    filterOptions?.productType?.length > 0
-                    ? "block"
-                    : "none",
-              }}
-
-            >
+                  filterOptions.price ||
+                  filterOptions?.productType?.length > 0
+                    ? 'block'
+                    : 'none'
+              }}>
               <Typography variant="h6">Selected Filters</Typography>
               <List>
                 {filterOptions?.productType?.map((item, index) => (
@@ -335,13 +319,11 @@ const CollectionsPage = ({ data }) => {
                       <IconButton
                         onClick={handleProductTypeToggle(item)}
                         edge="end"
-                        aria-label="delete"
-                      >
+                        aria-label="delete">
                         <Delete />
                       </IconButton>
                     }
-                    key={index}
-                  >
+                    key={index}>
                     <ListItemText primary={item} />
                   </ListItem>
                 ))}
@@ -349,15 +331,10 @@ const CollectionsPage = ({ data }) => {
                 {filterOptions?.inStock && (
                   <ListItem
                     secondaryAction={
-                      <IconButton
-                        onClick={handleProductInStock}
-                        edge="end"
-                        aria-label="delete"
-                      >
+                      <IconButton onClick={handleProductInStock} edge="end" aria-label="delete">
                         <Delete />
                       </IconButton>
-                    }
-                  >
+                    }>
                     <ListItemText primary="In Stock" />
                   </ListItem>
                 )}
@@ -368,15 +345,11 @@ const CollectionsPage = ({ data }) => {
                       <IconButton
                         onClick={handleClearPriceFilterClick}
                         edge="end"
-                        aria-label="delete"
-                      >
+                        aria-label="delete">
                         <Delete />
                       </IconButton>
-                    }
-                  >
-                    <ListItemText
-                      primary={`Price [$${selectedPrice[0]} - $${selectedPrice[1]}]`}
-                    />
+                    }>
+                    <ListItemText primary={`Price [$${selectedPrice[0]} - $${selectedPrice[1]}]`} />
                   </ListItem>
                 )}
               </List>
@@ -384,31 +357,26 @@ const CollectionsPage = ({ data }) => {
 
             <List
               sx={{
-                borderRight: { sx: "0", md: "1px solid #e2dfd9" },
-                paddingR: { sx: "0 15px", md: "0 20px 0 0" },
-                margin: "20px 0",
-              }}
-            >
+                borderRight: { sx: '0', md: '1px solid #e2dfd9' },
+                paddingR: { sx: '0 15px', md: '0 20px 0 0' },
+                margin: '20px 0'
+              }}>
               {/* All the Collections */}
-              <ListItemButton onClick={() => handleCollapse("collections")}>
+              <ListItemButton onClick={() => handleCollapse('collections')}>
                 <ListItemText
                   secondaryTypographyProps={{
                     fontSize: 20,
                     letterSpacing: 1.2,
                     fontWeight: 400,
-                    textTransform: "uppercase",
-                    color: "#000",
+                    textTransform: 'uppercase',
+                    color: '#000'
                   }}
                   secondary="Collections"
                 />
-                {collapse["collections"] ? <ExpandLess /> : <ExpandMore />}
+                {collapse['collections'] ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
-              <Collapse
-                in={collapse["collections"]}
-                timeout="auto"
-                unmountOnExit
-              >
-                {collections?.map(collection => (
+              <Collapse in={collapse['collections']} timeout="auto" unmountOnExit>
+                {collections?.map((collection) => (
                   <ListItem m="20px" key={collection.shopifyId}>
                     <Link to={`/collections/${collection.handle}`}>
                       <Typography>{collection.title}</Typography>
@@ -418,74 +386,61 @@ const CollectionsPage = ({ data }) => {
               </Collapse>
               <Divider />
               {/* Product Type Filtering */}
-              <ListItemButton onClick={() => handleCollapse("productType")}>
+              <ListItemButton onClick={() => handleCollapse('productType')}>
                 <ListItemText
                   secondaryTypographyProps={{
                     fontSize: 20,
                     letterSpacing: 1.2,
                     fontWeight: 400,
-                    textTransform: "uppercase",
-                    color: "#000",
+                    textTransform: 'uppercase',
+                    color: '#000'
                   }}
                   secondary="Product Type"
                 />
-                {collapse["productType"] ? <ExpandLess /> : <ExpandMore />}
+                {collapse['productType'] ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
-              <Collapse
-                in={collapse["productType"]}
-                timeout="auto"
-                unmountOnExit
-              >
+              <Collapse in={collapse['productType']} timeout="auto" unmountOnExit>
                 {productType.map((value, index) => {
                   return (
                     <ListItem m="20px" key={index} disablePadding>
                       <ListItemButton
                         role={undefined}
                         onClick={handleProductTypeToggle(value)}
-                        dense
-                      >
+                        dense>
                         <ListItemIcon>
                           <Checkbox
                             edge="start"
                             checked={productTypeChecked.indexOf(value) !== -1}
                             tabIndex={-1}
                             disableRipple
-                            inputProps={{ "aria-labelledby": index }}
+                            inputProps={{ 'aria-labelledby': index }}
                           />
                         </ListItemIcon>
                         <ListItemText id={index} primary={value} />
                       </ListItemButton>
                     </ListItem>
-                  )
+                  );
                 })}
               </Collapse>
               <Divider />
 
               {/* Product Availbility */}
-              <ListItemButton onClick={() => handleCollapse("availbility")}>
+              <ListItemButton onClick={() => handleCollapse('availbility')}>
                 <ListItemText
                   secondaryTypographyProps={{
                     fontSize: 20,
                     letterSpacing: 1.2,
                     fontWeight: 400,
-                    textTransform: "uppercase",
-                    color: "#000",
+                    textTransform: 'uppercase',
+                    color: '#000'
                   }}
                   secondary="AVAILABILITY"
                 />
-                {collapse["availbility"] ? <ExpandLess /> : <ExpandMore />}
+                {collapse['availbility'] ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
-              <Collapse
-                in={collapse["availbility"]}
-                timeout="auto"
-                unmountOnExit
-              >
+              <Collapse in={collapse['availbility']} timeout="auto" unmountOnExit>
                 <ListItem m="20px" disablePadding>
-                  <ListItemButton
-                    onClick={handleProductInStock}
-                    role={undefined}
-                    dense
-                  >
+                  <ListItemButton onClick={handleProductInStock} role={undefined} dense>
                     <ListItemIcon>
                       <Checkbox
                         edge="start"
@@ -493,7 +448,7 @@ const CollectionsPage = ({ data }) => {
                         onClick={handleProductInStock}
                         tabIndex={-1}
                         disableRipple
-                        inputProps={{ "aria-labelledby": "controlled" }}
+                        inputProps={{ 'aria-labelledby': 'controlled' }}
                       />
                     </ListItemIcon>
                     <ListItemText primary="In Stock" />
@@ -502,27 +457,22 @@ const CollectionsPage = ({ data }) => {
               </Collapse>
               <Divider />
               {/* Price Filtering */}
-              <ListItemButton onClick={() => handleCollapse("price")}>
+              <ListItemButton onClick={() => handleCollapse('price')}>
                 <ListItemText
                   secondaryTypographyProps={{
                     fontSize: 20,
                     letterSpacing: 1.2,
                     fontWeight: 400,
-                    textTransform: "uppercase",
-                    color: "#000",
+                    textTransform: 'uppercase',
+                    color: '#000'
                   }}
                   secondary="Price"
                 />
-                {collapse["price"] ? <ExpandLess /> : <ExpandMore />}
+                {collapse['price'] ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
-              <Collapse
-                sx={{ m: "40px" }}
-                in={collapse["price"]}
-                timeout="auto"
-                unmountOnExit
-              >
+              <Collapse sx={{ m: '40px' }} in={collapse['price']} timeout="auto" unmountOnExit>
                 <Slider
-                  sx={{ m: "15px 0 40px 0" }}
+                  sx={{ m: '15px 0 40px 0' }}
                   value={selectedPrice}
                   onChange={handleChangePrice}
                   valueLabelDisplay="on"
@@ -531,26 +481,24 @@ const CollectionsPage = ({ data }) => {
                   max={heightPrice}
                   marks={[
                     { value: minHeightPrice, label: `$${minHeightPrice}` },
-                    { value: heightPrice, label: `$${heightPrice}` },
+                    { value: heightPrice, label: `$${heightPrice}` }
                   ]}
                 />
-
 
                 <Stack
                   direction="row"
                   justifyContent="space-between"
                   alignItems="center"
-                  spacing={2}
-                >
-
-                  <Button variant="contained" onClick={handlePriceFilterClick}>Apply</Button>
+                  spacing={2}>
+                  <Button variant="contained" onClick={handlePriceFilterClick}>
+                    Apply
+                  </Button>
                   {filterOptions?.price && (
                     <Button
                       variant="outlined"
                       color="error"
                       margin="0 0 0 15px"
-                      onClick={handleClearPriceFilterClick}
-                    >
+                      onClick={handleClearPriceFilterClick}>
                       Clear
                     </Button>
                   )}
@@ -559,29 +507,22 @@ const CollectionsPage = ({ data }) => {
               <Divider />
 
               {/* Recent Products */}
-              <ListItemButton onClick={() => handleCollapse("recentViewed")}>
+              <ListItemButton onClick={() => handleCollapse('recentViewed')}>
                 <ListItemText
                   secondaryTypographyProps={{
                     fontSize: 20,
                     letterSpacing: 1.2,
                     fontWeight: 400,
-                    textTransform: "uppercase",
-                    color: "#000",
+                    textTransform: 'uppercase',
+                    color: '#000'
                   }}
                   secondary="Recently Viewed"
                 />
-                {collapse["recentViewed"] ? <ExpandLess /> : <ExpandMore />}
+                {collapse['recentViewed'] ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
-              <Collapse
-                in={collapse["recentViewed"]}
-                timeout="auto"
-                unmountOnExit
-              >
+              <Collapse in={collapse['recentViewed']} timeout="auto" unmountOnExit>
                 {recentlyViewedProducts && recentlyViewedProducts.length > 0 ? (
-                  <ProductCard
-                    minHeight="230px"
-                    products={recentlyViewedProducts.slice(0, 3)}
-                  />
+                  <ProductCard minHeight="230px" products={recentlyViewedProducts.slice(0, 3)} />
                 ) : (
                   <Box m="20px">
                     <Typography variant="body1">No Products Found!</Typography>
@@ -593,37 +534,35 @@ const CollectionsPage = ({ data }) => {
 
           <Box
             sx={{
-              padding: "10px 50px",
+              padding: '10px 50px',
 
-              [theme.breakpoints.down("md")]: {
-                padding: "0",
-              },
+              [theme.breakpoints.down('md')]: {
+                padding: '0'
+              }
             }}>
             {/* Showing Product */}
             <Box
               sx={{
-                display: "grid",
-                position: "relative",
-                gridTemplateColumns: "repeat(2, 1fr)",
-                gridGap: "20px",
-                margin: "auto",
+                display: 'grid',
+                position: 'relative',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gridGap: '20px',
+                margin: 'auto',
 
-                [theme.breakpoints.down("md")]: {
-                  gridTemplateColumns: "repeat(1, 1fr)",
-                },
+                [theme.breakpoints.down('md')]: {
+                  gridTemplateColumns: 'repeat(1, 1fr)'
+                }
               }}>
-              {theProducts && (
-                <ProductCard mdminheight="250px" products={theProducts} />
-              )}
+              {theProducts && <ProductCard mdminheight="250px" products={theProducts} />}
             </Box>
           </Box>
         </Box>
       </MainWrapper>
     </Layout>
-  )
-}
+  );
+};
 
-export default CollectionsPage
+export default CollectionsPage;
 
 export const query = graphql`
   query ProductCollectionQuery($shopifyId: String) {
@@ -646,4 +585,4 @@ export const query = graphql`
       }
     }
   }
-`
+`;

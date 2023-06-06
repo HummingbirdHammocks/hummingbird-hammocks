@@ -1,15 +1,15 @@
-import React from "react"
-import { useTheme, Box, Grid, Stack, Typography, Button } from "@mui/material"
-
-import { Link } from "components"
+import { Box, Button, Grid, Stack, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { Link } from 'components';
+import React from 'react';
 
 export function Details({ data, children }) {
   const theme = useTheme();
-  const { title, subText, htmlText, buttonText, buttonLink, hrefLink } = data
+  const { title, subText, htmlText, buttonText, buttonLink, hrefLink } = data;
 
   const renderHtmlFromString = (htmlText) => {
-    return <div dangerouslySetInnerHTML={{ __html: htmlText }} />
-  }
+    return <div dangerouslySetInnerHTML={{ __html: htmlText }} />;
+  };
 
   return (
     <Box
@@ -17,46 +17,32 @@ export function Details({ data, children }) {
         marginTop: 4,
         marginBottom: 4,
 
-        [theme.breakpoints.down("sm")]: {
-          margin: 0,
-        },
+        [theme.breakpoints.down('sm')]: {
+          margin: 0
+        }
       }}>
-      <Grid container
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-        spacing={2}
-      >
+      <Grid container direction="row" justifyContent="center" alignItems="center" spacing={2}>
         <Grid item xs={12} md={6}>
           {children}
         </Grid>
-
 
         <Grid item xs={12} md={6}>
           <Stack
             sx={{
               margin: { xs: 0, md: 4 },
-              marginBottom: { xs: 4, md: 0 },
+              marginBottom: { xs: 4, md: 0 }
             }}
             spacing={2}>
-            <Typography
-              textTransform="uppercase"
-              sx={{ mb: 2 }}
-              variant="h2"
-            >
+            <Typography textTransform="uppercase" sx={{ mb: 2 }} variant="h2">
               {title}
             </Typography>
             {subText && (
-              <Typography
-                sx={{ mt: 2, maxWidth: "1200px" }}
-                variant="body1"
-                component={"span"}
-              >
+              <Typography sx={{ mt: 2, maxWidth: '1200px' }} variant="body1" component={'span'}>
                 {renderHtmlFromString(subText)}
               </Typography>
             )}
 
-            <Typography component="span" sx={{ mb: "30px" }}>
+            <Typography component="span" sx={{ mb: '30px' }}>
               {htmlText && <div dangerouslySetInnerHTML={{ __html: htmlText }} />}
             </Typography>
 
@@ -68,16 +54,11 @@ export function Details({ data, children }) {
                     rel="noopener noreferrer"
                     target="_blank"
                     component="a"
-                    href={hrefLink}
-                  >
+                    href={hrefLink}>
                     {buttonText}
                   </Button>
                 ) : (
-                  <Button
-                    variant="outlined"
-                    component={Link}
-                    to={buttonLink}
-                  >
+                  <Button variant="outlined" component={Link} to={buttonLink}>
                     {buttonText}
                   </Button>
                 )}
@@ -87,5 +68,5 @@ export function Details({ data, children }) {
         </Grid>
       </Grid>
     </Box>
-  )
+  );
 }

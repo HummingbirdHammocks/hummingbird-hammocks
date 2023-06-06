@@ -9,5 +9,4 @@ var notifications_controller = require('../controllers/notifications/notificatio
 //Restock Notification
 router.post('/restock_notification', notifications_controller.restock_notification);
 
-
 module.exports = router;

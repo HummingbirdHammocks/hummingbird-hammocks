@@ -1,48 +1,44 @@
-import React, { useState } from "react"
-import { graphql, navigate } from "gatsby"
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import {
   Box,
-  Typography,
+  Collapse,
   Divider,
-  Pagination,
+  Grid,
   List,
   ListItem,
-  ListItemText,
   ListItemButton,
-  Collapse,
+  ListItemText,
+  Pagination,
   Stack,
-  Grid,
-} from "@mui/material"
-import { ExpandLess, ExpandMore } from "@mui/icons-material"
+  Typography
+} from '@mui/material';
+import { Layout, Link, MainWrapper, Seo } from 'components';
+import { graphql, navigate } from 'gatsby';
+import React, { useState } from 'react';
+import { BlogItem } from 'sections';
 
-import { Seo, Layout, MainWrapper, Link } from "components"
-import { BlogItem } from "sections"
-import ArtclesSearch from "../../utils/algolia/articlesSearch"
+import ArtclesSearch from '../../utils/algolia/articlesSearch';
 
 const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
-  const [collapse, setCollapse] = useState(true)
+  const [collapse, setCollapse] = useState(true);
 
   //pagination
-  let numberOfPages = Math.ceil(allArticles.totalCount / 9)
+  const numberOfPages = Math.ceil(allArticles.totalCount / 9);
 
   const handleChange = (e, value) => {
     if (value === 1) {
-      navigate(`/blogs/news/`)
+      navigate(`/blogs/news/`);
     } else {
-      navigate(`/blogs/news/${value}`)
+      navigate(`/blogs/news/${value}`);
     }
-  }
+  };
 
   return (
     <Layout>
       <Seo title="Outdoor Articles" />
-      <Box pt={"10px"}>
+      <Box pt={'10px'}>
         <MainWrapper>
-          <Typography
-            sx={{ margin: "20px 10px" }}
-            variant="h2"
-            color="black.main"
-          >
+          <Typography sx={{ margin: '20px 10px' }} variant="h2" color="black.main">
             OUTDOOR ARTICLES
           </Typography>
           <Divider color="#e2dfd9" />
@@ -50,10 +46,7 @@ const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
       </Box>
 
       <MainWrapper>
-        <Grid
-          container
-          spacing={2}
-        >
+        <Grid container spacing={2}>
           <Grid item xs={12} md={9}>
             <Grid
               container
@@ -61,9 +54,8 @@ const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
               justifyContent="center"
               alignItems="flex-start"
               spacing={2}
-              padding={2}
-            >
-              {allArticles.nodes.map(item => (
+              padding={2}>
+              {allArticles.nodes.map((item) => (
                 <Grid item xs={12} sm={6} md={6} lg={4}>
                   <BlogItem description item={item} />
                 </Grid>
@@ -84,9 +76,9 @@ const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
             <Stack
               spacing={2}
               sx={{
-                borderLeft: { xs: "0", md: "1px solid #cccc" },
+                borderLeft: { xs: '0', md: '1px solid #cccc' },
                 paddingLeft: 2,
-                paddingRight: 2,
+                paddingRight: 2
               }}>
               <Box className="articles">
                 <ArtclesSearch />
@@ -98,8 +90,8 @@ const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
                       fontSize: 20,
                       letterSpacing: 1.2,
                       fontWeight: 400,
-                      textTransform: "uppercase",
-                      color: "#000",
+                      textTransform: 'uppercase',
+                      color: '#000'
                     }}
                     secondary="RECENT ARTICLES"
                   />
@@ -108,7 +100,7 @@ const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
               </Box>
               <Collapse in={collapse} timeout="auto" unmountOnExit>
                 <List>
-                  {articles.nodes.map(article => (
+                  {articles.nodes.map((article) => (
                     <ListItem m="20px" key={article.id}>
                       <Link to={`/blogs/news/${article.handle}`}>
                         <Typography>{article.title}</Typography>
@@ -121,19 +113,15 @@ const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
           </Grid>
         </Grid>
       </MainWrapper>
-    </Layout >
-  )
-}
+    </Layout>
+  );
+};
 
-export default BlogTemplate
+export default BlogTemplate;
 
 export const query = graphql`
   query articlesTemplate($skip: Int!, $limit: Int!) {
-    allArticles(
-      limit: $limit
-      skip: $skip
-      sort: { fields: published_at, order: DESC }
-    ) {
+    allArticles(limit: $limit, skip: $skip, sort: { fields: published_at, order: DESC }) {
       totalCount
       nodes {
         localFile {
@@ -149,10 +137,7 @@ export const query = graphql`
       }
     }
 
-    articles: allArticles(
-      limit: 10
-      sort: { fields: published_at, order: DESC }
-    ) {
+    articles: allArticles(limit: 10, sort: { fields: published_at, order: DESC }) {
       nodes {
         title
         handle
@@ -160,4 +145,4 @@ export const query = graphql`
       }
     }
   }
-`
+`;

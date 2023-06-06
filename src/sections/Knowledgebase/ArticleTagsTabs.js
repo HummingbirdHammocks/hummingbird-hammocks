@@ -1,23 +1,22 @@
-import React from "react"
-import { useTheme, Box, Grid, Tabs, Tab, Typography, useMediaQuery, styled } from "@mui/material"
+import { Box, Grid, Tab, Tabs, Typography, useMediaQuery } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
+import React from 'react';
+import { KnowledgebaseItem } from 'sections';
 
-import { KnowledgebaseItem } from "sections"
-
-const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
-  ({ accentcolor, theme }) => ({
-    textTransform: 'none',
-    fontWeight: theme.typography.fontWeightRegular,
-    fontSize: theme.typography.pxToRem(15),
-    marginRight: theme.spacing(1),
-    '&.Mui-selected': {
-      fontWeight: theme.typography.fontWeightMedium,
-      color: "rgba(0, 0, 0, 0.87)",
-    },
-    '&.Mui-focusVisible': {
-      backgroundColor: accentcolor ? accentcolor : theme.palette.secondary.main,
-    },
-  }),
-);
+const StyledTab = styled((props) => <Tab disableRipple {...props} />)(({ accentcolor, theme }) => ({
+  textTransform: 'none',
+  fontWeight: theme.typography.fontWeightRegular,
+  fontSize: theme.typography.pxToRem(15),
+  marginRight: theme.spacing(1),
+  '&.Mui-selected': {
+    fontWeight: theme.typography.fontWeightMedium,
+    color: 'rgba(0, 0, 0, 0.87)'
+  },
+  '&.Mui-focusVisible': {
+    backgroundColor: accentcolor ? accentcolor : theme.palette.secondary.main
+  }
+}));
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -28,17 +27,15 @@ function TabPanel(props) {
       hidden={value !== index}
       id={`product-details-tabpanel-${index}`}
       aria-labelledby={`product-details-tab-${index}`}
-      {...other}
-    >
+      {...other}>
       {value === index && (
         <Box
           sx={{
             paddingLeft: { xs: 2, md: 4 },
             paddingRight: { xs: 2, md: 4 },
             paddingTop: 2,
-            paddingBottom: 2,
-          }}
-        >
+            paddingBottom: 2
+          }}>
           {children}
         </Box>
       )}
@@ -49,18 +46,13 @@ function TabPanel(props) {
 function a11yProps(index) {
   return {
     id: `articles-tab-${index}`,
-    'aria-controls': `articles-tabpanel-${index}`,
+    'aria-controls': `articles-tabpanel-${index}`
   };
 }
 
-export const ArticleTagsTabs = ({
-  allArticles,
-  backgroundColor,
-  accentcolor,
-  linkType,
-}) => {
+export const ArticleTagsTabs = ({ allArticles, backgroundColor, accentcolor, linkType }) => {
   const theme = useTheme();
-  const matches = useMediaQuery("(max-width:900px)")
+  const matches = useMediaQuery('(max-width:900px)');
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -70,25 +62,23 @@ export const ArticleTagsTabs = ({
   return (
     <Box
       sx={{
-        backgroundColor: backgroundColor ? backgroundColor : "#ECEFF1",
+        backgroundColor: backgroundColor ? backgroundColor : '#ECEFF1',
         borderColor: accentcolor ? accentcolor : 'divider',
-        borderStyle: "solid",
-        borderWidth: "1px",
-        borderRadius: "20px",
+        borderStyle: 'solid',
+        borderWidth: '1px',
+        borderRadius: '20px',
         paddingTop: { xs: 2, md: 4 },
         paddingBottom: 4,
         paddingLeft: { xs: 1, md: 4 },
         paddingRight: { xs: 1, md: 4 },
         marginTop: 4,
-        marginBottom: 4,
-      }}
-    >
+        marginBottom: 4
+      }}>
       <Grid container spacing={2}>
-
         <Grid item xs={12} md={3} lg={2}>
           <Tabs
-            orientation={matches ? "horizontal" : "vertical"}
-            variant={matches ? "scrollable" : "standard"}
+            orientation={matches ? 'horizontal' : 'vertical'}
+            variant={matches ? 'scrollable' : 'standard'}
             value={value}
             onChange={handleChange}
             scrollButtons={matches ? true : false}
@@ -102,11 +92,17 @@ export const ArticleTagsTabs = ({
             sx={{
               borderRight: { xs: 0, md: 1 },
               borderColor: 'divider'
-            }}
-          >
+            }}>
             {allArticles.group.map((group) => {
-              if (!group.nodes[0].tags || group.nodes[0].tags === "") return null;
-              return <StyledTab accentcolor={accentcolor} label={group.nodes[0].tags} {...a11yProps(group.nodes[0].tags)} key={group.nodes[0].tags} />;
+              if (!group.nodes[0].tags || group.nodes[0].tags === '') return null;
+              return (
+                <StyledTab
+                  accentcolor={accentcolor}
+                  label={group.nodes[0].tags}
+                  {...a11yProps(group.nodes[0].tags)}
+                  key={group.nodes[0].tags}
+                />
+              );
             })}
           </Tabs>
         </Grid>
@@ -118,17 +114,20 @@ export const ArticleTagsTabs = ({
                 {group.nodes[0].tags}
               </Typography>
               <Grid container spacing={2}>
-                {group.nodes.map(article => (
+                {group.nodes.map((article) => (
                   <Grid item xs={12} sm={6} md={6} lg={4} key={article.id}>
-                    <KnowledgebaseItem description={article.description} item={article} linkType={linkType} />
+                    <KnowledgebaseItem
+                      description={article.description}
+                      item={article}
+                      linkType={linkType}
+                    />
                   </Grid>
                 ))}
               </Grid>
             </TabPanel>
           ))}
         </Grid>
-
       </Grid>
-    </Box >
-  )
-}
+    </Box>
+  );
+};

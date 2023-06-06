@@ -1,29 +1,20 @@
-import React from "react"
-import { Typography, Box, Grid } from "@mui/material"
-
+import { Box, Grid, Typography } from '@mui/material';
+import React from 'react';
 
 export const FeaturedReviewsCarousel = () => {
-
   return (
     <div className="jdgm-carousel-wrapper">
-      <Grid
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-        spacing={2}
-      >
+      <Grid container direction="row" justifyContent="center" alignItems="center" spacing={2}>
         <Grid item xs={12}>
           <Typography
             sx={{
-              textDecoration: "underline",
-              textUnderlineOffset: "10px",
-              textDecorationColor: "#cccc",
+              textDecoration: 'underline',
+              textUnderlineOffset: '10px',
+              textDecorationColor: '#cccc'
             }}
             textTransform="uppercase"
             textAlign="center"
-            variant="h2"
-          >
+            variant="h2">
             Community Feedback
           </Typography>
         </Grid>
@@ -36,6 +27,6 @@ export const FeaturedReviewsCarousel = () => {
           </Typography>
         </Grid>
       </Grid>
-    </div >
-  )
-}
+    </div>
+  );
+};

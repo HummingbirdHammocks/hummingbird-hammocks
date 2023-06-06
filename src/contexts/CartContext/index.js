@@ -1,113 +1,109 @@
-import React, { useState, useEffect, createContext } from "react"
-import Client from "shopify-buy"
+import React, { createContext, useEffect, useState } from 'react';
+import Client from 'shopify-buy';
 
 // Initializing a client to return content in the store's primary language
 const client = Client.buildClient({
   domain: process.env.GATSBY_SHOPIFY_STORE_URL,
-  storefrontAccessToken: process.env.GATSBY_SHOPIFY_STOREFRONT_ACCESS_TOKEN,
-})
+  storefrontAccessToken: process.env.GATSBY_SHOPIFY_STOREFRONT_ACCESS_TOKEN
+});
 
 const defaultState = {
-  customerAccessToken: null,
-}
+  customerAccessToken: null
+};
 
-export const CartContext = createContext(defaultState)
+export const CartContext = createContext(defaultState);
 
 export function CartContextProvider({ children }) {
   const [checkout, setCheckout] = useState(
-    JSON.parse(
-      typeof window !== "undefined" ? localStorage.getItem("checkout") : null
-    )
-  )
+    JSON.parse(typeof window !== 'undefined' ? localStorage.getItem('checkout') : null)
+  );
 
-  const [successfulOrder, setSuccessfulOrder] = useState(null)
-  const checkoutId = checkout?.id
+  const [successfulOrder, setSuccessfulOrder] = useState(null);
+  const checkoutId = checkout?.id;
 
   useEffect(() => {
     const getCheckout = async () => {
-      if (checkoutId && typeof window !== "undefined") {
-        const fetchedCheckout = await client.checkout.fetch(checkoutId)
+      if (checkoutId && typeof window !== 'undefined') {
+        const fetchedCheckout = await client.checkout.fetch(checkoutId);
         if (fetchedCheckout?.completedAt) {
-          localStorage.removeItem("checkout")
-          setCheckout(null)
-          setSuccessfulOrder(fetchedCheckout)
+          localStorage.removeItem('checkout');
+          setCheckout(null);
+          setSuccessfulOrder(fetchedCheckout);
         } else {
-          setCheckout(fetchedCheckout)
-          localStorage.setItem("checkout", JSON.stringify(fetchedCheckout))
+          setCheckout(fetchedCheckout);
+          localStorage.setItem('checkout', JSON.stringify(fetchedCheckout));
         }
       }
-    }
+    };
 
-    getCheckout()
-  }, [setCheckout, setSuccessfulOrder, checkoutId])
+    getCheckout();
+  }, [setCheckout, setSuccessfulOrder, checkoutId]);
 
   async function getProductById(productId) {
-    const product = await client.product.fetch(productId)
-    return product
+    const product = await client.product.fetch(productId);
+    return product;
   }
 
   const updateLineItem = async ({ variantId, quantity }) => {
     // if no checkout id, create a new checkout
-    let newCheckout = checkout || (await client.checkout.create())
+    let newCheckout = checkout || (await client.checkout.create());
 
     // check to see if this variantId exists in storedCheckout
     const lineItemVariant = newCheckout.lineItems?.find(
-      lineItem => lineItem.variant.id === variantId
-    )
+      (lineItem) => lineItem.variant.id === variantId
+    );
 
     if (lineItemVariant) {
-      const newQuantity = lineItemVariant.quantity + quantity
+      const newQuantity = lineItemVariant.quantity + quantity;
 
       if (newQuantity) {
         newCheckout = await client.checkout.updateLineItems(newCheckout.id, [
           {
             id: lineItemVariant.id,
-            quantity: newQuantity,
-          },
-        ])
+            quantity: newQuantity
+          }
+        ]);
       } else {
-        newCheckout = await client.checkout.removeLineItems(newCheckout.id, [
-          lineItemVariant.id,
-        ])
+        newCheckout = await client.checkout.removeLineItems(newCheckout.id, [lineItemVariant.id]);
       }
     } else {
       newCheckout = await client.checkout.addLineItems(newCheckout.id, [
         {
           variantId,
-          quantity,
-        },
-      ])
+          quantity
+        }
+      ]);
     }
 
-    setCheckout(newCheckout)
-    setSuccessfulOrder(null)
-    if (typeof window !== "undefined") {
-      localStorage.setItem("checkout", JSON.stringify(newCheckout))
+    setCheckout(newCheckout);
+    setSuccessfulOrder(null);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('checkout', JSON.stringify(newCheckout));
     }
-  }
+  };
 
   const updateAttributes = async ({ customAttributes }) => {
     // if no checkout id, create a new checkout
-    let newCheckout = checkout || (await client.checkout.create())
+    let newCheckout = checkout || (await client.checkout.create());
 
     const input = {
       customAttributes: customAttributes
     };
 
-    newCheckout = await client.checkout.updateAttributes(newCheckout.id, input)
+    newCheckout = await client.checkout.updateAttributes(newCheckout.id, input);
 
     /* console.log(newCheckout.customAttributes) */
 
-    setCheckout(newCheckout)
-    setSuccessfulOrder(null)
-    if (typeof window !== "undefined") {
-      localStorage.setItem("checkout", JSON.stringify(newCheckout))
+    setCheckout(newCheckout);
+    setSuccessfulOrder(null);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('checkout', JSON.stringify(newCheckout));
     }
-  }
+  };
 
   const addDiscount = async ({ discountCode }) => {
     // if no checkout, create a new checkout
-    let newCheckout = checkout || (await client.checkout.create())
+    const newCheckout = checkout || (await client.checkout.create());
 
     let found = false;
 
@@ -118,29 +114,26 @@ export function CartContextProvider({ children }) {
     }
 
     if (!found) {
-      client.checkout.addDiscount(newCheckout.id, discountCode)
-        .then((updatedCheckout) => {
-          /* console.log(updatedCheckout) */
-          setCheckout(updatedCheckout)
-          setSuccessfulOrder(null)
-          if (typeof window !== "undefined") {
-            localStorage.setItem("checkout", JSON.stringify(updatedCheckout))
-          }
-        })
+      client.checkout.addDiscount(newCheckout.id, discountCode).then((updatedCheckout) => {
+        /* console.log(updatedCheckout) */
+        setCheckout(updatedCheckout);
+        setSuccessfulOrder(null);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('checkout', JSON.stringify(updatedCheckout));
+        }
+      });
     }
-  }
+  };
 
-  const removeLineItem = async lineItemId => {
-    const newCheckout = await client.checkout.removeLineItems(checkout.id, [
-      lineItemId,
-    ])
+  const removeLineItem = async (lineItemId) => {
+    const newCheckout = await client.checkout.removeLineItems(checkout.id, [lineItemId]);
 
-    setCheckout(newCheckout)
-  }
+    setCheckout(newCheckout);
+  };
 
   const dismissSuccessfulOrder = () => {
-    setSuccessfulOrder(null)
-  }
+    setSuccessfulOrder(null);
+  };
 
   return (
     <CartContext.Provider
@@ -152,10 +145,9 @@ export function CartContextProvider({ children }) {
         successfulOrder,
         dismissSuccessfulOrder,
         updateAttributes,
-        addDiscount,
-      }}
-    >
+        addDiscount
+      }}>
       {children}
     </CartContext.Provider>
-  )
+  );
 }

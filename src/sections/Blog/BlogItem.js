@@ -1,10 +1,9 @@
-import React from "react"
-import { GatsbyImage } from "gatsby-plugin-image"
-import { Box, Typography, Button } from "@mui/material"
+import { Box, Button, Typography } from '@mui/material';
+import { Link } from 'components';
+import { GatsbyImage } from 'gatsby-plugin-image';
+import React from 'react';
 
-import { Link } from "components"
-
-import { fShopify } from '../../utils/formatTime'
+import { fShopify } from '../../utils/formatTime';
 
 export const BlogItem = ({ item, description }) => {
   return (
@@ -13,7 +12,7 @@ export const BlogItem = ({ item, description }) => {
         <Link to={`/blogs/news/${item.handle}`}>
           <GatsbyImage
             imgStyle={{
-              borderRadius: "20px",
+              borderRadius: '20px'
             }}
             alt={item.title}
             image={item.localFile.childImageSharp.gatsbyImageData}
@@ -26,7 +25,7 @@ export const BlogItem = ({ item, description }) => {
             <Typography m="20px 0" variant="body1" color="black">
               <div
                 dangerouslySetInnerHTML={{
-                  __html: item.summary_html,
+                  __html: item.summary_html
                 }}
               />
             </Typography>
@@ -35,14 +34,10 @@ export const BlogItem = ({ item, description }) => {
       </Box>
 
       <Box mt="20px" display="flex">
-        <Button
-          variant="outlined"
-          component={Link}
-          to={`/blogs/news/${item.handle}`}
-        >
+        <Button variant="outlined" component={Link} to={`/blogs/news/${item.handle}`}>
           Read More
         </Button>
       </Box>
     </Box>
-  )
-}
+  );
+};

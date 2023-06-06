@@ -577,11 +577,7 @@
         "code": "AP"
       },
       "Tarapacá": {
-        "alternate_names": [
-          "Tarapaca",
-          "Región de Tarapacá",
-          "Region de Tarapaca"
-        ],
+        "alternate_names": ["Tarapaca", "Región de Tarapacá", "Region de Tarapaca"],
         "code": "TA"
       },
       "Antofagasta": {
@@ -597,11 +593,7 @@
         "code": "CO"
       },
       "Valparaíso": {
-        "alternate_names": [
-          "Valparaiso",
-          "Región de Valparaíso",
-          "Region de Valparaiso"
-        ],
+        "alternate_names": ["Valparaiso", "Región de Valparaíso", "Region de Valparaiso"],
         "code": "VS"
       },
       "Santiago": {
@@ -636,19 +628,11 @@
         "code": "BI"
       },
       "Araucanía": {
-        "alternate_names": [
-          "Araucania",
-          "Región de La Araucanía",
-          "Region de La Araucania"
-        ],
+        "alternate_names": ["Araucania", "Región de La Araucanía", "Region de La Araucania"],
         "code": "AR"
       },
       "Los Ríos": {
-        "alternate_names": [
-          "Los Rios",
-          "Región de Los Ríos",
-          "Region de Los Rios"
-        ],
+        "alternate_names": ["Los Rios", "Región de Los Ríos", "Region de Los Rios"],
         "code": "LR"
       },
       "Los Lagos": {
@@ -1527,12 +1511,7 @@
     },
     "provinces": {
       "Hong Kong Island": {
-        "alternate_names": [
-          "Hong Kong Province",
-          "Hong Kong",
-          "香港",
-          "香港島"
-        ],
+        "alternate_names": ["Hong Kong Province", "Hong Kong", "香港", "香港島"],
         "code": "HK"
       },
       "Kowloon": {
@@ -1848,12 +1827,7 @@
     },
     "provinces": {
       "Carlow": {
-        "alternate_names": [
-          "Ceatharlach",
-          "Contae Cheatharlach",
-          "County Carlow",
-          "Co. Carlow"
-        ],
+        "alternate_names": ["Ceatharlach", "Contae Cheatharlach", "County Carlow", "Co. Carlow"],
         "code": "CW"
       },
       "Cavan": {
@@ -1909,12 +1883,7 @@
         "code": "D"
       },
       "Galway": {
-        "alternate_names": [
-          "Gaillimh",
-          "Contae na Gaillimhe",
-          "County Galway",
-          "Co. Galway"
-        ],
+        "alternate_names": ["Gaillimh", "Contae na Gaillimhe", "County Galway", "Co. Galway"],
         "code": "G"
       },
       "Kerry": {
@@ -1929,12 +1898,7 @@
         "code": "KY"
       },
       "Kildare": {
-        "alternate_names": [
-          "Cill Dara",
-          "Contae Chill Dara",
-          "County Kildare",
-          "Co. Kildare"
-        ],
+        "alternate_names": ["Cill Dara", "Contae Chill Dara", "County Kildare", "Co. Kildare"],
         "code": "KE"
       },
       "Kilkenny": {
@@ -1951,21 +1915,11 @@
         "code": "LS"
       },
       "Leitrim": {
-        "alternate_names": [
-          "Liatroim",
-          "Contae Liatroma",
-          "County Leitrim",
-          "Co. Leitrim"
-        ],
+        "alternate_names": ["Liatroim", "Contae Liatroma", "County Leitrim", "Co. Leitrim"],
         "code": "LM"
       },
       "Limerick": {
-        "alternate_names": [
-          "Luimneach",
-          "Contae Luimnigh",
-          "County Limerick",
-          "Co. Limerick"
-        ],
+        "alternate_names": ["Luimneach", "Contae Luimnigh", "County Limerick", "Co. Limerick"],
         "code": "LK"
       },
       "Longford": {
@@ -1978,23 +1932,11 @@
         "code": "LD"
       },
       "Louth": {
-        "alternate_names": [
-          "Lú",
-          "Lu",
-          "Contae Lú",
-          "Contae Lu",
-          "County Louth",
-          "Co. Louth"
-        ],
+        "alternate_names": ["Lú", "Lu", "Contae Lú", "Contae Lu", "County Louth", "Co. Louth"],
         "code": "LH"
       },
       "Mayo": {
-        "alternate_names": [
-          "Maigh Eo",
-          "Contae Mhaigh Eo",
-          "County Mayo",
-          "Co. Mayo"
-        ],
+        "alternate_names": ["Maigh Eo", "Contae Mhaigh Eo", "County Mayo", "Co. Mayo"],
         "code": "MO"
       },
       "Meath": {
@@ -2042,12 +1984,7 @@
         "code": "RN"
       },
       "Sligo": {
-        "alternate_names": [
-          "Sligeach",
-          "Contae Shligigh",
-          "County Sligo",
-          "Co. Sligo"
-        ],
+        "alternate_names": ["Sligeach", "Contae Shligigh", "County Sligo", "Co. Sligo"],
         "code": "SO"
       },
       "Tipperary": {
@@ -2084,12 +2021,7 @@
         "code": "WH"
       },
       "Wexford": {
-        "alternate_names": [
-          "Loch Garman",
-          "Contae Loch Garman",
-          "County Wexford",
-          "Co. Wexford"
-        ],
+        "alternate_names": ["Loch Garman", "Contae Loch Garman", "County Wexford", "Co. Wexford"],
         "code": "WX"
       },
       "Wicklow": {
@@ -2505,12 +2437,7 @@
         "code": "JP-01"
       },
       "Aomori": {
-        "alternate_names": [
-          "Aomori Prefecture",
-          "Aomori-ken",
-          "青森県",
-          "青森"
-        ],
+        "alternate_names": ["Aomori Prefecture", "Aomori-ken", "青森県", "青森"],
         "code": "JP-02"
       },
       "Iwate": {
@@ -2518,12 +2445,7 @@
         "code": "JP-03"
       },
       "Miyagi": {
-        "alternate_names": [
-          "Miyagi Prefecture",
-          "Miyagi-ken",
-          "宮城県",
-          "宮城"
-        ],
+        "alternate_names": ["Miyagi Prefecture", "Miyagi-ken", "宮城県", "宮城"],
         "code": "JP-04"
       },
       "Akita": {
@@ -2531,39 +2453,19 @@
         "code": "JP-05"
       },
       "Yamagata": {
-        "alternate_names": [
-          "Yamagata Prefecture",
-          "Yamagata-ken",
-          "山形県",
-          "山形"
-        ],
+        "alternate_names": ["Yamagata Prefecture", "Yamagata-ken", "山形県", "山形"],
         "code": "JP-06"
       },
       "Fukushima": {
-        "alternate_names": [
-          "Fukushima Prefecture",
-          "Fukushima-ken",
-          "福島県",
-          "福島"
-        ],
+        "alternate_names": ["Fukushima Prefecture", "Fukushima-ken", "福島県", "福島"],
         "code": "JP-07"
       },
       "Ibaraki": {
-        "alternate_names": [
-          "Ibaraki Prefecture",
-          "Ibaraki-ken",
-          "茨城県",
-          "茨城"
-        ],
+        "alternate_names": ["Ibaraki Prefecture", "Ibaraki-ken", "茨城県", "茨城"],
         "code": "JP-08"
       },
       "Tochigi": {
-        "alternate_names": [
-          "Tochigi Prefecture",
-          "Tochigi-ken",
-          "栃木県",
-          "栃木"
-        ],
+        "alternate_names": ["Tochigi Prefecture", "Tochigi-ken", "栃木県", "栃木"],
         "code": "JP-09"
       },
       "Gunma": {
@@ -2571,12 +2473,7 @@
         "code": "JP-10"
       },
       "Saitama": {
-        "alternate_names": [
-          "Saitama Prefecture",
-          "Saitama-ken",
-          "埼玉県",
-          "埼玉"
-        ],
+        "alternate_names": ["Saitama Prefecture", "Saitama-ken", "埼玉県", "埼玉"],
         "code": "JP-11"
       },
       "Chiba": {
@@ -2585,50 +2482,23 @@
       },
       "Tōkyō": {
         "label": "Tokyo",
-        "alternate_names": [
-          "Tokyo",
-          "Tokyo Prefecture",
-          "Tōkyō-to",
-          "Tokyo-to",
-          "東京都",
-          "東京"
-        ],
+        "alternate_names": ["Tokyo", "Tokyo Prefecture", "Tōkyō-to", "Tokyo-to", "東京都", "東京"],
         "code": "JP-13"
       },
       "Kanagawa": {
-        "alternate_names": [
-          "Kanagawa Prefecture",
-          "Kanagawa-ken",
-          "神奈川県",
-          "神奈川"
-        ],
+        "alternate_names": ["Kanagawa Prefecture", "Kanagawa-ken", "神奈川県", "神奈川"],
         "code": "JP-14"
       },
       "Niigata": {
-        "alternate_names": [
-          "Niigata Prefecture",
-          "Niigata-ken",
-          "新潟県",
-          "新潟"
-        ],
+        "alternate_names": ["Niigata Prefecture", "Niigata-ken", "新潟県", "新潟"],
         "code": "JP-15"
       },
       "Toyama": {
-        "alternate_names": [
-          "Toyama Prefecture",
-          "Toyama-ken",
-          "富山県",
-          "富山"
-        ],
+        "alternate_names": ["Toyama Prefecture", "Toyama-ken", "富山県", "富山"],
         "code": "JP-16"
       },
       "Ishikawa": {
-        "alternate_names": [
-          "Ishikawa Prefecture",
-          "Ishikawa-ken",
-          "石川県",
-          "石川"
-        ],
+        "alternate_names": ["Ishikawa Prefecture", "Ishikawa-ken", "石川県", "石川"],
         "code": "JP-17"
       },
       "Fukui": {
@@ -2636,21 +2506,11 @@
         "code": "JP-18"
       },
       "Yamanashi": {
-        "alternate_names": [
-          "Yamanashi Prefecture",
-          "Yamanashi-ken",
-          "山梨県",
-          "山梨"
-        ],
+        "alternate_names": ["Yamanashi Prefecture", "Yamanashi-ken", "山梨県", "山梨"],
         "code": "JP-19"
       },
       "Nagano": {
-        "alternate_names": [
-          "Nagano Prefecture",
-          "Nagano-ken",
-          "長野県",
-          "長野"
-        ],
+        "alternate_names": ["Nagano Prefecture", "Nagano-ken", "長野県", "長野"],
         "code": "JP-20"
       },
       "Gifu": {
@@ -2658,12 +2518,7 @@
         "code": "JP-21"
       },
       "Shizuoka": {
-        "alternate_names": [
-          "Shizuoka Prefecture",
-          "Shizuoka-ken",
-          "静岡県",
-          "静岡"
-        ],
+        "alternate_names": ["Shizuoka Prefecture", "Shizuoka-ken", "静岡県", "静岡"],
         "code": "JP-22"
       },
       "Aichi": {
@@ -2680,26 +2535,12 @@
       },
       "Kyōto": {
         "label": "Kyoto",
-        "alternate_names": [
-          "Kyoto",
-          "Kyoto Prefecture",
-          "Kyōto-fu",
-          "Kyoto-fu",
-          "京都府",
-          "京都"
-        ],
+        "alternate_names": ["Kyoto", "Kyoto Prefecture", "Kyōto-fu", "Kyoto-fu", "京都府", "京都"],
         "code": "JP-26"
       },
       "Ōsaka": {
         "label": "Osaka",
-        "alternate_names": [
-          "Osaka",
-          "Osaka Prefecture",
-          "Ōsaka-fu",
-          "Osaka-fu",
-          "大阪府",
-          "大阪"
-        ],
+        "alternate_names": ["Osaka", "Osaka Prefecture", "Ōsaka-fu", "Osaka-fu", "大阪府", "大阪"],
         "code": "JP-27"
       },
       "Hyōgo": {
@@ -2719,75 +2560,35 @@
         "code": "JP-29"
       },
       "Wakayama": {
-        "alternate_names": [
-          "Wakayama Prefecture",
-          "Wakayama-ken",
-          "和歌山県",
-          "和歌山"
-        ],
+        "alternate_names": ["Wakayama Prefecture", "Wakayama-ken", "和歌山県", "和歌山"],
         "code": "JP-30"
       },
       "Tottori": {
-        "alternate_names": [
-          "Tottori Prefecture",
-          "Tottori-ken",
-          "鳥取県",
-          "鳥取"
-        ],
+        "alternate_names": ["Tottori Prefecture", "Tottori-ken", "鳥取県", "鳥取"],
         "code": "JP-31"
       },
       "Shimane": {
-        "alternate_names": [
-          "Shimane Prefecture",
-          "Shimane-ken",
-          "島根県",
-          "島根"
-        ],
+        "alternate_names": ["Shimane Prefecture", "Shimane-ken", "島根県", "島根"],
         "code": "JP-32"
       },
       "Okayama": {
-        "alternate_names": [
-          "Okayama Prefecture",
-          "Okayama-ken",
-          "岡山県",
-          "岡山"
-        ],
+        "alternate_names": ["Okayama Prefecture", "Okayama-ken", "岡山県", "岡山"],
         "code": "JP-33"
       },
       "Hiroshima": {
-        "alternate_names": [
-          "Hiroshima Prefecture",
-          "Hiroshima-ken",
-          "広島県",
-          "広島"
-        ],
+        "alternate_names": ["Hiroshima Prefecture", "Hiroshima-ken", "広島県", "広島"],
         "code": "JP-34"
       },
       "Yamaguchi": {
-        "alternate_names": [
-          "Yamaguchi Prefecture",
-          "Yamaguchi-ken",
-          "山口県",
-          "山口"
-        ],
+        "alternate_names": ["Yamaguchi Prefecture", "Yamaguchi-ken", "山口県", "山口"],
         "code": "JP-35"
       },
       "Tokushima": {
-        "alternate_names": [
-          "Tokushima Prefecture",
-          "Tokushima-ken",
-          "徳島県",
-          "徳島"
-        ],
+        "alternate_names": ["Tokushima Prefecture", "Tokushima-ken", "徳島県", "徳島"],
         "code": "JP-36"
       },
       "Kagawa": {
-        "alternate_names": [
-          "Kagawa Prefecture",
-          "Kagawa-ken",
-          "香川県",
-          "香川"
-        ],
+        "alternate_names": ["Kagawa Prefecture", "Kagawa-ken", "香川県", "香川"],
         "code": "JP-37"
       },
       "Ehime": {
@@ -2807,12 +2608,7 @@
         "code": "JP-39"
       },
       "Fukuoka": {
-        "alternate_names": [
-          "Fukuoka Prefecture",
-          "Fukuoka-ken",
-          "福岡県",
-          "福岡"
-        ],
+        "alternate_names": ["Fukuoka Prefecture", "Fukuoka-ken", "福岡県", "福岡"],
         "code": "JP-40"
       },
       "Saga": {
@@ -2820,60 +2616,28 @@
         "code": "JP-41"
       },
       "Nagasaki": {
-        "alternate_names": [
-          "Nagasaki Prefecture",
-          "Nagasaki-ken",
-          "長崎県",
-          "長崎"
-        ],
+        "alternate_names": ["Nagasaki Prefecture", "Nagasaki-ken", "長崎県", "長崎"],
         "code": "JP-42"
       },
       "Kumamoto": {
-        "alternate_names": [
-          "Kumamoto Prefecture",
-          "Kumamoto-ken",
-          "熊本県",
-          "熊本"
-        ],
+        "alternate_names": ["Kumamoto Prefecture", "Kumamoto-ken", "熊本県", "熊本"],
         "code": "JP-43"
       },
       "Ōita": {
         "label": "Oita",
-        "alternate_names": [
-          "Oita",
-          "Oita Prefecture",
-          "Ōita-ken",
-          "Oita-ken",
-          "大分県",
-          "大分"
-        ],
+        "alternate_names": ["Oita", "Oita Prefecture", "Ōita-ken", "Oita-ken", "大分県", "大分"],
         "code": "JP-44"
       },
       "Miyazaki": {
-        "alternate_names": [
-          "Miyazaki Prefecture",
-          "Miyazaki-ken",
-          "宮崎県",
-          "宮崎"
-        ],
+        "alternate_names": ["Miyazaki Prefecture", "Miyazaki-ken", "宮崎県", "宮崎"],
         "code": "JP-45"
       },
       "Kagoshima": {
-        "alternate_names": [
-          "Kagoshima Prefecture",
-          "Kagoshima-ken",
-          "鹿児島県",
-          "鹿児島"
-        ],
+        "alternate_names": ["Kagoshima Prefecture", "Kagoshima-ken", "鹿児島県", "鹿児島"],
         "code": "JP-46"
       },
       "Okinawa": {
-        "alternate_names": [
-          "Okinawa Prefecture",
-          "Okinawa-ken",
-          "沖縄県",
-          "沖縄"
-        ],
+        "alternate_names": ["Okinawa Prefecture", "Okinawa-ken", "沖縄県", "沖縄"],
         "code": "JP-47"
       }
     }

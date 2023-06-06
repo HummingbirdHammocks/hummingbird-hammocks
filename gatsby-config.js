@@ -1,7 +1,7 @@
-require("dotenv").config({
-  path: `.env.${process.env.NODE_ENV}`,
-})
-const queries = require("./src/utils/algolia/queries")
+require('dotenv').config({
+  path: `.env.${process.env.NODE_ENV}`
+});
+const queries = require('./src/utils/algolia/queries');
 
 module.exports = {
   siteMetadata: {
@@ -14,19 +14,19 @@ module.exports = {
     phone: `+17193772116`,
     email: `support@hummingbirdhammocks.com`,
     address: `18611 Cherry Springs Ranch Dr. Monument, CO 80132 USA`,
-    privacyAccessibilityTermsUpdateDate: "15 May, 2022",
+    privacyAccessibilityTermsUpdateDate: '15 May, 2022'
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-image`,
     `gatsby-plugin-sitemap`,
     {
-      resolve: "gatsby-plugin-robots-txt",
+      resolve: 'gatsby-plugin-robots-txt',
       options: {
-        host: "https://hummingbirdhammocks.com",
-        sitemap: "https://hummingbirdhammocks.com/sitemap.xml",
-        policy: [{ userAgent: "*", allow: "/" }],
-      },
+        host: 'https://hummingbirdhammocks.com',
+        sitemap: 'https://hummingbirdhammocks.com/sitemap.xml',
+        policy: [{ userAgent: '*', allow: '/' }]
+      }
     },
     {
       resolve: `gatsby-plugin-gdpr-cookies`,
@@ -41,14 +41,14 @@ module.exports = {
         },
         // Defines the environments where the tracking should be available  - default is ["production"]
         environments: ['production']
-      },
+      }
     },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `images`,
-        path: `${__dirname}/src/assets/images`,
-      },
+        path: `${__dirname}/src/assets/images`
+      }
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
@@ -60,20 +60,20 @@ module.exports = {
         start_url: `/`,
         background_color: `#663399`,
         display: `minimal-ui`,
-        icon: `src/assets/images/icon.png`,
-      },
+        icon: `src/assets/images/icon.png`
+      }
     },
     `gatsby-plugin-material-ui`,
     {
-      resolve: "gatsby-source-shopify",
+      resolve: 'gatsby-source-shopify',
       options: {
         password: process.env.GATSBY_SHOPIFY_ADMIN_ACCESS_TOKEN,
         storeUrl: process.env.GATSBY_SHOPIFY_STORE_URL,
         salesChannel: process.env.GATSBY_SHOPIFY_SALES_CHANNEL,
-        shopifyConnections: ["collections"],
-        apiVersion: process.env.GATSBY_SHOPIFY_API_VERSION,
+        shopifyConnections: ['collections'],
+        apiVersion: process.env.GATSBY_SHOPIFY_API_VERSION
         // downloadImages: true,
-      },
+      }
     },
     {
       resolve: `gatsby-plugin-algolia`,
@@ -81,8 +81,8 @@ module.exports = {
         appId: process.env.GATSBY_ALGOLIA_APP_ID,
         apiKey: process.env.GATSBY_ALGOLIA_ADMIN_KEY,
         queries,
-        chunkSize: 10000, // default: 1000
-      },
-    },
-  ],
-}
+        chunkSize: 10000 // default: 1000
+      }
+    }
+  ]
+};

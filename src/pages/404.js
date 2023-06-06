@@ -1,15 +1,7 @@
-import React from "react"
-import {
-  Box,
-  Paper,
-  List,
-  ListItem,
-  ListItemText,
-  Stack,
-} from "@mui/material"
-
-import { Seo, Layout, MainWrapper, Link } from "components"
-import { Info } from "sections"
+import { Box, List, ListItem, ListItemText, Paper, Stack } from '@mui/material';
+import { Layout, Link, MainWrapper, Seo } from 'components';
+import React from 'react';
+import { Info } from 'sections';
 
 const NotFoundPage = () => (
   <Layout>
@@ -17,18 +9,14 @@ const NotFoundPage = () => (
     <MainWrapper>
       <Box
         sx={{
-          marginTop: "100px",
+          marginTop: '100px',
           marginRight: `auto`,
           paddingBottom: 12,
           marginLeft: `auto`,
           maxWidth: 1080,
-          minHeight: "46vh",
-        }}
-      >
-        <Stack
-          justifyContent="center"
-          alignItems="center"
-        >
+          minHeight: '46vh'
+        }}>
+        <Stack justifyContent="center" alignItems="center">
           <Info title="404: Off the Trail">
             We can't seem to find the page you're looking for.
             <br /> <br />
@@ -36,12 +24,11 @@ const NotFoundPage = () => (
           </Info>
           <Paper
             sx={{
-              marginTop: "1em",
-              marginBottom: "1em",
-              width: "100%",
-              maxWidth: 360,
-            }}
-          >
+              marginTop: '1em',
+              marginBottom: '1em',
+              width: '100%',
+              maxWidth: 360
+            }}>
             <List component="nav">
               <Link to="/">
                 <ListItem button>
@@ -79,6 +66,6 @@ const NotFoundPage = () => (
       </Box>
     </MainWrapper>
   </Layout>
-)
+);
 
-export default NotFoundPage
+export default NotFoundPage;
