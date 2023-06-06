@@ -12,8 +12,8 @@ import { CartContextProvider, ProductContextProvider } from 'contexts';
 import fetch from 'isomorphic-fetch';
 import React from 'react';
 // react query
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // stores

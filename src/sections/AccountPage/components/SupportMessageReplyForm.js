@@ -3,7 +3,7 @@ import { Box, Grid, Stack, TextField } from '@mui/material';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import React from 'react';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
