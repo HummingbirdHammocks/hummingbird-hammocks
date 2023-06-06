@@ -7,13 +7,13 @@ export function OrderOptions({ handleAttributes }) {
   const [gift, setGift] = useState(false);
 
   const handlePackingSlip = async (value) => {
-    console.log('Packing Slip', value);
+    /* console.log('Packing Slip', value); */
     handleAttributes({ key: 'Packing Slip', value: value ? 'Yes' : 'No' });
     setPackingSlip(value);
   };
 
   const handleGift = async (value) => {
-    console.log('Gift', value);
+    /* console.log('Gift', value); */
     handleAttributes({ key: 'Gift Order', value: value ? 'Yes' : 'No' });
     setGift(value);
   };

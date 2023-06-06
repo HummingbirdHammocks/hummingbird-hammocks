@@ -137,8 +137,6 @@ const ProductPage = ({ data, pageContext }) => {
         const resultVariant =
           result.variants.find(({ id }) => id === variantId) || result.variants[0];
 
-        /* console.log(variantId) */
-        /* console.log(data.shopifyProduct.variants) */
         const staticVariant =
           data.shopifyProduct.variants.find(({ shopifyId }) => shopifyId === variantId) ||
           data.shopifyProduct.variants[0];
@@ -146,15 +144,11 @@ const ProductPage = ({ data, pageContext }) => {
         setSelectedVariant(resultVariant);
         setSelectedVariantStatic(staticVariant);
 
-        /* console.log(resultVariant) */
-        /* console.log(staticVariant) */
-
         if (staticVariant?.metafields.length > 0) {
           for (let i = 0; i < staticVariant.metafields.length; i++) {
             //Get Accent Colors
             if (staticVariant.metafields[i].key === 'colors') {
               setVariantColorValues(JSON.parse(staticVariant.metafields[i].value));
-              /* console.log(JSON.parse(staticVariant.metafields[i].value)) */
             }
             //Get Restock Date
             if (staticVariant.metafields[i].key === 'restock_date') {
@@ -167,7 +161,6 @@ const ProductPage = ({ data, pageContext }) => {
                       (restockDate.getTime() - currentDate.getTime()) / (1000 * 3600 * 24 * 7)
                     )
                   );
-                  /* console.log(staticVariant.metafields[i].value) */
                 }
               }
             }
@@ -191,11 +184,6 @@ const ProductPage = ({ data, pageContext }) => {
       }
     });
   }, [variantId]);
-
-  /* console.log(details) */
-  /* console.log(product) */
-  /* console.log(variantSizeName) */
-  /* console.log(selectedVariant) */
 
   return (
     <Layout>

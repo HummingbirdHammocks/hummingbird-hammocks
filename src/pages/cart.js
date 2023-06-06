@@ -30,7 +30,7 @@ const CartPage = () => {
   let totalQuantity = 0;
 
   if (checkout) {
-    /* console.log(checkout); */
+    console.log(checkout);
     checkout.lineItems.forEach((lineItem) => {
       totalQuantity = totalQuantity + lineItem.quantity;
     });
@@ -121,7 +121,7 @@ const CartPage = () => {
                           <br />
                           <Box fontWeight={600} mr="15px" fontSize="15px" my="3px">
                             <Typography variant="subtitle3">
-                              ${item.variant.price} {item.variant.priceV2.currencyCode}
+                              {`$${item.variant.price.amount} ${item.variant.price.currencyCode}`}
                             </Typography>
                           </Box>
                           <br />
@@ -164,8 +164,8 @@ const CartPage = () => {
                           <br />
                           <Box fontWeight={600} fontSize="14px" color="primary.main" mt={0.5}>
                             <Typography variant="subtitle3">
-                              <b>Total: </b> ${(item.quantity * item.variant.price).toFixed(2)}{' '}
-                              {item.variant.priceV2.currencyCode}
+                              <b>Total: </b> {`$${(item.quantity * item.variant.price.amount).toFixed(2)} 
+                              ${item.variant.price.currencyCode}`}
                             </Typography>
                           </Box>
                         </Box>
@@ -197,7 +197,7 @@ const CartPage = () => {
                       <b>Subtotal: </b>
                     </Typography>
                     <Typography sx={{ color: '#000' }} variant="subtitle1">
-                      <b>${checkout?.totalPrice}</b>
+                      <b>{`$${checkout.totalPrice.amount} ${checkout.totalPrice.currencyCode}`}</b>
                     </Typography>
                   </Box>
                   <Typography variant="cartVariant" color="grey.600">

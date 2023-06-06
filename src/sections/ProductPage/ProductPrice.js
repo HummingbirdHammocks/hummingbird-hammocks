@@ -25,11 +25,11 @@ export function ProductPrice({ price, compareAtPrice, saleReason }) {
     setOpen(false);
   };
 
-  console.log(price)
-  console.log(compareAtPrice)
+  /* console.log(price) */
+  /* console.log(compareAtPrice) */
   /* console.log(saleReason) */
 
-  if (!price || !price.ammount || !price.currencyCode || !compareAtPrice || !compareAtPrice.ammount) {
+  if (!price || !compareAtPrice) {
     return null;
   }
 

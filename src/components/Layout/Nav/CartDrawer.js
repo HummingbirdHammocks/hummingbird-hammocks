@@ -28,8 +28,6 @@ export const CartDrawer = () => {
 
   const { checkout, updateLineItem, removeLineItem } = useContext(CartContext);
 
-  /* console.log(checkout) */
-
   let totalQuantity = 0;
 
   if (checkout) {
@@ -150,8 +148,7 @@ export const CartDrawer = () => {
               </Typography>
               <Box fontWeight={600} fontSize="14px" color="primary.main" mt={0.5}>
                 <Typography variant="subtitle3">
-                  ${(item.quantity * item.variant.price).toFixed(2)}{' '}
-                  {item.variant.priceV2.currencyCode}
+                  {`$${(item.quantity * item.variant.price.amount).toFixed(2)} ${item.variant.price.currencyCode}`}
                 </Typography>
               </Box>
             </Box>
