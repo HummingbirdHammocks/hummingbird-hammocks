@@ -43,9 +43,9 @@ export default KnowledgebaseArticlesPage;
 
 export const query = graphql`
   query knowlegebaseArticlesTemplate {
-    allKnowledgebaseArticles(sort: { fields: published_at, order: DESC }) {
+    allKnowledgebaseArticles(sort: {published_at: DESC})  {
       totalCount
-      group(field: tags) {
+      group(field: {tags: SELECT}) {
         nodes {
           localFile {
             childImageSharp {
@@ -64,7 +64,7 @@ export const query = graphql`
 
     knowledgebaseArticles: allKnowledgebaseArticles(
       limit: 5
-      sort: { fields: published_at, order: DESC }
+      sort: {published_at: DESC}
     ) {
       nodes {
         title

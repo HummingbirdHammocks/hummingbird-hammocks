@@ -33,7 +33,7 @@
     "gatsby-plugin-sharp": "^5.10.0",
     "gatsby-plugin-sitemap": "^6.10.0",
     "gatsby-source-filesystem": "^5.10.0",
-    "gatsby-source-shopify": "^8.10.0",
+    "gatsby-source-shopify": "^6.3.0",
     "gatsby-transformer-sharp": "^5.10.0",
     "global": "^4.4.0",
     "isomorphic-fetch": "^3.0.0",

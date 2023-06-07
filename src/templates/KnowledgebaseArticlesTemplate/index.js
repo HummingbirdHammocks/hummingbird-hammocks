@@ -155,7 +155,7 @@ export default KnowledgebaseArticles;
 
 export const query = graphql`
   query knowledgebaseArticleQuery($id: String) {
-    knowledgebaseArticles(id: { eq: $id }) {
+    knowledgebaseArticles(id: {eq: $id}) {
       localFile {
         childImageSharp {
           gatsbyImageData(placeholder: BLURRED)
@@ -172,7 +172,7 @@ export const query = graphql`
 
     recentKnowledgebaseArticles: allKnowledgebaseArticles(
       limit: 5
-      sort: { fields: published_at, order: DESC }
+      sort: {published_at: DESC}
     ) {
       nodes {
         title

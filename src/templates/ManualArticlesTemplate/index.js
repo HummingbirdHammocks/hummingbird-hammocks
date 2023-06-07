@@ -154,7 +154,7 @@ export default ManualArticles;
 
 export const query = graphql`
   query manualArticleQuery($id: String) {
-    manualArticles(id: { eq: $id }) {
+    manualArticles(id: {eq: $id}) {
       localFile {
         childImageSharp {
           gatsbyImageData(placeholder: BLURRED)
@@ -169,7 +169,7 @@ export const query = graphql`
       id
     }
 
-    recentManualArticles: allManualArticles(limit: 5, sort: { fields: published_at, order: DESC }) {
+    recentManualArticles: allManualArticles(limit: 5, sort: {published_at: DESC}) {
       nodes {
         title
         handle

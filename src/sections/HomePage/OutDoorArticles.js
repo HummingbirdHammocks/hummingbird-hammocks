@@ -7,7 +7,7 @@ import { BlogItem } from 'sections';
 export function OutDoorArticles() {
   const data = useStaticQuery(graphql`
     {
-      allArticles(limit: 3, sort: { order: DESC, fields: published_at }) {
+      allArticles(limit: 3, sort: {published_at: DESC}) {
         nodes {
           localFile {
             childImageSharp {

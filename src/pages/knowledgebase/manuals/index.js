@@ -41,9 +41,9 @@ export default ManualsPage;
 
 export const query = graphql`
   query manualArticlesTemplate {
-    allManualArticles(sort: { fields: published_at, order: DESC }) {
+    allManualArticles(sort: {published_at: DESC}) {
       totalCount
-      group(field: tags) {
+      group(field: {tags: SELECT}) {
         nodes {
           localFile {
             childImageSharp {
@@ -60,7 +60,7 @@ export const query = graphql`
       }
     }
 
-    manualArticles: allManualArticles(limit: 5, sort: { fields: published_at, order: DESC }) {
+    manualArticles: allManualArticles(limit: 5, sort: {published_at: DESC}) {
       nodes {
         title
         handle
