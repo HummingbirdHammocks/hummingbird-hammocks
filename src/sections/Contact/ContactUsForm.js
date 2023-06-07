@@ -1,46 +1,30 @@
-import React from "react"
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import {
-  Box,
-  Grid,
-  TextField,
-} from "@mui/material"
 import { LoadingButton } from '@mui/lab';
+import { Box, Grid, TextField } from '@mui/material';
+import axios from 'axios';
+import { useFormik } from 'formik';
+import React from 'react';
+import { toast } from 'react-toastify';
+import * as yup from 'yup';
 
 const validationSchema = yup.object({
-  firstName: yup
-    .string()
-    .trim()
-    .required('First Name is required'),
-  lastName: yup
-    .string()
-    .trim()
-    .required('Last Name is required'),
+  firstName: yup.string().trim().required('First Name is required'),
+  lastName: yup.string().trim().required('Last Name is required'),
   email: yup
     .string()
     .trim()
     .email('Please enter a valid email address')
     .required('Email is required'),
-  subject: yup
-    .string()
-    .trim()
-    .required('Subject is required'),
-  message: yup
-    .string()
-    .required('Message is required')
+  subject: yup.string().trim().required('Subject is required'),
+  message: yup.string().required('Message is required')
 });
 
 export function ContactUsForm() {
-
   const initialValues = {
     firstName: '',
     lastName: '',
     email: '',
     subject: '',
-    message: '',
+    message: ''
   };
 
   const onSubmit = async ({ firstName, lastName, email, subject, message }) => {
@@ -49,26 +33,30 @@ export function ContactUsForm() {
       lastName: lastName,
       email: email,
       subject: subject,
-      message: message,
-    }
+      message: message
+    };
 
     const url = process.env.GATSBY_FIREBASE_FUNCTIONS_URL + '/api/v1/freescout/create_ticket';
 
-    await axios.post(url, payload)
-      .then((response) =>
-        toast.success("Message sent successfully, we will get back to you as soon as possible"),
+    await axios
+      .post(url, payload)
+      .then(
+        () =>
+          toast.success('Message sent successfully, we will get back to you as soon as possible'),
         formik.resetForm({})
       )
       .catch((error) => {
-        console.log("contactForm ", error)
-        toast.error("Error sending message, please try again or email us at support@hummingbirdhammocks.com")
+        console.log('contactForm ', error);
+        toast.error(
+          'Error sending message, please try again or email us at support@hummingbirdhammocks.com'
+        );
       });
   };
 
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchema,
-    onSubmit,
+    onSubmit
   });
 
   return (
@@ -139,13 +127,17 @@ export function ContactUsForm() {
               />
             </Grid>
             <Grid item xs={12}>
-              <LoadingButton size={'large'} variant={'contained'} type={'submit'} loading={formik.isSubmitting}>
+              <LoadingButton
+                size={'large'}
+                variant={'contained'}
+                type={'submit'}
+                loading={formik.isSubmitting}>
                 Send Message
               </LoadingButton>
             </Grid>
           </Grid>
         </form>
       </Box>
-    </Box >
-  )
+    </Box>
+  );
 }

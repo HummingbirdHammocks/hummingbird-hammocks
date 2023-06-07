@@ -1,20 +1,27 @@
-import React from "react"
-import { toast } from "react-toastify"
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import { useMutation, gql } from "@apollo/client"
-import { navigate } from "gatsby"
-import { useTheme, Typography, Divider, Box, Stack, TextField, IconButton, InputAdornment, Button } from "@mui/material"
-import { LoadingButton } from '@mui/lab';
+import { gql, useMutation } from '@apollo/client';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-// stores
-import { useAuthStore, useAuthDispatch } from "../../../stores";
-// components
+import { LoadingButton } from '@mui/lab';
 import {
-  Seo,
-  Layout,
-  MainWrapper,
-} from "components"
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  InputAdornment,
+  Stack,
+  TextField,
+  Typography
+} from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+// components
+import { Layout, MainWrapper, Seo } from 'components';
+import { useFormik } from 'formik';
+import { navigate } from 'gatsby';
+import React from 'react';
+import { toast } from 'react-toastify';
+import * as yup from 'yup';
+
+// stores
+import { useAuthDispatch, useAuthStore } from '../../../stores';
 
 const validationSchema = yup.object({
   password: yup
@@ -26,7 +33,7 @@ const validationSchema = yup.object({
     .string()
     .trim()
     .required('Please specify your password')
-    .oneOf([yup.ref('password'), null], 'Passwords must match'),
+    .oneOf([yup.ref('password'), null], 'Passwords must match')
 });
 
 const ActivatePage = ({ params }) => {
@@ -40,55 +47,51 @@ const ActivatePage = ({ params }) => {
 
   const initialValues = {
     password: '',
-    repeatPassword: '',
+    repeatPassword: ''
   };
 
   const onSubmit = async (values, { resetForm }) => {
-    const response = await handleAccountActivation(values.password)
+    const response = await handleAccountActivation(values.password);
     if (response) {
-      resetForm({})
+      resetForm({});
     }
   };
 
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchema,
-    onSubmit,
+    onSubmit
   });
 
-  const activationUrl = `https://hummingbirdhammocks.com/account/activate/${params["*"]}`
+  const activationUrl = `https://hummingbirdhammocks.com/account/activate/${params['*']}`;
 
-  const handleCustomerAccessToken = value => {
-    authDispatch({ type: "setCustomerAccessToken", customerAccessToken: value })
-  }
+  const handleCustomerAccessToken = (value) => {
+    authDispatch({ type: 'setCustomerAccessToken', customerAccessToken: value });
+  };
 
-  const [activateAccount] = useMutation(
-    CUSTOMER_ACTIVATE
-  )
+  const [activateAccount] = useMutation(CUSTOMER_ACTIVATE);
 
   const handleAccountActivation = async (password) => {
     const { data } = await activateAccount({
       variables: {
         password,
-        activationUrl,
-      },
-    })
+        activationUrl
+      }
+    });
 
     if (data?.customerActivateByUrl) {
-      console.log(data.customerActivateByUrl)
-      handleCustomerAccessToken(
-        data.customerActivateByUrl.customerAccessToken.accessToken
-      )
-      toast.success("Account Activated!", {
+      console.log(data.customerActivateByUrl);
+      handleCustomerAccessToken(data.customerActivateByUrl.customerAccessToken.accessToken);
+      toast.success('Account Activated!', {
         autoClose: 3000,
-        hideProgressBar: false,
-      })
-      navigate("/account")
+        hideProgressBar: false
+      });
+      navigate('/account');
     } else {
-      console.log(data.customerActivateByUrl.customerUserErrors[0].message)
-      toast.error("Unable to activate account, please try again using the link in your email")
+      console.log(data.customerActivateByUrl.customerUserErrors[0].message);
+      toast.error('Unable to activate account, please try again using the link in your email');
     }
-  }
+  };
 
   return (
     <Layout>
@@ -96,14 +99,14 @@ const ActivatePage = ({ params }) => {
       <Box
         sx={{
           background: theme.palette.white,
-          padding: "60px 15px",
+          padding: '60px 15px',
 
-          [theme.breakpoints.down("md")]: {
-            padding: "50",
-          },
+          [theme.breakpoints.down('md')]: {
+            padding: '50'
+          }
         }}>
         <MainWrapper>
-          <Box padding={{ xs: "0", md: "0 200px" }}>
+          <Box padding={{ xs: '0', md: '0 200px' }}>
             {customerAccessToken ? (
               <Stack
                 direction="column"
@@ -112,26 +115,26 @@ const ActivatePage = ({ params }) => {
                 spacing={2}
                 sx={{
                   marginTop: 20,
-                  marginBottom: 20,
+                  marginBottom: 20
                 }}>
-                <Typography variant="h2">
-                  You're already Logged in!
-                </Typography>
-                <Typography variant="h5">
-                  Please Log Out First
-                </Typography>
-                <Button variant="contained" size="large" onClick={() => authDispatch({ type: "setLogout" })}>Logout</Button>
+                <Typography variant="h2">You're already Logged in!</Typography>
+                <Typography variant="h5">Please Log Out First</Typography>
+                <Button
+                  variant="contained"
+                  size="large"
+                  onClick={() => authDispatch({ type: 'setLogout' })}>
+                  Logout
+                </Button>
               </Stack>
             ) : (
               <>
-                <Stack spacing={2} direction={{ xs: "column", sm: "row" }} justifyContent="space-between" sx={{ paddingBottom: "30px" }}>
-                  <Typography variant="h2">
-                    Activate Account
-                  </Typography>
-                  <Button
-                    variant="outlined"
-                    onClick={() => navigate("/account/login")}
-                  >
+                <Stack
+                  spacing={2}
+                  direction={{ xs: 'column', sm: 'row' }}
+                  justifyContent="space-between"
+                  sx={{ paddingBottom: '30px' }}>
+                  <Typography variant="h2">Activate Account</Typography>
+                  <Button variant="outlined" onClick={() => navigate('/account/login')}>
                     Login
                   </Button>
                 </Stack>
@@ -140,7 +143,7 @@ const ActivatePage = ({ params }) => {
                 <Box padding="30px" justifyContent="center" display="flex">
                   <Box>
                     <form onSubmit={formik.handleSubmit}>
-                      <Stack spacing={2} sx={{ width: { xs: "100%", md: "400px" } }}>
+                      <Stack spacing={2} sx={{ width: { xs: '100%', md: '400px' } }}>
                         <TextField
                           label="New Password *"
                           variant="outlined"
@@ -150,21 +153,18 @@ const ActivatePage = ({ params }) => {
                           InputProps={{
                             endAdornment: (
                               <InputAdornment position="end">
-                                <IconButton onClick={() => setShowPassword((show) => !show)} edge="end">
+                                <IconButton
+                                  onClick={() => setShowPassword((show) => !show)}
+                                  edge="end">
                                   {showPassword ? <Visibility /> : <VisibilityOff />}
                                 </IconButton>
                               </InputAdornment>
-                            ),
+                            )
                           }}
                           value={formik.values.password}
                           onChange={formik.handleChange}
-                          error={
-                            formik.touched.password &&
-                            Boolean(formik.errors.password)
-                          }
-                          helperText={
-                            formik.touched.password && formik.errors.password
-                          }
+                          error={formik.touched.password && Boolean(formik.errors.password)}
+                          helperText={formik.touched.password && formik.errors.password}
                         />
                         <TextField
                           label="Confirm Password *"
@@ -175,24 +175,26 @@ const ActivatePage = ({ params }) => {
                           InputProps={{
                             endAdornment: (
                               <InputAdornment position="end">
-                                <IconButton onClick={() => setShowPasswordConfirmation((show) => !show)} edge="end">
+                                <IconButton
+                                  onClick={() => setShowPasswordConfirmation((show) => !show)}
+                                  edge="end">
                                   {showPasswordConfirmation ? <Visibility /> : <VisibilityOff />}
                                 </IconButton>
                               </InputAdornment>
-                            ),
+                            )
                           }}
                           value={formik.values.repeatPassword}
                           onChange={formik.handleChange}
                           error={
-                            formik.touched.repeatPassword &&
-                            Boolean(formik.errors.repeatPassword)
+                            formik.touched.repeatPassword && Boolean(formik.errors.repeatPassword)
                           }
-                          helperText={
-                            formik.touched.repeatPassword &&
-                            formik.errors.repeatPassword
-                          }
+                          helperText={formik.touched.repeatPassword && formik.errors.repeatPassword}
                         />
-                        <LoadingButton size={'large'} variant={'contained'} type={'submit'} loading={formik.isSubmitting}>
+                        <LoadingButton
+                          size={'large'}
+                          variant={'contained'}
+                          type={'submit'}
+                          loading={formik.isSubmitting}>
                           Activate Account
                         </LoadingButton>
                       </Stack>
@@ -205,29 +207,26 @@ const ActivatePage = ({ params }) => {
         </MainWrapper>
       </Box>
     </Layout>
-  )
-}
+  );
+};
 
-export default ActivatePage
+export default ActivatePage;
 
 const CUSTOMER_ACTIVATE = gql`
   mutation customerActivate($activationUrl: URL!, $password: String!) {
-    customerActivateByUrl(
-      activationUrl: $activationUrl,
-      password: $password
-    ) {
-      customer { 
-        id 
+    customerActivateByUrl(activationUrl: $activationUrl, password: $password) {
+      customer {
+        id
       }
       customerAccessToken {
         accessToken
         expiresAt
       }
-      customerUserErrors { 
-        code 
-        field 
-        message 
+      customerUserErrors {
+        code
+        field
+        message
       }
     }
   }
-`
+`;

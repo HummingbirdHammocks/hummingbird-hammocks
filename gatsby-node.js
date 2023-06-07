@@ -1,20 +1,23 @@
-const path = require(`path`)
-const axios = require("axios")
-const { createRemoteFileNode } = require(`gatsby-source-filesystem`)
+const path = require(`path`);
+const axios = require('axios');
+const { createRemoteFileNode } = require(`gatsby-source-filesystem`);
 
-const articlesPerPage = 12
-const NODE_TYPE_ARTICLES = "Articles"
-const NODE_TYPE_KNOWLEDGEBASE_ARTICLES = "KnowledgebaseArticles"
-const NODE_TYPE_MANUAL_ARTICLES = "ManualArticles"
+const articlesPerPage = 12;
+const NODE_TYPE_ARTICLES = 'Articles';
+const NODE_TYPE_KNOWLEDGEBASE_ARTICLES = 'KnowledgebaseArticles';
+const NODE_TYPE_MANUAL_ARTICLES = 'ManualArticles';
 
 // called each time a node is created
 exports.onCreateNode = async ({
   node, // the node that was just created
   actions: { createNode, createNodeField },
   createNodeId,
-  getCache,
+  getCache
 }) => {
-  if (node.internal.type === NODE_TYPE_ARTICLES || node.internal.type === NODE_TYPE_KNOWLEDGEBASE_ARTICLES) {
+  if (
+    node.internal.type === NODE_TYPE_ARTICLES ||
+    node.internal.type === NODE_TYPE_KNOWLEDGEBASE_ARTICLES
+  ) {
     if (node.image && node.image.src && node.image.src !== null) {
       const fileNode = await createRemoteFileNode({
         // the url of the remote image to generate a node for
@@ -22,44 +25,40 @@ exports.onCreateNode = async ({
         parentNodeId: node.id,
         createNode,
         createNodeId,
-        getCache,
-      })
+        getCache
+      });
 
       if (fileNode) {
-        createNodeField({ node, name: "localFile", value: fileNode.id })
+        createNodeField({ node, name: 'localFile', value: fileNode.id });
       }
     }
   }
-}
+};
 
 exports.createSchemaCustomization = ({ actions }) => {
-  const { createTypes } = actions
+  const { createTypes } = actions;
 
   createTypes(`
     type ${NODE_TYPE_ARTICLES} implements Node {
       localFile: File @link(from: "fields.localFile")
     }
-  `)
+  `);
 
   createTypes(`
     type ${NODE_TYPE_KNOWLEDGEBASE_ARTICLES} implements Node {
       localFile: File @link(from: "fields.localFile")
     }
-  `)
+  `);
 
   createTypes(`
     type ${NODE_TYPE_MANUAL_ARTICLES} implements Node {
       localFile: File @link(from: "fields.localFile")
     }
-  `)
-}
+  `);
+};
 
-exports.sourceNodes = async ({
-  actions,
-  createNodeId,
-  createContentDigest,
-}) => {
-  const { createNode } = actions
+exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => {
+  const { createNode } = actions;
 
   //Blog articles
   const {
@@ -68,10 +67,10 @@ exports.sourceNodes = async ({
     `https://${process.env.GATSBY_SHOPIFY_SHOP_NAME}.myshopify.com/admin/api/${process.env.GATSBY_SHOPIFY_API_VERSION}/blogs/${process.env.GATSBY_SHOPIFY_BLOG_ID}/articles.json?published_status=published`,
     {
       headers: {
-        "X-Shopify-Access-Token": process.env.GATSBY_SHOPIFY_ADMIN_ACCESS_TOKEN
+        'X-Shopify-Access-Token': process.env.GATSBY_SHOPIFY_ADMIN_ACCESS_TOKEN
       }
-    },
-  )
+    }
+  );
 
   articles.forEach((node) => {
     createNode({
@@ -82,10 +81,10 @@ exports.sourceNodes = async ({
       internal: {
         type: NODE_TYPE_ARTICLES,
         content: JSON.stringify(node),
-        contentDigest: createContentDigest(node),
-      },
-    })
-  })
+        contentDigest: createContentDigest(node)
+      }
+    });
+  });
 
   //Knowledgebase articles
   const {
@@ -94,10 +93,10 @@ exports.sourceNodes = async ({
     `https://${process.env.GATSBY_SHOPIFY_SHOP_NAME}.myshopify.com/admin/api/${process.env.GATSBY_SHOPIFY_API_VERSION}/blogs/${process.env.GATSBY_SHOPIFY_KNOWLEDGEBASE_ID}/articles.json?published_status=published`,
     {
       headers: {
-        "X-Shopify-Access-Token": process.env.GATSBY_SHOPIFY_ADMIN_ACCESS_TOKEN
+        'X-Shopify-Access-Token': process.env.GATSBY_SHOPIFY_ADMIN_ACCESS_TOKEN
       }
-    },
-  )
+    }
+  );
 
   knowledgebaseArticles.forEach((node) => {
     createNode({
@@ -108,10 +107,10 @@ exports.sourceNodes = async ({
       internal: {
         type: NODE_TYPE_KNOWLEDGEBASE_ARTICLES,
         content: JSON.stringify(node),
-        contentDigest: createContentDigest(node),
-      },
-    })
-  })
+        contentDigest: createContentDigest(node)
+      }
+    });
+  });
 
   //Manuals
   const {
@@ -120,10 +119,10 @@ exports.sourceNodes = async ({
     `https://${process.env.GATSBY_SHOPIFY_SHOP_NAME}.myshopify.com/admin/api/${process.env.GATSBY_SHOPIFY_API_VERSION}/blogs/${process.env.GATSBY_SHOPIFY_MANUALS_ID}/articles.json?published_status=published`,
     {
       headers: {
-        "X-Shopify-Access-Token": process.env.GATSBY_SHOPIFY_ADMIN_ACCESS_TOKEN
+        'X-Shopify-Access-Token': process.env.GATSBY_SHOPIFY_ADMIN_ACCESS_TOKEN
       }
-    },
-  )
+    }
+  );
 
   manualArticles.forEach((node) => {
     createNode({
@@ -134,23 +133,23 @@ exports.sourceNodes = async ({
       internal: {
         type: NODE_TYPE_MANUAL_ARTICLES,
         content: JSON.stringify(node),
-        contentDigest: createContentDigest(node),
-      },
-    })
-  })
-}
+        contentDigest: createContentDigest(node)
+      }
+    });
+  });
+};
 
 // Absolute imports
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
     resolve: {
-      modules: [path.resolve(__dirname, "src"), "node_modules"],
-    },
-  })
-}
+      modules: [path.resolve(__dirname, 'src'), 'node_modules']
+    }
+  });
+};
 
 exports.createPages = async ({ graphql, actions }) => {
-  const { createPage } = actions
+  const { createPage } = actions;
 
   //get shopifyId & handle from graphql
   const { data } = await graphql(`
@@ -232,7 +231,7 @@ exports.createPages = async ({ graphql, actions }) => {
         }
       }
     }
-  `)
+  `);
 
   //create single product pages
   data.allShopifyProduct.edges.forEach(({ node, previous, next }) => {
@@ -242,53 +241,53 @@ exports.createPages = async ({ graphql, actions }) => {
         id: node.id,
         collection: node.collections[1]?.handle
           ? {
-            handle: node.collections[1].handle,
-            title: node.collections[1].title,
-          }
+              handle: node.collections[1].handle,
+              title: node.collections[1].title
+            }
           : {
-            handle: node.collections[0].handle,
-            title: node.collections[0].title,
-          },
+              handle: node.collections[0].handle,
+              title: node.collections[0].title
+            },
         prev: {
           handle: previous?.handle,
-          title: previous?.title,
+          title: previous?.title
         },
         next: {
           handle: next?.handle,
-          title: next?.title,
-        },
+          title: next?.title
+        }
       },
-      component: path.resolve("./src/templates/ProductsTemplate/index.js"),
-    })
-  })
+      component: path.resolve('./src/templates/ProductsTemplate/index.js')
+    });
+  });
 
   // create collections products pages
   data.allShopifyCollection.edges.forEach(({ node }) => {
     createPage({
       path: `collections/${node.handle}`,
       context: {
-        shopifyId: node.shopifyId,
+        shopifyId: node.shopifyId
       },
-      component: path.resolve("./src/templates/CollectionsTemplate/index.js"),
-    })
-  })
+      component: path.resolve('./src/templates/CollectionsTemplate/index.js')
+    });
+  });
 
   // create blog pages with pagination
-  const articles = data.allArticles.edges
-  const numPages = Math.ceil(articles.length / articlesPerPage)
+  const articles = data.allArticles.edges;
+  const numPages = Math.ceil(articles.length / articlesPerPage);
 
   Array.from({ length: numPages }).forEach((_, i) => {
     createPage({
       path: i === 0 ? `/blogs/news` : `/blogs/news/${i + 1}`,
-      component: path.resolve("./src/templates/BlogTemplate/index.js"),
+      component: path.resolve('./src/templates/BlogTemplate/index.js'),
       context: {
         limit: articlesPerPage,
         skip: i * articlesPerPage,
         numPages,
-        currentPage: i + 1,
-      },
-    })
-  })
+        currentPage: i + 1
+      }
+    });
+  });
 
   // create single blog articles pages
   articles.forEach(({ node, previous, next }) => {
@@ -299,19 +298,19 @@ exports.createPages = async ({ graphql, actions }) => {
         handle: node.handle,
         prev: {
           handle: previous?.handle,
-          title: previous?.title,
+          title: previous?.title
         },
         next: {
           handle: next?.handle,
-          title: next?.title,
-        },
+          title: next?.title
+        }
       },
-      component: path.resolve("./src/templates/ArticlesTemplate/index.js"),
-    })
-  })
+      component: path.resolve('./src/templates/ArticlesTemplate/index.js')
+    });
+  });
 
   // create knowledgebase pages with pagination
-  const knowledgebaseArticles = data.allKnowledgebaseArticles.edges
+  const knowledgebaseArticles = data.allKnowledgebaseArticles.edges;
 
   // create single knowledgebase articles pages
   knowledgebaseArticles.forEach(({ node, previous, next }) => {
@@ -322,19 +321,19 @@ exports.createPages = async ({ graphql, actions }) => {
         handle: node.handle,
         prev: {
           handle: previous?.handle,
-          title: previous?.title,
+          title: previous?.title
         },
         next: {
           handle: next?.handle,
-          title: next?.title,
-        },
+          title: next?.title
+        }
       },
-      component: path.resolve("./src/templates/KnowledgebaseArticlesTemplate/index.js"),
-    })
-  })
+      component: path.resolve('./src/templates/KnowledgebaseArticlesTemplate/index.js')
+    });
+  });
 
   // create manual pages with pagination
-  const manualArticles = data.allManualArticles.edges
+  const manualArticles = data.allManualArticles.edges;
 
   // create single manual articles pages
   manualArticles.forEach(({ node, previous, next }) => {
@@ -345,14 +344,14 @@ exports.createPages = async ({ graphql, actions }) => {
         handle: node.handle,
         prev: {
           handle: previous?.handle,
-          title: previous?.title,
+          title: previous?.title
         },
         next: {
           handle: next?.handle,
-          title: next?.title,
-        },
+          title: next?.title
+        }
       },
-      component: path.resolve("./src/templates/ManualArticlesTemplate/index.js"),
-    })
-  })
-}
+      component: path.resolve('./src/templates/ManualArticlesTemplate/index.js')
+    });
+  });
+};

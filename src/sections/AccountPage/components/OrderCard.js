@@ -1,26 +1,30 @@
-import React, { useEffect, useState } from "react"
-import { navigate } from "gatsby"
-import { useLocation } from "@gatsbyjs/reach-router"
+import { useLocation } from '@gatsbyjs/reach-router';
 import {
-  Typography,
-  Box,
-  Grid,
-  Stack,
   Badge,
-  Chip,
-  Paper,
+  Box,
   Button,
+  Chip,
   Divider,
+  Grid,
+  Paper,
+  Stack,
   Tooltip,
-} from "@mui/material"
+  Typography
+} from '@mui/material';
+import { navigate } from 'gatsby';
+import React, { useEffect, useState } from 'react';
+import { fShopify } from 'utils/formatTime';
 
-import { SupportTicketDialog } from "./SupportTicketDialog"
-import { fShopify } from "utils/formatTime";
-import { fulfillmentStatusChipColor, financialStatusColor, getReturnEligible } from "../../../utils/shopify"
+import {
+  financialStatusColor,
+  fulfillmentStatusChipColor,
+  getReturnEligible
+} from '../../../utils/shopify';
+import { SupportTicketDialog } from './SupportTicketDialog';
 
 export const OrderCard = ({ order, firstName, lastName, email }) => {
-  const [ticketDialogOpen, setTicketDialogOpen] = useState(false)
-  const [returnEligible, setReturnEligible] = useState(false)
+  const [ticketDialogOpen, setTicketDialogOpen] = useState(false);
+  const [returnEligible, setReturnEligible] = useState(false);
 
   const {
     name,
@@ -31,20 +35,20 @@ export const OrderCard = ({ order, firstName, lastName, email }) => {
     totalPrice,
     lineItems,
     shippingAddress,
-    successfulFulfillments,
-  } = order.node
+    successfulFulfillments
+  } = order.node;
 
-  const { pathname } = useLocation()
+  const { pathname } = useLocation();
 
-  const handleOrderDetails = name => {
+  const handleOrderDetails = (name) => {
     navigate(`${pathname}?orders=${encodeURIComponent(name)}`, {
-      replace: true,
-    })
-  }
+      replace: true
+    });
+  };
 
   const handleSupportDialogClose = () => {
-    setTicketDialogOpen(false)
-  }
+    setTicketDialogOpen(false);
+  };
 
   const handleReturnEligibility = async (ord) => {
     if (!ord) return false;
@@ -52,14 +56,17 @@ export const OrderCard = ({ order, firstName, lastName, email }) => {
     const res = await getReturnEligible({ order: ord, overrideDate: false });
 
     if (res && res.data && res.data.data && res.data.data.returnableFulfillments) {
-      if (res.data.data.returnableFulfillments.edges && res.data.data.returnableFulfillments.edges.length > 0) {
+      if (
+        res.data.data.returnableFulfillments.edges &&
+        res.data.data.returnableFulfillments.edges.length > 0
+      ) {
         /* console.log(res) */
         return true;
       }
     }
 
     return false;
-  }
+  };
 
   useEffect(() => {
     if (order) {
@@ -67,7 +74,7 @@ export const OrderCard = ({ order, firstName, lastName, email }) => {
         setReturnEligible(res);
       });
     }
-  }, [order])
+  }, [order]);
 
   /* console.log(order); */
 
@@ -78,25 +85,20 @@ export const OrderCard = ({ order, firstName, lastName, email }) => {
         justifyContent="space-between"
         alignItems="center"
         spacing={2}
-        sx={{ paddingTop: 1, paddingBottom: 1, paddingLeft: 2, paddingRight: 2 }}
-      >
+        sx={{ paddingTop: 1, paddingBottom: 1, paddingLeft: 2, paddingRight: 2 }}>
         <Box>
-          <Typography variant="caption">
-            Order #:
-          </Typography>
-          <Typography variant="h5">
-            {name}
-          </Typography>
+          <Typography variant="caption">Order #:</Typography>
+          <Typography variant="h5">{name}</Typography>
         </Box>
         <Box>
-          <Typography variant="caption">
-            Date Placed:
-          </Typography>
-          <Typography>
-            {fShopify(processedAt)}
-          </Typography>
+          <Typography variant="caption">Date Placed:</Typography>
+          <Typography>{fShopify(processedAt)}</Typography>
         </Box>
-        <Chip label={fulfillmentStatus} variant="filled" color={fulfillmentStatusChipColor(fulfillmentStatus)} />
+        <Chip
+          label={fulfillmentStatus}
+          variant="filled"
+          color={fulfillmentStatusChipColor(fulfillmentStatus)}
+        />
       </Stack>
 
       <Divider />
@@ -104,33 +106,26 @@ export const OrderCard = ({ order, firstName, lastName, email }) => {
       <Box sx={{ margin: 2 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={8} lg={7}>
-            {lineItems && lineItems.edges.map((item) => {
-              const {
-                title,
-                variant: {
-                  title: variantTitle,
-                  image: {
-                    url,
-                    altText,
+            {lineItems &&
+              lineItems.edges.map((item) => {
+                const {
+                  title,
+                  variant: {
+                    title: variantTitle,
+                    image: { url, altText }
                   },
-                },
-                quantity,
-              } = item.node;
-              return (
-                <Box sx={{ margin: 1 }} key={title}>
-                  <Tooltip title={`${title} ${variantTitle}`} >
-                    <Badge badgeContent={quantity} color="primary">
-                      <img
-                        src={url}
-                        alt={altText}
-                        height={"80px"}
-                        width={"80px"}
-                      />
-                    </Badge>
-                  </Tooltip>
-                </Box>
-              )
-            })}
+                  quantity
+                } = item.node;
+                return (
+                  <Box sx={{ margin: 1 }} key={title}>
+                    <Tooltip title={`${title} ${variantTitle}`}>
+                      <Badge badgeContent={quantity} color="primary">
+                        <img src={url} alt={altText} height={'80px'} width={'80px'} />
+                      </Badge>
+                    </Tooltip>
+                  </Box>
+                );
+              })}
           </Grid>
           <Grid item xs={12} sm={4} lg={5}>
             <Stack spacing={1}>
@@ -141,17 +136,22 @@ export const OrderCard = ({ order, firstName, lastName, email }) => {
                 successfulFulfillments.length > 0 &&
                 successfulFulfillments[0].trackingInfo &&
                 successfulFulfillments[0].trackingInfo.url && (
-                  <Button variant="outlined" onClick={() => window.open(successfulFulfillments[0].trackingInfo.url, '_blank')}>
+                  <Button
+                    variant="outlined"
+                    onClick={() =>
+                      window.open(successfulFulfillments[0].trackingInfo.url, '_blank')
+                    }>
                     Track Package
                   </Button>
                 )}
               {returnEligible && (
                 <Button
                   variant="outlined"
-                  onClick={() => navigate(`/returns?orderName=${encodeURIComponent(name)}`, {
-                    replace: true,
-                  })}
-                >
+                  onClick={() =>
+                    navigate(`/returns?orderName=${encodeURIComponent(name)}`, {
+                      replace: true
+                    })
+                  }>
                   Return / Replace
                 </Button>
               )}
@@ -170,23 +170,16 @@ export const OrderCard = ({ order, firstName, lastName, email }) => {
         justifyContent="space-between"
         alignItems="center"
         spacing={2}
-        sx={{ paddingTop: 1, paddingBottom: 1, paddingLeft: 2, paddingRight: 2 }}
-      >
+        sx={{ paddingTop: 1, paddingBottom: 1, paddingLeft: 2, paddingRight: 2 }}>
         <Box>
-          <Typography variant="caption">
-            Ship To:
-          </Typography>
+          <Typography variant="caption">Ship To:</Typography>
           <Typography>
             {shippingAddress && `${shippingAddress.firstName} ${shippingAddress.lastName}`}
           </Typography>
         </Box>
         <Box>
-          <Typography variant="caption">
-            {`Total (${currencyCode}):`}
-          </Typography>
-          <Typography>
-            {`$${totalPrice}`}
-          </Typography>
+          <Typography variant="caption">{`Total (${currencyCode}):`}</Typography>
+          <Typography>{`$${totalPrice}`}</Typography>
         </Box>
         <Chip label={financialStatus} color={financialStatusColor(financialStatus)} />
       </Stack>
@@ -200,5 +193,5 @@ export const OrderCard = ({ order, firstName, lastName, email }) => {
         handleClose={handleSupportDialogClose}
       />
     </Paper>
-  )
-}
+  );
+};

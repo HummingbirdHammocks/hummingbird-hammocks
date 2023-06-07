@@ -1,18 +1,11 @@
-import React from "react"
-import { graphql } from "gatsby"
-import {
-  Box,
-  Typography,
-  Stack,
-  Grid,
-} from "@mui/material"
-
-import { Layout, MainWrapper, Link } from "components"
-import { ArticlesHeader, ArticlesSection, ArticlesSidebar } from "sections"
+import { Box, Grid, Stack, Typography } from '@mui/material';
+import { Layout, Link, MainWrapper } from 'components';
+import { graphql } from 'gatsby';
+import React from 'react';
+import { ArticlesHeader, ArticlesSection, ArticlesSidebar } from 'sections';
 
 const ManualsPage = ({ data: { allManualArticles, manualArticles } }) => {
-
-  const type = "manuals"
+  const type = 'manuals';
 
   return (
     <Layout>
@@ -20,23 +13,17 @@ const ManualsPage = ({ data: { allManualArticles, manualArticles } }) => {
 
       <MainWrapper>
         <Box sx={{ marginTop: 1 }}>
-          <Typography variant="collectionName" >
-            <Link to="/">HOME</Link> /{" "}
-            <Link to={`/knowledgebase/`}>KNOWLEDGEBASE</Link> / MANUALS
+          <Typography variant="collectionName">
+            <Link to="/">HOME</Link> / <Link to={`/knowledgebase/`}>KNOWLEDGEBASE</Link> / MANUALS
           </Typography>
         </Box>
 
-        <Grid
-          container
-          spacing={2}
-        >
+        <Grid container spacing={2}>
           <Grid item xs={12} lg={9}>
             <Stack>
               {allManualArticles.group.map((group) => {
-                if (!group.nodes[0].tags || group.nodes[0].tags === "") return null;
-                return (
-                  <ArticlesSection group={group} type={type} key={group.nodes[0].tags} />
-                )
+                if (!group.nodes[0].tags || group.nodes[0].tags === '') return null;
+                return <ArticlesSection group={group} type={type} key={group.nodes[0].tags} />;
               })}
             </Stack>
           </Grid>
@@ -46,19 +33,17 @@ const ManualsPage = ({ data: { allManualArticles, manualArticles } }) => {
           </Grid>
         </Grid>
       </MainWrapper>
-    </Layout >
-  )
-}
+    </Layout>
+  );
+};
 
-export default ManualsPage
+export default ManualsPage;
 
 export const query = graphql`
   query manualArticlesTemplate {
-    allManualArticles(
-      sort: { fields: published_at, order: DESC }
-    ) {
+    allManualArticles(sort: {published_at: DESC}) {
       totalCount
-      group(field: tags) {
+      group(field: {tags: SELECT}) {
         nodes {
           localFile {
             childImageSharp {
@@ -75,10 +60,7 @@ export const query = graphql`
       }
     }
 
-    manualArticles: allManualArticles(
-      limit: 5
-      sort: { fields: published_at, order: DESC }
-    ) {
+    manualArticles: allManualArticles(limit: 5, sort: {published_at: DESC}) {
       nodes {
         title
         handle
@@ -86,4 +68,4 @@ export const query = graphql`
       }
     }
   }
-`
+`;

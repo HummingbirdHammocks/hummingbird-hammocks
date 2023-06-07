@@ -1,6 +1,6 @@
-import React from "react"
-import { Link } from "gatsby"
-import { GatsbyImage, getImage } from "gatsby-plugin-image"
+import { Link } from 'gatsby';
+import { GatsbyImage, getImage } from 'gatsby-plugin-image';
+import React from 'react';
 
 export default function ArticleItem({ hit, components, linkType }) {
   return (
@@ -9,7 +9,7 @@ export default function ArticleItem({ hit, components, linkType }) {
         <div className="aa-ItemIcon aa-ItemIcon--picture aa-ItemIcon--alignTop">
           <GatsbyImage
             image={getImage(hit.localFile.childImageSharp.gatsbyImageData)}
-            alt={hit.title + " Featured Image"}
+            alt={hit.title + ' Featured Image'}
           />
         </div>
 
@@ -21,5 +21,5 @@ export default function ArticleItem({ hit, components, linkType }) {
         </div>
       </div>
     </Link>
-  )
+  );
 }

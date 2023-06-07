@@ -12,7 +12,7 @@ body.dark {
 .aa-DetachedCancelButton,
 .aa-ItemTitle,
 .aa-SourceHeaderTitle {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .scrollable-element {
@@ -48,7 +48,7 @@ body.dark {
 
 .articles .aa-DetachedSearchButtonPlaceholder {
   display: block;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .articles .aa-DetachedSearchButton {

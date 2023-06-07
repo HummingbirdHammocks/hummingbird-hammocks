@@ -1,23 +1,23 @@
-import React from "react"
-import { navigate } from "gatsby"
-import { getAlgoliaResults } from "@algolia/autocomplete-js"
-import algoliasearch from "algoliasearch"
-import "@algolia/autocomplete-theme-classic"
+import { getAlgoliaResults } from '@algolia/autocomplete-js';
+import '@algolia/autocomplete-theme-classic';
+import algoliasearch from 'algoliasearch';
+import { navigate } from 'gatsby';
+import React from 'react';
 
-import "./autocomplete.css"
-import Autocomplete from "./customAutocomplete"
-import KnowledgebaseItem from "./KnowledgebaseItem"
+import KnowledgebaseItem from './KnowledgebaseItem';
+import './autocomplete.css';
+import Autocomplete from './customAutocomplete';
 
 const searchClient = algoliasearch(
   process.env.GATSBY_ALGOLIA_APP_ID,
   process.env.GATSBY_ALGOLIA_ADMIN_KEY
-)
+);
 
 export default function KnowledgebaseArticlesSearch() {
   return (
     <Autocomplete
       openOnFocus={true}
-      detachedMediaQuery={""}
+      detachedMediaQuery={''}
       getSources={({ query }) => [
         {
           sourceId: process.env.GATSBY_ALGOLIA_KNOWLEDGEBASE_INDEX_NAME,
@@ -28,23 +28,23 @@ export default function KnowledgebaseArticlesSearch() {
                 {
                   clickAnalytics: true,
                   indexName: process.env.GATSBY_ALGOLIA_KNOWLEDGEBASE_INDEX_NAME,
-                  query,
-                },
-              ],
-            })
+                  query
+                }
+              ]
+            });
           },
           onSelect({ item, setQuery, setIsOpen, refresh }) {
-            setQuery(`${item.query} `)
-            setIsOpen(true)
-            refresh()
+            setQuery(`${item.query} `);
+            setIsOpen(true);
+            refresh();
           },
           /* getItemUrl({ item }) {
             return "/communities/" + item.slug;
           }, */
           navigator: {
             navigate({ item }) {
-              navigate(item.Path)
-            },
+              navigate(item.Path);
+            }
           },
           templates: {
             header() {
@@ -53,17 +53,17 @@ export default function KnowledgebaseArticlesSearch() {
                   <span className="aa-SourceHeaderTitle">FAQs & ARTICLES</span>
                   <div className="aa-SourceHeaderLine" />
                 </>
-              )
+              );
             },
             item({ item, components }) {
-              return <KnowledgebaseItem hit={item} components={components} linkType={"articles"} />
+              return <KnowledgebaseItem hit={item} components={components} linkType={'articles'} />;
             },
             noResults() {
-              return "No Matching Knowlege Base Articles"
-            },
-          },
-        },
+              return 'No Matching Knowlege Base Articles';
+            }
+          }
+        }
       ]}
     />
-  )
+  );
 }

@@ -1,48 +1,47 @@
-import React, { useContext } from "react"
+import { Add, Co2, Delete, Forest, Remove } from '@mui/icons-material';
 import {
-  useTheme,
   Box,
-  Divider,
-  Typography,
   Button,
+  Divider,
   IconButton,
-  useMediaQuery,
   List,
   ListItem,
-  ListItemText,
   ListItemButton,
   ListItemIcon,
-  Tooltip
-} from "@mui/material"
-import { Add, Remove, Delete, Forest, Co2 } from "@mui/icons-material"
-// stores
-import { CartContext } from "contexts"
+  ListItemText,
+  Tooltip,
+  Typography,
+  useMediaQuery
+} from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 // components
-import { Seo, Layout, MainWrapper, Link } from "components"
-import { RecentlyViewed, CartExtras } from "sections"
-
+import { Layout, Link, MainWrapper, Seo } from 'components';
+// stores
+import { CartContext } from 'contexts';
+import React, { useContext } from 'react';
+import { CartExtras, RecentlyViewed } from 'sections';
 
 const CartPage = () => {
   const theme = useTheme();
-  const matches = useMediaQuery("(max-width:900px)")
+  const matches = useMediaQuery('(max-width:900px)');
 
-  const { checkout, updateLineItem, removeLineItem } = useContext(CartContext)
+  const { checkout, updateLineItem, removeLineItem } = useContext(CartContext);
 
-  let totalQuantity = 0
+  let totalQuantity = 0;
 
   if (checkout) {
-    /* console.log(checkout); */
-    checkout.lineItems.forEach(lineItem => {
-      totalQuantity = totalQuantity + lineItem.quantity
-    })
+    console.log(checkout);
+    checkout.lineItems.forEach((lineItem) => {
+      totalQuantity = totalQuantity + lineItem.quantity;
+    });
   }
 
   const handleDecrementQuantity = ({ variantId }) => {
-    updateLineItem({ quantity: -1, variantId })
-  }
+    updateLineItem({ quantity: -1, variantId });
+  };
   const handleIncrementQuantity = ({ variantId }) => {
-    updateLineItem({ quantity: 1, variantId })
-  }
+    updateLineItem({ quantity: 1, variantId });
+  };
 
   return (
     <Layout>
@@ -50,19 +49,14 @@ const CartPage = () => {
       <Box>
         <MainWrapper>
           <Box>
-            <Box mt={2} pt={"10px"}>
+            <Box mt={2} pt={'10px'}>
               <MainWrapper>
                 <Typography
                   sx={{ marginTop: 2, marginBottom: 2 }}
                   variant="h2"
                   color="black.main"
-                  textAlign={
-                    checkout?.lineItems.length >= 1 ? "left" : "center"
-                  }
-                >
-                  {checkout?.lineItems.length >= 1
-                    ? "Your Cart"
-                    : "Your cart is empty"}
+                  textAlign={checkout?.lineItems.length >= 1 ? 'left' : 'center'}>
+                  {checkout?.lineItems.length >= 1 ? 'Your Cart' : 'Your cart is empty'}
                 </Typography>
                 <Divider color="#e2dfd9" />
               </MainWrapper>
@@ -70,19 +64,19 @@ const CartPage = () => {
             {checkout?.lineItems.length >= 1 && (
               <Box
                 sx={{
-                  margin: "50px",
-                  display: "grid",
-                  position: "relative",
-                  gridTemplateColumns: "2.5fr 1fr",
-                  gridGap: "40px",
+                  margin: '50px',
+                  display: 'grid',
+                  position: 'relative',
+                  gridTemplateColumns: '2.5fr 1fr',
+                  gridGap: '40px',
 
-                  [theme.breakpoints.down("md")]: {
-                    gridTemplateColumns: "1fr",
-                    margin: "0",
-                  },
+                  [theme.breakpoints.down('md')]: {
+                    gridTemplateColumns: '1fr',
+                    margin: '0'
+                  }
                 }}>
-                <Box >
-                  {checkout.lineItems.map((item, index) => (
+                <Box>
+                  {checkout.lineItems.map((item) => (
                     <>
                       <Box
                         key={item.id}
@@ -90,55 +84,44 @@ const CartPage = () => {
                         py={2}
                         px={2.5}
                         borderBottom="1px solid #4f4c4c00"
-                        display="flex"
-                      >
+                        display="flex">
                         <Link
                           sx={{
-                            textDecoration: "none",
-                            "&:hover": {
-                              opacity: "0.7",
-                            },
+                            textDecoration: 'none',
+                            '&:hover': {
+                              opacity: '0.7'
+                            }
                           }}
-                          to={`/products/${item.variant.product.handle}`}
-                        >
+                          to={`/products/${item.variant.product.handle}`}>
                           <img
                             alt={item.variant.image.altText}
                             src={item.variant.image.src}
-                            height={matches ? "80px" : "130px"}
-                            width={matches ? "80px" : "130px"}
+                            height={matches ? '80px' : '130px'}
+                            width={matches ? '80px' : '130px'}
                           />
                         </Link>
 
                         <Box pl="20px" flex="1 1 0">
                           <Link
                             sx={{
-                              textDecoration: "none",
-                              "&:hover": {
-                                opacity: "0.7",
-                              },
+                              textDecoration: 'none',
+                              '&:hover': {
+                                opacity: '0.7'
+                              }
                             }}
-                            to={`/products/${item.variant.product.handle}`}
-                          >
+                            to={`/products/${item.variant.product.handle}`}>
                             <Typography variant="cartTitle" fontSize="14px">
                               {item.title}
                             </Typography>
                           </Link>
                           <br />
                           <Typography variant="cartVariant" color="grey.600">
-                            {item.variant.title === "Default Title"
-                              ? ""
-                              : item.variant.title}
+                            {item.variant.title === 'Default Title' ? '' : item.variant.title}
                           </Typography>
                           <br />
-                          <Box
-                            fontWeight={600}
-                            mr="15px"
-                            fontSize="15px"
-                            my="3px"
-                          >
+                          <Box fontWeight={600} mr="15px" fontSize="15px" my="3px">
                             <Typography variant="subtitle3">
-                              ${item.variant.price}{" "}
-                              {item.variant.priceV2.currencyCode}
+                              {`$${item.variant.price.amount} ${item.variant.price.currencyCode}`}
                             </Typography>
                           </Box>
                           <br />
@@ -148,65 +131,46 @@ const CartPage = () => {
                               color="primary"
                               onClick={() =>
                                 handleIncrementQuantity({
-                                  variantId: item.variant.id,
+                                  variantId: item.variant.id
                                 })
                               }
                               sx={{
-                                height: "32px",
-                                width: "32px",
-                                borderRadius: "300px",
-                                mr: "15px",
-                              }}
-                            >
+                                height: '32px',
+                                width: '32px',
+                                borderRadius: '300px',
+                                mr: '15px'
+                              }}>
                               <Add fontSize="small" />
                             </Button>
-                            <Box
-                              fontWeight={600}
-                              mr="15px"
-                              fontSize="15px"
-                              my="3px"
-                            >
-                              <Typography variant="subtitle3">
-                                {item.quantity}
-                              </Typography>
+                            <Box fontWeight={600} mr="15px" fontSize="15px" my="3px">
+                              <Typography variant="subtitle3">{item.quantity}</Typography>
                             </Box>
                             <Button
                               variant="outlined"
                               color="primary"
                               onClick={() =>
                                 handleDecrementQuantity({
-                                  variantId: item.variant.id,
+                                  variantId: item.variant.id
                                 })
                               }
                               sx={{
-                                height: "32px",
-                                width: "32px",
-                                borderRadius: "300px",
-                              }}
-                            >
+                                height: '32px',
+                                width: '32px',
+                                borderRadius: '300px'
+                              }}>
                               <Remove fontSize="small" />
                             </Button>
                           </Box>
                           <br />
-                          <Box
-                            fontWeight={600}
-                            fontSize="14px"
-                            color="primary.main"
-                            mt={0.5}
-                          >
+                          <Box fontWeight={600} fontSize="14px" color="primary.main" mt={0.5}>
                             <Typography variant="subtitle3">
-                              <b>Total: </b> $
-                              {(item.quantity * item.variant.price).toFixed(2)}{" "}
-                              {item.variant.priceV2.currencyCode}
+                              <b>Total: </b> {`$${(item.quantity * item.variant.price.amount).toFixed(2)} 
+                              ${item.variant.price.currencyCode}`}
                             </Typography>
                           </Box>
                         </Box>
 
-                        <IconButton
-                          onClick={() => removeLineItem(item.id)}
-                          ml={2.5}
-                          size="small"
-                        >
+                        <IconButton onClick={() => removeLineItem(item.id)} ml={2.5} size="small">
                           <Delete fontSize="small" />
                         </IconButton>
                       </Box>
@@ -215,26 +179,25 @@ const CartPage = () => {
                   ))}
                 </Box>
                 <Box>
-                  {checkout?.discountApplications.length >= 1 && (
-                    checkout.discountApplications.map((discount, index) => (
+                  {checkout?.discountApplications.length >= 1 &&
+                    checkout.discountApplications.map((discount) => (
                       <Box mb="20px" display="flex" justifyContent="space-between">
-                        <Typography sx={{ color: "#F41901" }} variant="subtitle2">
+                        <Typography sx={{ color: '#F41901' }} variant="subtitle2">
                           {discount.title}
                         </Typography>
                         {discount.value.percentage !== null && (
-                          <Typography sx={{ color: "#F41901" }} variant="subtitle2">
+                          <Typography sx={{ color: '#F41901' }} variant="subtitle2">
                             <b>{discount.value.percentage}% OFF</b>
                           </Typography>
                         )}
                       </Box>
-                    ))
-                  )}
+                    ))}
                   <Box mb="20px" display="flex" justifyContent="space-between">
-                    <Typography sx={{ color: "#000" }} variant="subtitle1">
+                    <Typography sx={{ color: '#000' }} variant="subtitle1">
                       <b>Subtotal: </b>
                     </Typography>
-                    <Typography sx={{ color: "#000" }} variant="subtitle1">
-                      <b>${checkout?.totalPrice}</b>
+                    <Typography sx={{ color: '#000' }} variant="subtitle1">
+                      <b>{`$${checkout.totalPrice.amount} ${checkout.totalPrice.currencyCode}`}</b>
                     </Typography>
                   </Box>
                   <Typography variant="cartVariant" color="grey.600">
@@ -245,13 +208,12 @@ const CartPage = () => {
                   <Button
                     variant="contained"
                     sx={{
-                      mt: "10px",
+                      mt: '10px'
                     }}
                     fullWidth
                     onClick={() => {
-                      window.location.href = checkout.webUrl
-                    }}
-                  >
+                      window.location.href = checkout.webUrl;
+                    }}>
                     Proceed to Checkout
                   </Button>
 
@@ -259,7 +221,10 @@ const CartPage = () => {
                     <List>
                       <ListItem disablePadding>
                         <Tooltip title="Learn More" placement="bottom">
-                          <ListItemButton component='a' href="https://www.shopify.com/climate/sustainability-fund/partners" target="_blank">
+                          <ListItemButton
+                            component="a"
+                            href="https://www.shopify.com/climate/sustainability-fund/partners"
+                            target="_blank">
                             <ListItemIcon>
                               <Co2 />
                             </ListItemIcon>
@@ -269,7 +234,10 @@ const CartPage = () => {
                       </ListItem>
                       <ListItem disablePadding>
                         <Tooltip title="Learn More" placement="bottom">
-                          <ListItemButton component='a' href="https://ecologi.com/hummingbirdhammocks?r=60b8efa8e6e3c022ec95c2bb" target="_blank">
+                          <ListItemButton
+                            component="a"
+                            href="https://ecologi.com/hummingbirdhammocks?r=60b8efa8e6e3c022ec95c2bb"
+                            target="_blank">
                             <ListItemIcon>
                               <Forest />
                             </ListItemIcon>
@@ -288,9 +256,9 @@ const CartPage = () => {
           </Box>
           <RecentlyViewed title="YOU MAY ALSO BE INTERESTED IN" />
         </MainWrapper>
-      </Box >
-    </Layout >
-  )
-}
+      </Box>
+    </Layout>
+  );
+};
 
-export default CartPage
+export default CartPage;

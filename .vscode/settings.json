@@ -1,6 +1,6 @@
 {
-    "emmet.includeLanguages": {
-        "javascript": "javascriptreact"
-    },
-    "editor.fontSize": 12
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
+  "editor.fontSize": 12
 }

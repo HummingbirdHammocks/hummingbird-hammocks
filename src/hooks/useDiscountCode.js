@@ -1,10 +1,10 @@
-import { useState, useContext } from "react"
 // stores
-import { CartContext } from "contexts"
+import { CartContext } from 'contexts';
+import { useContext, useState } from 'react';
 
 export const useDiscountCode = (code) => {
   const [lastCode, setLastCode] = useState(null);
-  const { addDiscount } = useContext(CartContext)
+  const { addDiscount } = useContext(CartContext);
 
   if (!code) return false;
 
@@ -18,7 +18,7 @@ export const useDiscountCode = (code) => {
     })
     .catch(() => {
       setLastCode(null);
-    })
+    });
 
   return lastCode;
 };

@@ -1,59 +1,55 @@
-import React, { useEffect, useState } from "react"
-import { Typography, Button, Box, Grid } from "@mui/material"
-import { navigate } from "gatsby"
-import { useQuery, gql } from "@apollo/client"
-import { useLocation } from "@gatsbyjs/reach-router"
-import queryString from "query-string"
-// stores
-import { useAuthStore } from "../../stores";
+import { gql, useQuery } from '@apollo/client';
+import { useLocation } from '@gatsbyjs/reach-router';
+import { Box, Button, Grid, Typography } from '@mui/material';
 // components
-import {
-  AccountLayout,
-  Link,
-  MiddleSpinner,
-} from "components"
-import { OrderHistory, OrderDetails } from "./components"
+import { AccountLayout, Link, MiddleSpinner } from 'components';
+import { navigate } from 'gatsby';
+import queryString from 'query-string';
+import React, { useEffect, useState } from 'react';
 
+// stores
+import { useAuthStore } from '../../stores';
+import { OrderDetails, OrderHistory } from './components';
 
 const AccountOrdersPage = () => {
   const [accountDetails, setAccountDetails] = useState({
     open: false,
-    index: null,
-  })
+    index: null
+  });
 
   const { customerAccessToken } = useAuthStore();
 
   // Variants & Product Image
-  const { search } = useLocation()
-  const q = queryString.parse(search).orders
+  const { search } = useLocation();
+  const q = queryString.parse(search).orders;
 
   const returnAccount = () => {
-    setAccountDetails({ open: false, index: null })
-    navigate("/account/orders")
-  }
+    setAccountDetails({ open: false, index: null });
+    navigate('/account/orders');
+  };
 
   const { data, loading, error } = useQuery(CUSTOMER_INFO, {
     variables: {
-      customerAccessToken,
-    },
-  })
+      customerAccessToken
+    }
+  });
 
   useEffect(() => {
     if (data?.customer.orders?.edges && q) {
-      let index = data.customer.orders?.edges.findIndex(i => i.node.name === q)
+      const index = data.customer.orders?.edges.findIndex((i) => i.node.name === q);
       if (index >= 0) {
-        setAccountDetails({ open: true, index })
+        setAccountDetails({ open: true, index });
       } else {
-        navigate("/account/login")
+        navigate('/account/login');
       }
     }
-  }, [q, data])
+  }, [q, data]);
 
   return (
     <AccountLayout title="Order History" currentPage="orders">
       {customerAccessToken && !accountDetails.open ? (
         <Box>
-          {error && "Error"}
+          {error && 'Error'}
           {loading && <MiddleSpinner divminheight="460px" size={20} />}
           {data && (
             <Grid container spacing={2} sx={{ paddingBottom: 4 }}>
@@ -81,23 +77,18 @@ const AccountOrdersPage = () => {
           returnAccount={returnAccount}
         />
       ) : (
-        <Box
-          minHeight="450px"
-          justifyContent="center"
-          alignItems="center"
-          display="flex"
-        >
+        <Box minHeight="450px" justifyContent="center" alignItems="center" display="flex">
           <Typography variant="h1">You need to log in first!</Typography>
           <Button>
             <Link to="/account/login">Go to Log In</Link>
           </Button>
         </Box>
       )}
-    </AccountLayout >
-  )
-}
+    </AccountLayout>
+  );
+};
 
-export default AccountOrdersPage
+export default AccountOrdersPage;
 
 const CUSTOMER_INFO = gql`
   query ($customerAccessToken: String!) {
@@ -170,4 +161,4 @@ const CUSTOMER_INFO = gql`
       }
     }
   }
-`
+`;

@@ -1,20 +1,20 @@
-const axios = require("axios")
+const axios = require('axios');
 
-const url = `https://${process.env.SHOPIFY_STORE_URL}/admin/api/${process.env.SHOPIFY_API_VERSION}/graphql.json`
+const url = `https://${process.env.SHOPIFY_STORE_URL}/admin/api/${process.env.SHOPIFY_API_VERSION}/graphql.json`;
 
 const config = {
   headers: {
-    "X-Shopify-Access-Token": process.env.SHOPIFY_ADMIN_ACCESS_TOKEN,
-    "Content-Type": "application/json",
-  },
-}
+    'X-Shopify-Access-Token': process.env.SHOPIFY_ADMIN_ACCESS_TOKEN,
+    'Content-Type': 'application/json'
+  }
+};
 
 exports.getOrderByName = async function (orderName) {
   if (!orderName) {
-    return false
+    return false;
   }
 
-  let data = JSON.stringify({
+  const data = JSON.stringify({
     query: `query orderByName($query: String!) {
         orders(first: 1, query: $query) {
           edges {
@@ -48,31 +48,31 @@ exports.getOrderByName = async function (orderName) {
       }`,
     variables: {
       query: `name:${orderName}}`
-    },
-  })
+    }
+  });
 
   return await axios
     .post(url, data, config)
-    .then(response => {
+    .then((response) => {
       if (response.status === 200) {
-        return response.data
+        return response.data;
       } else {
-        console.log("error_getOrderByName: " + JSON.stringify(response.data))
-        throw new Error(JSON.stringify(response.data))
+        console.log('error_getOrderByName: ' + JSON.stringify(response.data));
+        throw new Error(JSON.stringify(response.data));
       }
     })
-    .catch(error => {
-      console.log(error)
-      throw new Error(error)
-    })
-}
+    .catch((error) => {
+      console.log(error);
+      throw new Error(error);
+    });
+};
 
 exports.getOrdersByEmail = async function (email) {
   if (!email) {
-    return false
+    return false;
   }
 
-  let data = JSON.stringify({
+  const data = JSON.stringify({
     query: `query ordersByEmail($query: String!) {
         orders(first: 10, query: $query) {
           edges {
@@ -106,31 +106,31 @@ exports.getOrdersByEmail = async function (email) {
       }`,
     variables: {
       query: `email:${email}}`
-    },
-  })
+    }
+  });
 
   return await axios
     .post(url, data, config)
-    .then(response => {
+    .then((response) => {
       if (response.status === 200) {
-        return response.data
+        return response.data;
       } else {
-        console.log("error_getOrdersByEmail: " + JSON.stringify(response.data))
-        throw new Error(JSON.stringify(response.data))
+        console.log('error_getOrdersByEmail: ' + JSON.stringify(response.data));
+        throw new Error(JSON.stringify(response.data));
       }
     })
-    .catch(error => {
-      console.log(error)
-      throw new Error(error)
-    })
-}
+    .catch((error) => {
+      console.log(error);
+      throw new Error(error);
+    });
+};
 
 exports.checkReturnEligible = async function (orderId) {
   if (!orderId) {
-    return false
+    return false;
   }
 
-  let data = JSON.stringify({
+  const data = JSON.stringify({
     query: `query returnableFulfillmentsQuery($orderId: ID!) {
     returnableFulfillments(orderId: $orderId, first: 1) {
       edges {
@@ -176,45 +176,43 @@ exports.checkReturnEligible = async function (orderId) {
     }
   }`,
     variables: {
-      orderId: orderId,
-    },
-  })
+      orderId: orderId
+    }
+  });
 
   return await axios
     .post(url, data, config)
-    .then(response => {
+    .then((response) => {
       if (response.status === 200) {
-        return response.data
+        return response.data;
       } else {
-        console.log(
-          "error_checkReturnEligible: " + JSON.stringify(response.data)
-        )
-        throw new Error(JSON.stringify(response.data))
+        console.log('error_checkReturnEligible: ' + JSON.stringify(response.data));
+        throw new Error(JSON.stringify(response.data));
       }
     })
-    .catch(error => {
-      console.log(error)
-      throw new Error(error)
-    })
-}
+    .catch((error) => {
+      console.log(error);
+      throw new Error(error);
+    });
+};
 
 exports.sendReturnRequest = async function (orderId, returnItems) {
   if (!orderId || !returnItems) {
-    return false
+    return false;
   }
 
-  let returnLineItems = returnItems.map(item => {
+  const returnLineItems = returnItems.map((item) => {
     return {
       fulfillmentLineItemId: item.fulfillmentLineItemId,
       quantity: item.quantity,
       returnReason: item.returnReason,
-      customerNote: item.customerNote,
-    }
-  })
+      customerNote: item.customerNote
+    };
+  });
 
-  console.log("sendReturnRequest: ", returnLineItems)
+  console.log('sendReturnRequest: ', returnLineItems);
 
-  let data = JSON.stringify({
+  const data = JSON.stringify({
     query: `mutation RequestReturnMutation($orderId: ID!, $returnLineItems: [ReturnRequestLineItemInput!]!) {
    returnRequest(
      input: {
@@ -234,22 +232,22 @@ exports.sendReturnRequest = async function (orderId, returnItems) {
   }`,
     variables: {
       orderId: orderId,
-      returnLineItems: returnLineItems,
-    },
-  })
+      returnLineItems: returnLineItems
+    }
+  });
 
   return await axios
     .post(url, data, config)
-    .then(response => {
+    .then((response) => {
       if (response.status === 200) {
-        return response.data
+        return response.data;
       } else {
-        console.log("error_sendReturnRequest: " + JSON.stringify(response.data))
-        throw new Error(JSON.stringify(response.data))
+        console.log('error_sendReturnRequest: ' + JSON.stringify(response.data));
+        throw new Error(JSON.stringify(response.data));
       }
     })
-    .catch(error => {
-      console.log(error)
-      throw new Error(error)
-    })
-}
+    .catch((error) => {
+      console.log(error);
+      throw new Error(error);
+    });
+};

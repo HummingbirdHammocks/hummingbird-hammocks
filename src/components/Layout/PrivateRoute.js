@@ -1,16 +1,16 @@
-import React from "react"
-import { navigate } from "gatsby"
+import { navigate } from 'gatsby';
+import React from 'react';
+
 // stores
-import { useAuthStore } from "../../stores";
+import { useAuthStore } from '../../stores';
 
-export const PrivateRoute = ({ component: Component, location, ...rest }) => {
+export const PrivateRoute = ({ component: Component, ...rest }) => {
+  const { customerAccessToken } = useAuthStore();
 
-    const { customerAccessToken } = useAuthStore();
+  if (!customerAccessToken) {
+    navigate('/account/login');
+    return null;
+  }
 
-    if (!customerAccessToken) {
-        navigate("/account/login")
-        return null
-    }
-
-    return <Component {...rest} />
-}
+  return <Component {...rest} />;
+};
