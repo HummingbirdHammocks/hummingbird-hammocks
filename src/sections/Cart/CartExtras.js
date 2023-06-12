@@ -1,21 +1,21 @@
-import React, { useContext, useState } from "react"
-import { useTheme, Paper, Grid, Divider, Typography } from "@mui/material"
+import { Divider, Grid, Paper, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { CartContext } from 'contexts';
+import React, { useContext, useState } from 'react';
 
-import { CartContext } from "contexts"
-
-import { ThruHikerForm } from "./ThruHikerForm";
-import { OrderOptions } from "./OrderOptions";
+import { OrderOptions } from './OrderOptions';
+import { ThruHikerForm } from './ThruHikerForm';
 
 export function CartExtras() {
   const theme = useTheme();
   const [attributes, setAttributes] = useState([]);
 
-  const { updateAttributes } = useContext(CartContext)
+  const { updateAttributes } = useContext(CartContext);
 
   const handleAttributes = async (attribute) => {
-    console.log("Attribute", attribute)
+    console.log('Attribute', attribute);
 
-    let newAttributes = attributes;
+    const newAttributes = attributes;
     /* console.log(newAttributes) */
 
     if (attributes.length > 0) {
@@ -30,7 +30,7 @@ export function CartExtras() {
     }
 
     /* console.log(newAttributes) */
-    await updateAttributes({ customAttributes: newAttributes })
+    await updateAttributes({ customAttributes: newAttributes });
 
     setAttributes(newAttributes);
   };
@@ -41,9 +41,9 @@ export function CartExtras() {
         margin: 4,
         padding: 4,
 
-        [theme.breakpoints.down("sm")]: {
-          margin: 0,
-        },
+        [theme.breakpoints.down('sm')]: {
+          margin: 0
+        }
       }}>
       <Typography pb="20px" variant="h5">
         EXTRA CHECKOUT OPTIONS
@@ -58,5 +58,5 @@ export function CartExtras() {
         </Grid>
       </Grid>
     </Paper>
-  )
+  );
 }

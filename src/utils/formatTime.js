@@ -16,10 +16,31 @@ export function fDateTimeSuffix(date) {
 
 export function fToNow(date) {
   return formatDistanceToNow(new Date(date), {
-    addSuffix: true,
+    addSuffix: true
   });
 }
 
 export function fShopify(date) {
-  return (new Date(date)).toLocaleString({ dateStyle: "short", timeStyle: "short" });
+  var newDateOptions = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  };
+  return new Date(date).toLocaleString('en-US', newDateOptions);
+}
+
+export function getNumberOfDays(start, end) {
+  const date1 = new Date(start);
+  const date2 = new Date(end);
+
+  // One day in milliseconds
+  const oneDay = 1000 * 60 * 60 * 24;
+
+  // Calculating the time difference between two dates
+  const diffInTime = date2.getTime() - date1.getTime();
+
+  // Calculating the no. of days between two dates
+  const diffInDays = Math.round(diffInTime / oneDay);
+
+  return diffInDays;
 }

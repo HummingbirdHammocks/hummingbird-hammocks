@@ -1,73 +1,67 @@
-import React, { useContext, useEffect, useState } from "react"
-import { toast } from 'react-toastify'
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { LoadingButton } from '@mui/lab';
 import {
-  Typography,
-  Button,
   Box,
-  Grid,
-  FormGroup,
-  FormControlLabel,
+  Button,
   Checkbox,
   Divider,
-} from "@mui/material"
-import { LoadingButton } from "@mui/lab"
-import { useMutation, useQuery, gql } from "@apollo/client"
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  Typography
+} from '@mui/material';
+// components
+import { AccountLayout, Link, MiddleSpinner } from 'components';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
-import { UserContext } from "contexts"
-import {
-  AccountLayout,
-  Link,
-  MiddleSpinner,
-} from "components"
-import { RestockNotifications } from "./components"
-
+// stores
+import { useAuthStore } from '../../stores';
+import { RestockNotifications } from './components';
 
 const AccountNotificationsPage = () => {
-  const [submitLoading, setSubmitLoading] = useState(false)
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [acceptsMarketing, setAcceptsMarketing] = useState(false);
 
-  const [acceptsMarketing, setAcceptsMarketing] = useState(false)
+  const { customerAccessToken } = useAuthStore();
 
   const handleSavePreferences = async () => {
-    setSubmitLoading(true)
+    setSubmitLoading(true);
 
     customerUpdate({
       variables: {
         customerAccessToken,
         customer: {
-          acceptsMarketing,
-        },
-      },
+          acceptsMarketing
+        }
+      }
     })
-      .then(result => {
-        console.log(result)
-        refetch()
-        toast.success("Preferences Updated")
+      .then((result) => {
+        console.log(result);
+        refetch();
+        toast.success('Preferences Updated');
       })
-      .catch(error => {
-        console.log(error)
-        toast.error("Oops! Something went wrong. Please try again.")
-      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Oops! Something went wrong. Please try again.');
+      });
 
-    setSubmitLoading(false)
-  }
-
-  const {
-    store: { customerAccessToken },
-  } = useContext(UserContext)
+    setSubmitLoading(false);
+  };
 
   const { data, loading, error, refetch } = useQuery(CUSTOMER_INFO, {
     variables: {
-      customerAccessToken,
-    },
-  })
-  const [customerUpdate] = useMutation(CUSTOMER_UPDATE)
+      customerAccessToken
+    }
+  });
+  const [customerUpdate] = useMutation(CUSTOMER_UPDATE);
 
   useEffect(() => {
     if (data?.customer) {
-      /* console.log(data.customer) */
-      setAcceptsMarketing(data?.customer?.acceptsMarketing)
+      //console.log(data.customer)
+      setAcceptsMarketing(data?.customer?.acceptsMarketing);
     }
-  }, [data])
+  }, [data]);
 
   return (
     <AccountLayout title="Notification Settings" currentPage="notifications">
@@ -76,20 +70,36 @@ const AccountNotificationsPage = () => {
           <Typography sx={{ marginBottom: 7 }} variant="h4">
             Notifications
           </Typography>
-          {error && "Error"}
-          {loading && <MiddleSpinner divMinHeight="460px" size={20} />}
+          {error && 'Error'}
+          {loading && <MiddleSpinner divminheight="460px" size={20} />}
           {data && (
             <Grid container spacing={4} sx={{ paddingBottom: 4 }}>
-              <Grid item xs={12} md={4} sx={{ borderRight: { xs: "0", md: "1px solid rgba(0,0,0,0.12)" } }}>
+              <Grid
+                item
+                xs={12}
+                md={4}
+                sx={{ borderRight: { xs: '0', md: '1px solid rgba(0,0,0,0.12)' } }}>
                 <Typography variant="h5" sx={{ marginBottom: 2 }}>
                   Email Preferences
                 </Typography>
                 <Box>
                   <FormGroup>
-                    <FormControlLabel control={<Checkbox checked={acceptsMarketing} onChange={() => setAcceptsMarketing(!acceptsMarketing)} />} label="Promotions" />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={acceptsMarketing}
+                          onChange={() => setAcceptsMarketing(!acceptsMarketing)}
+                        />
+                      }
+                      label="Promotions"
+                    />
                   </FormGroup>
                   <Divider variant="middle" sx={{ marginTop: 2, marginBottom: 2 }} />
-                  <LoadingButton size={'large'} variant={'contained'} onClick={() => handleSavePreferences()} loading={submitLoading}>
+                  <LoadingButton
+                    size={'large'}
+                    variant={'contained'}
+                    onClick={() => handleSavePreferences()}
+                    loading={submitLoading}>
                     Save Preferences
                   </LoadingButton>
                 </Box>
@@ -100,30 +110,27 @@ const AccountNotificationsPage = () => {
                 </Typography>
                 <RestockNotifications email={data.customer.email} />
                 <Typography variant="body1" sx={{ marginTop: 2, marginBottom: 2 }}>
-                  * Restock notifications are automatically removed once the notification has been sent. You will need to sign up from the product page again if you would like to receive another notification.
+                  * Restock notifications are automatically removed once the notification has been
+                  sent. You will need to sign up from the product page again if you would like to
+                  receive another notification.
                 </Typography>
               </Grid>
             </Grid>
           )}
         </Box>
       ) : (
-        <Box
-          minHeight="450px"
-          justifyContent="center"
-          alignItems="center"
-          display="flex"
-        >
+        <Box minHeight="450px" justifyContent="center" alignItems="center" display="flex">
           <Typography variant="h1">You need to log in first!</Typography>
           <Button>
-            <Link to="/login">Go to Log In</Link>
+            <Link to="/account/login">Go to Log In</Link>
           </Button>
         </Box>
       )}
-    </AccountLayout >
-  )
-}
+    </AccountLayout>
+  );
+};
 
-export default AccountNotificationsPage
+export default AccountNotificationsPage;
 
 const CUSTOMER_INFO = gql`
   query ($customerAccessToken: String!) {
@@ -133,7 +140,7 @@ const CUSTOMER_INFO = gql`
       acceptsMarketing
     }
   }
-`
+`;
 
 const CUSTOMER_UPDATE = gql`
   mutation customerUpdate($customer: CustomerUpdateInput!, $customerAccessToken: String!) {
@@ -145,4 +152,4 @@ const CUSTOMER_UPDATE = gql`
       }
     }
   }
-`
+`;

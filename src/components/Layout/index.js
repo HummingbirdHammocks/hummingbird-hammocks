@@ -1,68 +1,107 @@
-import React, { useContext, useEffect } from "react"
-import { Box } from "@mui/material"
-import { useQuery, gql } from "@apollo/client"
-import { navigate } from "gatsby"
+import { gql, useQuery } from '@apollo/client';
+import { Box } from '@mui/material';
+import { useLocation } from '@reach/router';
+import { CartContext } from 'contexts';
+// hooks
+import { useDiscountCode } from 'hooks';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+
+// stores
+import { useAuthStore, useUIStore } from '../../stores';
 //firebase
 import firebaseApp, { logAnalyticsEvent } from '../../utils/firebase/firebase-config';
-
-import Nav from "./Nav"
-import Footer from "./Footer"
-import { AppDrawer } from "./Nav/AppDrawer"
-import { CartDrawer } from "./Nav/CartDrawer"
-import { TopBanner } from "./TopBanner"
-import { UserContext, useTopBannerContext } from "contexts"
+import Footer from './Footer';
+import GDPRConsent from './GDPRBanner';
+// components
+import Nav from './Nav';
+import { AppDrawer } from './Nav/AppDrawer';
+import { CartDrawer } from './Nav/CartDrawer';
+import { TopBanner } from './TopBanner';
 
 export const Layout = ({ children }) => {
-  const { banner, bannerOpen } = useTopBannerContext()
+  const [code, setCode] = useState(null);
 
-  const {
-    store: { customerAccessToken },
-    logout,
-  } = useContext(UserContext)
+  const { banner, bannerOpen } = useUIStore();
+  const { customerAccessToken } = useAuthStore();
+
+  const { updateAttributes } = useContext(CartContext);
+  const registeredCode = useDiscountCode(code);
+
+  const location = useLocation();
+
+  const handleAffiliateIdCookie = useCallback(async () => {
+    if (!location || !location.search) return;
+    const params = new URLSearchParams(location.search);
+    const affiliateId = params.get('p');
+    if (affiliateId) {
+      var date = new Date();
+      date.setTime(date.getTime() + 90 * 24 * 60 * 60 * 1000);
+
+      document.cookie = `p=${affiliateId}; path=/; expires=${date.toGMTString()};`;
+      await updateAttributes({ customAttributes: { key: 'affID', value: affiliateId } });
+    }
+  }, [location, updateAttributes]);
+
+  const handleDiscountCode = useCallback(async () => {
+    let pathCode;
+    if (location && location.search) {
+      const params = new URLSearchParams(location.search);
+      pathCode = params.get('discount_code');
+    }
+
+    const localStoredCode = localStorage.getItem('discount_code');
+
+    if (pathCode) {
+      localStorage.setItem('discount_code', pathCode);
+      setCode(pathCode);
+      return;
+    } else if (localStoredCode) {
+      setCode(localStoredCode);
+      return;
+    }
+  }, [location]);
 
   useEffect(() => {
     if (!firebaseApp()) return;
-    logAnalyticsEvent('page_view', window.location.pathname);
-  }, []);
+    logAnalyticsEvent('page_view', location.pathname);
 
-  const { data, loading/* , error */ } = useQuery(CUSTOMER_NAME, {
+    handleAffiliateIdCookie();
+    if (code !== registeredCode) {
+      handleDiscountCode();
+    }
+
+    if (!window || typeof window == 'undefined' || !window.jdgmCacheServer) return;
+    window.BOOMR = {
+      themeName: 'Hummingbird Hammocks'
+    };
+    const jdgmCacheServer = window.jdgmCacheServer;
+    jdgmCacheServer.reloadAll();
+  }, [location, code, registeredCode, handleAffiliateIdCookie, handleDiscountCode]);
+
+  const { data, loading /* , error */ } = useQuery(CUSTOMER_NAME, {
     variables: {
-      customerAccessToken,
-    },
-  })
-
-  const userLogout = () => {
-    logout()
-    navigate("/")
-  }
+      customerAccessToken
+    }
+  });
 
   return (
     <>
       <TopBanner />
-      <Nav
-        customerAccessToken={customerAccessToken}
-        loading={loading}
-        data={data}
-        banner={(bannerOpen && banner)}
-      />
+      <Nav loading={loading} data={data} />
 
       <Box
         style={{
-          minHeight: (bannerOpen && banner) ? "calc(100vh - 445px)" : "calc(100vh - 395px)",
-        }}
-      >
+          minHeight: bannerOpen && banner ? 'calc(100vh - 445px)' : 'calc(100vh - 395px)'
+        }}>
         {children}
       </Box>
-      <AppDrawer
-        customerAccessToken={customerAccessToken}
-        data={data}
-        userLogout={userLogout}
-      />
+      <AppDrawer data={data} />
       <CartDrawer />
       <Footer />
+      <GDPRConsent />
     </>
-  )
-}
+  );
+};
 
 const CUSTOMER_NAME = gql`
   query ($customerAccessToken: String!) {
@@ -71,4 +110,4 @@ const CUSTOMER_NAME = gql`
       lastName
     }
   }
-`
+`;

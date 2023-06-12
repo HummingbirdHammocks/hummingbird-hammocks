@@ -1,100 +1,98 @@
-import React, { useState } from "react"
-import { GatsbyImage } from "gatsby-plugin-image"
-import { Box, Typography, styled } from "@mui/material"
-
-import { Link, MiddleSpinner, SoldOutWrap, BargainBinWrap } from "components"
+import { Box, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { BargainBinWrap, Link, MiddleSpinner, SoldOutWrap } from 'components';
+import { GatsbyImage } from 'gatsby-plugin-image';
+import React, { useState } from 'react';
 // import JudgeMe from "utils/judgeMe"
-import { useEffect } from "react"
+import { useEffect } from 'react';
 
 const ProductWrapper = styled(Box)(() => ({
-  padding: "40px 15px",
-  position: "relative",
-}))
+  padding: '40px 15px',
+  position: 'relative'
+}));
 
 const ImageBox = styled(Box)(() => ({
-  "& .image-2": {
-    display: "none",
+  '& .image-2': {
+    display: 'none'
   },
 
-  "&:hover": {
-    "& .image-2": {
-      display: "block",
+  '&:hover': {
+    '& .image-2': {
+      display: 'block'
     },
-    "& .image-1": {
-      display: "none",
-    },
-  },
-}))
+    '& .image-1': {
+      display: 'none'
+    }
+  }
+}));
 
 const AbsoluteImage = styled(GatsbyImage)(({ theme }) => ({
   // position: "absolute",
   top: 0,
 
-  [theme.breakpoints.down("md")]: {
-    margin: "0 30px",
-  },
-}))
+  [theme.breakpoints.down('md')]: {
+    margin: '0 30px'
+  }
+}));
 
-export const ProductCard = ({ products, minHeight, mdMinHeight }) => {
-  const [loading, setLoading] = useState(true)
-  const [productsData, setProductsData] = useState([])
+export const ProductCard = ({ products, minHeight, mdminheight }) => {
+  const [loading, setLoading] = useState(true);
+  const [productsData, setProductsData] = useState([]);
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
 
-    let newData = products
+    const newData = products;
     async function ProductsData() {
       for (let i = 0; i < newData?.length; i++) {
         // let reviewBadge = new JudgeMe(newData[i]?.handle)
         // const review = await reviewBadge.getPreviewBadge()
-        const soldOut = await newData[i].variants.some(
-          i => i.availableForSale === true
-        )
+        const soldOut = await newData[i].variants.some((i) => i.availableForSale === true);
 
         newData[i] = {
           ...newData[i],
-          notSoldout: soldOut,
+          notSoldout: soldOut
           // review: review.badge,
-        }
+        };
       }
 
-      setProductsData(newData)
-      setLoading(false)
+      setProductsData(newData);
+      setLoading(false);
     }
 
-    ProductsData()
-  }, [products])
+    ProductsData();
+  }, [products]);
 
-  console.log(products)
+  /* console.log(products) */
 
   return (
     <>
-      {loading && <MiddleSpinner divMinHeight="460px" size={20} />}
+      {loading && <MiddleSpinner divminheight="460px" size={20} />}
       {!loading &&
         productsData.length > 0 &&
-        productsData?.map(product => (
+        productsData?.map((product) => (
           <ProductWrapper key={product.id}>
             {!product.notSoldout && <SoldOutWrap>Sold Out</SoldOutWrap>}
-            {product.tags.includes("bargain-bin") && <BargainBinWrap>Bargain Bin</BargainBinWrap>}
+            {product.tags.includes('bargain-bin') && <BargainBinWrap>Bargain Bin</BargainBinWrap>}
             <Link to={`/products/${product.handle}`}>
-              <ImageBox mdMinHeight={mdMinHeight} minHeight={minHeight}>
+              <ImageBox mdminheight={mdminheight} minHeight={minHeight}>
                 <AbsoluteImage
-                  className={product.images[1] ? "image-1" : ""}
+                  className={product.images[1] ? 'image-1' : ''}
                   image={product.images[0].gatsbyImageData}
                   alt={product.title}
                   placeholder="blurred"
-                  style={{ margin: "1rem", maxHeight: "350px" }}
+                  style={{ margin: '1rem', maxHeight: '350px' }}
                   loading="eager"
                   imgStyle={{
-                    objectFit: "contain",
-                    borderRadius: "20px",
-                    maxWidth: "100%",
-                    maxHeight: "100%",
-                    width: "auto",
-                    height: "auto",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
+                    objectFit: 'contain',
+                    borderRadius: '20px',
+                    maxWidth: '100%',
+                    maxHeight: '100%',
+                    width: 'auto',
+                    height: 'auto',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)'
                   }}
                 />
 
@@ -104,18 +102,18 @@ export const ProductCard = ({ products, minHeight, mdMinHeight }) => {
                     image={product.images[1].gatsbyImageData}
                     alt={product.title}
                     placeholder="blurred"
-                    style={{ margin: "1rem", maxHeight: "350px" }}
+                    style={{ margin: '1rem', maxHeight: '350px' }}
                     loading="eager"
                     imgStyle={{
-                      objectFit: "contain",
-                      borderRadius: "20px",
-                      maxWidth: "100%",
-                      maxHeight: "100%",
-                      width: "auto",
-                      height: "auto",
-                      top: "50%",
-                      left: "50%",
-                      transform: "translate(-50%, -50%)",
+                      objectFit: 'contain',
+                      borderRadius: '20px',
+                      maxWidth: '100%',
+                      maxHeight: '100%',
+                      width: 'auto',
+                      height: 'auto',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)'
                     }}
                   />
                 )}
@@ -125,19 +123,11 @@ export const ProductCard = ({ products, minHeight, mdMinHeight }) => {
                 image={product.images[0].gatsbyImageData}
               /> */}
               <Box m="30px 0 5px 0">
-                <Typography
-                  textAlign="center"
-                  variant="subtitle2"
-                  color="black"
-                >
+                <Typography textAlign="center" variant="subtitle2" color="black">
                   {product.title}
                 </Typography>
                 {/* <div dangerouslySetInnerHTML={{ __html: product.review }} /> */}
-                <Typography
-                  textAlign="center"
-                  variant="subtitle2"
-                  color="primary"
-                >
+                <Typography textAlign="center" variant="subtitle2" color="primary">
                   {`$${product.priceRangeV2.minVariantPrice.amount} ${product.priceRangeV2.minVariantPrice.currencyCode}`}
                 </Typography>
               </Box>
@@ -149,5 +139,5 @@ export const ProductCard = ({ products, minHeight, mdMinHeight }) => {
           </ProductWrapper>
         ))}
     </>
-  )
-}
+  );
+};

@@ -30,7 +30,6 @@ const rejectStyle = {
 };
 
 export default function DragAndDrop({ handleSave }) {
-
   const {
     acceptedFiles,
     fileRejections,
@@ -45,28 +44,26 @@ export default function DragAndDrop({ handleSave }) {
       'image/jpeg': [],
       'image/png': []
     },
-    onDrop: acceptedFiles => {
+    onDrop: (acceptedFiles) => {
       if (acceptedFiles.length > 0) {
-
         acceptedFiles.forEach(async (file) => {
-          handleSave(file)
-        })
+          handleSave(file);
+        });
       }
     }
   });
 
-  const style = useMemo(() => ({
-    ...baseStyle,
-    ...(isFocused ? focusedStyle : {}),
-    ...(isDragAccept ? acceptStyle : {}),
-    ...(isDragReject ? rejectStyle : {})
-  }), [
-    isFocused,
-    isDragAccept,
-    isDragReject
-  ]);
+  const style = useMemo(
+    () => ({
+      ...baseStyle,
+      ...(isFocused ? focusedStyle : {}),
+      ...(isDragAccept ? acceptStyle : {}),
+      ...(isDragReject ? rejectStyle : {})
+    }),
+    [isFocused, isDragAccept, isDragReject]
+  );
 
-  const acceptedFileItems = acceptedFiles.map(file => (
+  const acceptedFileItems = acceptedFiles.map((file) => (
     <li key={file.path}>
       {file.path} - {file.size} bytes
     </li>
@@ -76,7 +73,7 @@ export default function DragAndDrop({ handleSave }) {
     <li key={file.path}>
       {file.path} - {file.size} bytes
       <ul>
-        {errors.map(e => (
+        {errors.map((e) => (
           <li key={e.code}>{e.message}</li>
         ))}
       </ul>
@@ -90,18 +87,18 @@ export default function DragAndDrop({ handleSave }) {
         <p>Drag &apos;n&apos; drop some files here, or click to select files</p>
       </div>
       <aside>
-        {acceptedFileItems.length > 0 &&
+        {acceptedFileItems.length > 0 && (
           <>
             <h4>Accepted files</h4>
             <ul>{acceptedFileItems}</ul>
           </>
-        }
-        {fileRejectionItems.length > 0 &&
+        )}
+        {fileRejectionItems.length > 0 && (
           <>
             <h4>Rejected files</h4>
             <ul>{fileRejectionItems}</ul>
           </>
-        }
+        )}
       </aside>
     </section>
   );

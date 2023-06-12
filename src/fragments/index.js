@@ -1,4 +1,4 @@
-import { graphql } from "gatsby"
+import { graphql } from 'gatsby';
 
 export const productFields = graphql`
   fragment ShopifyProductFields on ShopifyProduct {
@@ -18,6 +18,7 @@ export const productFields = graphql`
     }
     variants {
       metafields {
+        namespace
         key
         value
       }
@@ -42,7 +43,7 @@ export const productFields = graphql`
       gatsbyImageData(placeholder: BLURRED)
     }
   }
-`
+`;
 
 export const productTileFields = graphql`
   fragment ProductTileFields on ShopifyProduct {
@@ -54,4 +55,4 @@ export const productTileFields = graphql`
       }
     }
   }
-`
+`;

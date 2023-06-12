@@ -1,11 +1,9 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { Container } from "@mui/material"
+import { Container } from '@mui/material';
+import PropTypes from 'prop-types';
+import React from 'react';
 
-export const MainWrapper = ({ children }) => (
-  <Container maxWidth="xl">{children}</Container>
-)
+export const MainWrapper = ({ children }) => <Container maxWidth="xl">{children}</Container>;
 
 MainWrapper.propTypes = {
-  children: PropTypes.node.isRequired,
-}
+  children: PropTypes.node.isRequired
+};

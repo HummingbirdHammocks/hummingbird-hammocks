@@ -1,79 +1,83 @@
 // Menu Item
 const menuItems = [
   {
-    title: "Hammocks",
-    url: "/collections/hammocks",
+    title: 'Hammocks',
+    url: '/collections/hammocks'
   },
   {
-    title: "Tree Straps",
-    url: "/collections/tree-straps",
+    title: 'Tree Straps',
+    url: '/collections/tree-straps'
   },
   {
-    title: "Shelters",
-    url: "/collections/shelter",
+    title: 'Shelters',
+    url: '/collections/shelter'
   },
   {
-    title: "More Gear",
-    url: "/collections/parts-and-accessories",
+    title: 'More Gear',
+    url: '/collections/parts-and-accessories',
     submenu: [
       {
-        title: "Accessories",
-        url: "/collections/parts-and-accessories",
+        title: 'Accessories',
+        url: '/collections/parts-and-accessories',
         submenu: [
           {
-            title: "Hammock Accessories",
-            url: "/collections/hammock-accessories",
+            title: 'Hammock Accessories',
+            url: '/collections/hammock-accessories'
           },
           {
-            title: "Tree Strap Accessories",
-            url: "/collections/tree-strap-accessories",
+            title: 'Tree Strap Accessories',
+            url: '/collections/tree-strap-accessories'
           },
           {
-            title: "Shelter Accessories",
-            url: "/collections/shelter-accessories",
-          },
-        ],
+            title: 'Shelter Accessories',
+            url: '/collections/shelter-accessories'
+          }
+        ]
       },
       {
-        title: "Care & Repair",
-        url: "/collections/care-and-repair",
+        title: 'Care & Repair',
+        url: '/collections/care-and-repair'
       },
       {
-        title: "Apparel & Merch",
-        url: "/collections/merchandise",
+        title: 'Apparel & Merch',
+        url: '/collections/merchandise'
       },
       {
-        title: "Bargain Bin",
-        url: "/collections/bargain-bin",
-      },
-    ],
+        title: 'Bargain Bin',
+        url: '/collections/bargain-bin'
+      }
+    ]
   },
   {
-    title: "Explore",
-    url: "/explore/",
+    title: 'Explore',
+    url: '/explore/',
     submenu: [
       {
-        title: "About us",
-        url: "/explore",
+        title: 'About us',
+        url: '/explore'
       },
       {
-        title: "Contact us",
-        url: "/contact-us",
+        title: 'Contact us',
+        url: '/contact-us'
       },
       {
-        title: "Knowledgebase",
-        otherUrl: "https://help.hummingbirdhammocks.com/",
+        title: 'Knowledge Base',
+        url: '/knowledgebase'
       },
       {
-        title: "Returns",
-        otherUrl: "https://returns.hummingbirdhammocks.com/",
+        title: 'Returns',
+        url: '/returns'
       },
       {
-        title: "Outdoor Articles",
-        url: "/blogs/news",
+        title: 'Support Ticket',
+        url: '/account/create-ticket'
       },
-    ],
-  },
-]
+      {
+        title: 'Outdoor Articles',
+        url: '/blogs/news'
+      }
+    ]
+  }
+];
 
-export default menuItems
+export default menuItems;

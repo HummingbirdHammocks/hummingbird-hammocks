@@ -1,5 +1,5 @@
-import React, { createContext } from "react"
-import { useStaticQuery, graphql } from "gatsby"
+import { graphql, useStaticQuery } from 'gatsby';
+import React, { createContext } from 'react';
 
 const query = graphql`
   {
@@ -20,24 +20,23 @@ const query = graphql`
       }
     }
   }
-`
+`;
 
 const defaultState = {
-  products: [],
-}
+  products: []
+};
 
-export const ProductContext = createContext(defaultState)
+export const ProductContext = createContext(defaultState);
 
 export function ProductContextProvider({ children }) {
-  const { allProducts, featuredProducts } = useStaticQuery(query)
+  const { allProducts, featuredProducts } = useStaticQuery(query);
   return (
     <ProductContext.Provider
       value={{
         products: allProducts.edges.map(({ node }) => node),
-        featuredProducts: featuredProducts.edges.map(({ node }) => node),
-      }}
-    >
+        featuredProducts: featuredProducts.edges.map(({ node }) => node)
+      }}>
       {children}
     </ProductContext.Provider>
-  )
+  );
 }

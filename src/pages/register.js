@@ -1,39 +1,31 @@
-import React, { useContext, useState } from "react"
-import { toast } from 'react-toastify';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
+import { gql, useMutation } from '@apollo/client';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { LoadingButton } from '@mui/lab';
 import {
-  useTheme,
-  Typography,
-  Divider,
   Box,
+  Button,
+  Divider,
+  IconButton,
+  InputAdornment,
   Stack,
   TextField,
-  Button,
-  InputAdornment,
-  IconButton,
-} from "@mui/material"
-import { LoadingButton } from '@mui/lab';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { useMutation, gql } from "@apollo/client"
-import { navigate } from "gatsby"
+  Typography
+} from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+// components
+import { Layout, MainWrapper, Seo } from 'components';
+import { useFormik } from 'formik';
+import { navigate } from 'gatsby';
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import * as yup from 'yup';
 
-import { UserContext } from "contexts"
-import {
-  Seo,
-  Layout,
-  MainWrapper,
-} from "components"
+// stores
+import { useAuthDispatch, useAuthStore } from '../stores';
 
 const validationSchema = yup.object({
-  firstName: yup
-    .string()
-    .trim()
-    .required('First Name is required'),
-  lastName: yup
-    .string()
-    .trim()
-    .required('Last Name is required'),
+  firstName: yup.string().trim().required('First Name is required'),
+  lastName: yup.string().trim().required('Last Name is required'),
   email: yup
     .string()
     .trim()
@@ -43,7 +35,7 @@ const validationSchema = yup.object({
     .string()
     .required('Password is required')
     .min(8, 'The password should have at least 8 characters')
-    .max(30, 'The password should have at most 30 characters'),
+    .max(30, 'The password should have at most 30 characters')
 });
 
 const RegisterPage = () => {
@@ -51,11 +43,14 @@ const RegisterPage = () => {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  const { customerAccessToken } = useAuthStore();
+  const authDispatch = useAuthDispatch();
+
   const initialValues = {
     firstName: '',
     lastName: '',
     email: '',
-    password: '',
+    password: ''
   };
 
   const onSubmit = async ({ firstName, lastName, email, password }) => {
@@ -65,37 +60,30 @@ const RegisterPage = () => {
           firstName,
           lastName,
           email,
-          password,
-        },
-      },
-    })
+          password
+        }
+      }
+    });
 
     if (data.customerCreate.customer === null) {
-      console.log(data.customerCreate.customerUserErrors[0].message)
-      toast.error(data.customerCreate.customerUserErrors[0].message)
+      console.log(data.customerCreate.customerUserErrors[0].message);
+      toast.error(data.customerCreate.customerUserErrors[0].message);
     } else {
       toast.success("Account Created! You'll be redirected to the login page in 3s...", {
         autoClose: 3000,
-        hideProgressBar: false,
-      })
-      setTimeout(function () {
-        navigate("/login")
-      }, 3000)
+        hideProgressBar: false
+      });
+      navigate('/account/login');
     }
   };
 
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchema,
-    onSubmit,
+    onSubmit
   });
 
-  const {
-    store: { customerAccessToken },
-    logout,
-  } = useContext(UserContext)
-
-  const [customerRegister/* , { loading, error } */] = useMutation(CUSTOMER_REGISTER)
+  const [customerRegister /* , { loading, error } */] = useMutation(CUSTOMER_REGISTER);
 
   const handleShowPassword = () => {
     setShowPassword((show) => !show);
@@ -107,36 +95,42 @@ const RegisterPage = () => {
       <Box
         sx={{
           background: theme.palette.white,
-          padding: "60px 15px",
+          padding: '60px 15px',
 
-          [theme.breakpoints.down("md")]: {
-            padding: "50",
-          },
+          [theme.breakpoints.down('md')]: {
+            padding: '50'
+          }
         }}>
         <MainWrapper>
-          <Box padding={{ xs: "0", md: "0 200px" }}>
+          <Box padding={{ xs: '0', md: '0 200px' }}>
             {customerAccessToken ? (
-              <Box
-                minHeight="450px"
+              <Stack
+                direction="column"
                 justifyContent="center"
                 alignItems="center"
-                display="flex"
-              >
-                <Typography variant="h1">
-                  You're already Logged in! Please Logout First:
-                </Typography>
-                <Button variant="contained" onClick={() => logout()}>Logout</Button>
-              </Box>
+                spacing={2}
+                sx={{
+                  marginTop: 20,
+                  marginBottom: 20
+                }}>
+                <Typography variant="h2">You're already Logged in!</Typography>
+                <Typography variant="h5">Please Log Out First</Typography>
+                <Button
+                  variant="contained"
+                  size="large"
+                  onClick={() => authDispatch({ type: 'setLogout' })}>
+                  Logout
+                </Button>
+              </Stack>
             ) : (
               <>
-                <Stack spacing={2} direction={{ xs: "column", sm: "row" }} justifyContent="space-between" sx={{ paddingBottom: "30px" }}>
-                  <Typography variant="h2">
-                    Create Account
-                  </Typography>
-                  <Button
-                    variant="outlined"
-                    onClick={() => navigate("/login")}
-                  >
+                <Stack
+                  spacing={2}
+                  direction={{ xs: 'column', sm: 'row' }}
+                  justifyContent="space-between"
+                  sx={{ paddingBottom: '30px' }}>
+                  <Typography variant="h2">Create Account</Typography>
+                  <Button variant="outlined" onClick={() => navigate('/account/login')}>
                     Login
                   </Button>
                 </Stack>
@@ -145,7 +139,7 @@ const RegisterPage = () => {
                 <Box padding="30px" justifyContent="center" display="flex">
                   <Box>
                     <form onSubmit={formik.handleSubmit}>
-                      <Stack spacing={2} sx={{ width: { xs: "100%", md: "400px" } }}>
+                      <Stack spacing={2} sx={{ width: { xs: '100%', md: '400px' } }}>
                         <TextField
                           label="First Name *"
                           variant="outlined"
@@ -189,14 +183,18 @@ const RegisterPage = () => {
                                   {showPassword ? <Visibility /> : <VisibilityOff />}
                                 </IconButton>
                               </InputAdornment>
-                            ),
+                            )
                           }}
                           value={formik.values.password}
                           onChange={formik.handleChange}
                           error={formik.touched.password && Boolean(formik.errors.password)}
                           helperText={formik.touched.password && formik.errors.password}
                         />
-                        <LoadingButton size={'large'} variant={'contained'} type={'submit'} loading={formik.isSubmitting}>
+                        <LoadingButton
+                          size={'large'}
+                          variant={'contained'}
+                          type={'submit'}
+                          loading={formik.isSubmitting}>
                           Create Account
                         </LoadingButton>
                       </Stack>
@@ -209,10 +207,10 @@ const RegisterPage = () => {
         </MainWrapper>
       </Box>
     </Layout>
-  )
-}
+  );
+};
 
-export default RegisterPage
+export default RegisterPage;
 
 const CUSTOMER_REGISTER = gql`
   mutation customerCreate($input: CustomerCreateInput!) {
@@ -227,4 +225,4 @@ const CUSTOMER_REGISTER = gql`
       }
     }
   }
-`
+`;

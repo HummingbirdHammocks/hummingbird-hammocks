@@ -1,111 +1,104 @@
-import React, { useContext, useEffect, useRef, useState } from "react"
+import { AccountCircle, ExpandLess, ExpandMore, ShoppingCartOutlined } from '@mui/icons-material';
+import MenuIcon from '@mui/icons-material/Menu';
 import {
   AppBar,
-  Stack,
-  Popper,
-  ClickAwayListener,
-  Grow,
-  Paper,
-  MenuList,
-  List,
-  ListItemText,
-  ListItemButton,
-  Collapse,
-  Toolbar,
-  Tooltip,
-  Typography,
-  Button,
-  IconButton,
   Badge,
   Box,
-  styled
-} from "@mui/material"
-import MenuIcon from "@mui/icons-material/Menu"
-import { ExpandLess, ExpandMore, ShoppingCartOutlined, AccountCircle } from "@mui/icons-material"
+  Button,
+  ClickAwayListener,
+  Collapse,
+  Grow,
+  IconButton,
+  List,
+  ListItemButton,
+  ListItemText,
+  MenuList,
+  Paper,
+  Popper,
+  Stack,
+  Toolbar,
+  Typography
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Link, MainWrapper, MiddleSpinner } from 'components';
+import { CartContext } from 'contexts';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 
-import HorizontalLogo from "../../../assets/HorizontalLogo"
-import MobileLogo from "../../../assets/MobileLogo"
-
-import NavMenuItems from "./MenuItems"
-import { MainWrapper, Link, MiddleSpinner } from "components"
-import { useNavContext, useUICartContext, CartContext } from "contexts"
-import Search from "../../../utils/algolia/search"
+import HorizontalLogo from '../../../assets/HorizontalLogo';
+import MobileLogo from '../../../assets/MobileLogo';
+// stores
+import { useAuthStore, useUIDispatch, useUIStore } from '../../../stores';
+import Search from '../../../utils/algolia/search';
+import NavMenuItems from './MenuItems';
 
 const NavButton = styled(Button)(() => ({
-  color: "#414042",
-  fontWeight: "500",
-  textTransform: "uppercase",
-}))
+  color: '#414042',
+  fontWeight: '500',
+  textTransform: 'uppercase'
+}));
 
-function Nav({ customerAccessToken, data, loading, banner }) {
-  const { checkout } = useContext(CartContext)
+function Nav({ data, loading }) {
+  const { checkout } = useContext(CartContext);
 
-  const { cartOpen, setCartOpen } = useUICartContext()
+  const { customerAccessToken } = useAuthStore();
+  const { bannerOpen } = useUIStore();
+  const uiDispatch = useUIDispatch();
 
-  let totalQuantity = 0
+  let totalQuantity = 0;
 
   if (checkout) {
-    checkout.lineItems.forEach(lineItem => {
-      totalQuantity = totalQuantity + lineItem.quantity
-    })
+    checkout.lineItems.forEach((lineItem) => {
+      totalQuantity = totalQuantity + lineItem.quantity;
+    });
   }
 
   return (
     <>
-      <Box sx={{ display: { xs: 'none', lg: 'block' } }} >
+      <Box sx={{ display: { xs: 'none', lg: 'block' } }}>
         <AppbarDesktop
-          banner={banner}
+          banner={bannerOpen}
           customerAccessToken={customerAccessToken}
           loading={loading}
           data={data}
           cartQuantity={totalQuantity}
-          cartOpen={cartOpen}
-          setCartOpen={setCartOpen}
+          setCartOpen={() => uiDispatch({ type: 'toggleCartOpen' })}
+          setDrawerOpen={() => uiDispatch({ type: 'toggleNavDrawerOpen' })}
         />
       </Box>
-      <Box sx={{ display: { xs: 'block', lg: 'none' } }} >
+      <Box sx={{ display: { xs: 'block', lg: 'none' } }}>
         <AppbarMobile
-          banner={banner}
+          banner={bannerOpen}
           customerAccessToken={customerAccessToken}
           loading={loading}
           data={data}
           cartQuantity={totalQuantity}
-          cartOpen={cartOpen}
-          setCartOpen={setCartOpen}
+          setCartOpen={() => uiDispatch({ type: 'toggleCartOpen' })}
+          setDrawerOpen={() => uiDispatch({ type: 'toggleNavDrawerOpen' })}
         />
       </Box>
     </>
-  )
+  );
 }
 
-export default Nav
+export default Nav;
 
-const AppbarDesktop = ({
-  cartQuantity,
-  setCartOpen,
-  cartOpen,
-  customerAccessToken,
-  data,
-  loading,
-}) => {
-
+const AppbarDesktop = ({ cartQuantity, setCartOpen, customerAccessToken, data, loading }) => {
   return (
     <AppBar
       position="static"
       sx={{
-        backgroundColor: "#fdfdf5",
-        backdropFilter: "saturate(180%) blur(20px)",
+        backgroundColor: '#fdfdf5',
+        backdropFilter: 'saturate(180%) blur(20px)',
         borderRadius: 0,
-        border: "1px solid rgba(255, 255, 255, 0.3)",
-        borderBottom: "2px solid rgb(65, 64, 66)",
-        transition: "0.3s",
-        zIndex: "1199",
-      }}
-    >
+        border: '1px solid rgba(255, 255, 255, 0.3)',
+        borderBottom: '2px solid rgb(65, 64, 66)',
+        transition: '0.3s',
+        zIndex: '1199'
+      }}>
       <MainWrapper>
         <Toolbar>
           <Link to="/">
-            <Box sx={{ height: "36px" }}>
+            <Box sx={{ height: '36px' }}>
               <HorizontalLogo height="100%" alt="Hummingbird Hammocks Logo" />
             </Box>
           </Link>
@@ -114,96 +107,74 @@ const AppbarDesktop = ({
             justifyContent="center"
             alignItems="center"
             spacing={4}
-            sx={{ marginLeft: 4 }}
-          >
+            sx={{ marginLeft: 4 }}>
             {NavMenuItems.map((menu, index) => (
               <NavItems items={menu} key={index} />
-            )
-            )}
+            ))}
           </Stack>
           <Stack
             direction="row"
             justifyContent="center"
             alignItems="center"
             spacing={1}
-            sx={{ marginLeft: "auto" }}
-          >
-            <Tooltip title="Search Gear">
-              <Search />
-            </Tooltip>
-
+            sx={{ marginLeft: 'auto' }}>
+            <Search />
 
             {customerAccessToken ? (
-              <Tooltip title="Visit Account">
-                <Button
-                  sx={{ m: "0 20px" }}
-                  variant="outlined"
-                  startIcon={<AccountCircle />}
-                  component={Link}
-                  to="/account"
-                >
-                  {loading && <MiddleSpinner size={10} />}
-                  <Typography variant="navUser">
-                    {data?.customer?.firstName}
-                  </Typography>
-                </Button>
-              </Tooltip>
+              <Button
+                sx={{ m: '0 20px' }}
+                variant="outlined"
+                startIcon={<AccountCircle />}
+                component={Link}
+                to="/account">
+                {loading && <MiddleSpinner size={10} />}
+                <Typography variant="navUser">{data?.customer?.firstName}</Typography>
+              </Button>
             ) : (
-              <Tooltip title="Account Login">
-                <IconButton
-                  component={Link}
-                  to="/login"
-                >
-                  <AccountCircle />
-                </IconButton>
-              </Tooltip>
+              <IconButton component={Link} to="/account/login">
+                <AccountCircle />
+              </IconButton>
             )}
 
-            <IconButton onClick={() => setCartOpen(!cartOpen)}>
+            <IconButton onClick={setCartOpen}>
               <Badge badgeContent={cartQuantity} color="error">
-                <Tooltip title="Open Cart">
-                  <ShoppingCartOutlined />
-                </Tooltip>
+                <ShoppingCartOutlined />
               </Badge>
             </IconButton>
           </Stack>
         </Toolbar>
       </MainWrapper>
     </AppBar>
-  )
-}
+  );
+};
 
-const AppbarMobile = ({ cartQuantity, cartOpen, setCartOpen }) => {
-  const { drawerOpen, setDrawerOpen } = useNavContext()
-
+const AppbarMobile = ({ cartQuantity, setCartOpen, setDrawerOpen }) => {
   return (
     <AppBar
       sx={{
-        borderRadius: 0,
+        borderRadius: 0
       }}
       position="static"
-      color="secondary"
-    >
+      color="secondary">
       <MainWrapper>
-        <Toolbar sx={{ p: "0" }}>
+        <Toolbar sx={{ p: '0' }}>
           <Button
             size="large"
             startIcon={<MenuIcon />}
-            onClick={() => setDrawerOpen(!drawerOpen)}
-            sx={{ color: "#FFFFFF" }}
-          >
+            onClick={setDrawerOpen}
+            sx={{ color: '#FFFFFF' }}>
             Menu
           </Button>
-          <Link sx={{ ml: "auto" }} to="/">
-            <Box sx={{ height: "46px" }}>
+          <Link sx={{ ml: 'auto' }} to="/">
+            <Box sx={{ height: '46px' }}>
               <MobileLogo height="100%" alt="Hummingbird Hammocks Logo" />
             </Box>
           </Link>
 
-          <IconButton sx={{ ml: "auto" }}>
+          <IconButton sx={{ ml: 'auto' }}>
             <Search />
           </IconButton>
-          <IconButton color="white" onClick={() => setCartOpen(!cartOpen)}>
+          <IconButton color="white" onClick={setCartOpen}>
             <Badge badgeContent={cartQuantity} color="error">
               <ShoppingCartOutlined />
             </Badge>
@@ -211,8 +182,8 @@ const AppbarMobile = ({ cartQuantity, cartOpen, setCartOpen }) => {
         </Toolbar>
       </MainWrapper>
     </AppBar>
-  )
-}
+  );
+};
 
 const NavItems = ({ items }) => {
   const [open, setOpen] = useState(false);
@@ -249,51 +220,40 @@ const NavItems = ({ items }) => {
     prevOpen.current = open;
   }, [open]);
 
-  return (
-    items.submenu ? (
-      <>
-        <NavButton
-          endIcon={(items.submenu) ? <ExpandMore /> : null}
-          ref={anchorRef}
-          id="composition-button"
-          aria-controls={open ? 'composition-menu' : undefined}
-          aria-expanded={open ? 'true' : undefined}
-          aria-haspopup="true"
-          onClick={handleToggle}
-        >
-          {items.title}
-        </NavButton>
-        <Dropdown
-          open={open}
-          anchorRef={anchorRef}
-          role={undefined}
-          placement="bottom-start"
-          transition
-          disablePortal
-          handleClose={handleClose}
-          handleListKeyDown={handleListKeyDown}
-          submenus={items.submenu}
-        />
-      </>
-    ) : (
-      items.otherUrl ? (
-        <NavButton
-          component={"a"}
-          href={items.otherUrl}
-        >
-          {items.title}
-        </NavButton>
-      ) : (
-        <NavButton
-          component={Link}
-          to={items.url}
-        >
-          {items.title}
-        </NavButton>
-      )
-    )
-  )
-}
+  return items.submenu ? (
+    <>
+      <NavButton
+        endIcon={items.submenu ? <ExpandMore /> : null}
+        ref={anchorRef}
+        id="composition-button"
+        aria-controls={open ? 'composition-menu' : undefined}
+        aria-expanded={open ? 'true' : undefined}
+        aria-haspopup="true"
+        onClick={handleToggle}>
+        {items.title}
+      </NavButton>
+      <Dropdown
+        open={open}
+        anchorRef={anchorRef}
+        role={undefined}
+        placement="bottom-start"
+        transition
+        disablePortal
+        handleClose={handleClose}
+        handleListKeyDown={handleListKeyDown}
+        submenus={items.submenu}
+      />
+    </>
+  ) : items.otherUrl ? (
+    <NavButton component={'a'} href={items.otherUrl}>
+      {items.title}
+    </NavButton>
+  ) : (
+    <NavButton component={Link} to={items.url}>
+      {items.title}
+    </NavButton>
+  );
+};
 
 const MenuItems = ({ items }) => {
   const [open, setOpen] = React.useState(false);
@@ -302,61 +262,40 @@ const MenuItems = ({ items }) => {
     setOpen(!open);
   };
 
-  return (
-    items.submenu ? (
-      <>
-        <ListItemButton onClick={handleClick}>
-          <ListItemText primary={items.title} />
-          {open ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
-        <Collapse in={open} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {items.submenu.map((item, index) => (
-              item.otherUrl ? (
-                <ListItemButton
-                  key={index}
-                  component={"a"}
-                  href={item.otherUrl}
-                  sx={{ pl: 4 }}
-                >
-                  <ListItemText primary={item.title} />
-                </ListItemButton>
-              ) : (
-                <ListItemButton
-                  key={index}
-                  component={Link}
-                  to={item.url}
-                  sx={{ pl: 4 }}
-                >
-                  <ListItemText primary={item.title} />
-                </ListItemButton>
-              )
-            ))}
-          </List>
-        </Collapse>
-      </>
-    ) : (
-      items.otherUrl ? (
-        <ListItemButton
-          component={"a"}
-          href={items.otherUrl}
-        >
-          <ListItemText primary={items.title} />
-        </ListItemButton>
-      ) : (
-        <ListItemButton
-          component={Link}
-          to={items.url}
-        >
-          <ListItemText primary={items.title} />
-        </ListItemButton>
-      )
-    )
-  )
-}
+  return items.submenu ? (
+    <>
+      <ListItemButton onClick={handleClick}>
+        <ListItemText primary={items.title} />
+        {open ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          {items.submenu.map((item, index) =>
+            item.otherUrl ? (
+              <ListItemButton key={index} component={'a'} href={item.otherUrl} sx={{ pl: 4 }}>
+                <ListItemText primary={item.title} />
+              </ListItemButton>
+            ) : (
+              <ListItemButton key={index} component={Link} to={item.url} sx={{ pl: 4 }}>
+                <ListItemText primary={item.title} />
+              </ListItemButton>
+            )
+          )}
+        </List>
+      </Collapse>
+    </>
+  ) : items.otherUrl ? (
+    <ListItemButton component={'a'} href={items.otherUrl}>
+      <ListItemText primary={items.title} />
+    </ListItemButton>
+  ) : (
+    <ListItemButton component={Link} to={items.url}>
+      <ListItemText primary={items.title} />
+    </ListItemButton>
+  );
+};
 
 const Dropdown = ({ submenus, open, anchorRef, handleListKeyDown, handleClose }) => {
-
   /* console.log(submenus) */
 
   return (
@@ -367,37 +306,29 @@ const Dropdown = ({ submenus, open, anchorRef, handleListKeyDown, handleClose })
       placement="bottom-start"
       transition
       sx={{
-        zIndex: 13000,
-      }}
-    >
+        zIndex: 13000
+      }}>
       {({ TransitionProps, placement }) => (
         <Grow
           {...TransitionProps}
           style={{
-            transformOrigin:
-              placement === 'bottom-start' ? 'left top' : 'left bottom',
-          }}
-        >
+            transformOrigin: placement === 'bottom-start' ? 'left top' : 'left bottom'
+          }}>
           <Paper>
             <ClickAwayListener onClickAway={handleClose}>
               <MenuList
                 autoFocusItem={open}
                 id="composition-menu"
                 aria-labelledby="composition-button"
-                onKeyDown={handleListKeyDown}
-              >
-                {
-                  submenus.map((submenu, index) => (
-                    <MenuItems items={submenu} key={index} />
-                  ))
-                }
+                onKeyDown={handleListKeyDown}>
+                {submenus.map((submenu, index) => (
+                  <MenuItems items={submenu} key={index} />
+                ))}
               </MenuList>
             </ClickAwayListener>
           </Paper>
         </Grow>
       )}
     </Popper>
-
-
-  )
-}
+  );
+};

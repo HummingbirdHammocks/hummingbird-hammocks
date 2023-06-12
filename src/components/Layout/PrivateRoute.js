@@ -1,17 +1,16 @@
-import React, { useContext } from "react"
-import { navigate } from "gatsby"
-import { UserContext } from "contexts"
+import { navigate } from 'gatsby';
+import React from 'react';
 
-export const PrivateRoute = ({ component: Component, location, ...rest }) => {
+// stores
+import { useAuthStore } from '../../stores';
 
-    const {
-        store: { customerAccessToken },
-    } = useContext(UserContext)
+export const PrivateRoute = ({ component: Component, ...rest }) => {
+  const { customerAccessToken } = useAuthStore();
 
-    if (!customerAccessToken) {
-        navigate("/login")
-        return null
-    }
+  if (!customerAccessToken) {
+    navigate('/account/login');
+    return null;
+  }
 
-    return <Component {...rest} />
-}
+  return <Component {...rest} />;
+};

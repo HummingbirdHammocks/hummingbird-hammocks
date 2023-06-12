@@ -1,23 +1,23 @@
-import React from "react"
-import { navigate } from "gatsby"
-import { getAlgoliaResults } from "@algolia/autocomplete-js"
-import algoliasearch from "algoliasearch"
-import "@algolia/autocomplete-theme-classic"
+import { getAlgoliaResults } from '@algolia/autocomplete-js';
+import '@algolia/autocomplete-theme-classic';
+import algoliasearch from 'algoliasearch';
+import { navigate } from 'gatsby';
+import React from 'react';
 
-import "./autocomplete.css"
-import Autocomplete from "./customAutocomplete"
-import ArticleItem from "./ArticleItem"
+import ArticleItem from './ArticleItem';
+import './autocomplete.css';
+import Autocomplete from './customAutocomplete';
 
 const searchClient = algoliasearch(
   process.env.GATSBY_ALGOLIA_APP_ID,
   process.env.GATSBY_ALGOLIA_ADMIN_KEY
-)
+);
 
 export default function ArticlesSearch() {
   return (
     <Autocomplete
       openOnFocus={true}
-      detachedMediaQuery={""}
+      detachedMediaQuery={''}
       getSources={({ query }) => [
         {
           sourceId: process.env.GATSBY_ALGOLIA_ARTICLES_INDEX_NAME,
@@ -28,42 +28,42 @@ export default function ArticlesSearch() {
                 {
                   clickAnalytics: true,
                   indexName: process.env.GATSBY_ALGOLIA_ARTICLES_INDEX_NAME,
-                  query,
-                },
-              ],
-            })
+                  query
+                }
+              ]
+            });
           },
           onSelect({ item, setQuery, setIsOpen, refresh }) {
-            setQuery(`${item.query} `)
-            setIsOpen(true)
-            refresh()
+            setQuery(`${item.query} `);
+            setIsOpen(true);
+            refresh();
           },
           /* getItemUrl({ item }) {
             return "/communities/" + item.slug;
           }, */
           navigator: {
             navigate({ item }) {
-              navigate(item.Path)
-            },
+              navigate(item.Path);
+            }
           },
           templates: {
             header() {
               return (
                 <>
-                  <span className="aa-SourceHeaderTitle">Articles</span>
+                  <span className="aa-SourceHeaderTitle">ARTICLES</span>
                   <div className="aa-SourceHeaderLine" />
                 </>
-              )
+              );
             },
             item({ item, components }) {
-              return <ArticleItem hit={item} components={components} />
+              return <ArticleItem hit={item} components={components} linkType={'news'} />;
             },
             noResults() {
-              return "No Matching Articles!"
-            },
-          },
-        },
+              return 'No Matching Articles';
+            }
+          }
+        }
       ]}
     />
-  )
+  );
 }

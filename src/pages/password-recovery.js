@@ -1,71 +1,66 @@
-import React, { useContext } from "react"
-import { toast } from 'react-toastify';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import { useMutation, gql } from "@apollo/client"
-import { navigate } from "gatsby"
+import { gql, useMutation } from '@apollo/client';
 import { LoadingButton } from '@mui/lab';
-import { useTheme, Typography, Divider, Box, Stack, TextField, Button } from "@mui/material"
+import { Box, Button, Divider, Stack, TextField, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+// components
+import { Layout, MainWrapper, Seo } from 'components';
+import { useFormik } from 'formik';
+import { navigate } from 'gatsby';
+import React from 'react';
+import { toast } from 'react-toastify';
+import * as yup from 'yup';
 
-import { UserContext } from "contexts"
-import {
-  Seo,
-  Layout,
-  MainWrapper,
-} from "components"
+// stores
+import { useAuthDispatch, useAuthStore } from '../stores';
 
 const validationSchema = yup.object({
   email: yup
     .string()
     .trim()
     .email('Please enter a valid email address')
-    .required('Email is required.'),
+    .required('Email is required.')
 });
 
 const PasswordRecovery = () => {
   const theme = useTheme();
 
+  const { customerAccessToken } = useAuthStore();
+  const authDispatch = useAuthDispatch();
+
   const initialValues = {
-    email: '',
+    email: ''
   };
 
   const onSubmit = async ({ email }) => {
-    console.log(email)
+    console.log(email);
     await forgetPassword({
       variables: {
-        email: email,
-      },
-    })
+        email: email
+      }
+    });
 
     if (!error) {
       toast.success("Password Reset Email Sent! You'll be redirected to the login page in 3s...", {
         autoClose: 3000,
-        hideProgressBar: false,
-      })
+        hideProgressBar: false
+      });
 
       setTimeout(function () {
-        navigate("/login")
-      }, 5000)
+        navigate('/account/login');
+      }, 5000);
     } else {
-      console.log(error)
-      toast.error("Oops! Something went wrong. Please try again.")
+      console.log(error);
+      toast.error('Oops! Something went wrong. Please try again.');
     }
   };
 
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchema,
-    onSubmit,
+    onSubmit
   });
 
-  const {
-    store: { customerAccessToken },
-    logout,
-  } = useContext(UserContext)
-
-  const [forgetPassword, { /* loading, */ error }] = useMutation(
-    CUSTOMER_PASSWORD_FORGET
-  )
+  const [forgetPassword, { /* loading, */ error }] = useMutation(CUSTOMER_PASSWORD_FORGET);
 
   return (
     <Layout>
@@ -73,36 +68,42 @@ const PasswordRecovery = () => {
       <Box
         sx={{
           background: theme.palette.white,
-          padding: "60px 15px",
+          padding: '60px 15px',
 
-          [theme.breakpoints.down("md")]: {
-            padding: "50",
-          },
+          [theme.breakpoints.down('md')]: {
+            padding: '50'
+          }
         }}>
         <MainWrapper>
-          <Box padding={{ xs: "0", md: "0 200px" }}>
+          <Box padding={{ xs: '0', md: '0 200px' }}>
             {customerAccessToken ? (
-              <Box
-                minHeight="450px"
+              <Stack
+                direction="column"
                 justifyContent="center"
                 alignItems="center"
-                display="flex"
-              >
-                <Typography variant="h1">
-                  You're already Logged in! Please Logout First:
-                </Typography>
-                <Button variant="contained" onClick={() => logout()}>Logout</Button>
-              </Box>
+                spacing={2}
+                sx={{
+                  marginTop: 20,
+                  marginBottom: 20
+                }}>
+                <Typography variant="h2">You're already Logged in!</Typography>
+                <Typography variant="h5">Please Log Out First</Typography>
+                <Button
+                  variant="contained"
+                  size="large"
+                  onClick={() => authDispatch({ type: 'setLogout' })}>
+                  Logout
+                </Button>
+              </Stack>
             ) : (
               <>
-                <Stack spacing={2} direction={{ xs: "column", sm: "row" }} justifyContent="space-between" sx={{ paddingBottom: "30px" }}>
-                  <Typography variant="h2">
-                    Password Recovery
-                  </Typography>
-                  <Button
-                    variant="outlined"
-                    onClick={() => navigate("/login")}
-                  >
+                <Stack
+                  spacing={2}
+                  direction={{ xs: 'column', sm: 'row' }}
+                  justifyContent="space-between"
+                  sx={{ paddingBottom: '30px' }}>
+                  <Typography variant="h2">Password Recovery</Typography>
+                  <Button variant="outlined" onClick={() => navigate('/account/login')}>
                     Login
                   </Button>
                 </Stack>
@@ -110,7 +111,7 @@ const PasswordRecovery = () => {
 
                 <Box padding="30px" justifyContent="center" display="flex">
                   <form onSubmit={formik.handleSubmit}>
-                    <Stack spacing={2} sx={{ width: { xs: "100%", md: "400px" } }}>
+                    <Stack spacing={2} sx={{ width: { xs: '100%', md: '400px' } }}>
                       <TextField
                         label="Email *"
                         variant="outlined"
@@ -121,15 +122,16 @@ const PasswordRecovery = () => {
                         error={formik.touched.email && Boolean(formik.errors.email)}
                         helperText={formik.touched.email && formik.errors.email}
                       />
-                      <Typography>
-                        We will send you an email to reset your password.
-                      </Typography>
-                      <LoadingButton size={'large'} variant={'contained'} type={'submit'} loading={formik.isSubmitting}>
+                      <Typography>We will send you an email to reset your password.</Typography>
+                      <LoadingButton
+                        size={'large'}
+                        variant={'contained'}
+                        type={'submit'}
+                        loading={formik.isSubmitting}>
                         Submit
                       </LoadingButton>
                     </Stack>
                   </form>
-
                 </Box>
               </>
             )}
@@ -137,10 +139,10 @@ const PasswordRecovery = () => {
         </MainWrapper>
       </Box>
     </Layout>
-  )
-}
+  );
+};
 
-export default PasswordRecovery
+export default PasswordRecovery;
 
 const CUSTOMER_PASSWORD_FORGET = gql`
   mutation customerRecover($email: String!) {
@@ -152,4 +154,4 @@ const CUSTOMER_PASSWORD_FORGET = gql`
       }
     }
   }
-`
+`;
