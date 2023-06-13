@@ -25,7 +25,7 @@ import { Layout, Link, MainWrapper, Seo } from 'components';
 import { graphql } from 'gatsby';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import React, { useEffect, useState } from 'react';
-import { ProductCard } from 'sections';
+import { ProductCard, BargainBinNotifications } from "sections"
 
 // stores
 import { useRecentlyViewedStore } from '../../stores';
@@ -530,6 +530,10 @@ const CollectionsPage = ({ data }) => {
                 )}
               </Collapse>
             </List>
+
+            {title === "Bargain Bin" && (
+              <BargainBinNotifications />
+            )}
           </Box>
 
           <Box

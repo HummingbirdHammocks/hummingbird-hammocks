@@ -11,9 +11,14 @@ import {
   Typography
 } from '@mui/material';
 // components
-import { AccountLayout, Link, MiddleSpinner } from 'components';
-import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+import {
+  AccountLayout,
+  Link,
+  MiddleSpinner,
+} from "components"
+import { RestockNotifications } from "./components"
+// hooks
+import useBargainBinNotifications from "../../hooks/useBargainBinNotifications";
 
 // stores
 import { useAuthStore } from '../../stores';
@@ -24,6 +29,7 @@ const AccountNotificationsPage = () => {
   const [acceptsMarketing, setAcceptsMarketing] = useState(false);
 
   const { customerAccessToken } = useAuthStore();
+  const { data: bargainNotifications, } = useBargainBinNotifications(data && data.customer && data.customer.email)
 
   const handleSavePreferences = async () => {
     setSubmitLoading(true);
@@ -93,6 +99,9 @@ const AccountNotificationsPage = () => {
                       }
                       label="Promotions"
                     />
+                  </FormGroup>
+                  <FormGroup>
+                    <FormControlLabel control={<Checkbox checked={bargainNotifications} onChange={() => setAcceptsMarketing(!acceptsMarketing)} />} label="Bargain Bin Restock" />
                   </FormGroup>
                   <Divider variant="middle" sx={{ marginTop: 2, marginBottom: 2 }} />
                   <LoadingButton
