@@ -1,5 +1,5 @@
-import React from "react"
-import { Box, Grid, Divider, Typography } from "@mui/material"
+import { Box, Divider, Grid, Typography } from '@mui/material';
+import React from 'react';
 
 export const ProductDetailsGrid = ({
   title,
@@ -9,37 +9,25 @@ export const ProductDetailsGrid = ({
   body2,
   children,
   backgroundColor,
-  accentcolor,
+  accentcolor
 }) => {
-
   return (
     <Box
       sx={{
-        backgroundColor: backgroundColor ? backgroundColor : "#FDFDF5",
-        borderColor: accentcolor ? accentcolor : "rgba(0, 0, 0, 0.12)",
-        borderStyle: "solid",
-        borderWidth: "2px",
-        borderRadius: "20px",
+        backgroundColor: backgroundColor ? backgroundColor : '#FDFDF5',
+        borderColor: accentcolor ? accentcolor : 'rgba(0, 0, 0, 0.12)',
+        borderStyle: 'solid',
+        borderWidth: '2px',
+        borderRadius: '20px',
         padding: 4,
         marginTop: 2,
         marginBottom: 2,
-        maxHeight: "800px",
-      }}
-    >
-      <Typography variant="h4">
-        {title}
-      </Typography>
+        maxHeight: '800px'
+      }}>
+      <Typography variant="h4">{title}</Typography>
       <Divider />
-      <Grid
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-        spacing={2}
-      >
-        <Grid item xs={12} md={4}>
-
-        </Grid>
+      <Grid container direction="row" justifyContent="center" alignItems="center" spacing={2}>
+        <Grid item xs={12} md={4}></Grid>
         {body1 && (
           <Grid item xs={12} md={4}>
             {body1Title && <Typography variant="h5">{body1Title}</Typography>}
@@ -59,6 +47,6 @@ export const ProductDetailsGrid = ({
           </Grid>
         )}
       </Grid>
-    </Box >
-  )
-}
+    </Box>
+  );
+};

@@ -1,112 +1,94 @@
-import React, { useContext } from "react"
+import { Add, Close, Co2, Delete, Forest, Remove, ShoppingCartOutlined } from '@mui/icons-material';
 import {
-  Drawer,
   Box,
-  Divider,
-  Typography,
-  IconButton,
   Button,
-  Stack,
+  Divider,
+  Drawer,
+  IconButton,
   List,
   ListItem,
-  ListItemText,
   ListItemButton,
   ListItemIcon,
-  Tooltip
-} from "@mui/material"
-import {
-  ShoppingCartOutlined,
-  Add,
-  Remove,
-  Close,
-  Delete,
-  Forest,
-  Co2,
-} from "@mui/icons-material"
-import window from "global"
-// stores
-import { useUIStore, useUIDispatch } from "../../../stores"
+  ListItemText,
+  Stack,
+  Tooltip,
+  Typography
+} from '@mui/material';
+import { Link } from 'components';
+import { CartContext } from 'contexts';
+import window from 'global';
+import React, { useContext } from 'react';
 
-import { CartContext } from "contexts"
-import { Link } from "components"
+// stores
+import { useUIDispatch, useUIStore } from '../../../stores';
 
 export const CartDrawer = () => {
   const { cartOpen } = useUIStore();
   const uiDispatch = useUIDispatch();
 
-  const { checkout, updateLineItem, removeLineItem } = useContext(CartContext)
+  const { checkout, updateLineItem, removeLineItem } = useContext(CartContext);
 
-  /* console.log(checkout) */
-
-  let totalQuantity = 0
+  let totalQuantity = 0;
 
   if (checkout) {
-    checkout.lineItems.forEach(lineItem => {
-      totalQuantity = totalQuantity + lineItem.quantity
-    })
+    checkout.lineItems.forEach((lineItem) => {
+      totalQuantity = totalQuantity + lineItem.quantity;
+    });
   }
 
   const handleDecrementQuantity = ({ variantId }) => {
-    updateLineItem({ quantity: -1, variantId })
-  }
+    updateLineItem({ quantity: -1, variantId });
+  };
   const handleIncrementQuantity = ({ variantId }) => {
-    updateLineItem({ quantity: 1, variantId })
-  }
+    updateLineItem({ quantity: 1, variantId });
+  };
 
   return (
     <Drawer
       PaperProps={{
-        sx: { width: { xs: "90%", md: "450px" }, borderRadius: "20px 0 0 20px" },
+        sx: { width: { xs: '90%', md: '450px' }, borderRadius: '20px 0 0 20px' }
       }}
       anchor="right"
       open={cartOpen}
-      onClose={() => uiDispatch({ type: "toggleCartOpen" })}
-    >
+      onClose={() => uiDispatch({ type: 'toggleCartOpen' })}>
       <Box display="flex" justifyContent="space-between" padding="16px 25px">
         <Box display="flex" justifyContent="center" alignItems="center">
-          <ShoppingCartOutlined sx={{ mr: "10px" }} />
-          <Typography sx={{ mt: "2px" }} variant="navMenu">
-            {totalQuantity} {(totalQuantity > 1 || totalQuantity === 0) ? "Items" : "Item"}
+          <ShoppingCartOutlined sx={{ mr: '10px' }} />
+          <Typography sx={{ mt: '2px' }} variant="navMenu">
+            {totalQuantity} {totalQuantity > 1 || totalQuantity === 0 ? 'Items' : 'Item'}
           </Typography>
         </Box>
         <Box>
-          <IconButton onClick={() => uiDispatch({ type: "toggleCartOpen" })} ml={2.5}>
+          <IconButton onClick={() => uiDispatch({ type: 'toggleCartOpen' })} ml={2.5}>
             <Close fontSize="lg" />
           </IconButton>
         </Box>
       </Box>
       <Divider />
 
-      <Box sx={{ overflow: "auto", height: "calc((100vh - 80px) - 3.25rem)" }}>
-        {checkout?.lineItems?.map(item => (
+      <Box sx={{ overflow: 'auto', height: 'calc((100vh - 80px) - 3.25rem)' }}>
+        {checkout?.lineItems?.map((item) => (
           <Box
             key={item.id}
             alignItems="center"
             py={2}
             px={2.5}
             borderBottom="1px solid #4f4c4c00"
-            display="flex"
-          >
-            <Box
-              mr="20px"
-              display="flex"
-              alignItems="center"
-              flexDirection="column"
-            >
+            display="flex">
+            <Box mr="20px" display="flex" alignItems="center" flexDirection="column">
               <IconButton
                 variant="outlined"
                 color="primary"
                 onClick={() =>
                   handleIncrementQuantity({
-                    variantId: item.variant.id,
+                    variantId: item.variant.id
                   })
                 }
                 sx={{
-                  height: "32px",
-                  width: "32px",
-                  borderRadius: "300px",
-                }}
-              >
+                  height: '32px',
+                  width: '32px',
+                  borderRadius: '300px'
+                }}>
                 <Add fontSize="small" />
               </IconButton>
               <Typography fontWeight={600} fontSize="15px" my="3px">
@@ -117,29 +99,27 @@ export const CartDrawer = () => {
                 color="primary"
                 onClick={() =>
                   handleDecrementQuantity({
-                    variantId: item.variant.id,
+                    variantId: item.variant.id
                   })
                 }
                 sx={{
-                  height: "32px",
-                  width: "32px",
-                  borderRadius: "300px",
-                }}
-              >
+                  height: '32px',
+                  width: '32px',
+                  borderRadius: '300px'
+                }}>
                 <Remove fontSize="small" />
               </IconButton>
             </Box>
 
             <Link
               sx={{
-                textDecoration: "none",
-                "&:hover": {
-                  opacity: "0.7",
-                },
+                textDecoration: 'none',
+                '&:hover': {
+                  opacity: '0.7'
+                }
               }}
               to={`/products/${item.variant.product.handle}`}
-              onClick={() => uiDispatch({ type: "toggleCartOpen" })}
-            >
+              onClick={() => uiDispatch({ type: 'toggleCartOpen' })}>
               <img
                 alt={item.variant.image.altText}
                 src={item.variant.image.src}
@@ -151,42 +131,31 @@ export const CartDrawer = () => {
             <Box pl="20px" flex="1 1 0">
               <Link
                 sx={{
-                  textDecoration: "none",
-                  "&:hover": {
-                    opacity: "0.7",
-                  },
+                  textDecoration: 'none',
+                  '&:hover': {
+                    opacity: '0.7'
+                  }
                 }}
                 to={`/products/${item.variant.product.handle}`}
-                onClick={() => uiDispatch({ type: "toggleCartOpen" })}
-              >
+                onClick={() => uiDispatch({ type: 'toggleCartOpen' })}>
                 <Typography variant="cartTitle" fontSize="14px">
                   {item.title}
                 </Typography>
               </Link>
               <br />
               <Typography variant="cartVariant" color="grey.600">
-                {item.variant.title === "Default Title"
-                  ? ""
-                  : item.variant.title}
+                {item.variant.title === 'Default Title' ? '' : item.variant.title}
               </Typography>
-              <Box
-                fontWeight={600}
-                fontSize="14px"
-                color="primary.main"
-                mt={0.5}
-              >
+              <Box fontWeight={600} fontSize="14px" color="primary.main" mt={0.5}>
                 <Typography variant="subtitle3">
-                  ${(item.quantity * item.variant.price).toFixed(2)}{" "}
-                  {item.variant.priceV2.currencyCode}
+                  {`$${(item.quantity * item.variant.price.amount).toFixed(2)} ${
+                    item.variant.price.currencyCode
+                  }`}
                 </Typography>
               </Box>
             </Box>
 
-            <IconButton
-              onClick={() => removeLineItem(item.id)}
-              ml={2.5}
-              size="small"
-            >
+            <IconButton onClick={() => removeLineItem(item.id)} ml={2.5} size="small">
               <Delete fontSize="small" />
             </IconButton>
           </Box>
@@ -198,16 +167,18 @@ export const CartDrawer = () => {
         alignItems="center"
         spacing={2}
         sx={{
-          backgroundColor: "rgba(255, 255, 255, 0.44)",
-          backdropFilter: "saturate(180%) blur(20px)",
-          padding: "15px 25px 30px  25px"
-        }}
-      >
+          backgroundColor: 'rgba(255, 255, 255, 0.44)',
+          backdropFilter: 'saturate(180%) blur(20px)',
+          padding: '15px 25px 30px  25px'
+        }}>
         <Box sx={{ paddingTop: 2, paddingBottom: 2 }}>
           <List>
             <ListItem disablePadding>
               <Tooltip title="Learn More" placement="bottom">
-                <ListItemButton component='a' href="https://www.shopify.com/climate/sustainability-fund/partners" target="_blank">
+                <ListItemButton
+                  component="a"
+                  href="https://www.shopify.com/climate/sustainability-fund/partners"
+                  target="_blank">
                   <ListItemIcon>
                     <Co2 />
                   </ListItemIcon>
@@ -217,7 +188,10 @@ export const CartDrawer = () => {
             </ListItem>
             <ListItem disablePadding>
               <Tooltip title="Learn More" placement="bottom">
-                <ListItemButton component='a' href="https://ecologi.com/hummingbirdhammocks?r=60b8efa8e6e3c022ec95c2bb" target="_blank">
+                <ListItemButton
+                  component="a"
+                  href="https://ecologi.com/hummingbirdhammocks?r=60b8efa8e6e3c022ec95c2bb"
+                  target="_blank">
                   <ListItemIcon>
                     <Forest />
                   </ListItemIcon>
@@ -231,11 +205,10 @@ export const CartDrawer = () => {
           <Button
             variant="outlined"
             sx={{
-              height: 40,
+              height: 40
             }}
             fullWidth
-            disabled
-          >
+            disabled>
             Your Cart is Empty!
           </Button>
         ) : (
@@ -245,26 +218,24 @@ export const CartDrawer = () => {
               fullWidth
               component={Link}
               to="/cart"
-              onClick={() => uiDispatch({ type: "toggleCartOpen" })}
-            >
+              onClick={() => uiDispatch({ type: 'toggleCartOpen' })}>
               Go to Cart
             </Button>
 
             <Button
               variant="outlined"
               sx={{
-                height: 40,
+                height: 40
               }}
               fullWidth
               onClick={() => {
-                window.location.href = checkout.webUrl
-              }}
-            >
+                window.location.href = checkout.webUrl;
+              }}>
               Proceed to Checkout
             </Button>
           </>
         )}
       </Stack>
     </Drawer>
-  )
-}
+  );
+};

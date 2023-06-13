@@ -1,3 +1,2 @@
-export * from "./ProductContext"
-export * from "./CartContext"
-export * from "./RecentViewedContext"
+export * from './ProductContext';
+export * from './CartContext';

@@ -1,26 +1,26 @@
-import { createTheme } from "@mui/material/styles"
-import { grey } from "@mui/material/colors"
+import { grey } from '@mui/material/colors';
+import { createTheme } from '@mui/material/styles';
 
 const rawTheme = createTheme({
   palette: {
     primary: {
-      main: "#34542a",
+      main: '#34542a'
     },
     secondary: {
-      main: "#132210",
+      main: '#132210'
     },
     white: {
-      main: "#fff",
+      main: '#fff'
     },
     dark: {
-      main: "#414042",
+      main: '#414042'
     },
     darkGreen: {
-      main: "#10220e",
+      main: '#10220e'
     },
-    titleBackground: "#1e1e1e99",
-    blackTruffle: "#414042",
-    blackBackground: "#3939391a",
+    titleBackground: '#1e1e1e99',
+    blackTruffle: '#414042',
+    blackBackground: '#3939391a'
   },
   typography: {
     fontFamily: "'Poppins', sans-serif",
@@ -28,46 +28,46 @@ const rawTheme = createTheme({
     fontWeightLight: 300,
     fontWeightRegular: 400,
     fontWeightMedium: 700,
-    fontFamilySecondary: "'Montserrat', sans-serif",
+    fontFamilySecondary: "'Montserrat', sans-serif"
   },
   components: {
     MuiTypography: {
       styleOverrides: {
         root: {
-          wordWrap: "break-word"
-        },
-      },
+          wordWrap: 'break-word'
+        }
+      }
     },
     MuiPaper: {
       styleOverrides: {
         root: {
-          borderRadius: 20,
-        },
-      },
+          borderRadius: 20
+        }
+      }
     },
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 20,
-        },
-      },
+          borderRadius: 20
+        }
+      }
     },
     MuiLoadingButton: {
       styleOverrides: {
         root: {
-          borderRadius: 20,
-        },
-      },
-    },
-  },
-})
+          borderRadius: 20
+        }
+      }
+    }
+  }
+});
 
 const fontHeader = {
   color: rawTheme.palette.text.primary.main,
   fontWeight: rawTheme.typography.fontWeightMedium,
   fontFamily: rawTheme.typography.fontFamilySecondary,
-  textTransform: "uppercase",
-}
+  textTransform: 'uppercase'
+};
 
 const theme = {
   ...rawTheme,
@@ -76,8 +76,8 @@ const theme = {
     background: {
       ...rawTheme.palette.background,
       default: rawTheme.palette.common.white,
-      placeholder: grey[200],
-    },
+      placeholder: grey[200]
+    }
   },
   typography: {
     ...rawTheme.typography,
@@ -90,10 +90,10 @@ const theme = {
       fontWeight: 500,
       fontFamily: rawTheme.typography.fontFamily,
 
-      [rawTheme.breakpoints.down("md")]: {
+      [rawTheme.breakpoints.down('md')]: {
         fontSize: 22,
-        letterSpacing: 1,
-      },
+        letterSpacing: 1
+      }
     },
     h2: {
       ...rawTheme.typography.h2,
@@ -102,25 +102,25 @@ const theme = {
       fontSize: 31,
       fontWeight: 400,
       letterSpacing: 2,
-      lineHeight: 1.5,
+      lineHeight: 1.5
     },
     h3: {
       ...rawTheme.typography.h3,
       ...fontHeader,
-      fontSize: 42,
+      fontSize: 42
     },
     h4: {
       ...rawTheme.typography.h4,
       ...fontHeader,
       fontSize: 30,
-      fontWeight: 400,
+      fontWeight: 400
     },
     h5: {
       ...rawTheme.typography.h5,
       fontSize: 20,
       letterSpacing: 1.5,
       fontWeight: 400,
-      textTransform: "uppercase",
+      textTransform: 'uppercase'
     },
     h6: {
       ...rawTheme.typography.h6,
@@ -128,7 +128,7 @@ const theme = {
       fontSize: 18,
       letterSpacing: 1.5,
       fontWeight: 400,
-      textTransform: "uppercase",
+      textTransform: 'uppercase'
     },
     navMenu: {
       ...rawTheme.typography.navMenu,
@@ -137,7 +137,7 @@ const theme = {
       fontWeight: 500,
       fontFamily: rawTheme.typography.fontFamily,
       color: rawTheme.palette.blackTruffle,
-      textTransform: "uppercase",
+      textTransform: 'uppercase'
     },
     subtitle1: {
       ...rawTheme.typography.subtitle1,
@@ -147,23 +147,23 @@ const theme = {
       lineHeight: 1.6,
       color: rawTheme.palette.white.main,
       fontWeight: 400,
-      [rawTheme.breakpoints.down("md")]: {
+      [rawTheme.breakpoints.down('md')]: {
         fontSize: 14,
-        letterSpacing: 1,
-      },
+        letterSpacing: 1
+      }
     },
     subtitle2: {
       ...rawTheme.typography.body1,
       fontSize: 15,
-      textTransform: "uppercase",
-      letterSpacing: 2,
+      textTransform: 'uppercase',
+      letterSpacing: 2
     },
     subtitle3: {
       ...rawTheme.typography.body1,
       fontFamily: rawTheme.typography.fontFamilySecondary,
       fontSize: 15,
-      textTransform: "uppercase",
-      letterSpacing: 1,
+      textTransform: 'uppercase',
+      letterSpacing: 1
     },
     body1: {
       ...rawTheme.typography.body2,
@@ -171,7 +171,7 @@ const theme = {
       fontWeight: 300,
       letterSpacing: 1,
       color: rawTheme.palette.dark,
-      fontFamily: rawTheme.typography.fontFamilySecondary,
+      fontFamily: rawTheme.typography.fontFamilySecondary
     },
     navUser: {
       ...rawTheme.typography.navMenu,
@@ -180,7 +180,7 @@ const theme = {
       fontWeight: 500,
       fontFamily: rawTheme.typography.fontFamily,
       color: rawTheme.palette.dark,
-      textTransform: "uppercase",
+      textTransform: 'uppercase'
     },
 
     collectionName: {
@@ -190,14 +190,14 @@ const theme = {
       fontWeight: 400,
       fontFamily: rawTheme.typography.fontFamily,
       color: rawTheme.palette.dark,
-      textTransform: "uppercase",
+      textTransform: 'uppercase'
     },
 
     productDetails: {
       color: rawTheme.palette.primary,
-      textTransform: "capitalize!important",
+      textTransform: 'capitalize!important',
       fontSize: 17,
-      fontFamily: rawTheme.typography.fontFamilySecondary,
+      fontFamily: rawTheme.typography.fontFamilySecondary
     },
 
     footerMenu: {
@@ -205,9 +205,9 @@ const theme = {
       fontSize: 14,
       letterSpacing: 1,
       fontWeight: 500,
-      textTransform: "capitalize",
+      textTransform: 'capitalize',
       fontFamily: rawTheme.typography.fontFamilySecondary,
-      color: rawTheme.palette.white,
+      color: rawTheme.palette.white
     },
 
     cartTitle: {
@@ -215,14 +215,14 @@ const theme = {
       letterSpacing: 1,
       fontWeight: 500,
       fontFamily: rawTheme.typography.fontFamily,
-      textTransform: "capitalize",
+      textTransform: 'capitalize'
     },
     cartVariant: {
       fontSize: 12,
       letterSpacing: 1,
       fontWeight: 500,
       fontFamily: rawTheme.typography.fontFamilySecondary,
-      textTransform: "capitalize",
+      textTransform: 'capitalize'
     },
     breakpoints: {
       values: {
@@ -230,10 +230,10 @@ const theme = {
         sm: 600,
         md: 900,
         lg: 1220,
-        xl: 1536,
-      },
-    },
-  },
-}
+        xl: 1536
+      }
+    }
+  }
+};
 
-export default theme
+export default theme;

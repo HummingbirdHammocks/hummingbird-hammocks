@@ -1,25 +1,24 @@
-import React from "react"
-import { useTheme, Box, Grid, Tabs, Tab, Typography, useMediaQuery, styled } from "@mui/material"
-import { SquareFoot, Category, TravelExplore, Support } from "@mui/icons-material"
+import { Category, SquareFoot, Support, TravelExplore } from '@mui/icons-material';
+import { Box, Grid, Tab, Tabs, Typography, useMediaQuery } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
+import React from 'react';
 
-import { Specs } from "./Specs"
-import { SupportLinks } from "./SupportLinks"
+import { Specs } from './Specs';
+import { SupportLinks } from './SupportLinks';
 
-const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
-  ({ accentcolor, theme }) => ({
-    textTransform: 'none',
-    fontWeight: theme.typography.fontWeightRegular,
-    fontSize: theme.typography.pxToRem(15),
-    marginRight: theme.spacing(1),
-    '&.Mui-selected': {
-      fontWeight: theme.typography.fontWeightMedium,
-      color: "rgba(0, 0, 0, 0.87)",
-    },
-    '&.Mui-focusVisible': {
-      backgroundColor: accentcolor ? accentcolor : theme.palette.secondary.main,
-    },
-  }),
-);
+const StyledTab = styled((props) => <Tab disableRipple {...props} />)(({ accentcolor, theme }) => ({
+  textTransform: 'none',
+  fontWeight: theme.typography.fontWeightRegular,
+  fontSize: theme.typography.pxToRem(15),
+  marginRight: theme.spacing(1),
+  '&.Mui-selected': {
+    fontWeight: theme.typography.fontWeightMedium,
+    color: 'rgba(0, 0, 0, 0.87)'
+  },
+  '&.Mui-focusVisible': {
+    backgroundColor: accentcolor ? accentcolor : theme.palette.secondary.main
+  }
+}));
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -30,17 +29,15 @@ function TabPanel(props) {
       hidden={value !== index}
       id={`product-details-tabpanel-${index}`}
       aria-labelledby={`product-details-tab-${index}`}
-      {...other}
-    >
+      {...other}>
       {value === index && (
         <Box
           sx={{
             paddingLeft: { xs: 2, md: 4 },
             paddingRight: { xs: 2, md: 4 },
             paddingTop: 2,
-            paddingBottom: 2,
-          }}
-        >
+            paddingBottom: 2
+          }}>
           {children}
         </Box>
       )}
@@ -51,7 +48,7 @@ function TabPanel(props) {
 function a11yProps(index) {
   return {
     id: `product-details-tab-${index}`,
-    'aria-controls': `product-details-tabpanel-${index}`,
+    'aria-controls': `product-details-tabpanel-${index}`
   };
 }
 
@@ -68,10 +65,10 @@ export const ProductDetailsTabs = ({
   video,
   repo,
   backgroundColor,
-  accentcolor,
+  accentcolor
 }) => {
   const theme = useTheme();
-  const matches = useMediaQuery("(max-width:900px)")
+  const matches = useMediaQuery('(max-width:900px)');
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -81,25 +78,23 @@ export const ProductDetailsTabs = ({
   return (
     <Box
       sx={{
-        backgroundColor: backgroundColor ? backgroundColor : "#FDFDF5",
+        backgroundColor: backgroundColor ? backgroundColor : '#FDFDF5',
         borderColor: accentcolor ? accentcolor : 'divider',
-        borderStyle: "solid",
-        borderWidth: "1px",
-        borderRadius: "20px",
+        borderStyle: 'solid',
+        borderWidth: '1px',
+        borderRadius: '20px',
         paddingTop: { xs: 2, md: 4 },
         paddingBottom: 4,
         paddingLeft: { xs: 1, md: 4 },
         paddingRight: { xs: 1, md: 4 },
         marginTop: 4,
-        marginBottom: 4,
-      }}
-    >
+        marginBottom: 4
+      }}>
       <Grid container spacing={2}>
-
         <Grid item xs={12} md={3} lg={2}>
           <Tabs
-            orientation={matches ? "horizontal" : "vertical"}
-            variant={matches ? "scrollable" : "standard"}
+            orientation={matches ? 'horizontal' : 'vertical'}
+            variant={matches ? 'scrollable' : 'standard'}
             value={value}
             onChange={handleChange}
             scrollButtons={matches ? true : false}
@@ -113,12 +108,31 @@ export const ProductDetailsTabs = ({
             sx={{
               borderRight: { xs: 0, md: 1 },
               borderColor: 'divider'
-            }}
-          >
-            <StyledTab accentcolor={accentcolor} icon={<SquareFoot />} label="SPECS" {...a11yProps(0)} />
-            <StyledTab accentcolor={accentcolor} icon={<Category />} label="FEATURES" {...a11yProps(1)} />
-            <StyledTab accentcolor={accentcolor} icon={<TravelExplore />} label="TRANSPARENCY" {...a11yProps(2)} />
-            <StyledTab accentcolor={accentcolor} icon={<Support />} label="SUPPORT" {...a11yProps(3)} />
+            }}>
+            <StyledTab
+              accentcolor={accentcolor}
+              icon={<SquareFoot />}
+              label="SPECS"
+              {...a11yProps(0)}
+            />
+            <StyledTab
+              accentcolor={accentcolor}
+              icon={<Category />}
+              label="FEATURES"
+              {...a11yProps(1)}
+            />
+            <StyledTab
+              accentcolor={accentcolor}
+              icon={<TravelExplore />}
+              label="TRANSPARENCY"
+              {...a11yProps(2)}
+            />
+            <StyledTab
+              accentcolor={accentcolor}
+              icon={<Support />}
+              label="SUPPORT"
+              {...a11yProps(3)}
+            />
           </Tabs>
         </Grid>
 
@@ -138,8 +152,7 @@ export const ProductDetailsTabs = ({
               direction="row"
               justifyContent="center"
               alignItems="flex-start"
-              spacing={2}
-            >
+              spacing={2}>
               {features && (
                 <Grid item xs={12} lg={6}>
                   <Typography component="span">
@@ -167,8 +180,7 @@ export const ProductDetailsTabs = ({
               direction="row"
               justifyContent="center"
               alignItems="flex-start"
-              spacing={2}
-            >
+              spacing={2}>
               {materials && (
                 <Grid item xs={12} lg={6}>
                   <Typography variant="h5">Materials</Typography>
@@ -202,8 +214,7 @@ export const ProductDetailsTabs = ({
             />
           </TabPanel>
         </Grid>
-
       </Grid>
-    </Box >
-  )
-}
+    </Box>
+  );
+};

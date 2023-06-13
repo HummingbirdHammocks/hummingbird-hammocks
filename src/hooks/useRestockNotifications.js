@@ -1,14 +1,16 @@
-import { useQuery } from "react-query";
+import { useQuery } from '@tanstack/react-query';
 //firebase
-import { findInCollection/* , deleteDocument  */ } from 'utils/firebase';
+import {
+  findInCollection
+  /* , deleteDocument  */
+} from 'utils/firebase';
 
 const getNotifications = async (email) => {
+  if (!email || email === '' || email === undefined) return null;
 
-    if (!email || email === "" || email === undefined) return null;
+  const data = await findInCollection('restock_notifications', 'email', email);
 
-    const data = await findInCollection("restock_notifications", "email", email)
-
-    return data;
+  return data;
 };
 
 /* const deleteNotification = async (id) => {
@@ -19,9 +21,10 @@ const getNotifications = async (email) => {
 }; */
 
 export default function useRestockNotifications(email) {
-    return useQuery(
-        ["restock_notifications", email],
-        () => getNotifications(email),
-        { staleTime: 1000 * 600 },
-        { enabled: !!email });
+  return useQuery(
+    ['restock_notifications', email],
+    () => getNotifications(email),
+    { staleTime: 1000 * 600 },
+    { enabled: !!email }
+  );
 }

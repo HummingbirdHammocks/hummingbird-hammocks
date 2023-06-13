@@ -1,21 +1,27 @@
-import React, { useState } from "react"
-import { toast } from 'react-toastify';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import { useMutation, gql } from "@apollo/client"
-import { navigate } from "gatsby"
-import { useTheme, Box, Typography, Divider, TextField, Stack, InputAdornment, IconButton, Button } from "@mui/material"
-import { LoadingButton } from '@mui/lab';
+import { gql, useMutation } from '@apollo/client';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-// stores
-import { useAuthDispatch } from "../../../stores";
-// components
+import { LoadingButton } from '@mui/lab';
 import {
-  Seo,
-  Layout,
-  MainWrapper,
-  Link,
-} from "components"
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  InputAdornment,
+  Stack,
+  TextField,
+  Typography
+} from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+// components
+import { Layout, Link, MainWrapper, Seo } from 'components';
+import { useFormik } from 'formik';
+import { navigate } from 'gatsby';
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import * as yup from 'yup';
+
+// stores
+import { useAuthDispatch } from '../../../stores';
 
 const validationSchema = yup.object({
   email: yup
@@ -26,19 +32,19 @@ const validationSchema = yup.object({
   password: yup
     .string()
     .required('Please specify your password')
-    .min(8, 'The password should have at minimum length of 8'),
+    .min(8, 'The password should have at minimum length of 8')
 });
 
 const LoginPage = ({ location }) => {
   const theme = useTheme();
 
   const [showPassword, setShowPassword] = useState(false);
-  
+
   const authDispatch = useAuthDispatch();
 
   const initialValues = {
     email: '',
-    password: '',
+    password: ''
   };
 
   const onSubmit = async ({ email, password }) => {
@@ -46,38 +52,39 @@ const LoginPage = ({ location }) => {
       variables: {
         input: {
           email,
-          password,
-        },
-      },
-    })
+          password
+        }
+      }
+    });
 
     if (data.customerAccessTokenCreate.customerAccessToken) {
-      authDispatch({ type: "setCustomerAccessToken", customerAccessToken: data.customerAccessTokenCreate.customerAccessToken.accessToken })
-      toast.success("Login Success!")
+      authDispatch({
+        type: 'setCustomerAccessToken',
+        customerAccessToken: data.customerAccessTokenCreate.customerAccessToken.accessToken
+      });
+      toast.success('Login Success!');
 
       const params = new URLSearchParams(location.search);
-      const cartUrl = params.get("checkout_url");
+      const cartUrl = params.get('checkout_url');
 
       if (cartUrl) {
-        navigate("https://hummingbird-hammocks.myshopify.com" + cartUrl)
+        navigate('https://hummingbird-hammocks.myshopify.com' + cartUrl);
       } else {
-        navigate("/account/orders")
+        navigate('/account/orders');
       }
-
     } else {
-      console.log(data.customerAccessTokenCreate.customerUserErrors[0].message)
-      toast.error("Invalid email or password, please try again")
+      console.log(data.customerAccessTokenCreate.customerUserErrors[0].message);
+      toast.error('Invalid email or password, please try again');
     }
-
   };
 
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchema,
-    onSubmit,
+    onSubmit
   });
 
-  const [customerLogin, { error }] = useMutation(CUSTOMER_LOGIN)
+  const [customerLogin, { error }] = useMutation(CUSTOMER_LOGIN);
 
   const handleShowPassword = () => {
     setShowPassword((show) => !show);
@@ -85,8 +92,8 @@ const LoginPage = ({ location }) => {
 
   // if (loading) return "Submitting..."
   if (error) {
-    console.log(error)
-    toast.error("Oops! Something went wrong. Please try again.")
+    console.log(error);
+    toast.error('Oops! Something went wrong. Please try again.');
   }
 
   return (
@@ -95,22 +102,21 @@ const LoginPage = ({ location }) => {
       <Box
         sx={{
           background: theme.palette.white,
-          padding: "60px 15px",
+          padding: '60px 15px',
 
-          [theme.breakpoints.down("md")]: {
-            padding: "50",
-          },
+          [theme.breakpoints.down('md')]: {
+            padding: '50'
+          }
         }}>
         <MainWrapper>
-          <Box padding={{ xs: "0", md: "0 200px" }}>
-            <Stack spacing={2} direction={{ xs: "column", sm: "row" }} justifyContent="space-between" sx={{ paddingBottom: "30px" }}>
-              <Typography variant="h2">
-                Account Login
-              </Typography>
-              <Button
-                variant="outlined"
-                onClick={() => navigate("/register")}
-              >
+          <Box padding={{ xs: '0', md: '0 200px' }}>
+            <Stack
+              spacing={2}
+              direction={{ xs: 'column', sm: 'row' }}
+              justifyContent="space-between"
+              sx={{ paddingBottom: '30px' }}>
+              <Typography variant="h2">Account Login</Typography>
+              <Button variant="outlined" onClick={() => navigate('/register')}>
                 Sign Up
               </Button>
             </Stack>
@@ -119,7 +125,7 @@ const LoginPage = ({ location }) => {
             <Box padding="30px" justifyContent="center" display="flex">
               <Box>
                 <form onSubmit={formik.handleSubmit}>
-                  <Stack spacing={2} sx={{ width: { xs: "100%", md: "400px" } }}>
+                  <Stack spacing={2} sx={{ width: { xs: '100%', md: '400px' } }}>
                     <TextField
                       label="Email *"
                       variant="outlined"
@@ -143,14 +149,18 @@ const LoginPage = ({ location }) => {
                               {showPassword ? <Visibility /> : <VisibilityOff />}
                             </IconButton>
                           </InputAdornment>
-                        ),
+                        )
                       }}
                       value={formik.values.password}
                       onChange={formik.handleChange}
                       error={formik.touched.password && Boolean(formik.errors.password)}
                       helperText={formik.touched.password && formik.errors.password}
                     />
-                    <LoadingButton size={'large'} variant={'contained'} type={'submit'} loading={formik.isSubmitting}>
+                    <LoadingButton
+                      size={'large'}
+                      variant={'contained'}
+                      type={'submit'}
+                      loading={formik.isSubmitting}>
                       Login
                     </LoadingButton>
                   </Stack>
@@ -158,21 +168,19 @@ const LoginPage = ({ location }) => {
 
                 <Box mt="20px">
                   <Typography variant="body1" mb="10px">
-                    <Link to="/password-recovery">
-                      Forgot your password?
-                    </Link>
+                    <Link to="/password-recovery">Forgot your password?</Link>
                   </Typography>
                 </Box>
               </Box>
             </Box>
           </Box>
         </MainWrapper>
-      </Box >
-    </Layout >
-  )
-}
+      </Box>
+    </Layout>
+  );
+};
 
-export default LoginPage
+export default LoginPage;
 
 const CUSTOMER_LOGIN = gql`
   mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
@@ -188,4 +196,4 @@ const CUSTOMER_LOGIN = gql`
       }
     }
   }
-`
+`;

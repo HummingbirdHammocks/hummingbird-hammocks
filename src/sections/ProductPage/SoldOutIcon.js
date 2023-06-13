@@ -1,5 +1,5 @@
-import React from "react"
-import { StaticImage } from "gatsby-plugin-image"
+import { StaticImage } from 'gatsby-plugin-image';
+import React from 'react';
 
 export const SoldOutIcon = ({ margin }) => (
   <StaticImage
@@ -8,12 +8,12 @@ export const SoldOutIcon = ({ margin }) => (
     height={34}
     placeholder="blurred"
     style={{
-      position: "absolute",
+      position: 'absolute',
       top: 0,
       left: 0,
       right: 0,
-      margin: margin ? margin : "5px",
-      padding: "5px",
+      margin: margin ? margin : '5px',
+      padding: '5px'
     }}
   />
-)
+);

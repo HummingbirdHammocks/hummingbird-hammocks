@@ -1,57 +1,52 @@
-import React from "react"
-import { ThemeProvider, CssBaseline } from "@mui/material"
-import { ToastContainer } from 'react-toastify';
-import fetch from "isomorphic-fetch"
-import {
-  ApolloClient,
-  createHttpLink,
-  InMemoryCache,
-  ApolloProvider,
-} from "@apollo/client"
-// react query
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools'
-// stores
-import { AuthProvider, UIProvider, ProductsProvider, RecentlyViewedProvider } from "stores";
-import {
-  ProductContextProvider,
-  CartContextProvider,
-} from "contexts"
-// theme
-import theme from "./src/ui/theme"
-import "./src/ui/style.css";
+import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
+import '@fontsource/montserrat/400.css';
+import '@fontsource/montserrat/500.css';
+import '@fontsource/montserrat/700.css';
 //fonts
-import "@fontsource/poppins/400.css"
-import "@fontsource/poppins/600.css"
-import "@fontsource/poppins/700.css"
-import "@fontsource/montserrat/400.css"
-import "@fontsource/montserrat/500.css"
-import "@fontsource/montserrat/700.css"
-// Judge.me
-import { ReviewWidgetScripts } from "utils/judgeMe"
-// Import Swiper styles
-import "swiper/css"
-import "swiper/css/navigation"
-import "swiper/css/pagination"
-import "swiper/css/thumbs"
-import "swiper/css/free-mode"
-
+import '@fontsource/poppins/400.css';
+import '@fontsource/poppins/600.css';
+import '@fontsource/poppins/700.css';
+import { CssBaseline } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
+// react query
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { CartContextProvider, ProductContextProvider } from 'contexts';
+import fetch from 'isomorphic-fetch';
+import React from 'react';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// stores
+import { AuthProvider, ProductsProvider, RecentlyViewedProvider, UIProvider } from 'stores';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/thumbs';
+// Judge.me
+import { ReviewWidgetScripts } from 'utils/judgeMe';
+// Help Widget
+import { ChatWidget } from 'utils/quickchatai';
+
+import './src/ui/style.css';
+// theme
+import theme from './src/ui/theme';
 
 const rqClient = new QueryClient();
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
+  ssrMode: true,
   cache: new InMemoryCache(),
   link: new createHttpLink({
-    uri: `https://hummingbird-hammocks.myshopify.com/api/2022-04/graphql.json`,
+    uri: `https://${process.env.GATSBY_SHOPIFY_STORE_URL}/api/${process.env.GATSBY_SHOPIFY_API_VERSION}/graphql.json`,
     headers: {
-      "X-Shopify-Storefront-Access-Token":
-        process.env.GATSBY_STOREFRONT_ACCESS_TOKEN,
-      Accept: "application/graphql",
+      'X-Shopify-Storefront-Access-Token': process.env.GATSBY_SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+      Accept: 'application/graphql'
     },
-    fetch,
-  }),
-})
+    fetch
+  })
+});
 
 export const wrapRootElement = ({ element }) => (
   <QueryClientProvider client={rqClient}>
@@ -65,11 +60,10 @@ export const wrapRootElement = ({ element }) => (
                   <ThemeProvider theme={theme}>
                     <CssBaseline />
                     {element}
-                    <ToastContainer
-                      pauseOnFocusLoss={false}
-                    />
+                    <ToastContainer pauseOnFocusLoss={false} />
                     <ReactQueryDevtools initialIsOpen={false} />
                     <ReviewWidgetScripts />
+                    <ChatWidget />
                   </ThemeProvider>
                 </CartContextProvider>
               </ProductContextProvider>
@@ -78,5 +72,5 @@ export const wrapRootElement = ({ element }) => (
         </UIProvider>
       </AuthProvider>
     </ApolloProvider>
-  </QueryClientProvider >
-)
+  </QueryClientProvider>
+);

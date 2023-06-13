@@ -1,25 +1,16 @@
-import React, { useEffect, useState, useCallback } from "react"
-import { toast } from "react-toastify"
-import { useFormik } from 'formik';
-import { navigate } from "gatsby"
-import * as yup from 'yup';
-import { useMutation, gql, useQuery } from "@apollo/client"
+import { gql, useMutation, useQuery } from '@apollo/client';
 import { LoadingButton } from '@mui/lab';
-import {
-  Typography,
-  Grid,
-  TextField,
-  Box,
-  Button,
-} from "@mui/material"
-// stores
-import { useAuthStore, useAuthDispatch } from "../../stores";
+import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 // components
-import {
-  AccountLayout,
-  MiddleSpinner,
-  Link
-} from "components"
+import { AccountLayout, Link, MiddleSpinner } from 'components';
+import { useFormik } from 'formik';
+import { navigate } from 'gatsby';
+import React, { useCallback, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import * as yup from 'yup';
+
+// stores
+import { useAuthDispatch, useAuthStore } from '../../stores';
 
 const validationSchema = yup.object({
   firstName: yup
@@ -38,13 +29,13 @@ const validationSchema = yup.object({
     .string()
     .trim()
     .email('Please enter a valid email address')
-    .required('Please specify your email address'),
+    .required('Please specify your email address')
 });
 
 const AccountInfoPage = () => {
-  const [changePasswordLoading, setChangePasswordLoading] = useState(false)
-  const [newPassword, setNewPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
+  const [changePasswordLoading, setChangePasswordLoading] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const { customerAccessToken } = useAuthStore();
   const authDispatch = useAuthDispatch();
@@ -52,16 +43,11 @@ const AccountInfoPage = () => {
   const initialValues = {
     firstName: '',
     lastName: '',
-    email: '',
+    email: ''
   };
 
-  const onSubmit = async ({
-    firstName,
-    lastName,
-    email,
-  }) => {
-
-    console.log(firstName, lastName, email)
+  const onSubmit = async ({ firstName, lastName, email }) => {
+    console.log(firstName, lastName, email);
 
     customerUpdate({
       variables: {
@@ -69,86 +55,92 @@ const AccountInfoPage = () => {
         customer: {
           email,
           firstName,
-          lastName,
-        },
-      },
+          lastName
+        }
+      }
     })
-      .then(result => {
-        refetch()
-        formik.resetForm({})
-        toast.success("Account Updated")
+      .then(() => {
+        refetch();
+        formik.resetForm({});
+        toast.success('Account Updated');
       })
-      .catch(error => {
-        console.log(error)
-        toast.error("Oops! Something went wrong. Please try again.")
-      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Oops! Something went wrong. Please try again.');
+      });
   };
 
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchema,
-    onSubmit,
+    onSubmit
   });
 
   const handleChangePassword = async () => {
-    setChangePasswordLoading(true)
+    setChangePasswordLoading(true);
 
     if (newPassword !== confirmPassword) {
-      toast.error("Passwords do not match")
-      setChangePasswordLoading(false)
-      return
+      toast.error('Passwords do not match');
+      setChangePasswordLoading(false);
+      return;
     }
 
     passwordUpdate({
       variables: {
         customerAccessToken,
         customer: {
-          password: newPassword,
-        },
-      },
+          password: newPassword
+        }
+      }
     })
-      .then(result => {
-        console.log(result)
-        refetch()
-        toast.success("Password Updated Successfully! You'll be redirected to the login page automatically in 3s...", {
-          autoClose: 3000,
-          hideProgressBar: false,
-        })
+      .then((result) => {
+        console.log(result);
+        refetch();
+        toast.success(
+          "Password Updated Successfully! You'll be redirected to the login page automatically in 3s...",
+          {
+            autoClose: 3000,
+            hideProgressBar: false
+          }
+        );
 
-        authDispatch({ type: "setLogout" })
-        navigate("/account/login")
+        authDispatch({ type: 'setLogout' });
+        navigate('/account/login');
       })
-      .catch(error => {
-        console.log(error)
-        toast.error("Oops! Something went wrong. Please try again.")
-      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Oops! Something went wrong. Please try again.');
+      });
 
-    setChangePasswordLoading(false)
-  }
+    setChangePasswordLoading(false);
+  };
 
   //Query & Mutation
   const { data, loading, error, refetch } = useQuery(CUSTOMER_INFO, {
     variables: {
-      customerAccessToken,
-    },
-  })
-  const [customerUpdate] = useMutation(CUSTOMER_UPDATE)
-  const [passwordUpdate] = useMutation(CUSTOMER_CHANGE_PASSWORD)
-
-  const handleDefaultValues = useCallback((data) => {
-    if (data?.customer) {
-      formik.setValues({
-        firstName: data.customer.firstName,
-        lastName: data.customer.lastName,
-        email: data.customer.email,
-        phone: data.customer.phone,
-      })
+      customerAccessToken
     }
-  }, [data])
+  });
+  const [customerUpdate] = useMutation(CUSTOMER_UPDATE);
+  const [passwordUpdate] = useMutation(CUSTOMER_CHANGE_PASSWORD);
+
+  const handleDefaultValues = useCallback(
+    (data) => {
+      if (data?.customer) {
+        formik.setValues({
+          firstName: data.customer.firstName,
+          lastName: data.customer.lastName,
+          email: data.customer.email,
+          phone: data.customer.phone
+        });
+      }
+    },
+    [formik]
+  );
 
   useEffect(() => {
-    handleDefaultValues(data)
-  }, [data, handleDefaultValues])
+    handleDefaultValues(data);
+  }, [data]);
 
   return (
     <AccountLayout title="Account Info" currentPage="info">
@@ -158,11 +150,15 @@ const AccountInfoPage = () => {
             Account Info
           </Typography>
           <Grid container spacing={4} sx={{ paddingBottom: 4 }}>
-            {error && "Error"}
+            {error && 'Error'}
             {loading && <MiddleSpinner divminheight="460px" size={20} />}
             {data && (
               <>
-                <Grid item xs={12} md={4} sx={{ padding: 2, borderRight: { xs: "0", md: "1px solid rgba(0,0,0,0.12)" } }}>
+                <Grid
+                  item
+                  xs={12}
+                  md={4}
+                  sx={{ padding: 2, borderRight: { xs: '0', md: '1px solid rgba(0,0,0,0.12)' } }}>
                   <Typography variant="h5" sx={{ marginBottom: 2 }}>
                     Change Password
                   </Typography>
@@ -174,7 +170,7 @@ const AccountInfoPage = () => {
                         name={'newPassword'}
                         fullWidth
                         value={newPassword}
-                        onChange={e => setNewPassword(e.target.value)}
+                        onChange={(e) => setNewPassword(e.target.value)}
                       />
                     </Grid>
                     <Grid item xs={12}>
@@ -184,11 +180,15 @@ const AccountInfoPage = () => {
                         name={'confirmPassword'}
                         fullWidth
                         value={confirmPassword}
-                        onChange={e => setConfirmPassword(e.target.value)}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
                       />
                     </Grid>
                     <Grid item xs={12}>
-                      <LoadingButton size={'large'} variant={'contained'} onClick={() => handleChangePassword()} loading={changePasswordLoading}>
+                      <LoadingButton
+                        size={'large'}
+                        variant={'contained'}
+                        onClick={() => handleChangePassword()}
+                        loading={changePasswordLoading}>
                         Change Password
                       </LoadingButton>
                     </Grid>
@@ -208,9 +208,7 @@ const AccountInfoPage = () => {
                           fullWidth
                           value={formik.values.firstName}
                           onChange={formik.handleChange}
-                          error={
-                            formik.touched.firstName && Boolean(formik.errors.firstName)
-                          }
+                          error={formik.touched.firstName && Boolean(formik.errors.firstName)}
                           helperText={formik.touched.firstName && formik.errors.firstName}
                         />
                       </Grid>
@@ -222,9 +220,7 @@ const AccountInfoPage = () => {
                           fullWidth
                           value={formik.values.lastName}
                           onChange={formik.handleChange}
-                          error={
-                            formik.touched.lastName && Boolean(formik.errors.lastName)
-                          }
+                          error={formik.touched.lastName && Boolean(formik.errors.lastName)}
                           helperText={formik.touched.lastName && formik.errors.lastName}
                         />
                       </Grid>
@@ -236,14 +232,16 @@ const AccountInfoPage = () => {
                           fullWidth
                           value={formik.values.email}
                           onChange={formik.handleChange}
-                          error={
-                            formik.touched.email && Boolean(formik.errors.email)
-                          }
+                          error={formik.touched.email && Boolean(formik.errors.email)}
                           helperText={formik.touched.email && formik.errors.email}
                         />
                       </Grid>
                       <Grid item container xs={12}>
-                        <LoadingButton size={'large'} variant={'contained'} type={'submit'} loading={formik.isSubmitting}>
+                        <LoadingButton
+                          size={'large'}
+                          variant={'contained'}
+                          type={'submit'}
+                          loading={formik.isSubmitting}>
                           Update Account Info
                         </LoadingButton>
                       </Grid>
@@ -255,23 +253,18 @@ const AccountInfoPage = () => {
           </Grid>
         </Box>
       ) : (
-        <Box
-          minHeight="450px"
-          justifyContent="center"
-          alignItems="center"
-          display="flex"
-        >
+        <Box minHeight="450px" justifyContent="center" alignItems="center" display="flex">
           <Typography variant="h1">You need to log in first!</Typography>
           <Button>
             <Link to="/account/login">Go to Log In</Link>
           </Button>
         </Box>
       )}
-    </AccountLayout >
-  )
-}
+    </AccountLayout>
+  );
+};
 
-export default AccountInfoPage
+export default AccountInfoPage;
 
 const CUSTOMER_INFO = gql`
   query ($customerAccessToken: String!) {
@@ -282,7 +275,7 @@ const CUSTOMER_INFO = gql`
       email
     }
   }
-`
+`;
 
 const CUSTOMER_UPDATE = gql`
   mutation customerUpdate($customer: CustomerUpdateInput!, $customerAccessToken: String!) {
@@ -294,7 +287,7 @@ const CUSTOMER_UPDATE = gql`
       }
     }
   }
-`
+`;
 
 const CUSTOMER_CHANGE_PASSWORD = gql`
   mutation customerUpdate($customer: CustomerUpdateInput!, $customerAccessToken: String!) {
@@ -306,4 +299,4 @@ const CUSTOMER_CHANGE_PASSWORD = gql`
       }
     }
   }
-`
+`;

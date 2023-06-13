@@ -1,20 +1,14 @@
-import React from "react"
-import { navigate } from "gatsby"
-import { useQuery, gql } from "@apollo/client"
-import { useTheme, Typography, Divider, Box, Stack, Grid, Button, } from "@mui/material"
-// stores
-import { useAuthStore, useAuthDispatch } from "../../stores";
+import { gql, useQuery } from '@apollo/client';
+import { Box, Button, Divider, Grid, Stack, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { navigate } from 'gatsby';
+import React from 'react';
+
 // components
-import {
-  Seo,
-  Layout,
-  MainWrapper,
-} from ".."
-
-import AccountNav from "./AccoutNav"
-
-
-
+import { Layout, MainWrapper, Seo } from '..';
+// stores
+import { useAuthDispatch, useAuthStore } from '../../stores';
+import AccountNav from './AccoutNav';
 
 export const AccountLayout = ({ title, currentPage, children }) => {
   const theme = useTheme();
@@ -24,14 +18,14 @@ export const AccountLayout = ({ title, currentPage, children }) => {
 
   const { data } = useQuery(CUSTOMER_INFO, {
     variables: {
-      customerAccessToken,
-    },
-  })
+      customerAccessToken
+    }
+  });
 
   const userLogout = () => {
-    authDispatch({ type: "setLogout" })
-    navigate("/")
-  }
+    authDispatch({ type: 'setLogout' });
+    navigate('/');
+  };
 
   return (
     <Layout>
@@ -39,36 +33,25 @@ export const AccountLayout = ({ title, currentPage, children }) => {
       <Box
         sx={{
           background: theme.palette.white,
-          paddingTop: "20px",
+          paddingTop: '20px'
         }}>
         <MainWrapper>
           <Box>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-              spacing={2}
-            >
+            <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
               {data && data.customer ? (
                 <Stack>
                   {(data.customer.firstName || data.customer.lastName) && (
-                    < Typography variant="h2">{`${data?.customer.firstName} ${data.customer.lastName}`}</Typography>
+                    <Typography variant="h2">{`${data?.customer.firstName} ${data.customer.lastName}`}</Typography>
                   )}
                   {data.customer.email && (
-                    <Typography variant="body1">
-                      {data.customer.email}
-                    </Typography>
+                    <Typography variant="body1">{data.customer.email}</Typography>
                   )}
                 </Stack>
               ) : (
                 <Typography variant="h2">Account</Typography>
               )}
 
-              <Button
-                onClick={userLogout}
-              >
-                Logout
-              </Button>
+              <Button onClick={userLogout}>Logout</Button>
             </Stack>
 
             <Divider />
@@ -83,10 +66,10 @@ export const AccountLayout = ({ title, currentPage, children }) => {
             </Grid>
           </Box>
         </MainWrapper>
-      </Box >
-    </Layout >
-  )
-}
+      </Box>
+    </Layout>
+  );
+};
 
 const CUSTOMER_INFO = gql`
   query ($customerAccessToken: String!) {
@@ -96,4 +79,4 @@ const CUSTOMER_INFO = gql`
       lastName
     }
   }
-`
+`;

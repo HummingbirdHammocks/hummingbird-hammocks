@@ -1,22 +1,22 @@
-import React, { useState } from "react"
-import { Box, FormGroup, FormControlLabel, Stack, Checkbox, Typography } from "@mui/material"
-import { CardGiftcard, Receipt, CheckBoxOutlineBlank } from "@mui/icons-material"
+import { CardGiftcard, CheckBoxOutlineBlank, Receipt } from '@mui/icons-material';
+import { Box, Checkbox, FormControlLabel, FormGroup, Stack, Typography } from '@mui/material';
+import React, { useState } from 'react';
 
 export function OrderOptions({ handleAttributes }) {
-  const [packingSlip, setPackingSlip] = useState(false)
-  const [gift, setGift] = useState(false)
+  const [packingSlip, setPackingSlip] = useState(false);
+  const [gift, setGift] = useState(false);
 
   const handlePackingSlip = async (value) => {
-    console.log("Packing Slip", value)
-    handleAttributes({ key: "Packing Slip", value: value ? "Yes" : "No" })
-    setPackingSlip(value)
-  }
+    /* console.log('Packing Slip', value); */
+    handleAttributes({ key: 'Packing Slip', value: value ? 'Yes' : 'No' });
+    setPackingSlip(value);
+  };
 
   const handleGift = async (value) => {
-    console.log("Gift", value)
-    handleAttributes({ key: "Gift Order", value: value ? "Yes" : "No" })
-    setGift(value)
-  }
+    /* console.log('Gift', value); */
+    handleAttributes({ key: 'Gift Order', value: value ? 'Yes' : 'No' });
+    setGift(value);
+  };
 
   return (
     <Box>
@@ -38,7 +38,8 @@ export function OrderOptions({ handleAttributes }) {
           />
         </FormGroup>
         <Typography variant="body1" sx={{ paddingBottom: 2 }}>
-          To reduce waste, we don't print a paper packing slip. If you would like a packing slip please check this box.
+          To reduce waste, we don't print a paper packing slip. If you would like a packing slip
+          please check this box.
         </Typography>
       </Stack>
       <Stack spacing={2}>
@@ -60,5 +61,5 @@ export function OrderOptions({ handleAttributes }) {
         </Typography>
       </Stack>
     </Box>
-  )
+  );
 }

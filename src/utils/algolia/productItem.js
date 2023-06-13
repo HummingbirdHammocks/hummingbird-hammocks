@@ -1,6 +1,6 @@
-import React from "react"
-import { Link } from "gatsby"
-import { GatsbyImage, getImage } from "gatsby-plugin-image"
+import { Link } from 'gatsby';
+import { GatsbyImage, getImage } from 'gatsby-plugin-image';
+import React from 'react';
 
 export default function ProductItem({ hit, components }) {
   return (
@@ -9,7 +9,7 @@ export default function ProductItem({ hit, components }) {
         <div className="aa-ItemIcon aa-ItemIcon--picture aa-ItemIcon--alignTop">
           <GatsbyImage
             image={getImage(hit.featuredImage.gatsbyImageData)}
-            alt={hit.title + " Featured Image"}
+            alt={hit.title + ' Featured Image'}
           />
         </div>
 
@@ -21,5 +21,5 @@ export default function ProductItem({ hit, components }) {
         </div>
       </div>
     </Link>
-  )
+  );
 }

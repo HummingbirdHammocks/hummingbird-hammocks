@@ -1,45 +1,27 @@
-import React, { useState } from "react"
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { useQueryClient } from "react-query";
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import {
-  Box,
-  Grid,
-  TextField,
-  Stack,
-} from "@mui/material"
 import { LoadingButton } from '@mui/lab';
+import { Box, Grid, Stack, TextField } from '@mui/material';
+import { useQueryClient } from '@tanstack/react-query';
+import axios from 'axios';
+import { useFormik } from 'formik';
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import * as yup from 'yup';
+
 // components
-import DragAndDrop from "./dragAndDrop";
+import DragAndDrop from './dragAndDrop';
 
 const validationSchema = yup.object({
-  firstName: yup
-    .string()
-    .trim()
-    .required('First Name is required'),
-  lastName: yup
-    .string()
-    .trim()
-    .required('Last Name is required'),
+  firstName: yup.string().trim().required('First Name is required'),
+  lastName: yup.string().trim().required('Last Name is required'),
   email: yup
     .string()
     .trim()
     .email('Please enter a valid email address')
     .required('Email is required'),
-  orderNumber: yup
-    .string()
-    .trim(),
-  subject: yup
-    .string()
-    .trim()
-    .required('Subject is required'),
-  message: yup
-    .string()
-    .required('Message is required'),
-  attachments: yup
-    .mixed()
+  orderNumber: yup.string().trim(),
+  subject: yup.string().trim().required('Subject is required'),
+  message: yup.string().required('Message is required'),
+  attachments: yup.mixed()
 });
 
 export function SupportTicketForm({ firstName, lastName, email, orderNumber, subject, message }) {
@@ -59,19 +41,19 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
     reader.onload = function () {
       console.log(reader.result);
       const fileFormatted = {
-        "fileName": file.name,
-        "mimeType": file.type,
-        "data": String(reader.result).split(',')[1]
-      }
-      newAttachments = [...newAttachments, fileFormatted]
+        fileName: file.name,
+        mimeType: file.type,
+        data: String(reader.result).split(',')[1]
+      };
+      newAttachments = [...newAttachments, fileFormatted];
 
-      formik.setFieldValue("attachments", newAttachments);
+      formik.setFieldValue('attachments', newAttachments);
     };
     reader.onerror = function (error) {
       console.log('Error: ', error);
-      toast.error("Error converting image for upload, please try again")
+      toast.error('Error converting image for upload, please try again');
     };
-  }
+  };
 
   const initialValues = {
     firstName: firstName ? firstName : '',
@@ -80,10 +62,18 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
     orderNumber: orderNumber ? orderNumber : '',
     subject: subject ? subject : '',
     message: message ? message : '',
-    attachments: [],
+    attachments: []
   };
 
-  const onSubmit = async ({ firstName, lastName, email, orderNumber, subject, message, attachments }) => {
+  const onSubmit = async ({
+    firstName,
+    lastName,
+    email,
+    orderNumber,
+    subject,
+    message,
+    attachments
+  }) => {
     setSubmitting(true);
 
     const payload = {
@@ -94,19 +84,23 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
       subject: subject,
       message: message,
       attachments: attachments
-    }
+    };
 
     const url = process.env.GATSBY_FIREBASE_FUNCTIONS_URL + '/api/v1/freescout/create_ticket';
 
-    await axios.post(url, payload)
-      .then((response) =>
-        toast.success("Ticket created successfully, we will get back to you as soon as possible"),
-        queryClient.invalidateQueries(["tickets"]),
+    await axios
+      .post(url, payload)
+      .then(
+        () =>
+          toast.success('Ticket created successfully, we will get back to you as soon as possible'),
+        queryClient.invalidateQueries(['tickets']),
         formik.resetForm({})
       )
       .catch((error) => {
-        console.log("contactForm ", error)
-        toast.error("Error creating ticket, please try again or email us at support@hummingbirdhammocks.com")
+        console.log('contactForm ', error);
+        toast.error(
+          'Error creating ticket, please try again or email us at support@hummingbirdhammocks.com'
+        );
       });
 
     setSubmitting(false);
@@ -115,15 +109,18 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchema,
-    onSubmit,
+    onSubmit
   });
 
   return (
-    <Box padding="30px" justifyContent="center" display="flex">
+    <Box
+      sx={{ paddingLeft: { xs: 0, sm: 2 }, paddingRight: { xs: 0, sm: 2 } }}
+      justifyContent="center"
+      display="flex">
       <Box>
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>
-            {!firstName &&
+            {!firstName && (
               <Grid item xs={12} md={6}>
                 <TextField
                   label="First Name *"
@@ -136,8 +133,8 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
                   helperText={formik.touched.firstName && formik.errors.firstName}
                 />
               </Grid>
-            }
-            {!lastName &&
+            )}
+            {!lastName && (
               <Grid item xs={12} md={6}>
                 <TextField
                   label="Last Name *"
@@ -150,8 +147,8 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
                   helperText={formik.touched.lastName && formik.errors.lastName}
                 />
               </Grid>
-            }
-            {!email &&
+            )}
+            {!email && (
               <Grid item xs={12}>
                 <TextField
                   label="Email *"
@@ -164,8 +161,8 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
                   helperText={formik.touched.email && formik.errors.email}
                 />
               </Grid>
-            }
-            {!orderNumber &&
+            )}
+            {!orderNumber && (
               <Grid item xs={12}>
                 <TextField
                   label="Order Number"
@@ -178,8 +175,8 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
                   helperText={formik.touched.orderNumber && formik.errors.orderNumber}
                 />
               </Grid>
-            }
-            {!subject &&
+            )}
+            {!subject && (
               <Grid item xs={12}>
                 <TextField
                   label="Subject *"
@@ -192,8 +189,8 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
                   helperText={formik.touched.subject && formik.errors.subject}
                 />
               </Grid>
-            }
-            {!message &&
+            )}
+            {!message && (
               <Grid item xs={12}>
                 <TextField
                   label="Message *"
@@ -208,16 +205,19 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
                   helperText={formik.touched.message && formik.errors.message}
                 />
               </Grid>
-            }
+            )}
             <Grid item xs={12}>
               <Stack
-                direction={{ xs: "column", sm: "row" }}
+                direction={{ xs: 'column', sm: 'row' }}
                 justifyContent="space-between"
                 alignItems="center"
-                spacing={2}
-              >
+                spacing={2}>
                 <DragAndDrop handleSave={handleAddAttachment} />
-                <LoadingButton size={'large'} variant={'contained'} type={'submit'} loading={submitting}>
+                <LoadingButton
+                  size={'large'}
+                  variant={'contained'}
+                  type={'submit'}
+                  loading={submitting}>
                   Create Ticket
                 </LoadingButton>
               </Stack>
@@ -225,6 +225,6 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
           </Grid>
         </form>
       </Box>
-    </Box >
-  )
+    </Box>
+  );
 }

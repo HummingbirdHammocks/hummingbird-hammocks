@@ -1,9 +1,9 @@
-import React from "react"
-import { Helmet } from "react-helmet"
-import { PropTypes } from "prop-types"
-import { StaticQuery, graphql } from "gatsby"
+import { StaticQuery, graphql } from 'gatsby';
+import { PropTypes } from 'prop-types';
+import React from 'react';
+import { Helmet } from 'react-helmet';
 
-import Image from "../../assets/images/logo.png"
+import Image from '../../assets/images/logo.png';
 
 // SEO & Schema Markup components
 
@@ -17,22 +17,19 @@ export const Seo = ({ title, description, keywords, image }) => (
           //   defaultImage,
           url,
           defaultKeywords,
-          defaultTitle,
-        },
-      },
+          defaultTitle
+        }
+      }
     }) => {
       const seo = {
         defaultTitle: defaultTitle,
         description: description || defaultDescription,
         image: `${image ? image : url + `${Image}`}`,
-        keywords: `${keywords ? keywords + "," : defaultKeywords}`,
-      }
+        keywords: `${keywords ? keywords + ',' : defaultKeywords}`
+      };
 
       return (
-        <Helmet
-          title={title || defaultTitle}
-          titleTemplate={title ? `%s | ${defaultTitle}` : ""}
-        >
+        <Helmet title={title || defaultTitle} titleTemplate={title ? `%s | ${defaultTitle}` : ''}>
           <html lang="en" />
           <meta name="image" content={seo.image} />
           <meta name="description" content={seo.description} />
@@ -44,10 +41,10 @@ export const Seo = ({ title, description, keywords, image }) => (
           <meta name="twitter:description" content={seo.description} />
           <meta name="twitter:image" content={seo.image} />
         </Helmet>
-      )
+      );
     }}
   />
-)
+);
 
 //get default seo data from gatsby-config.js
 const query = graphql`
@@ -61,11 +58,11 @@ const query = graphql`
       }
     }
   }
-`
+`;
 
 Seo.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string,
   image: PropTypes.string,
-  keywords: PropTypes.string,
-}
+  keywords: PropTypes.string
+};
