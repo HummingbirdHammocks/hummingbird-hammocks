@@ -10,6 +10,7 @@ import {
   Grid,
   Typography
 } from '@mui/material';
+import axios from 'axios';
 // components
 import { AccountLayout, Link, MiddleSpinner } from 'components';
 import React, { useEffect, useState } from 'react';
@@ -22,32 +23,9 @@ import { RestockNotifications } from './components';
 const AccountNotificationsPage = () => {
   const [submitLoading, setSubmitLoading] = useState(false);
   const [acceptsMarketing, setAcceptsMarketing] = useState(false);
+  const [bargainRestock, setBargainRestock] = useState(false);
 
   const { customerAccessToken } = useAuthStore();
-
-  const handleSavePreferences = async () => {
-    setSubmitLoading(true);
-
-    customerUpdate({
-      variables: {
-        customerAccessToken,
-        customer: {
-          acceptsMarketing
-        }
-      }
-    })
-      .then((result) => {
-        console.log(result);
-        refetch();
-        toast.success('Preferences Updated');
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error('Oops! Something went wrong. Please try again.');
-      });
-
-    setSubmitLoading(false);
-  };
 
   const { data, loading, error, refetch } = useQuery(CUSTOMER_INFO, {
     variables: {
@@ -56,10 +34,69 @@ const AccountNotificationsPage = () => {
   });
   const [customerUpdate] = useMutation(CUSTOMER_UPDATE);
 
+  const handleSavePreferences = async () => {
+    setSubmitLoading(true);
+
+    let promiseChain = Promise.resolve();
+
+    promiseChain = promiseChain.then(() =>
+      customerUpdate({
+        variables: {
+          customerAccessToken,
+          customer: {
+            acceptsMarketing
+          }
+        }
+      })
+    );
+
+    if (bargainRestock) {
+      promiseChain = promiseChain.then(() =>
+        axios.post(
+          process.env.GATSBY_FIREBASE_FUNCTIONS_URL + '/api/v1/shopifyAdmin/add_customer_tags',
+          {
+            id: data.customer.id,
+            tags: ['bargain-bin-notifications']
+          }
+        )
+      );
+    } else {
+      promiseChain = promiseChain.then(() =>
+        axios.post(
+          process.env.GATSBY_FIREBASE_FUNCTIONS_URL + '/api/v1/shopifyAdmin/remove_customer_tags',
+          {
+            id: data.customer.id,
+            tags: ['bargain-bin-notifications']
+          }
+        )
+      );
+    }
+
+    toast
+      .promise(promiseChain, {
+        pending: 'Saving Preferences...',
+        success: 'Preferences Updated',
+        error: 'Oops! Something went wrong. Please try again.'
+      })
+      .then(() => {
+        refetch();
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setSubmitLoading(false);
+      });
+  };
+
   useEffect(() => {
     if (data?.customer) {
-      //console.log(data.customer)
-      setAcceptsMarketing(data?.customer?.acceptsMarketing);
+      if (data?.customer?.acceptsMarketing) {
+        setAcceptsMarketing(data?.customer?.acceptsMarketing);
+      }
+      if (data?.customer?.tags && data?.customer?.tags.includes('bargain-bin-notifications')) {
+        setBargainRestock(true);
+      }
     }
   }, [data]);
 
@@ -92,6 +129,17 @@ const AccountNotificationsPage = () => {
                         />
                       }
                       label="Promotions"
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={bargainRestock}
+                          onChange={() => setBargainRestock(!bargainRestock)}
+                        />
+                      }
+                      label="Bargain Bin Restock"
                     />
                   </FormGroup>
                   <Divider variant="middle" sx={{ marginTop: 2, marginBottom: 2 }} />
@@ -137,6 +185,7 @@ const CUSTOMER_INFO = gql`
     customer(customerAccessToken: $customerAccessToken) {
       id
       email
+      tags
       acceptsMarketing
     }
   }
