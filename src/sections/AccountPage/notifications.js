@@ -11,15 +11,10 @@ import {
   Typography
 } from '@mui/material';
 // components
-import {
-  AccountLayout,
-  Link,
-  MiddleSpinner,
-} from "components"
-import { RestockNotifications } from "./components"
-// hooks
-import useBargainBinNotifications from "../../hooks/useBargainBinNotifications";
+import { AccountLayout, Link, MiddleSpinner } from 'components';
 
+// hooks
+import useBargainBinNotifications from '../../hooks/useBargainBinNotifications';
 // stores
 import { useAuthStore } from '../../stores';
 import { RestockNotifications } from './components';
@@ -29,7 +24,9 @@ const AccountNotificationsPage = () => {
   const [acceptsMarketing, setAcceptsMarketing] = useState(false);
 
   const { customerAccessToken } = useAuthStore();
-  const { data: bargainNotifications, } = useBargainBinNotifications(data && data.customer && data.customer.email)
+  const { data: bargainNotifications } = useBargainBinNotifications(
+    data && data.customer && data.customer.email
+  );
 
   const handleSavePreferences = async () => {
     setSubmitLoading(true);
@@ -101,7 +98,15 @@ const AccountNotificationsPage = () => {
                     />
                   </FormGroup>
                   <FormGroup>
-                    <FormControlLabel control={<Checkbox checked={bargainNotifications} onChange={() => setAcceptsMarketing(!acceptsMarketing)} />} label="Bargain Bin Restock" />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={bargainNotifications}
+                          onChange={() => setAcceptsMarketing(!acceptsMarketing)}
+                        />
+                      }
+                      label="Bargain Bin Restock"
+                    />
                   </FormGroup>
                   <Divider variant="middle" sx={{ marginTop: 2, marginBottom: 2 }} />
                   <LoadingButton
