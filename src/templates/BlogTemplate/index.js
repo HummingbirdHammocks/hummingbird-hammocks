@@ -121,7 +121,7 @@ export default BlogTemplate;
 
 export const query = graphql`
   query articlesTemplate($skip: Int!, $limit: Int!) {
-    allArticles(limit: $limit, skip: $skip, sort: {published_at: DESC}) {
+    allArticles(limit: $limit, skip: $skip, sort: { published_at: DESC }) {
       totalCount
       nodes {
         localFile {
@@ -137,7 +137,7 @@ export const query = graphql`
       }
     }
 
-    articles: allArticles(limit: 10, sort: {published_at: DESC}) {
+    articles: allArticles(limit: 10, sort: { published_at: DESC }) {
       nodes {
         title
         handle

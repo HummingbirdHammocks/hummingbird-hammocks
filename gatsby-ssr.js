@@ -8,12 +8,12 @@ import '@fontsource/poppins/600.css';
 import '@fontsource/poppins/700.css';
 import { CssBaseline } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
-import { CartContextProvider, ProductContextProvider } from 'contexts';
-import fetch from 'isomorphic-fetch';
-import React from 'react';
 // react query
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { CartContextProvider, ProductContextProvider } from 'contexts';
+import fetch from 'isomorphic-fetch';
+import React from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // stores

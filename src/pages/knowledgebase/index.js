@@ -155,9 +155,9 @@ export default HelpCenter;
 
 export const query = graphql`
   query helpCenterArticlesTemplate {
-    allKnowledgebaseArticles(sort: {published_at: DESC}) {
+    allKnowledgebaseArticles(sort: { published_at: DESC }) {
       totalCount
-      group(field: {tags: SELECT}) {
+      group(field: { tags: SELECT }) {
         nodes {
           localFile {
             childImageSharp {
@@ -174,9 +174,9 @@ export const query = graphql`
       }
     }
 
-    allManualArticles(sort: {published_at: DESC}) {
+    allManualArticles(sort: { published_at: DESC }) {
       totalCount
-      group(field: {tags: SELECT}) {
+      group(field: { tags: SELECT }) {
         nodes {
           localFile {
             childImageSharp {

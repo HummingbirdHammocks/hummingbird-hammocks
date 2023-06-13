@@ -73,10 +73,10 @@ export const SupportTicket = ({ ticket }) => {
       />
 
       {ticket?._embedded?.threads &&
-        ticket._embedded.threads.map((thread) => (
-          thread.type !== 'note' &&
-          <SupportTicketMessage thread={thread} key={thread.id} />
-        ))}
+        ticket._embedded.threads.map(
+          (thread) =>
+            thread.type !== 'note' && <SupportTicketMessage thread={thread} key={thread.id} />
+        )}
     </Box>
   );
 };
