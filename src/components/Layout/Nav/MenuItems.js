@@ -57,6 +57,10 @@ const menuItems = [
         url: '/explore'
       },
       {
+        title: 'Sustainability',
+        url: '/sustainability'
+      },
+      {
         title: 'Contact us',
         url: '/contact-us'
       },

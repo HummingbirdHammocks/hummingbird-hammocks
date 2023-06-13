@@ -1,146 +1,127 @@
-import React, { useContext } from "react"
-import { StaticImage } from "gatsby-plugin-image"
-import { Container } from "@mui/material"
-
-import { Seo, Layout, MainWrapper } from "components"
-import { Hero, Info, Details, RecentlyViewed } from "sections"
-import { ProductContext } from "contexts"
+import { Container } from '@mui/material';
+import { Layout, MainWrapper, Seo } from 'components';
+import { ProductContext } from 'contexts';
+import { StaticImage } from 'gatsby-plugin-image';
+import React, { useContext } from 'react';
+import { Details, Hero, Info, RecentlyViewed } from 'sections';
 
 const heroData = {
-  position: "center",
-  mainText: "OUR IMPACT",
-}
+  position: 'center',
+  mainText: 'OUR IMPACT'
+};
 
 const twoTreesData = {
-  title: "TWO TREES PER ORDER",
-  subText:
-    "Through a partnership with Ecologi and the Eden Reforestation Projects, we are planting two mangrove trees for every order we receive. \n \nMangroves are four times more effective at capturing carbon per acre than tropical rainforests, provide a natural coastal erosion barrier and habitat, and are effective in filtering waterborne pollutants.\n \nCheck out Hummingbird Hammocks' Forest to learn more or donate more trees!",
-  buttonText: "Learn More",
-  hrefLink: "https://ecologi.com/hummingbirdhammocks?r=60b8efa8e6e3c022ec95c2bb",
-}
+  title: 'PLANT A PAIR WITH EVERY PURCHASE',
+  subText: `When you order a Hummingbird Hammock, you're not just investing in a high-quality piece of outdoor gear; you're becoming a hero for our planet. Through our partnership with Ecologi and the Eden Reforestation Projects, every purchase you make triggers the planting of two potent mangrove trees.
+    \n\n
+    Why mangroves, you might ask? Well, these robust trees are nothing short of carbon superheroes. They're capable of capturing four times more carbon per acre than tropical rainforests. However, their prowess extends beyond carbon capture. Mangroves act as a natural defense against coastal erosion, provide essential habitats for a variety of species, and serve as Mother Nature's water filtration system, helping to cleanse waterborne pollutants.
+    \n\n
+    Hungry for more knowledge? Head over to the Hummingbird Hammocks' Forest page to learn about our reforestation efforts, or if you're feeling especially green-thumbed, consider donating to plant even more trees.`,
+  buttonText: 'Learn More',
+  hrefLink: 'https://ecologi.com/hummingbirdhammocks?r=60b8efa8e6e3c022ec95c2bb'
+};
 
 const carbonNeutralShipping = {
-  title: "CARBON NEUTRAL SHIPPING",
+  title: 'CARBON NEUTRAL SHIPPING',
   subText:
-    "Through a partnership with Ecologi and the Eden Reforestation Projects, we are planting two mangrove trees for every order we receive. \n \nMangroves are four times more effective at capturing carbon per acre than tropical rainforests, provide a natural coastal erosion barrier and habitat, and are effective in filtering waterborne pollutants.\n \nCheck out Hummingbird Hammocks' Forest to learn more or donate more trees!",
-  buttonText: "Learn More",
-  hrefLink: "https://www.shopify.com/climate/sustainability-fund/partners",
-}
+    "With Hummingbird Hammocks, you can rest easy knowing your outdoor gear reached you without leaving a carbon footprint. We're proud to offset our shipping emissions through the Shopify Sustainability Fund. Whether your order is flying across the globe or traveling a few blocks, our commitment to carbon neutrality ensures that we're doing our part to maintain a cleaner, greener world.",
+  buttonText: 'Learn More',
+  hrefLink: 'https://www.shopify.com/climate/sustainability-fund/partners'
+};
 
 const solarPowered = {
-  title: "SOLAR POWERED OFFICE",
+  title: 'SOLAR POWERED',
   subText:
-    "Through a partnership with Ecologi and the Eden Reforestation Projects, we are planting two mangrove trees for every order we receive. \n \nMangroves are four times more effective at capturing carbon per acre than tropical rainforests, provide a natural coastal erosion barrier and habitat, and are effective in filtering waterborne pollutants.\n \nCheck out Hummingbird Hammocks' Forest to learn more or donate more trees!",
-}
-
-const wildlifeHabitat = {
-  title: "CERTIFIED WILDLIFE HABITAT",
-  subText:
-    "Through a partnership with Ecologi and the Eden Reforestation Projects, we are planting two mangrove trees for every order we receive. \n \nMangroves are four times more effective at capturing carbon per acre than tropical rainforests, provide a natural coastal erosion barrier and habitat, and are effective in filtering waterborne pollutants.\n \nCheck out Hummingbird Hammocks' Forest to learn more or donate more trees!",
-  buttonText: "Learn More",
-  hrefLink: "https://www.nwf.org/",
-}
+    "Our commitment to the environment extends to our office operations as well. We're harnessing the sun's power through solar panels to fuel our workspace. This clean and renewable energy source not only powers our daily operations but also decreases our reliance on fossil fuels, paving the way towards a more sustainable future."
+};
 
 const packaging = {
-  title: "RESPONSIBLE PACKAGING",
+  title: 'RESPONSIBLE PACKAGING',
   subText:
-    "Through a partnership with Ecologi and the Eden Reforestation Projects, we are planting two mangrove trees for every order we receive. \n \nMangroves are four times more effective at capturing carbon per acre than tropical rainforests, provide a natural coastal erosion barrier and habitat, and are effective in filtering waterborne pollutants.\n \nCheck out Hummingbird Hammocks' Forest to learn more or donate more trees!",
-}
+    "At Hummingbird Hammocks, we believe in less is more. We minimize our packaging materials, using recycled materials whenever possible. Our fulfillment process is nearly paperless, with the exception of shipping labels. We've streamlined our operations to prioritize efficiency and sustainability, ensuring that our love for nature isn't compromised by unnecessary waste."
+};
+
+const wildlifeHabitat = {
+  title: 'CERTIFIED WILDLIFE HABITAT',
+  subText: `But we don't stop at our products and operations. Nestled in our office backyard in Monument, CO, you'll find a certified wildlife habitat, protected and maintained with a certification from the National Wildlife Federation. It serves as a living testament to our dedication to wildlife conservation. It's more than just our backyard—it's a sanctuary, a small yet vibrant oasis where wildlife can thrive.
+    \n\n
+    We're committed to extending our ethos of sustainability and conservation beyond our office walls. When you choose Hummingbird Hammocks, you're joining us on this journey towards a sustainable future, where the wild remains wild and the sky remains limitless. Welcome to our world, where every swing is a step towards preserving nature.`,
+  buttonText: 'Learn More',
+  hrefLink: 'https://www.nwf.org/'
+};
 
 const ExplorePage = () => {
-  const { featuredProducts } = useContext(ProductContext)
+  const { featuredProducts } = useContext(ProductContext);
   return (
     <Layout>
       <Seo />
       <Hero data={heroData}>
         <StaticImage
           style={{
-            gridArea: "1/1",
+            gridArea: '1/1'
           }}
           loading="eager"
           layout="fullWidth"
           alt="Ultralight Hammock"
-          src="../assets/images/explore/explore.jpg"
+          src="../assets/images/product-backgrounds/MartinBugNetBackground.jpg"
           placeholder="blurred"
         />
       </Hero>
       <Info>
-        It all began about 10 years ago. Chris Loidolt, a Certified Parachute
-        Rigger, sitting in a room full of top-quality parachute material decided
-        he wanted to relax in a hammock that afternoon. Flash forward to today
-        and that simple idea has led to an ultralight hammock company that is
-        obsessed with weight, quality, and thinking outside the box.
-        <br />
-        <br />
-        The use of real parachute materials, combined with the design and
-        construction techniques borrowed from the Parachute Industry Association
-        created a hammock that is stronger, far lighter, and much smaller
-        packing than any other hammock on the market.
-        <br />
-        <br />
-        He thought “cool, a new hammock”, and we thought “we want one”. Turns
-        out, everyone else wanted one too!
-        <br />
-        <br />
-        We are a family-run business, doing our best to create the best gear we
-        can and provide the kind of customer service we wish other companies
-        would. Our products are all meticulously designed, hand-made, packed
-        with love, and shipped to locations all over the globe. So order
-        yourself one, order a friend one, get outside and help us change the way
-        the world hangs out with nature.
+        We're committed to extending our ethos of sustainability and conservation beyond our office
+        walls. When you choose Hummingbird Hammocks, you're joining us on this journey towards a
+        sustainable future, where the wild remains wild and the sky remains limitless. Welcome to
+        our world, where every swing is a step towards preserving nature.
       </Info>
 
       <MainWrapper>
         <Container maxWidth="lg" sx={{ marginBottom: 20 }}>
           <Details divider={true} data={twoTreesData}>
             <StaticImage
-              imgStyle={{ borderRadius: "20px" }}
-              src="../assets/images/explore/two-tress.png"
+              imgStyle={{ borderRadius: '20px' }}
+              src="../assets/images/sustainability/TwoTreesPlanting.png"
               alt={twoTreesData.title}
               placeholder="blurred"
             />
           </Details>
           <Details divider={true} data={carbonNeutralShipping}>
             <StaticImage
-              imgStyle={{ borderRadius: "20px" }}
-              src="../assets/images/explore/two-tress.png"
+              imgStyle={{ borderRadius: '20px' }}
+              src="../assets/images/sustainability/CarbonOffsetShipping.png"
               alt={carbonNeutralShipping.title}
               placeholder="blurred"
             />
           </Details>
           <Details divider={true} data={solarPowered}>
             <StaticImage
-              imgStyle={{ borderRadius: "20px" }}
-              src="../assets/images/explore/two-tress.png"
+              imgStyle={{ borderRadius: '20px' }}
+              src="../assets/images/sustainability/SolarOffice.png"
               alt={solarPowered.title}
               placeholder="blurred"
             />
           </Details>
           <Details divider={true} data={packaging}>
             <StaticImage
-              imgStyle={{ borderRadius: "20px" }}
-              src="../assets/images/explore/two-tress.png"
+              imgStyle={{ borderRadius: '20px' }}
+              src="../assets/images/sustainability/SustainablePackagingTree.png"
               alt={packaging.title}
               placeholder="blurred"
             />
           </Details>
           <Details divider={true} data={wildlifeHabitat}>
             <StaticImage
-              imgStyle={{ borderRadius: "20px" }}
-              src="../assets/images/explore/two-tress.png"
+              imgStyle={{ borderRadius: '20px' }}
+              src="../assets/images/sustainability/CertifiedWildlifeHabitat.png"
               alt={wildlifeHabitat.title}
               placeholder="blurred"
             />
           </Details>
         </Container>
 
-        <RecentlyViewed
-          title="RECENTLY VIEWED PRODUCTS"
-          products={featuredProducts.slice(0, 5)}
-        />
+        <RecentlyViewed title="RECENTLY VIEWED PRODUCTS" products={featuredProducts.slice(0, 5)} />
       </MainWrapper>
     </Layout>
-  )
-}
+  );
+};
 
-export default ExplorePage
+export default ExplorePage;
