@@ -21,4 +21,10 @@ router.post('/check_return_eligible', shopify_admin_controller.check_return_elig
 //Create a return request for an order id
 router.post('/request_return', shopify_admin_controller.request_return);
 
+//Add tags to a customer
+router.post('/add_customer_tags', shopify_admin_controller.add_customer_tags);
+
+//Remove tags from a customer
+router.post('/remove_customer_tags', shopify_admin_controller.remove_customer_tags);
+
 module.exports = router;

@@ -251,3 +251,91 @@ exports.sendReturnRequest = async function (orderId, returnItems) {
       throw new Error(error);
     });
 };
+
+exports.addCustomerTags = async function (id, tags) {
+  if (!id || !tags || !tags.length) {
+    return false;
+  }
+
+  console.log('addCustomerTags: ', tags);
+
+  const data = JSON.stringify({
+    query: `mutation addTags($id: ID!, $tags: [String!]!) {
+      tagsAdd(id: $id, tags: $tags) {
+        node {
+          id
+        }
+        userErrors {
+          message
+        }
+      }
+    }`,
+    variables: {
+      id: id,
+      tags: tags
+    }
+  });
+
+  return await axios
+    .post(url, data, config)
+    .then((response) => {
+      if (response.status === 200) {
+        if (response.data.errors) {
+          console.log('error_addCustomerTags: ' + JSON.stringify(response.data.errors));
+          throw new Error(JSON.stringify(response.data.errors));
+        }
+        return response.data;
+      } else {
+        console.log('error_addCustomerTags: ' + JSON.stringify(response.data));
+        throw new Error(JSON.stringify(response.data));
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      throw new Error(error);
+    });
+};
+
+exports.removeCustomerTags = async function (id, tags) {
+  if (!id || !tags || !tags.length) {
+    return false;
+  }
+
+  console.log('removeCustomerTags: ', tags);
+
+  const data = JSON.stringify({
+    query: `mutation removeTags($id: ID!, $tags: [String!]!) {
+      tagsRemove(id: $id, tags: $tags) {
+        node {
+          id
+        }
+        userErrors {
+          message
+        }
+      }
+    }`,
+    variables: {
+      id: id,
+      tags: tags
+    }
+  });
+
+  return await axios
+    .post(url, data, config)
+    .then((response) => {
+      if (response.status === 200) {
+        if (response.data.errors) {
+          console.log('error_removeCustomerTags: ' + JSON.stringify(response.data.errors));
+          throw new Error(JSON.stringify(response.data.errors));
+        }
+        return response.data;
+      } else {
+        console.log('error_removeCustomerTags: ' + JSON.stringify(response.data));
+        throw new Error(JSON.stringify(response.data));
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      throw new Error(error);
+    });
+};

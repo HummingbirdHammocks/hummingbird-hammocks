@@ -1,11 +1,12 @@
 import { gql, useMutation, useQuery } from '@apollo/client';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 // components
 import { AccountLayout, Link, MiddleSpinner } from 'components';
-import { useFormik } from 'formik';
 import { navigate } from 'gatsby';
 import React, { useCallback, useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
@@ -46,35 +47,46 @@ const AccountInfoPage = () => {
     email: ''
   };
 
-  const onSubmit = async ({ firstName, lastName, email }) => {
-    console.log(firstName, lastName, email);
+  const {
+    handleSubmit,
+    control,
+    formState: { errors, isSubmitting },
+    reset,
+    setValue
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: initialValues
+  });
 
-    customerUpdate({
-      variables: {
-        customerAccessToken,
-        customer: {
-          email,
-          firstName,
-          lastName
+  const onSubmit = async ({ firstName, lastName, email }) => {
+    //console.log(firstName, lastName, email);
+
+    toast
+      .promise(
+        customerUpdate({
+          variables: {
+            customerAccessToken,
+            customer: {
+              email,
+              firstName,
+              lastName
+            }
+          }
+        }),
+        {
+          pending: 'Saving Account Info...',
+          success: 'Account Updated',
+          error: 'Oops! Something went wrong. Please try again.'
         }
-      }
-    })
+      )
       .then(() => {
         refetch();
-        formik.resetForm({});
-        toast.success('Account Updated');
+        reset(initialValues);
       })
       .catch((error) => {
         console.log(error);
-        toast.error('Oops! Something went wrong. Please try again.');
       });
   };
-
-  const formik = useFormik({
-    initialValues,
-    validationSchema: validationSchema,
-    onSubmit
-  });
 
   const handleChangePassword = async () => {
     setChangePasswordLoading(true);
@@ -85,31 +97,28 @@ const AccountInfoPage = () => {
       return;
     }
 
-    passwordUpdate({
-      variables: {
-        customerAccessToken,
-        customer: {
-          password: newPassword
-        }
-      }
-    })
-      .then((result) => {
-        console.log(result);
-        refetch();
-        toast.success(
-          "Password Updated Successfully! You'll be redirected to the login page automatically in 3s...",
-          {
-            autoClose: 3000,
-            hideProgressBar: false
+    toast
+      .promise(
+        passwordUpdate({
+          variables: {
+            customerAccessToken,
+            customer: {
+              password: newPassword
+            }
           }
-        );
-
+        }),
+        {
+          pending: 'Updating Password...',
+          success: 'Password Updated',
+          error: 'Oops! Something went wrong. Please try again.'
+        }
+      )
+      .then(() => {
         authDispatch({ type: 'setLogout' });
         navigate('/account/login');
       })
       .catch((error) => {
         console.log(error);
-        toast.error('Oops! Something went wrong. Please try again.');
       });
 
     setChangePasswordLoading(false);
@@ -127,15 +136,13 @@ const AccountInfoPage = () => {
   const handleDefaultValues = useCallback(
     (data) => {
       if (data?.customer) {
-        formik.setValues({
-          firstName: data.customer.firstName,
-          lastName: data.customer.lastName,
-          email: data.customer.email,
-          phone: data.customer.phone
-        });
+        setValue('firstName', data.customer.firstName);
+        setValue('lastName', data.customer.lastName);
+        setValue('email', data.customer.email);
+        // setValue("phone", data.customer.phone); // Check if phone field is in your form
       }
     },
-    [formik]
+    [setValue]
   );
 
   useEffect(() => {
@@ -198,42 +205,54 @@ const AccountInfoPage = () => {
                   <Typography variant="h5" sx={{ marginBottom: 2 }}>
                     General Info
                   </Typography>
-                  <form onSubmit={formik.handleSubmit}>
+                  <form onSubmit={handleSubmit(onSubmit)}>
                     <Grid container spacing={4}>
                       <Grid item xs={12} sm={6}>
-                        <TextField
-                          label="First Name"
-                          variant="outlined"
-                          name={'firstName'}
-                          fullWidth
-                          value={formik.values.firstName}
-                          onChange={formik.handleChange}
-                          error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-                          helperText={formik.touched.firstName && formik.errors.firstName}
+                        <Controller
+                          name="firstName"
+                          control={control}
+                          render={({ field }) => (
+                            <TextField
+                              {...field}
+                              label="First Name"
+                              variant="outlined"
+                              fullWidth
+                              error={Boolean(errors.firstName)}
+                              helperText={errors.firstName?.message}
+                            />
+                          )}
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <TextField
-                          label="Last Name"
-                          variant="outlined"
-                          name={'lastName'}
-                          fullWidth
-                          value={formik.values.lastName}
-                          onChange={formik.handleChange}
-                          error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-                          helperText={formik.touched.lastName && formik.errors.lastName}
+                        <Controller
+                          name="lastName"
+                          control={control}
+                          render={({ field }) => (
+                            <TextField
+                              {...field}
+                              label="Last Name"
+                              variant="outlined"
+                              fullWidth
+                              error={Boolean(errors.lastName)}
+                              helperText={errors.lastName?.message}
+                            />
+                          )}
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <TextField
-                          label="Email"
-                          variant="outlined"
-                          name={'email'}
-                          fullWidth
-                          value={formik.values.email}
-                          onChange={formik.handleChange}
-                          error={formik.touched.email && Boolean(formik.errors.email)}
-                          helperText={formik.touched.email && formik.errors.email}
+                        <Controller
+                          name="email"
+                          control={control}
+                          render={({ field }) => (
+                            <TextField
+                              {...field}
+                              label="Email"
+                              variant="outlined"
+                              fullWidth
+                              error={Boolean(errors.email)}
+                              helperText={errors.email?.message}
+                            />
+                          )}
                         />
                       </Grid>
                       <Grid item container xs={12}>
@@ -241,7 +260,7 @@ const AccountInfoPage = () => {
                           size={'large'}
                           variant={'contained'}
                           type={'submit'}
-                          loading={formik.isSubmitting}>
+                          loading={isSubmitting}>
                           Update Account Info
                         </LoadingButton>
                       </Grid>

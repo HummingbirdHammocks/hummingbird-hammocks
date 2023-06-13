@@ -3,7 +3,9 @@ const {
   getOrdersByEmail,
   checkReturnEligible,
   sendReturnRequest,
-  getOrderByID
+  getOrderByID,
+  addCustomerTags,
+  removeCustomerTags
 } = require('../../utils/shopifyAdmin');
 
 exports.get_order_by_id = async function (req, res) {
@@ -71,6 +73,40 @@ exports.request_return = async function (req, res) {
     .then((response) => res.status(200).send(response))
     .catch((error) => {
       console.log('request_return: ' + error);
+      return res.status(500).send(error.message);
+    });
+};
+
+exports.add_customer_tags = async function (req, res) {
+  if (!req.body.id) {
+    return res.status(500).send('id is required');
+  }
+
+  if (!req.body.tags || req.body.tags.length === 0) {
+    return res.status(500).send('tags are required');
+  }
+
+  return await addCustomerTags(req.body.id, req.body.tags)
+    .then((response) => res.status(200).send(response))
+    .catch((error) => {
+      console.log('add_customer_tags: ' + error);
+      return res.status(500).send(error.message);
+    });
+};
+
+exports.remove_customer_tags = async function (req, res) {
+  if (!req.body.id) {
+    return res.status(500).send('id is required');
+  }
+
+  if (!req.body.tags || req.body.tags.length === 0) {
+    return res.status(500).send('tags are required');
+  }
+
+  return await removeCustomerTags(req.body.id, req.body.tags)
+    .then((response) => res.status(200).send(response))
+    .catch((error) => {
+      console.log('remove_customer_tags: ' + error);
       return res.status(500).send(error.message);
     });
 };
