@@ -1,1 +1,1 @@
-export * from "./BargainBinNotifications"
+export * from './BargainBinNotifications';

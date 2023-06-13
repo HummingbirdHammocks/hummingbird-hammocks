@@ -1,166 +1,178 @@
-import React, { useState } from "react"
-import { useFormik } from 'formik';
-import { useQuery, gql } from "@apollo/client"
-import * as yup from 'yup';
-import { toast } from 'react-toastify'
-import {
-    Box,
-    Typography,
-    Button,
-    TextField,
-    Stack,
-    Dialog,
-    IconButton,
-} from "@mui/material"
-import { LoadingButton } from "@mui/lab"
-import { Close } from "@mui/icons-material"
-//firebase
-import { saveDocument } from 'utils/firebase';
-// stores
-import { useAuthStore } from "../../stores"
-// hooks
-import useBargainBinNotifications from "../../hooks/useBargainBinNotifications";
+import { gql, useQuery } from '@apollo/client';
+import { Close } from '@mui/icons-material';
+import { LoadingButton } from '@mui/lab';
+import { Box, Button, Dialog, IconButton, Stack, Typography } from '@mui/material';
+import axios from 'axios';
+import { navigate } from 'gatsby';
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
-const validationSchema = yup.object({
-    email: yup
-        .string()
-        .trim()
-        .email('Please enter a valid email address')
-        .required('Email is required.'),
-});
+// stores
+import { useAuthStore } from '../../stores';
 
 export function BargainBinNotifications() {
-    const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
 
-    const { customerAccessToken } = useAuthStore()
+  const { customerAccessToken } = useAuthStore();
 
-    const { data } = useQuery(CUSTOMER_INFO, {
-        variables: {
-            customerAccessToken,
-        },
-    })
+  const { data, refetch } = useQuery(CUSTOMER_INFO, {
+    variables: {
+      customerAccessToken
+    }
+  });
 
-    const { data: notificationData, } = useBargainBinNotifications(data && data.customer && data.customer.email)
+  const handleSavePreferences = async (add) => {
+    setSubmitLoading(true);
 
-    const handleAlreadySignedUp = (notifications) => {
-        if (notifications && notifications.length > 0) {
-            return true
-        } else {
-            return false
-        }
+    let promiseChain = Promise.resolve();
+
+    if (add) {
+      promiseChain = promiseChain.then(() =>
+        axios.post(
+          process.env.GATSBY_FIREBASE_FUNCTIONS_URL + '/api/v1/shopifyAdmin/add_customer_tags',
+          {
+            id: data.customer.id,
+            tags: ['bargain-bin-notifications']
+          }
+        )
+      );
+    } else {
+      promiseChain = promiseChain.then(() =>
+        axios.post(
+          process.env.GATSBY_FIREBASE_FUNCTIONS_URL + '/api/v1/shopifyAdmin/remove_customer_tags',
+          {
+            id: data.customer.id,
+            tags: ['bargain-bin-notifications']
+          }
+        )
+      );
     }
 
-    const initialValues = {
-        email: data && data.customer ? data.customer.email : '',
-    };
+    toast
+      .promise(promiseChain, {
+        pending: 'Saving Preferences...',
+        success: 'Preferences Updated',
+        error: 'Oops! Something went wrong. Please try again.'
+      })
+      .then(() => {
+        refetch();
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setSubmitLoading(false);
+      });
+  };
 
-    const onSubmit = async ({ email }) => {
-        console.log(email)
-        const payload = {
-            email: `${email}`,
-            hammocks: true,
-            treeStraps: true,
-            shelters: true,
-            apparelMerch: true,
-            accessories: true,
-        }
-        const response = await saveDocument("bargain_bin_notifications", email, payload)
-        if (response) {
-            toast.success("Thanks! We will keep you posted when new Bargain Bin items are available.")
-            formik.resetForm({})
-            setOpen(false)
-        }
-    };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    const formik = useFormik({
-        initialValues,
-        validationSchema: validationSchema,
-        onSubmit,
-    });
-
-    return (
-        <Box>
-            <Button
-                color="primary"
-                variant="contained"
-                onClick={handleClickOpen}
-                sx={{
-                    backgroundColor: "primary",
-                }}
-            >
-                Notify Me
-            </Button>
-            <Dialog open={open} onClose={handleClose}>
-                <Box
-                    sx={{
-                        maxWidth: "450px",
-                        borderRadius: "20px",
-                        padding: 3,
-                    }}>
-                    <Stack
-                        direction="row"
-                        justifyContent="space-between"
-                        alignItems="center"
-                    >
-                        <Typography variant="h6" gutterBottom>Bargain Bin Notifications</Typography>
-                        <IconButton
-                            aria-label="close"
-                            onClick={handleClose}
-                        >
-                            <Close />
-                        </IconButton>
-                    </Stack>
-                    {handleAlreadySignedUp(notificationData) ? (
-                        <Typography mb="20px" variant="body1">
-                            You are already signed up to be notified when new Bargain Bin items are available.
-                        </Typography>
-                    ) : (
-                        <Box>
-                            <Typography mb="20px" variant="body1">
-                                Enter your email and we will notify you when new Bargain Bin items are available.
-                            </Typography>
-                            <form onSubmit={formik.handleSubmit}>
-                                <Stack
-                                    direction={{ xs: "column", sm: "row" }}
-                                    justifyContent="space-between"
-                                    alignItems="center"
-                                    spacing={2}
-                                >
-                                    <TextField
-                                        label="Email *"
-                                        variant="outlined"
-                                        name={'email'}
-                                        fullWidth
-                                        value={formik.values.email}
-                                        onChange={formik.handleChange}
-                                        error={formik.touched.email && Boolean(formik.errors.email)}
-                                        helperText={formik.touched.email && formik.errors.email}
-                                    />
-                                    <LoadingButton sx={{ minWidth: "160px" }} size={'large'} variant={'contained'} type={'submit'} loading={formik.isSubmitting}>
-                                        Notify Me
-                                    </LoadingButton>
-                                </Stack>
-                            </form>
-                        </Box>
-                    )}
-                </Box>
-            </Dialog>
-        </Box >
-    )
+  return (
+    <Box>
+      <Button
+        color="primary"
+        variant="contained"
+        onClick={handleClickOpen}
+        sx={{
+          backgroundColor: 'primary'
+        }}>
+        Notifications
+      </Button>
+      <Dialog open={open} onClose={handleClose}>
+        <Box
+          sx={{
+            maxWidth: '450px',
+            borderRadius: '20px',
+            padding: 3
+          }}>
+          <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Typography variant="h6" gutterBottom>
+              Bargain Bin Notifications
+            </Typography>
+            <IconButton aria-label="close" onClick={handleClose}>
+              <Close />
+            </IconButton>
+          </Stack>
+          {data?.customer ? (
+            <Box>
+              {data?.customer?.tags.includes('bargain-bin-notifications') ? (
+                <Stack
+                  direction={'column'}
+                  justifyContent="space-between"
+                  alignItems="center"
+                  spacing={2}>
+                  <Typography mb="20px" variant="body1">
+                    You are already signed up to be notified when new Bargain Bin items are
+                    available.
+                  </Typography>
+                  <LoadingButton
+                    sx={{ minWidth: '160px' }}
+                    size={'large'}
+                    variant={'contained'}
+                    onClick={() => handleSavePreferences(false)}
+                    loading={submitLoading}>
+                    Cancel Notifications
+                  </LoadingButton>
+                </Stack>
+              ) : (
+                <Stack
+                  direction={'column'}
+                  justifyContent="space-between"
+                  alignItems="center"
+                  spacing={2}>
+                  <Typography mb="20px" variant="body1">
+                    Just click the button below and we will notify you when new Bargain Bin items are
+                    available.
+                  </Typography>
+                  <LoadingButton
+                    sx={{ minWidth: '160px' }}
+                    size={'large'}
+                    variant={'contained'}
+                    onClick={() => handleSavePreferences(true)}
+                    loading={submitLoading}>
+                    Notify Me
+                  </LoadingButton>
+                </Stack>
+              )}
+            </Box>
+          ) : (
+            <Stack
+              direction={'column'}
+              justifyContent="space-between"
+              alignItems="center"
+              spacing={2}>
+              <Typography mb="20px" variant="body1">
+                You need to be signed in to request Bargain Bin item notifications. Please sign in
+                or create an account.
+              </Typography>
+              <Button
+                sx={{ minWidth: '160px' }}
+                size={'large'}
+                variant={'contained'}
+                onClick={() => navigate('/account/login/')}>
+                Login
+              </Button>
+            </Stack>
+          )}
+        </Box>
+      </Dialog>
+    </Box>
+  );
 }
 
 const CUSTOMER_INFO = gql`
   query ($customerAccessToken: String!) {
     customer(customerAccessToken: $customerAccessToken) {
+      id
       email
+      tags
     }
   }
-`
+`;
