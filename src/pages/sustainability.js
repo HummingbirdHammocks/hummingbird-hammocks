@@ -11,7 +11,7 @@ const heroData = {
 };
 
 const twoTreesData = {
-  title: 'PLANT A PAIR WITH EVERY PURCHASE',
+  title: 'TWO TREES PER ORDER',
   subText: `When you order a Hummingbird Hammock, you're not just investing in a high-quality piece of outdoor gear; you're becoming a hero for our planet. Through our partnership with Ecologi and the Eden Reforestation Projects, every purchase you make triggers the planting of two potent mangrove trees.
     \n\n
     Why mangroves, you might ask? Well, these robust trees are nothing short of carbon superheroes. They're capable of capturing four times more carbon per acre than tropical rainforests. However, their prowess extends beyond carbon capture. Mangroves act as a natural defense against coastal erosion, provide essential habitats for a variety of species, and serve as Mother Nature's water filtration system, helping to cleanse waterborne pollutants.
