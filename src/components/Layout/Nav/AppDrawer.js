@@ -181,6 +181,14 @@ export const AppDrawer = ({ data }) => {
               <ListItemButton
                 onClick={() => uiDispatch({ type: 'toggleNavDrawerOpen' })}
                 component={Link}
+                to="/sustainability">
+                <ListItemText primary="SUSTAINABILITY" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem>
+              <ListItemButton
+                onClick={() => uiDispatch({ type: 'toggleNavDrawerOpen' })}
+                component={Link}
                 to="/contact-us">
                 <ListItemText primary="CONTACT US" />
               </ListItemButton>
