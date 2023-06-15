@@ -1,7 +1,7 @@
 import { IframeWrap, Layout, Seo } from 'components';
+import { Script } from 'gatsby';
 import { StaticImage } from 'gatsby-plugin-image';
 import React from 'react';
-import { Helmet } from 'react-helmet';
 import { Hero, Info } from 'sections';
 
 const heroData = {
@@ -12,9 +12,6 @@ const heroData = {
 const ProDealPage = () => (
   <Layout>
     <Seo />
-    <Helmet>
-      <script src="https://static.airtable.com/js/embed/embed_snippet_v1.js"></script>
-    </Helmet>
     <Hero data={heroData}>
       <StaticImage
         style={{
@@ -51,7 +48,7 @@ const ProDealPage = () => (
       <br />
       <b>Thank you for your hard work in the outdoor industry!</b>
     </Info>
-
+    <Script id="airtable" src="https://static.airtable.com/js/embed/embed_snippet_v1.js" />
     <IframeWrap>
       <iframe
         className="airtable-embed airtable-dynamic-height"
