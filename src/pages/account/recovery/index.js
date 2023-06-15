@@ -1,17 +1,16 @@
 import { gql, useMutation } from '@apollo/client';
-import { LoadingButton } from '@mui/lab';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Divider, Stack, TextField, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-// components
 import { Layout, MainWrapper, Seo } from 'components';
-import { useFormik } from 'formik';
 import { navigate } from 'gatsby';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
 // stores
-import { useAuthDispatch, useAuthStore } from '../stores';
+import { useAuthDispatch, useAuthStore } from '../../../stores';
 
 const validationSchema = yup.object({
   email: yup
@@ -21,15 +20,19 @@ const validationSchema = yup.object({
     .required('Email is required.')
 });
 
-const PasswordRecovery = () => {
+const RecoveryPage = () => {
   const theme = useTheme();
 
   const { customerAccessToken } = useAuthStore();
   const authDispatch = useAuthDispatch();
 
-  const initialValues = {
-    email: ''
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting }
+  } = useForm({
+    resolver: yupResolver(validationSchema)
+  });
 
   const onSubmit = async ({ email }) => {
     console.log(email);
@@ -54,13 +57,14 @@ const PasswordRecovery = () => {
     }
   };
 
-  const formik = useFormik({
-    initialValues,
-    validationSchema: validationSchema,
-    onSubmit
-  });
-
   const [forgetPassword, { /* loading, */ error }] = useMutation(CUSTOMER_PASSWORD_FORGET);
+
+  useEffect(() => {
+    if (error) {
+      console.log(error);
+      toast.error('Oops! Something went wrong. Please try again.');
+    }
+  }, [error]);
 
   return (
     <Layout>
@@ -110,26 +114,25 @@ const PasswordRecovery = () => {
                 <Divider />
 
                 <Box padding="30px" justifyContent="center" display="flex">
-                  <form onSubmit={formik.handleSubmit}>
+                  <form onSubmit={handleSubmit(onSubmit)}>
                     <Stack spacing={2} sx={{ width: { xs: '100%', md: '400px' } }}>
                       <TextField
                         label="Email *"
                         variant="outlined"
                         name={'email'}
                         fullWidth
-                        value={formik.values.email}
-                        onChange={formik.handleChange}
-                        error={formik.touched.email && Boolean(formik.errors.email)}
-                        helperText={formik.touched.email && formik.errors.email}
+                        {...register('email')}
+                        error={!!errors.email}
+                        helperText={errors.email?.message}
                       />
                       <Typography>We will send you an email to reset your password.</Typography>
-                      <LoadingButton
+                      <Button
                         size={'large'}
                         variant={'contained'}
                         type={'submit'}
-                        loading={formik.isSubmitting}>
+                        disabled={isSubmitting}>
                         Submit
-                      </LoadingButton>
+                      </Button>
                     </Stack>
                   </form>
                 </Box>
@@ -142,7 +145,7 @@ const PasswordRecovery = () => {
   );
 };
 
-export default PasswordRecovery;
+export default RecoveryPage;
 
 const CUSTOMER_PASSWORD_FORGET = gql`
   mutation customerRecover($email: String!) {

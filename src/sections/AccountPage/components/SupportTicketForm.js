@@ -1,9 +1,10 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
 import { Box, Grid, Stack, TextField } from '@mui/material';
 import { useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { useFormik } from 'formik';
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
@@ -25,16 +26,34 @@ const validationSchema = yup.object({
 });
 
 export function SupportTicketForm({ firstName, lastName, email, orderNumber, subject, message }) {
-  const [submitting, setSubmitting] = useState(false);
-
   const queryClient = useQueryClient();
+
+  const {
+    handleSubmit,
+    register,
+    setValue,
+    getValues,
+    reset,
+    formState: { errors, isSubmitting }
+  } = useForm({
+    defaultValues: {
+      firstName: firstName ? firstName : '',
+      lastName: lastName ? lastName : '',
+      email: email ? email : '',
+      orderNumber: orderNumber ? orderNumber : '',
+      subject: subject ? subject : '',
+      message: message ? message : '',
+      attachments: []
+    },
+    resolver: yupResolver(validationSchema)
+  });
 
   const handleAddAttachment = (file) => {
     console.log(file);
 
     if (!file) return null;
 
-    let newAttachments = formik.values.attachments;
+    let newAttachments = getValues('attachments');
 
     var reader = new FileReader();
     reader.readAsDataURL(file);
@@ -47,22 +66,12 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
       };
       newAttachments = [...newAttachments, fileFormatted];
 
-      formik.setFieldValue('attachments', newAttachments);
+      setValue('attachments', newAttachments);
     };
     reader.onerror = function (error) {
       console.log('Error: ', error);
       toast.error('Error converting image for upload, please try again');
     };
-  };
-
-  const initialValues = {
-    firstName: firstName ? firstName : '',
-    lastName: lastName ? lastName : '',
-    email: email ? email : '',
-    orderNumber: orderNumber ? orderNumber : '',
-    subject: subject ? subject : '',
-    message: message ? message : '',
-    attachments: []
   };
 
   const onSubmit = async ({
@@ -74,8 +83,6 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
     message,
     attachments
   }) => {
-    setSubmitting(true);
-
     const payload = {
       firstName: firstName,
       lastName: lastName,
@@ -88,29 +95,21 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
 
     const url = process.env.GATSBY_FIREBASE_FUNCTIONS_URL + '/api/v1/freescout/create_ticket';
 
-    await axios
-      .post(url, payload)
-      .then(
-        () =>
-          toast.success('Ticket created successfully, we will get back to you as soon as possible'),
-        queryClient.invalidateQueries(['tickets']),
-        formik.resetForm({})
-      )
+    await toast
+      .promise(axios.post(url, payload), {
+        pending: 'Creating ticket...',
+        success: 'Ticket created successfully, we will get back to you as soon as possible',
+        error: 'Error creating ticket, please try again or email us at help@hummingbirdhammocks.com'
+      })
+      .then((response) => {
+        if (response) {
+          queryClient.invalidateQueries({ queryKey: ['tickets'] }), reset({});
+        }
+      })
       .catch((error) => {
-        console.log('contactForm ', error);
-        toast.error(
-          'Error creating ticket, please try again or email us at support@hummingbirdhammocks.com'
-        );
+        console.log('supportTicketForm_error', error);
       });
-
-    setSubmitting(false);
   };
-
-  const formik = useFormik({
-    initialValues,
-    validationSchema: validationSchema,
-    onSubmit
-  });
 
   return (
     <Box
@@ -118,19 +117,17 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
       justifyContent="center"
       display="flex">
       <Box>
-        <form onSubmit={formik.handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             {!firstName && (
               <Grid item xs={12} md={6}>
                 <TextField
                   label="First Name *"
                   variant="outlined"
-                  name={'firstName'}
+                  {...register('firstName')}
                   fullWidth
-                  value={formik.values.firstName}
-                  onChange={formik.handleChange}
-                  error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-                  helperText={formik.touched.firstName && formik.errors.firstName}
+                  error={!!errors.firstName}
+                  helperText={errors.firstName?.message}
                 />
               </Grid>
             )}
@@ -139,12 +136,10 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
                 <TextField
                   label="Last Name *"
                   variant="outlined"
-                  name={'lastName'}
+                  {...register('lastName')}
                   fullWidth
-                  value={formik.values.lastName}
-                  onChange={formik.handleChange}
-                  error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-                  helperText={formik.touched.lastName && formik.errors.lastName}
+                  error={!!errors.lastName}
+                  helperText={errors.lastName?.message}
                 />
               </Grid>
             )}
@@ -153,12 +148,10 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
                 <TextField
                   label="Email *"
                   variant="outlined"
-                  name={'email'}
+                  {...register('email')}
                   fullWidth
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  helperText={formik.touched.email && formik.errors.email}
+                  error={!!errors.email}
+                  helperText={errors.email?.message}
                 />
               </Grid>
             )}
@@ -167,12 +160,10 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
                 <TextField
                   label="Order Number"
                   variant="outlined"
-                  name={'orderNumber'}
+                  {...register('orderNumber')}
                   fullWidth
-                  value={formik.values.orderNumber}
-                  onChange={formik.handleChange}
-                  error={formik.touched.orderNumber && Boolean(formik.errors.orderNumber)}
-                  helperText={formik.touched.orderNumber && formik.errors.orderNumber}
+                  error={!!errors.orderNumber}
+                  helperText={errors.orderNumber?.message}
                 />
               </Grid>
             )}
@@ -181,12 +172,10 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
                 <TextField
                   label="Subject *"
                   variant="outlined"
-                  name={'subject'}
+                  {...register('subject')}
                   fullWidth
-                  value={formik.values.subject}
-                  onChange={formik.handleChange}
-                  error={formik.touched.subject && Boolean(formik.errors.subject)}
-                  helperText={formik.touched.subject && formik.errors.subject}
+                  error={!!errors.subject}
+                  helperText={errors.subject?.message}
                 />
               </Grid>
             )}
@@ -195,14 +184,12 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
                 <TextField
                   label="Message *"
                   variant="outlined"
-                  name={'message'}
+                  {...register('message')}
                   fullWidth
                   multiline
                   rows={4}
-                  value={formik.values.message}
-                  onChange={formik.handleChange}
-                  error={formik.touched.message && Boolean(formik.errors.message)}
-                  helperText={formik.touched.message && formik.errors.message}
+                  error={!!errors.message}
+                  helperText={errors.message?.message}
                 />
               </Grid>
             )}
@@ -217,7 +204,7 @@ export function SupportTicketForm({ firstName, lastName, email, orderNumber, sub
                   size={'large'}
                   variant={'contained'}
                   type={'submit'}
-                  loading={submitting}>
+                  loading={isSubmitting}>
                   Create Ticket
                 </LoadingButton>
               </Stack>

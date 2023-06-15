@@ -1,4 +1,5 @@
 import { gql, useMutation } from '@apollo/client';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import {
@@ -12,11 +13,10 @@ import {
   Typography
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-// components
 import { Layout, Link, MainWrapper, Seo } from 'components';
-import { useFormik } from 'formik';
 import { navigate } from 'gatsby';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
@@ -42,10 +42,13 @@ const LoginPage = ({ location }) => {
 
   const authDispatch = useAuthDispatch();
 
-  const initialValues = {
-    email: '',
-    password: ''
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting }
+  } = useForm({
+    resolver: yupResolver(validationSchema)
+  });
 
   const onSubmit = async ({ email, password }) => {
     const { data } = await customerLogin({
@@ -78,23 +81,18 @@ const LoginPage = ({ location }) => {
     }
   };
 
-  const formik = useFormik({
-    initialValues,
-    validationSchema: validationSchema,
-    onSubmit
-  });
-
   const [customerLogin, { error }] = useMutation(CUSTOMER_LOGIN);
 
   const handleShowPassword = () => {
     setShowPassword((show) => !show);
   };
 
-  // if (loading) return "Submitting..."
-  if (error) {
-    console.log(error);
-    toast.error('Oops! Something went wrong. Please try again.');
-  }
+  useEffect(() => {
+    if (error) {
+      console.log(error);
+      toast.error('Oops! Something went wrong. Please try again.');
+    }
+  }, [error]);
 
   return (
     <Layout>
@@ -116,7 +114,7 @@ const LoginPage = ({ location }) => {
               justifyContent="space-between"
               sx={{ paddingBottom: '30px' }}>
               <Typography variant="h2">Account Login</Typography>
-              <Button variant="outlined" onClick={() => navigate('/register')}>
+              <Button variant="outlined" onClick={() => navigate('/account/register')}>
                 Sign Up
               </Button>
             </Stack>
@@ -124,17 +122,16 @@ const LoginPage = ({ location }) => {
 
             <Box padding="30px" justifyContent="center" display="flex">
               <Box>
-                <form onSubmit={formik.handleSubmit}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <Stack spacing={2} sx={{ width: { xs: '100%', md: '400px' } }}>
                     <TextField
                       label="Email *"
                       variant="outlined"
                       name={'email'}
                       fullWidth
-                      value={formik.values.email}
-                      onChange={formik.handleChange}
-                      error={formik.touched.email && Boolean(formik.errors.email)}
-                      helperText={formik.touched.email && formik.errors.email}
+                      {...register('email')}
+                      error={!!errors.email}
+                      helperText={errors.email?.message}
                     />
                     <TextField
                       label="Password *"
@@ -151,16 +148,15 @@ const LoginPage = ({ location }) => {
                           </InputAdornment>
                         )
                       }}
-                      value={formik.values.password}
-                      onChange={formik.handleChange}
-                      error={formik.touched.password && Boolean(formik.errors.password)}
-                      helperText={formik.touched.password && formik.errors.password}
+                      {...register('password')}
+                      error={!!errors.password}
+                      helperText={errors.password?.message}
                     />
                     <LoadingButton
                       size={'large'}
                       variant={'contained'}
                       type={'submit'}
-                      loading={formik.isSubmitting}>
+                      loading={isSubmitting}>
                       Login
                     </LoadingButton>
                   </Stack>
@@ -168,7 +164,7 @@ const LoginPage = ({ location }) => {
 
                 <Box mt="20px">
                   <Typography variant="body1" mb="10px">
-                    <Link to="/password-recovery">Forgot your password?</Link>
+                    <Link to="/account/recovery">Forgot your password?</Link>
                   </Typography>
                 </Box>
               </Box>

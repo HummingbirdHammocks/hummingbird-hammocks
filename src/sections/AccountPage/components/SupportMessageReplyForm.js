@@ -1,9 +1,10 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
 import { Box, Grid, Stack, TextField } from '@mui/material';
 import { useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { useFormik } from 'formik';
 import React from 'react';
+import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
@@ -16,21 +17,29 @@ const validationSchema = yup.object({
 });
 
 export function SupportMessageReplyForm({ email, customerId, conversationId }) {
-  const [submitting, setSubmitting] = React.useState(false);
-
   const queryClient = useQueryClient();
 
-  const initialValues = {
-    message: '',
-    attachments: []
-  };
+  const {
+    handleSubmit,
+    register,
+    setValue,
+    reset,
+    getValues,
+    formState: { errors, isSubmitting }
+  } = useForm({
+    defaultValues: {
+      message: '',
+      attachments: []
+    },
+    resolver: yupResolver(validationSchema)
+  });
 
   const handleAddAttachment = (file) => {
     console.log(file);
 
     if (!file) return null;
 
-    let newAttachments = formik.values.attachments;
+    let newAttachments = getValues('attachments');
 
     var reader = new FileReader();
     reader.readAsDataURL(file);
@@ -43,7 +52,7 @@ export function SupportMessageReplyForm({ email, customerId, conversationId }) {
       };
       newAttachments = [...newAttachments, fileFormatted];
 
-      formik.setFieldValue('attachments', newAttachments);
+      setValue('attachments', newAttachments);
     };
     reader.onerror = function (error) {
       console.log('Error: ', error);
@@ -52,8 +61,6 @@ export function SupportMessageReplyForm({ email, customerId, conversationId }) {
   };
 
   const onSubmit = async ({ message, attachments }) => {
-    setSubmitting(true);
-
     const payload = {
       type: 'customer',
       text: message,
@@ -72,47 +79,38 @@ export function SupportMessageReplyForm({ email, customerId, conversationId }) {
       '/api/v1/freescout/create_thread/' +
       conversationId;
 
-    await axios
-      .post(url, payload)
-      .then(
-        (response) => console.log(response),
-        toast.success('Message sent successfully'),
-        queryClient.invalidateQueries(['tickets']),
-        formik.resetForm({})
-      )
+    await toast
+      .promise(axios.post(url, payload), {
+        loading: 'Sending message...',
+        success: 'Message sent successfully',
+        error:
+          'Error creating message, please try again or email us at help@hummingbirdhammocks.com'
+      })
+      .then((response) => {
+        if (response) {
+          queryClient.invalidateQueries({ queryKey: ['tickets'] }), reset({});
+        }
+      })
       .catch((error) => {
-        console.log('contactForm ', error);
-        toast.error(
-          'Error creating message, please try again or email us at support@hummingbirdhammocks.com'
-        );
+        console.log('contactForm_error', error);
       });
-
-    setSubmitting(false);
   };
-
-  const formik = useFormik({
-    initialValues,
-    validationSchema: validationSchema,
-    onSubmit
-  });
 
   return (
     <Box sx={{ padding: 2 }}>
       <Box>
-        <form onSubmit={formik.handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
                 label="Add Message"
                 variant="outlined"
-                name={'message'}
+                {...register('message')}
                 fullWidth
                 multiline
                 rows={4}
-                value={formik.values.message}
-                onChange={formik.handleChange}
-                error={formik.touched.message && Boolean(formik.errors.message)}
-                helperText={formik.touched.message && formik.errors.message}
+                error={!!errors.message}
+                helperText={errors.message?.message}
               />
             </Grid>
             <Grid item xs={12}>
@@ -126,7 +124,7 @@ export function SupportMessageReplyForm({ email, customerId, conversationId }) {
                   size={'large'}
                   variant={'outlined'}
                   type={'submit'}
-                  loading={submitting}>
+                  loading={isSubmitting}>
                   Send Message
                 </LoadingButton>
               </Stack>
