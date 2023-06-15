@@ -7,7 +7,6 @@ import '@fontsource/poppins/400.css';
 import '@fontsource/poppins/600.css';
 import '@fontsource/poppins/700.css';
 import { CssBaseline } from '@mui/material';
-import { ThemeProvider } from '@mui/material/styles';
 // react query
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -29,9 +28,7 @@ import { ReviewWidgetScripts } from 'utils/judgeMe';
 // Help Widget
 import { ChatWidget } from 'utils/quickchatai';
 
-import './src/ui/style.css';
-// theme
-import theme from './src/ui/theme';
+import './src/gatsby-theme-material-ui-top-layout/style.css';
 
 const rqClient = new QueryClient();
 
@@ -57,14 +54,12 @@ export const wrapRootElement = ({ element }) => (
             <RecentlyViewedProvider>
               <ProductContextProvider>
                 <CartContextProvider>
-                  <ThemeProvider theme={theme}>
-                    <CssBaseline />
-                    {element}
-                    <ToastContainer pauseOnFocusLoss={false} />
-                    <ReactQueryDevtools initialIsOpen={false} />
-                    <ReviewWidgetScripts />
-                    <ChatWidget />
-                  </ThemeProvider>
+                  <CssBaseline />
+                  {element}
+                  <ToastContainer pauseOnFocusLoss={false} />
+                  <ReactQueryDevtools initialIsOpen={false} />
+                  <ReviewWidgetScripts />
+                  <ChatWidget />
                 </CartContextProvider>
               </ProductContextProvider>
             </RecentlyViewedProvider>

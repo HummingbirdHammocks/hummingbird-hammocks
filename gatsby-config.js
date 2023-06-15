@@ -63,7 +63,21 @@ module.exports = {
         icon: `src/assets/images/icon.png`
       }
     },
-    `gatsby-plugin-material-ui`,
+    {
+      resolve: `gatsby-theme-material-ui`,
+      options: {
+        webFontsConfig: {
+          fonts: {
+            google: [
+              {
+                family: `Montserrat`,
+                variants: [`300`, `400`, `500`]
+              }
+            ]
+          }
+        }
+      }
+    },
     {
       resolve: 'gatsby-source-shopify',
       options: {
