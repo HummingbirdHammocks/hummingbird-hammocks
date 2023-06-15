@@ -10,7 +10,7 @@ const getTickets = async (email) => {
   }
 };
 
-export default function useTickets(email) {
+export function useTickets(email) {
   return useQuery(
     ['tickets', email],
     () => getTickets(email),

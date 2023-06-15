@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
 import { CartContext } from '../../contexts';
-import useRestockNotifications from '../../hooks/useRestockNotifications';
+import { useRestockNotifications } from '../../hooks';
 import { useAuthStore } from '../../stores';
 import { saveDocumentGenerateID } from '../../utils/firebase';
 

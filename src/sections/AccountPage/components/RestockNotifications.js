@@ -16,7 +16,7 @@ import React from 'react';
 
 import { Link } from '../../../components';
 // hooks
-import useRestockNotifications from '../../../hooks/useRestockNotifications';
+import { useRestockNotifications } from '../../../hooks/useRestockNotifications';
 
 /* /products/single-hammock */
 export const RestockNotifications = ({ email }) => {

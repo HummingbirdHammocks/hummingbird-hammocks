@@ -13,9 +13,10 @@ import {
 import React, { useState } from 'react';
 
 // components
-import { AccountLayout, Link, MiddleSpinner, SupportTicket } from '../../components';
+import { AccountLayout, Link, MiddleSpinner } from '../../components';
 // hooks
-import useTickets from '../../hooks/useTickets';
+import { useTickets } from '../../hooks';
+import { SupportTicket } from '../../sections';
 // stores
 import { useAuthStore } from '../../stores';
 

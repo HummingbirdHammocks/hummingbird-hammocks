@@ -21,7 +21,7 @@ const getNotifications = async (email) => {
     return res;
 }; */
 
-export default function useRestockNotifications(email) {
+export function useRestockNotifications(email) {
   return useQuery(
     ['restock_notifications', email],
     () => getNotifications(email),
