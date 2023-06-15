@@ -5,8 +5,7 @@ import { GatsbyImage } from 'gatsby-plugin-image';
 import React from 'react';
 
 import { Layout, Link, MainWrapper, Seo, Socials } from '../../components';
-import { fShopify } from '../../utils/formatTime';
-import { convertToPlain } from '../../utils/seo';
+import { convertToPlain, fShopify } from '../../utils';
 
 const Articles = ({ data: { articles }, pageContext: { next, prev } }) => {
   const theme = useTheme();

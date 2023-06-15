@@ -14,12 +14,12 @@ import {
 import { navigate } from 'gatsby';
 import React, { useEffect, useState } from 'react';
 
-import { fShopify } from '../../../utils/formatTime';
 import {
+  fShopify,
   financialStatusColor,
   fulfillmentStatusChipColor,
   getReturnEligible
-} from '../../../utils/shopify';
+} from '../../../utils';
 import { SupportTicketDialog } from './SupportTicketDialog';
 
 export const OrderCard = ({ order, firstName, lastName, email }) => {

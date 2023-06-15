@@ -15,8 +15,7 @@ import React, { useEffect } from 'react';
 import { Layout, Link, MainWrapper, Seo, Socials } from '../../components';
 import { ArticlesHeader, ArticlesSidebar } from '../../sections';
 import { useRecentlyViewedDispatch } from '../../stores';
-import { fShopify } from '../../utils/formatTime';
-import { convertToPlain } from '../../utils/seo';
+import { convertToPlain, fShopify } from '../../utils';
 
 const KnowledgebaseArticles = ({
   data: { knowledgebaseArticles, recentKnowledgebaseArticles },

@@ -7,5 +7,4 @@ export * from './KnowledgebaseItem';
 export * from './manualsSearch';
 export * from './productItem';
 export * from './productSearch';
-export * from './queries';
 export * from './search';

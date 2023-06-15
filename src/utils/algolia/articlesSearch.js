@@ -4,16 +4,16 @@ import algoliasearch from 'algoliasearch';
 import { navigate } from 'gatsby';
 import React from 'react';
 
-import ArticleItem from './ArticleItem';
+import { ArticleItem } from './ArticleItem';
 import './autocomplete.css';
-import Autocomplete from './customAutocomplete';
+import { Autocomplete } from './customAutocomplete';
 
 const searchClient = algoliasearch(
   process.env.GATSBY_ALGOLIA_APP_ID,
   process.env.GATSBY_ALGOLIA_ADMIN_KEY
 );
 
-export default function ArticlesSearch() {
+export function ArticlesSearch() {
   return (
     <Autocomplete
       openOnFocus={true}

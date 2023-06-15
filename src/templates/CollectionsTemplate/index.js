@@ -30,7 +30,7 @@ import { BargainBinNotifications, ProductCard } from '../../sections';
 // stores
 import { useRecentlyViewedStore } from '../../stores';
 // utils
-import { convertToPlain } from '../../utils/seo';
+import { convertToPlain } from '../../utils';
 
 const CollectionsPage = ({ data }) => {
   const theme = useTheme();

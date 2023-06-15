@@ -3,7 +3,7 @@ import { Box, Button, Divider, Stack, Typography } from '@mui/material';
 import React from 'react';
 
 import { Link, MainWrapper, Seo } from '../../components';
-import { fShopify } from '../../utils/formatTime';
+import { fShopify } from '../../utils';
 
 export const ArticlesHeader = ({ title, backpath, date }) => {
   return (

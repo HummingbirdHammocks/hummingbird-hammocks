@@ -9,7 +9,7 @@ import { useDiscountCode } from '../../hooks';
 // stores
 import { useAuthStore, useUIStore } from '../../stores';
 //firebase
-import firebaseApp, { logAnalyticsEvent } from '../../utils/firebase/firebase-config';
+import { getFirebase, logAnalyticsEvent } from '../../utils';
 import Footer from './Footer';
 import GDPRConsent from './GDPRBanner';
 // components
@@ -62,7 +62,7 @@ export const Layout = ({ children }) => {
   }, [location]);
 
   useEffect(() => {
-    if (!firebaseApp()) return;
+    if (!getFirebase()) return;
     logAnalyticsEvent('page_view', location.pathname);
 
     handleAffiliateIdCookie();

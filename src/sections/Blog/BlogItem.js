@@ -3,7 +3,7 @@ import { GatsbyImage } from 'gatsby-plugin-image';
 import React from 'react';
 
 import { Link } from '../../components';
-import { fShopify } from '../../utils/formatTime';
+import { fShopify } from '../../utils';
 
 export const BlogItem = ({ item, description }) => {
   return (

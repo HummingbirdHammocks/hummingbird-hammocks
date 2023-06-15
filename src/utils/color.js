@@ -1,7 +1,7 @@
 import { StaticImage } from 'gatsby-plugin-image';
 import React from 'react';
 
-const Color = ({ title }) => {
+export const Color = ({ title }) => {
   return (
     <>
       {
@@ -123,5 +123,3 @@ const Color = ({ title }) => {
     </>
   );
 };
-
-export default Color;

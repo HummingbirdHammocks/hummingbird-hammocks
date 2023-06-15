@@ -17,7 +17,7 @@ import React, { useState } from 'react';
 
 import { Link } from '../../components';
 import { useRecentlyViewedStore } from '../../stores';
-import KnowledgebaseComboSearch from '../../utils/algolia/knowledgebaseComboSearch';
+import { KnowledgebaseComboSearch } from '../../utils';
 
 export const ArticlesSidebar = ({ recentArticles, type, page }) => {
   const [collapseRecentlyViewed, setCollapseRecentlyViewed] = useState(true);

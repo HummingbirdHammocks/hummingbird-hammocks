@@ -8,7 +8,7 @@ import { MainWrapper } from '../../components';
 // stores
 import { useUIDispatch, useUIStore } from '../../stores';
 //firebase
-import { getRemoteValue } from '../../utils/firebase/remoteConfig';
+import { getRemoteValue } from '../../utils';
 
 export const TopBanner = () => {
   const theme = useTheme();

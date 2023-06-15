@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import {
   findInCollection
   /* , deleteDocument  */
-} from '../utils/firebase';
+} from '../utils';
 
 const getNotifications = async (email) => {
   if (!email || email === '' || email === undefined) return null;

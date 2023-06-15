@@ -17,8 +17,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 
-import { fShopify } from '../../utils/formatTime';
-import { fulfillmentStatusChipColor } from '../../utils/shopify';
+import { fShopify, fulfillmentStatusChipColor } from '../../utils';
 
 const reasons = [
   {

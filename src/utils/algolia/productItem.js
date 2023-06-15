@@ -2,7 +2,7 @@ import { Link } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import React from 'react';
 
-export default function ProductItem({ hit, components }) {
+export function ProductItem({ hit, components }) {
   return (
     <Link to={`/products/${hit.handle}`} className="aa-ItemLink">
       <div className="aa-ItemContent">

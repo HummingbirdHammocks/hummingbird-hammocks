@@ -1,8 +1,7 @@
 import { Box, Button, Chip, Divider, Grid, Paper, Stack, Typography } from '@mui/material';
 import React from 'react';
 
-import { fShopify } from '../../utils/formatTime';
-import { fulfillmentStatusChipColor } from '../../utils/shopify';
+import { fShopify, fulfillmentStatusChipColor } from '../../utils';
 
 export function ReturnReviewSubmit({ selectedOrder, selectedItems, handleOpenTicketDialog }) {
   return (

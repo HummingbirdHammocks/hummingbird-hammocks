@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getUserTickets } from '../utils/freescout';
+import { getUserTickets } from '../utils';
 
 const getTickets = async (email) => {
   const data = await getUserTickets(email);

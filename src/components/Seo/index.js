@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useSiteMetadata } from '../../hooks';
-import { truncateText } from '../../utils/seo';
+import { truncateText } from '../../utils';
 
 export const Seo = ({ title, description, pathname, children }) => {
   const {

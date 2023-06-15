@@ -5,9 +5,7 @@ import React from 'react';
 import DoubleHammockBackground from '../../assets/images/product-backgrounds/DoubleHammockBackground.jpg';
 import { Layout, Link, MainWrapper, Seo } from '../../components';
 import { ArticleTagsTabs } from '../../sections';
-import KnowledgebaseArticlesSearch from '../../utils/algolia/knowledgebaseArticlesSearch';
-import KnowledgebaseComboSearch from '../../utils/algolia/knowledgebaseComboSearch';
-import ManualsSearch from '../../utils/algolia/manualsSearch';
+import { KnowledgebaseArticlesSearch, KnowledgebaseComboSearch, ManualsSearch } from '../../utils';
 
 const HelpCenter = ({ data: { allKnowledgebaseArticles, allManualArticles } }) => {
   return (

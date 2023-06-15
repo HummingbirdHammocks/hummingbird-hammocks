@@ -20,12 +20,12 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
-import { getNumberOfDays } from '../../utils/formatTime';
 import {
   fulfillmentStatusChipColor,
+  getNumberOfDays,
   getReturnEligible,
   returnStatusChipColor
-} from '../../utils/shopify';
+} from '../../utils';
 
 const validationSchema = yup.object({
   orderName: yup.string().trim(),

@@ -41,9 +41,8 @@ import {
 import ProductGallery from '../../sections/ProductPage/ProductGallery';
 // stores
 import { useRecentlyViewedDispatch } from '../../stores';
-import Color from '../../utils/color';
-//utils
-import { convertToPlain } from '../../utils/seo';
+// utils
+import { Color, convertToPlain } from '../../utils';
 
 const ProductPage = ({ data, pageContext }) => {
   const { title, handle, images, description, shopifyId, featuredImage } = data.shopifyProduct;

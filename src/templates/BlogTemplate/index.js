@@ -17,7 +17,7 @@ import React, { useState } from 'react';
 
 import { Layout, Link, MainWrapper, Seo } from '../../components';
 import { BlogItem } from '../../sections';
-import ArtclesSearch from '../../utils/algolia/articlesSearch';
+import { ArticlesSearch } from '../../utils';
 
 const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
   const [collapse, setCollapse] = useState(true);
@@ -81,7 +81,7 @@ const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
                 paddingRight: 2
               }}>
               <Box className="articles">
-                <ArtclesSearch />
+                <ArticlesSearch />
               </Box>
               <Box>
                 <ListItemButton onClick={() => setCollapse(!collapse)}>

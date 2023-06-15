@@ -1,7 +1,7 @@
 import { Box, Chip, Divider, Stack, Typography } from '@mui/material';
 import React from 'react';
 
-import { fShopify } from '../../../utils/formatTime';
+import { fShopify } from '../../../utils';
 import { SupportMessageReplyForm } from './SupportMessageReplyForm';
 import { SupportTicketMessage } from './SupportTicketMessage';
 

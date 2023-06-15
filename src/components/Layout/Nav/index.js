@@ -28,7 +28,7 @@ import { Link, MainWrapper, MiddleSpinner } from '../../../components';
 import { CartContext } from '../../../contexts';
 // stores
 import { useAuthStore, useUIDispatch, useUIStore } from '../../../stores';
-import Search from '../../../utils/algolia/search';
+import { Search } from '../../../utils';
 import NavMenuItems from './MenuItems';
 
 const NavButton = styled(Button)(() => ({
