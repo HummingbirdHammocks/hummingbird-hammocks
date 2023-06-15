@@ -307,8 +307,8 @@ const CollectionsPage = ({ data }) => {
                 borderRadius: '20px',
                 display:
                   filterOptions.inStock ||
-                  filterOptions.price ||
-                  filterOptions?.productType?.length > 0
+                    filterOptions.price ||
+                    filterOptions?.productType?.length > 0
                     ? 'block'
                     : 'none'
               }}>
@@ -592,9 +592,9 @@ export const query = graphql`
 
 export const Head = ({ data }) => {
   let description = '';
-  if (data?.articles?.description) {
-    description = convertToPlain(data.articles.summary_html);
+  if (data?.shopifyCollection?.description) {
+    description = convertToPlain(data.shopifyCollection.summary_html);
   }
 
-  return <Seo title={`${data?.articles?.title} | HH Outdoor Articles`} description={description} />;
+  return <Seo title={`${data?.shopifyCollection?.title} | HH Outdoor Articles`} description={description} />;
 };
