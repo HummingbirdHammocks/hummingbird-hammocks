@@ -64,15 +64,15 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
 
       variants[0] = firstVariant[0].available
         ? {
-            ...firstVariant[0],
-            selected: true
-          }
+          ...firstVariant[0],
+          selected: true
+        }
         : items[0].variants.length >= 1
-        ? {
+          ? {
             ...items[0].variants[0],
             selected: true
           }
-        : { ...product.variants[0], selected: false };
+          : { ...product.variants[0], selected: false };
 
       setData(items);
       setSelectedVariant(variants);
@@ -82,12 +82,15 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
   const handleSubmit = async () => {
     setLoading(true);
 
+    let count = 0;
+
     for (let i = 0; i < selectedVariant.length; i++) {
-      if (selectedVariant[i].selected) {
+      if (selectedVariant[i]?.selected) {
+        count++;
         await updateLineItem({ variantId: selectedVariant[i].id, quantity: 1 });
       }
     }
-    toast.success(`${selectedVariant.length} items added to cart`);
+    toast.success(`${count} items added to cart`);
 
     setLoading(false);
   };
