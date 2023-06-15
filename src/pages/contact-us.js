@@ -1,10 +1,11 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Layout, Link, MainWrapper, Seo } from 'components';
 import { navigate } from 'gatsby';
 import { StaticImage } from 'gatsby-plugin-image';
 import React from 'react';
-import { ContactUsForm, Hero, Info } from 'sections';
+
+import { Layout, Link, MainWrapper, Seo } from '../components';
+import { ContactUsForm, Hero, Info } from '../sections';
 
 const heroData = {
   position: 'center',
@@ -38,7 +39,6 @@ const ContactUsPage = () => {
   const theme = useTheme();
   return (
     <Layout>
-      <Seo />
       <Hero data={heroData}>
         <StaticImage
           style={{
@@ -132,3 +132,5 @@ const ContactUsPage = () => {
 };
 
 export default ContactUsPage;
+
+export const Head = () => <Seo title="Contact Us | Hummingbird Hammocks" />;

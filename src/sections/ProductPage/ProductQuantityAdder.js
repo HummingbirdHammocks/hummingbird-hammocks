@@ -4,15 +4,15 @@ import { Add, Close, Remove } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import { Box, Button, Dialog, IconButton, Stack, TextField, Typography } from '@mui/material';
 import { useQueryClient } from '@tanstack/react-query';
-import { CartContext } from 'contexts';
 import React, { useContext, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { saveDocumentGenerateID } from 'utils/firebase';
 import * as yup from 'yup';
 
+import { CartContext } from '../../contexts';
 import useRestockNotifications from '../../hooks/useRestockNotifications';
 import { useAuthStore } from '../../stores';
+import { saveDocumentGenerateID } from '../../utils/firebase';
 
 const validationSchema = yup.object({
   email: yup

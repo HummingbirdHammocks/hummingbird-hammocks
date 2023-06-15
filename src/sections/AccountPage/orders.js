@@ -1,12 +1,12 @@
 import { gql, useQuery } from '@apollo/client';
 import { useLocation } from '@gatsbyjs/reach-router';
 import { Box, Button, Grid, Typography } from '@mui/material';
-// components
-import { AccountLayout, Link, MiddleSpinner } from 'components';
 import { navigate } from 'gatsby';
 import queryString from 'query-string';
 import React, { useEffect, useState } from 'react';
 
+// components
+import { AccountLayout, Link, MiddleSpinner } from '../../components';
 // stores
 import { useAuthStore } from '../../stores';
 import { OrderDetails, OrderHistory } from './components';

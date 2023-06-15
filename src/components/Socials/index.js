@@ -1,8 +1,9 @@
 import { Facebook, Mail, Pinterest, Twitter } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { AnotherLink } from 'components';
 import React from 'react';
+
+import { AnotherLink } from '../../components';
 
 const SocialItem = styled(Box)(({ color }) => ({
   borderRadius: '50%',

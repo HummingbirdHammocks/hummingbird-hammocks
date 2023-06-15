@@ -10,10 +10,11 @@ import {
   useMediaQuery
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Link } from 'components';
-import { CartContext } from 'contexts';
 import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+
+import { Link } from '../../components';
+import { CartContext } from '../../contexts';
 
 export const Fbt = ({ currentVariant, product, fbtData }) => {
   const theme = useTheme();
@@ -64,15 +65,15 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
 
       variants[0] = firstVariant[0].available
         ? {
-          ...firstVariant[0],
-          selected: true
-        }
+            ...firstVariant[0],
+            selected: true
+          }
         : items[0].variants.length >= 1
-          ? {
+        ? {
             ...items[0].variants[0],
             selected: true
           }
-          : { ...product.variants[0], selected: false };
+        : { ...product.variants[0], selected: false };
 
       setData(items);
       setSelectedVariant(variants);

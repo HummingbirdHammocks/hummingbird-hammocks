@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
-import { MainWrapper } from 'components';
 import React from 'react';
+
+import { MainWrapper } from '../../components';
 
 export const IframeWrap = ({ children }) => {
   return (

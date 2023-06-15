@@ -12,13 +12,13 @@ import {
   Typography
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Layout, MainWrapper, Seo } from 'components';
 import { navigate } from 'gatsby';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
+import { Layout, MainWrapper, Seo } from '../../../components';
 // stores
 import { useAuthDispatch, useAuthStore } from '../../../stores';
 
@@ -85,7 +85,6 @@ const RegisterPage = () => {
 
   return (
     <Layout>
-      <Seo title="Register" />
       <Box
         sx={{
           background: theme.palette.white,
@@ -216,3 +215,5 @@ const CUSTOMER_REGISTER = gql`
     }
   }
 `;
+
+export const Head = () => <Seo title="Register | Hummingbird Hammocks" />;

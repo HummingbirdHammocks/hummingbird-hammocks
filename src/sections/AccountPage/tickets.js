@@ -10,15 +10,14 @@ import {
   ListItemText,
   Typography
 } from '@mui/material';
-// components
-import { AccountLayout, Link, MiddleSpinner } from 'components';
 import React, { useState } from 'react';
 
+// components
+import { AccountLayout, Link, MiddleSpinner, SupportTicket } from '../../components';
 // hooks
 import useTickets from '../../hooks/useTickets';
 // stores
 import { useAuthStore } from '../../stores';
-import { SupportTicket } from './components/SupportTicket';
 
 const AccountTicketsPage = () => {
   const [selectedTicket, setSelectedTicket] = useState(null);

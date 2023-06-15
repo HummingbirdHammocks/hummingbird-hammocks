@@ -13,8 +13,8 @@ import {
 } from '@mui/material';
 import { navigate } from 'gatsby';
 import React, { useEffect, useState } from 'react';
-import { fShopify } from 'utils/formatTime';
 
+import { fShopify } from '../../../utils/formatTime';
 import {
   financialStatusColor,
   fulfillmentStatusChipColor,

@@ -13,13 +13,13 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-// components
-import { AccountLayout, MiddleSpinner } from 'components';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
+// components
+import { AccountLayout, MiddleSpinner } from '../../components';
 // stores
 import { useAuthStore } from '../../stores';
 import shopify_countries from '../../utils/shopify/shopify_countries.json';

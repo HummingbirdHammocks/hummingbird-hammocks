@@ -1,8 +1,9 @@
 import { Box, Grid, Typography } from '@mui/material';
-import { MainWrapper } from 'components';
 import { graphql, useStaticQuery } from 'gatsby';
 import React from 'react';
-import { BlogItem } from 'sections';
+
+import { MainWrapper } from '../../components';
+import { BlogItem } from '../../sections';
 
 export function OutDoorArticles() {
   const data = useStaticQuery(graphql`

@@ -12,9 +12,9 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { Link } from 'components';
 import React from 'react';
 
+import { Link } from '../../../components';
 // hooks
 import useRestockNotifications from '../../../hooks/useRestockNotifications';
 

@@ -11,12 +11,12 @@ import {
   ListItemText,
   Typography
 } from '@mui/material';
-// components
-import { Link } from 'components';
 import { navigate } from 'gatsby';
 import { StaticImage } from 'gatsby-plugin-image';
 import React, { useState } from 'react';
 
+// components
+import { Link } from '../../../components';
 // stores
 import { useAuthDispatch, useAuthStore, useUIDispatch, useUIStore } from '../../../stores';
 

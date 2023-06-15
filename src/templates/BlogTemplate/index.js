@@ -12,11 +12,11 @@ import {
   Stack,
   Typography
 } from '@mui/material';
-import { Layout, Link, MainWrapper, Seo } from 'components';
 import { graphql, navigate } from 'gatsby';
 import React, { useState } from 'react';
-import { BlogItem } from 'sections';
 
+import { Layout, Link, MainWrapper, Seo } from '../../components';
+import { BlogItem } from '../../sections';
 import ArtclesSearch from '../../utils/algolia/articlesSearch';
 
 const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
@@ -146,3 +146,5 @@ export const query = graphql`
     }
   }
 `;
+
+export const Head = () => <Seo title={`Outdoor Articles | Hummingbird Hammocks`} />;

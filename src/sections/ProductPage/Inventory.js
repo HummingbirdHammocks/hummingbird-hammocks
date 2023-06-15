@@ -1,7 +1,8 @@
 import { gql, useQuery } from '@apollo/client';
 import { Typography } from '@mui/material';
-import { MiddleSpinner } from 'components';
 import React from 'react';
+
+import { MiddleSpinner } from '../../components';
 
 export const Inventory = ({ handle, id }) => {
   // Get Variants Quantity

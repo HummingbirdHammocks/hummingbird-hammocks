@@ -1,8 +1,9 @@
 import { Box, Grid, Stack, Typography } from '@mui/material';
-import { Layout, Link, MainWrapper } from 'components';
 import { graphql } from 'gatsby';
 import React from 'react';
-import { ArticlesHeader, ArticlesSection, ArticlesSidebar } from 'sections';
+
+import { Layout, Link, MainWrapper, Seo } from '../../../components';
+import { ArticlesHeader, ArticlesSection, ArticlesSidebar } from '../../../sections';
 
 const ManualsPage = ({ data: { allManualArticles, manualArticles } }) => {
   const type = 'manuals';
@@ -69,3 +70,5 @@ export const query = graphql`
     }
   }
 `;
+
+export const Head = () => <Seo title="Knowledgebase Manuals | Hummingbird Hammocks" />;

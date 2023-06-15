@@ -14,12 +14,13 @@ import {
   useMediaQuery
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-// components
-import { Layout, Link, MainWrapper, Seo } from 'components';
-// stores
-import { CartContext } from 'contexts';
 import React, { useContext } from 'react';
-import { CartExtras, RecentlyViewed } from 'sections';
+
+// components
+import { Layout, Link, MainWrapper, Seo } from '../components';
+// stores
+import { CartContext } from '../contexts';
+import { CartExtras, RecentlyViewed } from '../sections';
 
 const CartPage = () => {
   const theme = useTheme();
@@ -45,7 +46,6 @@ const CartPage = () => {
 
   return (
     <Layout>
-      <Seo title="Cart" />
       <Box>
         <MainWrapper>
           <Box>
@@ -263,3 +263,5 @@ const CartPage = () => {
 };
 
 export default CartPage;
+
+export const Head = () => <Seo title="Cart | Hummingbird Hammocks" />;

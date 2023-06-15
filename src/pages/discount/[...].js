@@ -1,9 +1,10 @@
+import { useLocation } from '@gatsbyjs/reach-router';
 import { Box, Button, Typography } from '@mui/material';
-import { useLocation } from '@reach/router';
-// components
-import { Layout, Link } from 'components';
 import { navigate } from 'gatsby';
 import React, { useCallback, useEffect } from 'react';
+
+// components
+import { Layout, Link, Seo } from '../../components';
 
 const Discounts = () => {
   const location = useLocation();
@@ -56,3 +57,5 @@ const Discounts = () => {
 };
 
 export default Discounts;
+
+export const Head = () => <Seo title="Apply Discount | Hummingbird Hammocks" />;

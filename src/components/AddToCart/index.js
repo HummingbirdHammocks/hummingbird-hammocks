@@ -1,7 +1,8 @@
 import { Box, Button } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { CartContext } from 'contexts';
 import React, { useContext } from 'react';
+
+import { CartContext } from '../../contexts';
 
 export const AddToCart = ({ variantId }) => {
   const theme = useTheme();

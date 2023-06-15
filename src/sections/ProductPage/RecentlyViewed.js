@@ -1,15 +1,15 @@
 import { Box, Divider, Typography } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
-// components
-import {
-  Link
-  /* , ProductPreviewBadge */
-} from 'components';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import React from 'react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+// components
+import {
+  Link
+  /* , ProductPreviewBadge */
+} from '../../components';
 // stores
 import { useRecentlyViewedStore } from '../../stores';
 

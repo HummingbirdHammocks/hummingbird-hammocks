@@ -13,13 +13,13 @@ import {
   Typography
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Layout, Link, MainWrapper, Seo } from 'components';
 import { navigate } from 'gatsby';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
+import { Layout, Link, MainWrapper, Seo } from '../../../components';
 // stores
 import { useAuthDispatch } from '../../../stores';
 
@@ -96,7 +96,6 @@ const LoginPage = ({ location }) => {
 
   return (
     <Layout>
-      <Seo title="Login" />
       <Box
         sx={{
           background: theme.palette.white,
@@ -193,3 +192,5 @@ const CUSTOMER_LOGIN = gql`
     }
   }
 `;
+
+export const Head = () => <Seo title="Login | Hummingbird Hammocks" />;

@@ -1,6 +1,7 @@
 import { Box, Divider, Grid, Stack, Typography } from '@mui/material';
 import React from 'react';
-import { fShopify } from 'utils/formatTime';
+
+import { fShopify } from '../../../utils/formatTime';
 
 export const SupportTicketMessage = ({ thread }) => {
   /* console.log(thread) */

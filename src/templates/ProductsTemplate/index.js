@@ -11,6 +11,10 @@ import {
   Typography
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { graphql, navigate } from 'gatsby';
+import queryString from 'query-string';
+import React, { useContext, useEffect, useState } from 'react';
+
 // components
 import {
   Layout,
@@ -20,11 +24,8 @@ import {
   ProductReviewWidget,
   Seo,
   Socials
-} from 'components';
-import { CartContext } from 'contexts';
-import { graphql, navigate } from 'gatsby';
-import queryString from 'query-string';
-import React, { useContext, useEffect, useState } from 'react';
+} from '../../components';
+import { CartContext } from '../../contexts';
 import {
   Fbt,
   Inventory,
@@ -36,12 +37,13 @@ import {
   RecentlyViewed,
   SoldOutIcon,
   YouTubeEmbed
-} from 'sections';
-import Color from 'utils/color';
-
+} from '../../sections';
 import ProductGallery from '../../sections/ProductPage/ProductGallery';
 // stores
 import { useRecentlyViewedDispatch } from '../../stores';
+import Color from '../../utils/color';
+//utils
+import { convertToPlain } from '../../utils/seo';
 
 const ProductPage = ({ data, pageContext }) => {
   const { title, handle, images, description, shopifyId, featuredImage } = data.shopifyProduct;
@@ -699,3 +701,18 @@ export const query = graphql`
     }
   }
 `;
+
+export const Head = ({ data }) => {
+  let description = '';
+  if (data?.product?.descriptionHtml) {
+    description = convertToPlain(data?.product?.descriptionHtml);
+  }
+
+  return (
+    <Seo
+      title={`${data.shopifyProduct.title} | Hummingbird Hammocks`}
+      description={description}
+      image={`${data.shopifyProduct.featuredImage?.originalSrc}`}
+    />
+  );
+};

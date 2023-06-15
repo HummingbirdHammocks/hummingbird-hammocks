@@ -1,10 +1,9 @@
-import { IframeWrap, Layout, Seo } from 'components';
 import React from 'react';
+
+import { IframeWrap, Layout, Seo } from '../components';
 
 const AffiliateProgramPage = () => (
   <Layout>
-    <Seo title="Affiliate Program " />
-
     <IframeWrap>
       <iframe
         src="https://www.shoutout.global/signup?id=nq1rq"
@@ -17,3 +16,5 @@ const AffiliateProgramPage = () => (
 );
 
 export default AffiliateProgramPage;
+
+export const Head = () => <Seo title="Affiliate Program | Hummingbird Hammocks" />;

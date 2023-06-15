@@ -1,8 +1,9 @@
-import { IframeWrap, Layout, Seo } from 'components';
 import { Script } from 'gatsby';
 import { StaticImage } from 'gatsby-plugin-image';
 import React from 'react';
-import { Hero, Info } from 'sections';
+
+import { IframeWrap, Layout, Seo } from '../components';
+import { Hero, Info } from '../sections';
 
 const heroData = {
   position: 'center',
@@ -11,7 +12,6 @@ const heroData = {
 
 const ProDealPage = () => (
   <Layout>
-    <Seo />
     <Hero data={heroData}>
       <StaticImage
         style={{
@@ -64,3 +64,5 @@ const ProDealPage = () => (
 );
 
 export default ProDealPage;
+
+export const Head = () => <Seo title="Pro Deal | Hummingbird Hammocks" />;

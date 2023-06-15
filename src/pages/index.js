@@ -1,8 +1,9 @@
 import { Box, Container, Stack } from '@mui/material';
-import { FeaturedReviewsCarousel, Layout, MainWrapper, Seo } from 'components';
 import { StaticImage } from 'gatsby-plugin-image';
 import React from 'react';
-import { Details, FeaturedProduct, Hero, Info, OutDoorArticles } from 'sections';
+
+import { FeaturedReviewsCarousel, Layout, MainWrapper, Seo } from '../components';
+import { Details, FeaturedProduct, Hero, Info, OutDoorArticles } from '../sections';
 
 const heroData = {
   position: 'center',
@@ -102,7 +103,6 @@ const detailsData3 = {
 const IndexPage = () => {
   return (
     <Layout>
-      <Seo />
       <Hero data={heroData}>
         <StaticImage
           style={{
@@ -216,3 +216,5 @@ const IndexPage = () => {
 };
 
 export default IndexPage;
+
+export const Head = () => <Seo title="Ultralight Outdoor Gear | Hummingbird Hammocks" />;

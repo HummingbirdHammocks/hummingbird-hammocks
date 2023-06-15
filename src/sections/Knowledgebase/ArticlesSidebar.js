@@ -13,11 +13,11 @@ import {
   Typography,
   useMediaQuery
 } from '@mui/material';
-import { Link } from 'components';
 import React, { useState } from 'react';
-import KnowledgebaseComboSearch from 'utils/algolia/knowledgebaseComboSearch';
 
+import { Link } from '../../components';
 import { useRecentlyViewedStore } from '../../stores';
+import KnowledgebaseComboSearch from '../../utils/algolia/knowledgebaseComboSearch';
 
 export const ArticlesSidebar = ({ recentArticles, type, page }) => {
   const [collapseRecentlyViewed, setCollapseRecentlyViewed] = useState(true);

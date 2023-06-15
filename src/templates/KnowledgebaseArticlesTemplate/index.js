@@ -9,13 +9,14 @@ import {
   Typography
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Layout, Link, MainWrapper, Socials } from 'components';
 import { graphql } from 'gatsby';
 import React, { useEffect } from 'react';
-import { ArticlesHeader, ArticlesSidebar } from 'sections';
 
+import { Layout, Link, MainWrapper, Seo, Socials } from '../../components';
+import { ArticlesHeader, ArticlesSidebar } from '../../sections';
 import { useRecentlyViewedDispatch } from '../../stores';
 import { fShopify } from '../../utils/formatTime';
+import { convertToPlain } from '../../utils/seo';
 
 const KnowledgebaseArticles = ({
   data: { knowledgebaseArticles, recentKnowledgebaseArticles },
@@ -179,3 +180,19 @@ export const query = graphql`
     }
   }
 `;
+
+export const Head = ({ data }) => {
+  let description = '';
+  if (data?.knowledgebaseArticles?.summary_html) {
+    description = convertToPlain(data.knowledgebaseArticles.summary_html);
+  } else {
+    description = convertToPlain(data.knowledgebaseArticles.body_html);
+  }
+
+  return (
+    <Seo
+      title={`${data?.knowledgebaseArticles?.title} | HH Knowledgebase`}
+      description={description}
+    />
+  );
+};

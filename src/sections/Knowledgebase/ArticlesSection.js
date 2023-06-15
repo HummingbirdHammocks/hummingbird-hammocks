@@ -1,6 +1,7 @@
 import { Box, Grid, Typography } from '@mui/material';
 import React from 'react';
-import { KnowledgebaseItem } from 'sections';
+
+import { KnowledgebaseItem } from '../../sections';
 
 export const ArticlesSection = ({ group, type, backgroundColor, accentcolor }) => {
   if (!group || !group.nodes || group.nodes.length === 0 || !group.nodes[0].tags) return null;

@@ -11,26 +11,26 @@ import { ThemeProvider } from '@mui/material/styles';
 // react query
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { CartContextProvider, ProductContextProvider } from 'contexts';
 import fetch from 'isomorphic-fetch';
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// stores
-import { AuthProvider, ProductsProvider, RecentlyViewedProvider, UIProvider } from 'stores';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/thumbs';
-// Judge.me
-import { ReviewWidgetScripts } from 'utils/judgeMe';
-// Help Widget
-import { ChatWidget } from 'utils/quickchatai';
 
+import { CartContextProvider, ProductContextProvider } from './src/contexts';
+// stores
+import { AuthProvider, ProductsProvider, RecentlyViewedProvider, UIProvider } from './src/stores';
 import './src/ui/style.css';
 import theme from './src/ui/theme';
+// Judge.me
+import { ReviewWidgetScripts } from './src/utils/judgeMe';
+// Help Widget
+import { ChatWidget } from './src/utils/quickchatai';
 
 const rqClient = new QueryClient();
 

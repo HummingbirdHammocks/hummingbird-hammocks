@@ -1,10 +1,10 @@
 import { Close } from '@mui/icons-material';
 import { Box, Button, IconButton, Stack, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-// components
-import { MainWrapper } from 'components';
 import React, { useCallback, useEffect } from 'react';
 
+// components
+import { MainWrapper } from '../../components';
 // stores
 import { useUIDispatch, useUIStore } from '../../stores';
 //firebase

@@ -5,12 +5,12 @@ import { navigate } from 'gatsby';
 import React from 'react';
 
 // components
-import { Layout, MainWrapper, Seo } from '..';
+import { Layout, MainWrapper } from '..';
 // stores
 import { useAuthDispatch, useAuthStore } from '../../stores';
 import AccountNav from './AccoutNav';
 
-export const AccountLayout = ({ title, currentPage, children }) => {
+export const AccountLayout = ({ currentPage, children }) => {
   const theme = useTheme();
 
   const { customerAccessToken } = useAuthStore();
@@ -29,7 +29,6 @@ export const AccountLayout = ({ title, currentPage, children }) => {
 
   return (
     <Layout>
-      <Seo title={title} />
       <Box
         sx={{
           background: theme.palette.white,

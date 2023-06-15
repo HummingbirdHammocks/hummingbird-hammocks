@@ -1,17 +1,17 @@
 import { Box, Button, Container, Grid, Paper, Stack, Typography } from '@mui/material';
-import DoubleHammockBackground from 'assets/images/product-backgrounds/DoubleHammockBackground.jpg';
-import { Layout, Link, MainWrapper, Seo } from 'components';
 import { graphql } from 'gatsby';
 import React from 'react';
-import { ArticleTagsTabs } from 'sections';
-import KnowledgebaseArticlesSearch from 'utils/algolia/knowledgebaseArticlesSearch';
-import KnowledgebaseComboSearch from 'utils/algolia/knowledgebaseComboSearch';
-import ManualsSearch from 'utils/algolia/manualsSearch';
+
+import DoubleHammockBackground from '../../assets/images/product-backgrounds/DoubleHammockBackground.jpg';
+import { Layout, Link, MainWrapper, Seo } from '../../components';
+import { ArticleTagsTabs } from '../../sections';
+import KnowledgebaseArticlesSearch from '../../utils/algolia/knowledgebaseArticlesSearch';
+import KnowledgebaseComboSearch from '../../utils/algolia/knowledgebaseComboSearch';
+import ManualsSearch from '../../utils/algolia/manualsSearch';
 
 const HelpCenter = ({ data: { allKnowledgebaseArticles, allManualArticles } }) => {
   return (
     <Layout>
-      <Seo title="Help Center Knowledge Base" />
       <Box display={{ xs: 'none', md: 'block' }}>
         <Box
           sx={{
@@ -194,3 +194,5 @@ export const query = graphql`
     }
   }
 `;
+
+export const Head = () => <Seo title="Help Center Knowledge Base | Hummingbird Hammocks" />;

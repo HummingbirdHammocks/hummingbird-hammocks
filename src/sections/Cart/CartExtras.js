@@ -1,8 +1,8 @@
 import { Divider, Grid, Paper, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { CartContext } from 'contexts';
 import React, { useContext, useState } from 'react';
 
+import { CartContext } from '../../contexts';
 import { OrderOptions } from './OrderOptions';
 import { ThruHikerForm } from './ThruHikerForm';
 

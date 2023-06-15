@@ -13,13 +13,13 @@ import {
   Typography
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Layout, MainWrapper, Seo } from 'components';
 import { navigate } from 'gatsby';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
+import { Layout, MainWrapper, Seo } from '../../../components';
 // stores
 import { useAuthDispatch, useAuthStore } from '../../../stores';
 
@@ -96,7 +96,6 @@ const ResetPage = ({ params }) => {
 
   return (
     <Layout>
-      <Seo title="Password Reset" />
       <Box
         sx={{
           background: theme.palette.white,
@@ -212,3 +211,5 @@ const CUSTOMER_PASSWORD_RESET = gql`
     }
   }
 `;
+
+export const Head = () => <Seo title="Password Reset | Hummingbird Hammocks" />;

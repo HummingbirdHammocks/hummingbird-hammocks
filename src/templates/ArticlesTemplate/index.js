@@ -1,11 +1,12 @@
 import { Box, Button, ButtonGroup, Container, Stack, Tooltip, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Layout, Link, MainWrapper, Seo, Socials } from 'components';
 import { graphql } from 'gatsby';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import React from 'react';
 
+import { Layout, Link, MainWrapper, Seo, Socials } from '../../components';
 import { fShopify } from '../../utils/formatTime';
+import { convertToPlain } from '../../utils/seo';
 
 const Articles = ({ data: { articles }, pageContext: { next, prev } }) => {
   const theme = useTheme();
@@ -15,7 +16,6 @@ const Articles = ({ data: { articles }, pageContext: { next, prev } }) => {
 
   return (
     <Layout>
-      <Seo title={title} />
       <Box
         sx={{
           display: 'grid',
@@ -168,3 +168,14 @@ export const query = graphql`
     }
   }
 `;
+
+export const Head = ({ data }) => {
+  let description = '';
+  if (data?.articles?.summary_html) {
+    description = convertToPlain(data.articles.summary_html);
+  } else {
+    description = convertToPlain(data.articles.body_html);
+  }
+
+  return <Seo title={`${data?.articles?.title} | HH Outdoor Articles`} description={description} />;
+};

@@ -2,7 +2,8 @@ import { Box, Grid, Tab, Tabs, Typography, useMediaQuery } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useTheme } from '@mui/material/styles';
 import React from 'react';
-import { KnowledgebaseItem } from 'sections';
+
+import { KnowledgebaseItem } from '../../sections';
 
 const StyledTab = styled((props) => <Tab disableRipple {...props} />)(({ accentcolor, theme }) => ({
   textTransform: 'none',

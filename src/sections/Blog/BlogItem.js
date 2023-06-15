@@ -1,8 +1,8 @@
 import { Box, Button, Typography } from '@mui/material';
-import { Link } from 'components';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import React from 'react';
 
+import { Link } from '../../components';
 import { fShopify } from '../../utils/formatTime';
 
 export const BlogItem = ({ item, description }) => {

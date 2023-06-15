@@ -1,11 +1,11 @@
 import { gql, useQuery } from '@apollo/client';
+import { useLocation } from '@gatsbyjs/reach-router';
 import { Box } from '@mui/material';
-import { useLocation } from '@reach/router';
-import { CartContext } from 'contexts';
-// hooks
-import { useDiscountCode } from 'hooks';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
+import { CartContext } from '../../contexts';
+// hooks
+import { useDiscountCode } from '../../hooks';
 // stores
 import { useAuthStore, useUIStore } from '../../stores';
 //firebase

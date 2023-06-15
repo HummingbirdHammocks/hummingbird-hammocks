@@ -1,6 +1,7 @@
-import { Router } from '@reach/router';
+import { Router } from '@gatsbyjs/reach-router';
 import React from 'react';
 
+import { Seo } from '../../components';
 import { PrivateRoute } from '../../components/Layout/PrivateRoute';
 import AccountAddressPage from '../../sections/AccountPage/addresses';
 import AccountInfoPage from '../../sections/AccountPage/info';
@@ -22,3 +23,5 @@ const Account = () => {
 };
 
 export default Account;
+
+export const Head = () => <Seo title="Account | Hummingbird Hammocks" />;

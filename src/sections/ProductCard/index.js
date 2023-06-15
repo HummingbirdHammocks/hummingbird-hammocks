@@ -1,10 +1,11 @@
 import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { BargainBinWrap, Link, MiddleSpinner, SoldOutWrap } from 'components';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import React, { useState } from 'react';
 // import JudgeMe from "utils/judgeMe"
 import { useEffect } from 'react';
+
+import { BargainBinWrap, Link, MiddleSpinner, SoldOutWrap } from '../../components';
 
 const ProductWrapper = styled(Box)(() => ({
   padding: '40px 15px',

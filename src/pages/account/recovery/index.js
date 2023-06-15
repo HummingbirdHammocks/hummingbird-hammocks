@@ -2,13 +2,13 @@ import { gql, useMutation } from '@apollo/client';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Divider, Stack, TextField, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Layout, MainWrapper, Seo } from 'components';
 import { navigate } from 'gatsby';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
+import { Layout, MainWrapper, Seo } from '../../../components';
 // stores
 import { useAuthDispatch, useAuthStore } from '../../../stores';
 
@@ -68,7 +68,6 @@ const RecoveryPage = () => {
 
   return (
     <Layout>
-      <Seo title="Password Recovery" />
       <Box
         sx={{
           background: theme.palette.white,
@@ -158,3 +157,5 @@ const CUSTOMER_PASSWORD_FORGET = gql`
     }
   }
 `;
+
+export const Head = () => <Seo title="Account Recovery | Hummingbird Hammocks" />;
