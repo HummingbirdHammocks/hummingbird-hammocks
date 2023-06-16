@@ -10,30 +10,52 @@ export const productFields = graphql`
     productType
     publishedAt
     id
-    images {
-      id
+    metafields {
+      key
+      value
+      namespace
       shopifyId
-      altText
-      gatsbyImageData(placeholder: BLURRED)
+      description
+    }
+    media {
+      ... on ShopifyMediaImage {
+        shopifyId
+        image {
+          altText
+          gatsbyImageData(placeholder: BLURRED)
+        }
+      }
     }
     variants {
       metafields {
         namespace
         key
         value
+        description
       }
       id
       availableForSale
       shopifyId
       title
-      image {
-        id
-        altText
-        gatsbyImageData(placeholder: BLURRED)
+      media {
+        ... on ShopifyMediaImage {
+          shopifyId
+          image {
+            altText
+            gatsbyImageData(placeholder: BLURRED)
+          }
+        }
+      }
+      metafields {
+        key
+        value
+        namespace
+        shopifyId
+        description
       }
     }
     options {
-      id
+      shopifyId
       name
       values
     }
@@ -41,6 +63,10 @@ export const productFields = graphql`
       altText
       originalSrc
       gatsbyImageData(placeholder: BLURRED)
+    }
+    seo {
+      title
+      description
     }
   }
 `;

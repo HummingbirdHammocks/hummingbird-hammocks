@@ -4,26 +4,29 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FreeMode, Navigation, Thumbs } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-const ProductGallery = ({ images, variantImageId, accentcolor }) => {
+const ProductGallery = ({ media, selectedVariant, accentcolor }) => {
   const [swiper, setSwiper] = useState(null);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   const handleVariantChange = useCallback(
     (variantImageId) => {
       swiper.slideTo(
-        images.findIndex((image) => {
+        media.findIndex((image) => {
           return image.shopifyId === variantImageId;
         })
       );
     },
-    [images, swiper]
+    [media, swiper]
   );
 
+  console.log(selectedVariant);
+  console.log(media);
+
   useEffect(() => {
-    if (variantImageId) {
-      handleVariantChange(variantImageId);
+    if (selectedVariant?.image?.id) {
+      handleVariantChange(selectedVariant?.image?.id);
     }
-  }, [variantImageId, handleVariantChange]);
+  }, [selectedVariant, handleVariantChange]);
 
   return (
     <Box
@@ -41,13 +44,13 @@ const ProductGallery = ({ images, variantImageId, accentcolor }) => {
         thumbs={{ swiper: thumbsSwiper }}
         modules={[Navigation, FreeMode, Thumbs]}
         className="mySwiper">
-        {images.map((image) => (
-          <SwiperSlide key={image.id}>
+        {media.map((image) => (
+          <SwiperSlide key={image.image.shopifyId}>
             <GatsbyImage
               placeholder="blurred"
               imgStyle={{ borderRadius: '20px' }}
-              image={image.gatsbyImageData}
-              alt={image.altText}
+              image={image.image.gatsbyImageData}
+              alt={image.image.altText}
             />
           </SwiperSlide>
         ))}
@@ -62,13 +65,13 @@ const ProductGallery = ({ images, variantImageId, accentcolor }) => {
         watchSlidesProgress={true}
         modules={[FreeMode, Thumbs]}
         className="mySwiper">
-        {images.map((image) => (
-          <SwiperSlide key={image.id} style={{ cursor: 'pointer' }}>
+        {media.map((image) => (
+          <SwiperSlide key={image.image.shopifyId} style={{ cursor: 'pointer' }}>
             <GatsbyImage
               imgStyle={{ borderRadius: '10px' }}
               placeholder="blurred"
-              image={image.gatsbyImageData}
-              alt={image.altText}
+              image={image.image.gatsbyImageData}
+              alt={image.image.altText}
             />
           </SwiperSlide>
         ))}

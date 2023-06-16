@@ -20,7 +20,7 @@ import {
   Layout,
   Link,
   MainWrapper,
-  ProductPreviewBadge,
+  ProductReviewStars,
   ProductReviewWidget,
   Seo,
   Socials
@@ -45,24 +45,8 @@ import { useRecentlyViewedDispatch } from '../../stores';
 import { Color, convertToPlain } from '../../utils';
 
 const ProductPage = ({ data, pageContext }) => {
-  const { title, handle, images, description, shopifyId, featuredImage } = data.shopifyProduct;
-  const {
-    metaDescription,
-    metaTitle,
-    metaSaleReason,
-    metaFBT,
-    metaVideo,
-    metaDetails,
-    metaMain,
-    metaIncluded,
-    metaMaterials,
-    metaManufacturing,
-    metaCareInstructions,
-    metaOshwaUrl,
-    metaManualUrl,
-    metaOshwaId,
-    metaReository
-  } = data;
+  const { title, handle, media, description, shopifyId, featuredImage, metafields } =
+    data.shopifyProduct;
   const { collection, next, prev } = pageContext;
 
   const theme = useTheme();
@@ -81,14 +65,62 @@ const ProductPage = ({ data, pageContext }) => {
 
   const { getProductById } = useContext(CartContext);
 
-  // Product Details
-  let details;
-
-  if (metaDetails?.value) details = JSON.parse(metaDetails.value);
-
   // Variants & Product Image
   const { search, pathname } = useLocation();
   const variantId = queryString.parse(search).variant;
+
+  // Product Metafields
+
+  let sale_reason;
+  let video;
+  let details;
+  let rating;
+  let rating_count;
+  let frequently_bought_together;
+
+  if (!metafields || !metafields.length) return null;
+  for (let i = 0; i < metafields.length; i++) {
+    switch (metafields[i].namespace) {
+      case 'reviews':
+        switch (metafields[i].key) {
+          case 'rating':
+            rating = JSON.parse(metafields[i].value);
+            break;
+          case 'rating_count':
+            rating_count = metafields[i].value;
+            break;
+        }
+        break;
+      case 'related':
+        switch (metafields[i].key) {
+          case 'frequently_bought_together':
+            frequently_bought_together = metafields[i].value;
+            break;
+        }
+        break;
+      case 'features':
+        switch (metafields[i].key) {
+          case 'details':
+            details = JSON.parse(metafields[i].value);
+            break;
+        }
+        break;
+      case 'support':
+        switch (metafields[i].key) {
+          case 'video':
+            video = metafields[i].value;
+            break;
+        }
+        break;
+      case 'general':
+        switch (metafields[i].key) {
+          case 'sale_reason':
+            sale_reason = metafields[i].value;
+            break;
+        }
+        break;
+    }
+  }
 
   const handleVariantColorChange = (variantName) => {
     let newVariantName;
@@ -188,11 +220,6 @@ const ProductPage = ({ data, pageContext }) => {
 
   return (
     <Layout>
-      <Seo
-        title={metaTitle?.value || title}
-        description={metaDescription?.value || description}
-        image={`${featuredImage?.originalSrc}`}
-      />
       <Box
         sx={{
           background: theme.palette.white
@@ -209,8 +236,8 @@ const ProductPage = ({ data, pageContext }) => {
             spacing={4}>
             <Grid item xs={12} md={6} lg={5}>
               <ProductGallery
-                images={images}
-                variantImageId={selectedVariant?.image.id}
+                media={media}
+                selectedVariant={selectedVariant}
                 accentcolor={variantColorValues?.primary}
               />
             </Grid>
@@ -254,10 +281,17 @@ const ProductPage = ({ data, pageContext }) => {
                         <ProductPrice
                           price={selectedVariant.price}
                           compareAtPrice={selectedVariant.compareAtPrice}
-                          saleReason={metaSaleReason}
+                          saleReason={sale_reason}
                         />
-                        <ProductPreviewBadge id={product?.id} />
                       </Stack>
+                      {rating && rating_count && (
+                        <ProductReviewStars
+                          max={rating.scale_max}
+                          rating={rating.value}
+                          count={rating_count}
+                          accentcolor={variantColorValues?.primary}
+                        />
+                      )}
                       {!selectedVariant?.available && (
                         <Box>
                           <Box
@@ -452,7 +486,7 @@ const ProductPage = ({ data, pageContext }) => {
                 </Box>
                 <Box>
                   <Socials
-                    title={metaTitle?.value || title}
+                    title={selectedVariant?.title || title}
                     url={url}
                     media={featuredImage?.originalSrc}
                   />
@@ -541,31 +575,26 @@ const ProductPage = ({ data, pageContext }) => {
               <Typography variant="body1">{description}</Typography>
             )}
 
-            {selectedVariant && metaFBT && (
-              <Fbt fbtData={metaFBT.value} product={product} currentVariant={selectedVariant} />
+            {selectedVariant && frequently_bought_together && (
+              <Fbt
+                fbtData={frequently_bought_together}
+                product={product}
+                currentVariant={selectedVariant}
+              />
             )}
 
             {!title.includes('Bargain') && !title.includes('rec') && (
               <ProductDetailsTabs
-                specs={selectedVariantStatic?.metafields}
-                features={metaMain?.value}
-                included={metaIncluded?.value}
-                materials={metaMaterials?.value}
-                manufacturing={metaManufacturing?.value}
-                manualUrl={metaManualUrl?.value}
-                oshwaId={metaOshwaId?.value}
-                oshwaUrl={metaOshwaUrl?.value}
-                careInstructions={metaCareInstructions?.value}
-                video={metaVideo?.value}
-                repo={metaReository?.value}
+                variantMetafields={selectedVariantStatic?.metafields}
+                productMetafields={metafields}
                 backgroundColor={variantColorValues?.background}
                 accentcolor={variantColorValues?.primary}
               />
             )}
 
-            {details && (
+            {details && details.details && (
               <ProductFeatures
-                details={details?.details}
+                details={details.details}
                 backgroundColor={variantColorValues?.background}
                 accentcolor={variantColorValues?.primary}
               />
@@ -574,7 +603,7 @@ const ProductPage = ({ data, pageContext }) => {
             {/* Review */}
             <ProductReviewWidget title={title} id={product?.id} />
 
-            {metaVideo && <YouTubeEmbed url={metaVideo.value} title={title} />}
+            {video && <YouTubeEmbed url={video} title={title} />}
 
             <RecentlyViewed title="RECENTLY VIEWED" />
           </Container>
@@ -592,126 +621,31 @@ export const query = graphql`
       ...ShopifyProductFields
       ...ProductTileFields
     }
-
-    metaRestockDate: shopifyProductMetafield(productId: { eq: $id }, key: { eq: "restock_date" }) {
-      namespace
-      key
-      value
-    }
-
-    metaTitle: shopifyProductMetafield(productId: { eq: $id }, key: { eq: "title_tag" }) {
-      namespace
-      key
-      value
-    }
-
-    metaDescription: shopifyProductMetafield(
-      productId: { eq: $id }
-      key: { eq: "description_tag" }
-    ) {
-      value
-    }
-
-    metaMain: shopifyProductMetafield(productId: { eq: $id }, key: { eq: "main" }) {
-      namespace
-      key
-      value
-    }
-
-    metaSaleReason: shopifyProductMetafield(productId: { eq: $id }, key: { eq: "sale_reason" }) {
-      namespace
-      key
-      value
-    }
-
-    metaIncluded: shopifyProductMetafield(productId: { eq: $id }, key: { eq: "included" }) {
-      namespace
-      key
-      value
-    }
-
-    metaMaterials: shopifyProductMetafield(productId: { eq: $id }, key: { eq: "materials" }) {
-      namespace
-      key
-      value
-    }
-
-    metaManufacturing: shopifyProductMetafield(
-      productId: { eq: $id }
-      key: { eq: "manufacturing" }
-    ) {
-      namespace
-      key
-      value
-    }
-
-    metaCareInstructions: shopifyProductMetafield(
-      productId: { eq: $id }
-      key: { eq: "care_instructions" }
-    ) {
-      namespace
-      key
-      value
-    }
-
-    metaManualUrl: shopifyProductMetafield(productId: { eq: $id }, key: { eq: "manual_url" }) {
-      namespace
-      key
-      value
-    }
-
-    metaOshwaUrl: shopifyProductMetafield(productId: { eq: $id }, key: { eq: "oshwa_url" }) {
-      namespace
-      key
-      value
-    }
-
-    metaOshwaId: shopifyProductMetafield(productId: { eq: $id }, key: { eq: "oshwa_id" }) {
-      namespace
-      key
-      value
-    }
-
-    metaReository: shopifyProductMetafield(productId: { eq: $id }, key: { eq: "repository" }) {
-      namespace
-      key
-      value
-    }
-
-    metaVideo: shopifyProductMetafield(productId: { eq: $id }, key: { eq: "video" }) {
-      namespace
-      key
-      value
-    }
-
-    metaDetails: shopifyProductMetafield(productId: { eq: $id }, key: { eq: "details" }) {
-      namespace
-      key
-      value
-    }
-
-    metaFBT: shopifyProductMetafield(
-      productId: { eq: $id }
-      key: { eq: "frequently_bought_together" }
-    ) {
-      namespace
-      key
-      value
-    }
   }
 `;
 
 export const Head = ({ data }) => {
   let description = '';
-  if (data?.product?.descriptionHtml) {
+  if (data?.shopifyProduct?.seo?.description) {
     description = convertToPlain(data?.product?.descriptionHtml);
+  } else if (data?.shopifyProduct?.description) {
+    description = convertToPlain(data?.product?.description);
+  }
+
+  let title = '';
+  if (data?.shopifyProduct?.seo?.title) {
+    title = data?.shopifyProduct?.seo?.title;
+  } else if (data?.shopifyProduct?.title) {
+    title = data?.shopifyProduct?.title;
+  } else {
+    title = 'Ultralight Gear';
   }
 
   return (
     <Seo
-      title={`${data.shopifyProduct.title} | Hummingbird Hammocks`}
+      title={`${title} | Hummingbird Hammocks`}
       description={description}
-      image={`${data.shopifyProduct.featuredImage?.originalSrc}`}
+      image={`${data?.shopifyProduct?.featuredImage?.originalSrc}`}
     />
   );
 };

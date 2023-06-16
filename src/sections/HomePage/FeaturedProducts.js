@@ -108,11 +108,11 @@ export function FeaturedProduct() {
                     placeholder="blurred"
                   />
                 )}
-                {item.images[1] ? (
+                {item.media[1] ? (
                   <AbsoluteImage
                     className="image-2"
-                    image={item.images[1].gatsbyImageData}
-                    alt={item.images[1].altText}
+                    image={item.media[1].image.gatsbyImageData}
+                    alt={item.media[1].image.altText}
                     placeholder="blurred"
                   />
                 ) : (

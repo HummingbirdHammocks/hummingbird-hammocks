@@ -18,9 +18,13 @@ const query = `{
       id
       title
       description
-      featuredImage {
-        gatsbyImageData
-        altText
+      featuredMedia {
+        preview {
+          image {
+            gatsbyImageData
+            altText
+          }
+        }
       }
       handle
     }

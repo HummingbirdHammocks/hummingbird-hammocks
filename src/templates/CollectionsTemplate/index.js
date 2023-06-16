@@ -307,8 +307,8 @@ const CollectionsPage = ({ data }) => {
                 borderRadius: '20px',
                 display:
                   filterOptions.inStock ||
-                    filterOptions.price ||
-                    filterOptions?.productType?.length > 0
+                  filterOptions.price ||
+                  filterOptions?.productType?.length > 0
                     ? 'block'
                     : 'none'
               }}>
@@ -596,5 +596,10 @@ export const Head = ({ data }) => {
     description = convertToPlain(data.shopifyCollection.summary_html);
   }
 
-  return <Seo title={`${data?.shopifyCollection?.title} | HH Outdoor Articles`} description={description} />;
+  return (
+    <Seo
+      title={`${data?.shopifyCollection?.title} | HH Outdoor Articles`}
+      description={description}
+    />
+  );
 };
