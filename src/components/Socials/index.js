@@ -6,8 +6,8 @@ import React from 'react';
 import { AnotherLink } from '../../components';
 
 const SocialItem = styled(Box)(({ color }) => ({
-  borderRadius: '50%',
-  padding: '10px 10px 7px 10px',
+  borderRadius: 20,
+  padding: '10px 10px 6px 10px',
   marginRight: '9px',
   border: '1px solid #e2e2e2',
   cursor: 'pointer',

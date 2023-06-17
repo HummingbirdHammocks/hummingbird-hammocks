@@ -19,8 +19,8 @@ const ProductGallery = ({ media, selectedVariant, accentcolor }) => {
     [media, swiper]
   );
 
-  console.log(selectedVariant);
-  console.log(media);
+  //console.log(selectedVariant);
+  //console.log(media);
 
   useEffect(() => {
     if (selectedVariant?.image?.id) {
