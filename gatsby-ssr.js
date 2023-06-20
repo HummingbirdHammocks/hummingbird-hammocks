@@ -45,6 +45,17 @@ export const client = new ApolloClient({
   })
 });
 
+export const wrapPageElement = ({ element }) => (
+  <>
+    <CssBaseline />
+    {element}
+    <ToastContainer pauseOnFocusLoss={false} />
+    <ReactQueryDevtools initialIsOpen={false} />
+    <ReviewWidgetScripts />
+    <ChatWidget />
+  </>
+);
+
 export const wrapRootElement = ({ element }) => (
   <QueryClientProvider client={rqClient}>
     <ApolloProvider client={client}>
@@ -54,14 +65,7 @@ export const wrapRootElement = ({ element }) => (
             <RecentlyViewedProvider>
               <ProductContextProvider>
                 <CartContextProvider>
-                  <ThemeProvider theme={theme}>
-                    <CssBaseline />
-                    {element}
-                    <ToastContainer pauseOnFocusLoss={false} />
-                    <ReactQueryDevtools initialIsOpen={false} />
-                    <ReviewWidgetScripts />
-                    <ChatWidget />
-                  </ThemeProvider>
+                  <ThemeProvider theme={theme}>{element}</ThemeProvider>
                 </CartContextProvider>
               </ProductContextProvider>
             </RecentlyViewedProvider>
