@@ -8,15 +8,15 @@ import { BlogItem } from '../../sections';
 export function OutDoorArticles() {
   const data = useStaticQuery(graphql`
     {
-      allArticles(limit: 3, sort: { published_at: DESC }) {
+      allArticles(limit: 3, sort: { publishedAt: DESC }) {
         nodes {
           localFile {
             childImageSharp {
               gatsbyImageData(placeholder: BLURRED)
             }
           }
-          summary_html
-          published_at
+          contentHtml
+          publishedAt
           title
           handle
           id

@@ -153,7 +153,7 @@ export default HelpCenter;
 
 export const query = graphql`
   query helpCenterArticlesTemplate {
-    allKnowledgebaseArticles(sort: { published_at: DESC }) {
+    allKnowledgebaseArticles(sort: { publishedAt: DESC }) {
       totalCount
       group(field: { tags: SELECT }) {
         nodes {
@@ -162,8 +162,8 @@ export const query = graphql`
               gatsbyImageData(placeholder: BLURRED)
             }
           }
-          summary_html
-          published_at
+          contentHtml
+          publishedAt
           title
           handle
           id
@@ -172,7 +172,7 @@ export const query = graphql`
       }
     }
 
-    allManualArticles(sort: { published_at: DESC }) {
+    allManualArticles(sort: { publishedAt: DESC }) {
       totalCount
       group(field: { tags: SELECT }) {
         nodes {
@@ -181,8 +181,8 @@ export const query = graphql`
               gatsbyImageData(placeholder: BLURRED)
             }
           }
-          summary_html
-          published_at
+          contentHtml
+          publishedAt
           title
           handle
           id

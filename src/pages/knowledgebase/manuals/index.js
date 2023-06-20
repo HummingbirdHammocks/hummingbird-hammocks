@@ -42,7 +42,7 @@ export default ManualsPage;
 
 export const query = graphql`
   query manualArticlesTemplate {
-    allManualArticles(sort: { published_at: DESC }) {
+    allManualArticles(sort: { publishedAt: DESC }) {
       totalCount
       group(field: { tags: SELECT }) {
         nodes {
@@ -51,8 +51,8 @@ export const query = graphql`
               gatsbyImageData(placeholder: BLURRED)
             }
           }
-          summary_html
-          published_at
+          contentHtml
+          publishedAt
           title
           handle
           id
@@ -61,7 +61,7 @@ export const query = graphql`
       }
     }
 
-    manualArticles: allManualArticles(limit: 5, sort: { published_at: DESC }) {
+    manualArticles: allManualArticles(limit: 5, sort: { publishedAt: DESC }) {
       nodes {
         title
         handle

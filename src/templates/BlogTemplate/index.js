@@ -121,7 +121,7 @@ export default BlogTemplate;
 
 export const query = graphql`
   query articlesTemplate($skip: Int!, $limit: Int!) {
-    allArticles(limit: $limit, skip: $skip, sort: { published_at: DESC }) {
+    allArticles(limit: $limit, skip: $skip, sort: { publishedAt: DESC }) {
       totalCount
       nodes {
         localFile {
@@ -129,15 +129,16 @@ export const query = graphql`
             gatsbyImageData(placeholder: BLURRED)
           }
         }
-        summary_html
-        published_at
+        content
+        contentHtml
+        publishedAt
         title
         handle
         id
       }
     }
 
-    articles: allArticles(limit: 10, sort: { published_at: DESC }) {
+    articles: allArticles(limit: 10, sort: { publishedAt: DESC }) {
       nodes {
         title
         handle

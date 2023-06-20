@@ -20,12 +20,12 @@ export const BlogItem = ({ item, description }) => {
           <Typography mt="40px" variant="h5" color="black">
             {item.title}
           </Typography>
-          <Typography variant="collectionName">{fShopify(item.published_at)}</Typography>
-          {description && (
+          <Typography variant="collectionName">{fShopify(item.publishedAt)}</Typography>
+          {description && item.content && (
             <Typography m="20px 0" variant="body1" color="black">
               <div
                 dangerouslySetInnerHTML={{
-                  __html: item.summary_html
+                  __html: item.content
                 }}
               />
             </Typography>

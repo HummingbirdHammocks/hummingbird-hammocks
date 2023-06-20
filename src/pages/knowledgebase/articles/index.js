@@ -44,7 +44,7 @@ export default KnowledgebaseArticlesPage;
 
 export const query = graphql`
   query knowlegebaseArticlesTemplate {
-    allKnowledgebaseArticles(sort: { published_at: DESC }) {
+    allKnowledgebaseArticles(sort: { publishedAt: DESC }) {
       totalCount
       group(field: { tags: SELECT }) {
         nodes {
@@ -53,8 +53,8 @@ export const query = graphql`
               gatsbyImageData(placeholder: BLURRED)
             }
           }
-          summary_html
-          published_at
+          contentHtml
+          publishedAt
           title
           handle
           id
@@ -63,7 +63,7 @@ export const query = graphql`
       }
     }
 
-    knowledgebaseArticles: allKnowledgebaseArticles(limit: 5, sort: { published_at: DESC }) {
+    knowledgebaseArticles: allKnowledgebaseArticles(limit: 5, sort: { publishedAt: DESC }) {
       nodes {
         title
         handle

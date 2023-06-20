@@ -5,12 +5,12 @@ import { GatsbyImage } from 'gatsby-plugin-image';
 import React from 'react';
 
 import { Layout, Link, MainWrapper, Seo, Socials } from '../../components';
-import { convertToPlain, fShopify } from '../../utils';
+import { fShopify } from '../../utils';
 
 const Articles = ({ data: { articles }, pageContext: { next, prev } }) => {
   const theme = useTheme();
 
-  const { title, published_at, /* author, */ body_html, /* handle, */ localFile } = articles;
+  const { title, publishedAt, contentHtml, localFile } = articles;
   const url = typeof window !== 'undefined' ? window.location.href : '';
 
   return (
@@ -70,7 +70,7 @@ const Articles = ({ data: { articles }, pageContext: { next, prev } }) => {
                 <Link to="/">HOME</Link> / <Link to={`/blogs/news/`}>OUTDOOR ARTICLES</Link>{' '}
               </Typography>
               <br />
-              <Typography variant="collectionName">{fShopify(published_at)}</Typography>
+              <Typography variant="collectionName">{fShopify(publishedAt)}</Typography>
             </Box>
             <ButtonGroup variant="outlined" aria-label="navigation button group">
               {prev && (
@@ -129,7 +129,7 @@ const Articles = ({ data: { articles }, pageContext: { next, prev } }) => {
             }}>
             <div
               dangerouslySetInnerHTML={{
-                __html: body_html
+                __html: contentHtml
               }}
             />
           </Box>
@@ -157,10 +157,12 @@ export const query = graphql`
           gatsbyImageData(placeholder: BLURRED)
         }
       }
-      author
-      body_html
-      summary_html
-      published_at
+      authorV2 {
+        name
+      }
+      contentHtml
+      excerpt
+      publishedAt
       title
       handle
       id
@@ -169,12 +171,19 @@ export const query = graphql`
 `;
 
 export const Head = ({ data }) => {
-  let description = '';
-  if (data?.articles?.summary_html) {
-    description = convertToPlain(data.articles.summary_html);
+  let title = '';
+  if (data?.articles?.seo?.title) {
+    title = data?.articles?.seo?.title;
   } else {
-    description = convertToPlain(data.articles.body_html);
+    title = data.articles.title;
   }
 
-  return <Seo title={`${data?.articles?.title} | HH Outdoor Articles`} description={description} />;
+  let description = '';
+  if (data?.articles?.seo?.description) {
+    description = data?.articles?.seo?.description;
+  } else {
+    description = data.articles.content;
+  }
+
+  return <Seo title={`${title} | HH Outdoor Articles`} description={description} />;
 };

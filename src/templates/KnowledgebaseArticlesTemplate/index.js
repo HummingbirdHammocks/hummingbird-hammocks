@@ -15,7 +15,7 @@ import React, { useEffect } from 'react';
 import { Layout, Link, MainWrapper, Seo, Socials } from '../../components';
 import { ArticlesHeader, ArticlesSidebar } from '../../sections';
 import { useRecentlyViewedDispatch } from '../../stores';
-import { convertToPlain, fShopify } from '../../utils';
+import { fShopify } from '../../utils';
 
 const KnowledgebaseArticles = ({
   data: { knowledgebaseArticles, recentKnowledgebaseArticles },
@@ -27,8 +27,7 @@ const KnowledgebaseArticles = ({
 
   const type = 'articles';
 
-  const { title, published_at, /* author, */ body_html, /* handle, */ localFile } =
-    knowledgebaseArticles;
+  const { title, publishedAt, contentHtml, localFile } = knowledgebaseArticles;
   const url = typeof window !== 'undefined' ? window.location.href : '';
 
   useEffect(() => {
@@ -50,7 +49,7 @@ const KnowledgebaseArticles = ({
       <ArticlesHeader
         title={title}
         backpath={'/knowledgebase/articles'}
-        date={fShopify(published_at)}
+        date={fShopify(publishedAt)}
       />
       <MainWrapper>
         <Stack
@@ -122,7 +121,7 @@ const KnowledgebaseArticles = ({
                 }}>
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: body_html
+                    __html: contentHtml
                   }}
                 />
               </Box>
@@ -161,16 +160,18 @@ export const query = graphql`
           gatsbyImageData(placeholder: BLURRED)
         }
       }
-      author
-      body_html
-      summary_html
-      published_at
+      authorV2 {
+        name
+      }
+      contentHtml
+      excerpt
+      publishedAt
       title
       handle
       id
     }
 
-    recentKnowledgebaseArticles: allKnowledgebaseArticles(limit: 5, sort: { published_at: DESC }) {
+    recentKnowledgebaseArticles: allKnowledgebaseArticles(limit: 5, sort: { publishedAt: DESC }) {
       nodes {
         title
         handle
@@ -181,17 +182,19 @@ export const query = graphql`
 `;
 
 export const Head = ({ data }) => {
-  let description = '';
-  if (data?.knowledgebaseArticles?.summary_html) {
-    description = convertToPlain(data.knowledgebaseArticles.summary_html);
+  let title = '';
+  if (data?.knowledgebaseArticles?.seo?.title) {
+    title = data?.knowledgebaseArticles?.seo?.title;
   } else {
-    description = convertToPlain(data.knowledgebaseArticles.body_html);
+    title = data.knowledgebaseArticles.title;
   }
 
-  return (
-    <Seo
-      title={`${data?.knowledgebaseArticles?.title} | HH Knowledgebase`}
-      description={description}
-    />
-  );
+  let description = '';
+  if (data?.knowledgebaseArticles?.seo?.description) {
+    description = data?.knowledgebaseArticles?.seo?.description;
+  } else {
+    description = data.knowledgebaseArticles.content;
+  }
+
+  return <Seo title={`${title} | HH Knowledgebase`} description={description} />;
 };
