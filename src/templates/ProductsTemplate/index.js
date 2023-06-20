@@ -601,7 +601,7 @@ const ProductPage = ({ data, pageContext }) => {
             )}
 
             {/* Review */}
-            <ProductReviewWidget title={title} id={product?.id} />
+            {/* <ProductReviewWidget title={title} id={product?.id} /> */}
 
             {video && <YouTubeEmbed url={video} title={title} />}
 

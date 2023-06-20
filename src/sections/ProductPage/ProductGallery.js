@@ -45,7 +45,7 @@ const ProductGallery = ({ media, selectedVariant, accentcolor }) => {
         modules={[Navigation, FreeMode, Thumbs]}
         className="mySwiper">
         {media.map((image) => (
-          <SwiperSlide key={image.image.shopifyId}>
+          <SwiperSlide key={image.shopifyId}>
             <GatsbyImage
               placeholder="blurred"
               imgStyle={{ borderRadius: '20px' }}
@@ -66,7 +66,7 @@ const ProductGallery = ({ media, selectedVariant, accentcolor }) => {
         modules={[FreeMode, Thumbs]}
         className="mySwiper">
         {media.map((image) => (
-          <SwiperSlide key={image.image.shopifyId} style={{ cursor: 'pointer' }}>
+          <SwiperSlide key={`${image.shopifyId}-thumb`} style={{ cursor: 'pointer' }}>
             <GatsbyImage
               imgStyle={{ borderRadius: '10px' }}
               placeholder="blurred"
