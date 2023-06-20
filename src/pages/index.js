@@ -203,9 +203,9 @@ const IndexPage = () => {
         />
       </Hero>
       <MainWrapper>
-        <Container maxWidth="lg">
+        {/* <Container maxWidth="lg">
           <FeaturedReviewsCarousel />
-        </Container>
+        </Container> */}
 
         <Box>
           <OutDoorArticles />

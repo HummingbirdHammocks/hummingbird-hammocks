@@ -171,7 +171,7 @@ const Footer = () => {
                     />
                   </a>
                 </Box>
-                <Box>
+                {/* <Box>
                   <a
                     href="https://judge.me/reviews/hummingbird-hammocks"
                     target="_blank"
@@ -179,7 +179,7 @@ const Footer = () => {
                     title="View our Reviews Page">
                     <VerifiedReviewsCountBadge />
                   </a>
-                </Box>
+                </Box> */}
               </Stack>
             </Grid>
           </Grid>
