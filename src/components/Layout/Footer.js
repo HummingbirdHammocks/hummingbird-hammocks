@@ -1,11 +1,11 @@
 import { Facebook, Instagram, Mail, Pinterest, Twitter, YouTube } from '@mui/icons-material';
 import { Box, Divider, Grid, IconButton, List, ListItem, Stack, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { AnotherLink, Link, MainWrapper, VerifiedReviewsCountBadge } from 'components';
 import { StaticImage } from 'gatsby-plugin-image';
-import { useIos } from 'hooks';
 import React from 'react';
 
+import { AnotherLink, Link, MainWrapper, VerifiedReviewsCountBadge } from '../../components';
+import { useIos } from '../../hooks';
 import { FooterShapeDivider } from './FooterShapeDivider';
 
 const Footer = () => {
@@ -171,7 +171,7 @@ const Footer = () => {
                     />
                   </a>
                 </Box>
-                <Box>
+                {/* <Box>
                   <a
                     href="https://judge.me/reviews/hummingbird-hammocks"
                     target="_blank"
@@ -179,7 +179,7 @@ const Footer = () => {
                     title="View our Reviews Page">
                     <VerifiedReviewsCountBadge />
                   </a>
-                </Box>
+                </Box> */}
               </Stack>
             </Grid>
           </Grid>

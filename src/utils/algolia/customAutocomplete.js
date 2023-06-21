@@ -2,7 +2,7 @@ import { autocomplete } from '@algolia/autocomplete-js';
 import React, { Fragment, createElement, useEffect, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
 
-export default function Autocomplete(props) {
+export function Autocomplete(props) {
   const containerRef = useRef(null);
   const panelRootRef = useRef(null);
   const rootRef = useRef(null);

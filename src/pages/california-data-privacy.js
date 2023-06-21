@@ -1,11 +1,10 @@
-import { Layout, Seo } from 'components';
 import React from 'react';
-import { Info } from 'sections';
 
-const ShippingPolicyPage = () => (
+import { Layout, Seo } from '../components';
+import { Info } from '../sections';
+
+const CaliforniaDataPrivacyPage = () => (
   <Layout>
-    <Seo title="DO NOT SELL MY PERSONAL INFORMATION" />
-
     <Info subTextAlign="left" title="DO NOT SELL MY PERSONAL INFORMATION">
       <b>YOUR RIGHTS UNDER THE CALIFORNIA CONSUMER PRIVACY ACT</b>
       <br />
@@ -37,4 +36,6 @@ const ShippingPolicyPage = () => (
   </Layout>
 );
 
-export default ShippingPolicyPage;
+export default CaliforniaDataPrivacyPage;
+
+export const Head = () => <Seo title="California Data Privacy Page | Hummingbird Hammocks" />;

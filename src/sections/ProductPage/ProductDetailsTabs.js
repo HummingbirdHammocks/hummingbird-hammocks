@@ -1,7 +1,7 @@
 import { Category, SquareFoot, Support, TravelExplore } from '@mui/icons-material';
 import { Box, Grid, Tab, Tabs, Typography, useMediaQuery } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Specs } from './Specs';
 import { SupportLinks } from './SupportLinks';
@@ -53,27 +53,85 @@ function a11yProps(index) {
 }
 
 export const ProductDetailsTabs = ({
-  specs,
-  features,
-  included,
-  materials,
-  manufacturing,
-  manualUrl,
-  oshwaId,
-  oshwaUrl,
-  careInstructions,
-  video,
-  repo,
+  variantMetafields,
+  productMetafields,
   backgroundColor,
   accentcolor
 }) => {
   const theme = useTheme();
   const matches = useMediaQuery('(max-width:900px)');
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+
+  let manual_url;
+  let manufacturing;
+  let video;
+  let care_instructions;
+  let materials;
+  let repository;
+  let oshwa_id;
+  let oshwa_url;
+  let features_main;
+  let features_included;
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  if (!productMetafields || !productMetafields.length) return null;
+
+  for (let i = 0; i < productMetafields.length; i++) {
+    switch (productMetafields[i].namespace) {
+      case 'support':
+        switch (productMetafields[i].key) {
+          case 'manual_url':
+            manual_url = productMetafields[i].value;
+            break;
+          case 'video':
+            video = productMetafields[i].value;
+            break;
+          case 'care_instructions':
+            care_instructions = productMetafields[i].value;
+            break;
+        }
+        break;
+      case 'transparency':
+        switch (productMetafields[i].key) {
+          case 'materials':
+            materials = productMetafields[i].value;
+            break;
+          case 'manufacturing':
+            manufacturing = productMetafields[i].value;
+            break;
+        }
+        break;
+      case 'features':
+        switch (productMetafields[i].key) {
+          case 'included':
+            features_included = productMetafields[i].value;
+            break;
+          case 'main':
+            features_main = productMetafields[i].value;
+            break;
+        }
+        break;
+      case 'opensource':
+        switch (productMetafields[i].key) {
+          case 'repository':
+            repository = productMetafields[i].value;
+            break;
+          case 'oshwa_url':
+            oshwa_url = productMetafields[i].value;
+            break;
+          case 'oshwa_id':
+            oshwa_id = productMetafields[i].value;
+            break;
+        }
+        break;
+    }
+  }
+
+  /* console.log(variantMetafields); */
+  /* console.log(productMetafields); */
 
   return (
     <Box
@@ -141,7 +199,7 @@ export const ProductDetailsTabs = ({
             <Typography variant="h4" sx={{ marginBottom: 4 }}>
               SPECIFICATIONS
             </Typography>
-            <Specs metas={specs} />
+            <Specs metas={variantMetafields} />
           </TabPanel>
           <TabPanel value={value} index={1}>
             <Typography variant="h4" sx={{ marginBottom: 4 }}>
@@ -153,19 +211,19 @@ export const ProductDetailsTabs = ({
               justifyContent="center"
               alignItems="flex-start"
               spacing={2}>
-              {features && (
+              {features_main && (
                 <Grid item xs={12} lg={6}>
                   <Typography component="span">
-                    <div dangerouslySetInnerHTML={{ __html: features }} />
+                    <div dangerouslySetInnerHTML={{ __html: features_main }} />
                   </Typography>
                 </Grid>
               )}
 
-              {included && (
+              {features_included && (
                 <Grid item xs={12} lg={6}>
                   <Typography variant="h5">Included</Typography>
                   <Typography component="span">
-                    <div dangerouslySetInnerHTML={{ __html: included }} />
+                    <div dangerouslySetInnerHTML={{ __html: features_included }} />
                   </Typography>
                 </Grid>
               )}
@@ -205,12 +263,12 @@ export const ProductDetailsTabs = ({
               SUPPORT
             </Typography>
             <SupportLinks
-              manualUrl={manualUrl}
-              oshwaId={oshwaId}
-              oshwaUrl={oshwaUrl}
-              careInstructions={careInstructions}
+              manualUrl={manual_url}
+              oshwaId={oshwa_id}
+              oshwaUrl={oshwa_url}
+              careInstructions={care_instructions}
               video={video}
-              repo={repo}
+              repo={repository}
             />
           </TabPanel>
         </Grid>

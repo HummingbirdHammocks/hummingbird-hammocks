@@ -20,15 +20,15 @@ import {
   Typography
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Link, MainWrapper, MiddleSpinner } from 'components';
-import { CartContext } from 'contexts';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
 import HorizontalLogo from '../../../assets/HorizontalLogo';
 import MobileLogo from '../../../assets/MobileLogo';
+import { Link, MainWrapper, MiddleSpinner } from '../../../components';
+import { CartContext } from '../../../contexts';
 // stores
 import { useAuthStore, useUIDispatch, useUIStore } from '../../../stores';
-import Search from '../../../utils/algolia/search';
+import { Search } from '../../../utils';
 import NavMenuItems from './MenuItems';
 
 const NavButton = styled(Button)(() => ({

@@ -1,8 +1,9 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
 import { Box, Grid, TextField } from '@mui/material';
 import axios from 'axios';
-import { useFormik } from 'formik';
 import React from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
@@ -19,111 +20,122 @@ const validationSchema = yup.object({
 });
 
 export function ContactUsForm() {
-  const initialValues = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    subject: '',
-    message: ''
-  };
+  const {
+    handleSubmit,
+    control,
+    formState: { errors, isSubmitting },
+    reset
+  } = useForm({
+    resolver: yupResolver(validationSchema)
+  });
 
-  const onSubmit = async ({ firstName, lastName, email, subject, message }) => {
-    const payload = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      subject: subject,
-      message: message
-    };
+  const onSubmit = async (data) => {
+    const payload = { ...data };
 
     const url = process.env.GATSBY_FIREBASE_FUNCTIONS_URL + '/api/v1/freescout/create_ticket';
 
-    await axios
-      .post(url, payload)
-      .then(
-        () =>
-          toast.success('Message sent successfully, we will get back to you as soon as possible'),
-        formik.resetForm({})
-      )
+    await toast
+      .promise(axios.post(url, payload), {
+        pending: 'Sending message...',
+        success: 'Message sent successfully!',
+        error:
+          'Error sending message, please try again or contact us at help@hummingbirdhammocks.com'
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          reset();
+        }
+      })
       .catch((error) => {
-        console.log('contactForm ', error);
-        toast.error(
-          'Error sending message, please try again or email us at support@hummingbirdhammocks.com'
-        );
+        console.log('contactForm_error', error);
       });
   };
-
-  const formik = useFormik({
-    initialValues,
-    validationSchema: validationSchema,
-    onSubmit
-  });
 
   return (
     <Box padding="30px" justifyContent="center" display="flex">
       <Box>
-        <form onSubmit={formik.handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
-              <TextField
-                label="First Name *"
-                variant="outlined"
-                name={'firstName'}
-                fullWidth
-                value={formik.values.firstName}
-                onChange={formik.handleChange}
-                error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-                helperText={formik.touched.firstName && formik.errors.firstName}
+              <Controller
+                name="firstName"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    label="First Name *"
+                    variant="outlined"
+                    fullWidth
+                    {...field}
+                    error={!!errors.firstName}
+                    helperText={errors.firstName?.message}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField
-                label="Last Name *"
-                variant="outlined"
-                name={'lastName'}
-                fullWidth
-                value={formik.values.lastName}
-                onChange={formik.handleChange}
-                error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-                helperText={formik.touched.lastName && formik.errors.lastName}
+              <Controller
+                name="lastName"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    label="Last Name *"
+                    variant="outlined"
+                    fullWidth
+                    {...field}
+                    error={!!errors.lastName}
+                    helperText={errors.lastName?.message}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                label="Email *"
-                variant="outlined"
-                name={'email'}
-                fullWidth
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
+              <Controller
+                name="email"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    label="Email *"
+                    variant="outlined"
+                    fullWidth
+                    {...field}
+                    error={!!errors.email}
+                    helperText={errors.email?.message}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                label="Subject *"
-                variant="outlined"
-                name={'subject'}
-                fullWidth
-                value={formik.values.subject}
-                onChange={formik.handleChange}
-                error={formik.touched.subject && Boolean(formik.errors.subject)}
-                helperText={formik.touched.subject && formik.errors.subject}
+              <Controller
+                name="subject"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    label="Subject *"
+                    variant="outlined"
+                    fullWidth
+                    {...field}
+                    error={!!errors.subject}
+                    helperText={errors.subject?.message}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                label="Message *"
-                variant="outlined"
-                name={'message'}
-                fullWidth
-                multiline
-                rows={6}
-                value={formik.values.message}
-                onChange={formik.handleChange}
-                error={formik.touched.message && Boolean(formik.errors.message)}
-                helperText={formik.touched.message && formik.errors.message}
+              <Controller
+                name="message"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    label="Message *"
+                    variant="outlined"
+                    fullWidth
+                    multiline
+                    rows={6}
+                    {...field}
+                    error={!!errors.message}
+                    helperText={errors.message?.message}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12}>
@@ -131,7 +143,7 @@ export function ContactUsForm() {
                 size={'large'}
                 variant={'contained'}
                 type={'submit'}
-                loading={formik.isSubmitting}>
+                loading={isSubmitting}>
                 Send Message
               </LoadingButton>
             </Grid>

@@ -1,4 +1,5 @@
 import { gql, useMutation, useQuery } from '@apollo/client';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
 import {
   Box,
@@ -12,13 +13,13 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-// components
-import { AccountLayout, MiddleSpinner } from 'components';
-import { useFormik } from 'formik';
 import React, { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
+// components
+import { AccountLayout, MiddleSpinner } from '../../components';
 // stores
 import { useAuthStore } from '../../stores';
 import shopify_countries from '../../utils/shopify/shopify_countries.json';
@@ -92,17 +93,19 @@ const AccountAddressPage = () => {
     phone: ''
   };
 
-  const onSubmit = async ({
-    id,
-    address1,
-    address2,
-    city,
-    country,
-    firstName,
-    lastName,
-    phone,
-    zip
-  }) => {
+  const {
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors }
+  } = useForm({
+    defaultValues: initialValues,
+    resolver: yupResolver(validationSchema)
+  });
+
+  const onSubmit = async (data) => {
+    const { id, address1, address2, city, country, firstName, lastName, phone, zip } = data;
+
     try {
       if (formType === 'Add') {
         customerAddressCreate({
@@ -138,7 +141,7 @@ const AccountAddressPage = () => {
                 });
 
             refetch();
-            formik.resetForm({});
+            reset(initialValues);
             toast.success('Address Added Successfully!');
           })
           .catch((error) => {
@@ -182,7 +185,7 @@ const AccountAddressPage = () => {
                 });
 
             refetch();
-            formik.resetForm({});
+            reset(initialValues);
             toast.success('Address Updated Successfully!');
           })
           .catch((error) => {
@@ -194,12 +197,6 @@ const AccountAddressPage = () => {
       console.log(error);
     }
   };
-
-  const formik = useFormik({
-    initialValues,
-    validationSchema: validationSchema,
-    onSubmit
-  });
 
   const variables = {
     variables: {
@@ -215,22 +212,12 @@ const AccountAddressPage = () => {
   const [customerDefaultAddressUpdate] = useMutation(CUSTOMER_EDIT_DEFAULT_ADDRESS);
 
   const addAddress = () => {
-    formik.setValues({
-      address1: '',
-      address2: '',
-      city: '',
-      country: '',
-      firstName: '',
-      lastName: '',
-      id: '',
-      phone: '',
-      zip: ''
-    });
+    reset(initialValues);
     setFormType('Add');
   };
 
   const editAddress = (data) => {
-    formik.setValues(data);
+    reset(data);
     setFormType('Edit');
   };
 
@@ -353,110 +340,145 @@ const AccountAddressPage = () => {
               {formType === 'Add' ? 'Add New Address' : 'Update Address'}
             </Typography>
 
-            <form onSubmit={formik.handleSubmit}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={4}>
                 <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="First Name"
-                    variant="outlined"
-                    name={'firstName'}
-                    fullWidth
-                    value={formik.values.firstName}
-                    onChange={formik.handleChange}
-                    error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-                    helperText={formik.touched.firstName && formik.errors.firstName}
+                  <Controller
+                    name="firstName"
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        label="First Name"
+                        variant="outlined"
+                        fullWidth
+                        {...field}
+                        error={!!errors.firstName}
+                        helperText={errors.firstName?.message}
+                      />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Last Name"
-                    variant="outlined"
-                    name={'lastName'}
-                    fullWidth
-                    value={formik.values.lastName}
-                    onChange={formik.handleChange}
-                    error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-                    helperText={formik.touched.lastName && formik.errors.lastName}
+                  <Controller
+                    name="lastName"
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        label="Last Name"
+                        variant="outlined"
+                        fullWidth
+                        {...field}
+                        error={!!errors.lastName}
+                        helperText={errors.lastName?.message}
+                      />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Phone"
-                    variant="outlined"
-                    name={'phone'}
-                    fullWidth
-                    value={formik.values.phone}
-                    onChange={formik.handleChange}
-                    error={formik.touched.phone && Boolean(formik.errors.phone)}
-                    helperText={formik.touched.phone && formik.errors.phone}
+                  <Controller
+                    name="phone"
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        label="Phone"
+                        variant="outlined"
+                        fullWidth
+                        {...field}
+                        error={!!errors.phone}
+                        helperText={errors.phone?.message}
+                      />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <Divider />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    label="Street Address 1"
-                    variant="outlined"
-                    name={'address1'}
-                    fullWidth
-                    value={formik.values.address1}
-                    onChange={formik.handleChange}
-                    error={formik.touched.address1 && Boolean(formik.errors.address1)}
-                    helperText={formik.touched.address1 && formik.errors.address1}
+                  <Controller
+                    name="address1"
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        label="Street Address 1"
+                        variant="outlined"
+                        fullWidth
+                        {...field}
+                        error={!!errors.address1}
+                        helperText={errors.address1?.message}
+                      />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    label="Street Address 2"
-                    variant="outlined"
-                    name={'address2'}
-                    fullWidth
-                    value={formik.values.address2}
-                    onChange={formik.handleChange}
-                    error={formik.touched.address2 && Boolean(formik.errors.address2)}
-                    helperText={formik.touched.address2 && formik.errors.address2}
+                  <Controller
+                    name="address2"
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        label="Street Address 2"
+                        variant="outlined"
+                        fullWidth
+                        {...field}
+                        error={!!errors.address2}
+                        helperText={errors.address2?.message}
+                      />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="City"
-                    variant="outlined"
-                    name={'city'}
-                    fullWidth
-                    value={formik.values.city}
-                    onChange={formik.handleChange}
-                    error={formik.touched.city && Boolean(formik.errors.city)}
-                    helperText={formik.touched.city && formik.errors.city}
+                  <Controller
+                    name="city"
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        label="City"
+                        variant="outlined"
+                        fullWidth
+                        {...field}
+                        error={!!errors.city}
+                        helperText={errors.city?.message}
+                      />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <TextField
-                    name="Country"
-                    id="country"
-                    select
-                    label="Country"
-                    fullWidth
-                    value={formik.values.country}
-                    onChange={formik.handleChange('country')}
-                    error={formik.touched.country && Boolean(formik.errors.country)}
-                    helperText={formik.touched.country && formik.errors.country}>
-                    <MenuItem key={''} value={''}></MenuItem>
-                    {Object.keys(shopify_countries).map((country) => (
-                      <MenuItem value={country}>{country}</MenuItem>
-                    ))}
-                  </TextField>
+                  <Controller
+                    name="country"
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        name="Country"
+                        id="country"
+                        select
+                        label="Country"
+                        fullWidth
+                        {...field}
+                        error={!!errors.country}
+                        helperText={errors.country?.message}>
+                        <MenuItem key={''} value={''}></MenuItem>
+                        {Object.keys(shopify_countries).map((country) => (
+                          <MenuItem key={country} value={country}>
+                            {country}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    )}
+                  />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Zip Code"
-                    variant="outlined"
-                    name={'zip'}
-                    fullWidth
-                    value={formik.values.zip}
-                    onChange={formik.handleChange}
-                    error={formik.touched.zip && Boolean(formik.errors.zip)}
-                    helperText={formik.touched.zip && formik.errors.zip}
+                  <Controller
+                    name="zip"
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        label="Zip Code"
+                        variant="outlined"
+                        fullWidth
+                        {...field}
+                        error={!!errors.zip}
+                        helperText={errors.zip?.message}
+                      />
+                    )}
                   />
                 </Grid>
                 <Grid item container xs={12}>
@@ -469,16 +491,27 @@ const AccountAddressPage = () => {
                     margin={'0 auto'}>
                     <Box marginBottom={{ xs: 1, sm: 0 }}>
                       <FormControlLabel
-                        control={<Checkbox checked={checkDefaultAddress} />}
+                        control={
+                          <Controller
+                            name="checkDefaultAddress"
+                            control={control}
+                            render={({ field }) => (
+                              <Checkbox
+                                {...field}
+                                checked={field.value}
+                                onChange={field.onChange}
+                              />
+                            )}
+                          />
+                        }
                         label="Set as default address"
-                        onChange={() => setCheckDefaultAddress(!checkDefaultAddress)}
                       />
                     </Box>
                     <LoadingButton
                       size={'large'}
                       variant={'contained'}
                       type={'submit'}
-                      loading={formik.isSubmitting}>
+                      loading={loading}>
                       {formType === 'Add' ? 'Save New Address' : 'Update Address'}
                     </LoadingButton>
                   </Box>

@@ -1,3 +1,5 @@
+import { useLocation } from '@gatsbyjs/reach-router';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
 import {
   Box,
@@ -12,19 +14,18 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-import { useLocation } from '@reach/router';
 import axios from 'axios';
-import { useFormik } from 'formik';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { getNumberOfDays } from 'utils/formatTime';
 import * as yup from 'yup';
 
 import {
   fulfillmentStatusChipColor,
+  getNumberOfDays,
   getReturnEligible,
   returnStatusChipColor
-} from '../../utils/shopify';
+} from '../../utils';
 
 const validationSchema = yup.object({
   orderName: yup.string().trim(),
@@ -38,7 +39,6 @@ export function ReturnsOrderLookup({
   handleOrders,
   handleOpenTicketDialog
 }) {
-  const [submitting, setSubmitting] = useState(false);
   const [returnStatusLoading, setReturnStatusLoading] = useState(false);
   const [localOrders, setLocalOrders] = useState([]);
 
@@ -67,25 +67,25 @@ export function ReturnsOrderLookup({
     }
   };
 
-  const initialValues = {
-    orderName: '',
-    email: ''
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setValue
+  } = useForm({
+    resolver: yupResolver(validationSchema)
+  });
 
-  const onSubmit = async ({ orderName, email }) => {
-    setSubmitting(true);
-    /* console.log(orderName, email); */
-
+  const onSubmit = async (data) => {
     let newOrders;
 
-    if (orderName) {
+    if (data.orderName) {
       const url =
         process.env.GATSBY_FIREBASE_FUNCTIONS_URL + '/api/v1/shopifyAdmin/get_order_by_name';
 
       newOrders = await axios
-        .post(url, { orderName: orderName })
+        .post(url, { orderName: data.orderName })
         .then((res) => {
-          /* console.log(res); */
           return res.data.data.orders.edges;
         })
         .catch((error) => {
@@ -94,14 +94,13 @@ export function ReturnsOrderLookup({
         });
     }
 
-    if (email) {
+    if (data.email) {
       const url =
         process.env.GATSBY_FIREBASE_FUNCTIONS_URL + '/api/v1/shopifyAdmin/get_orders_by_email';
 
       newOrders = await axios
-        .post(url, { email: email })
+        .post(url, { email: data.email })
         .then((res) => {
-          /* console.log(res); */
           return res.data.data.orders.edges;
         })
         .catch((error) => {
@@ -116,7 +115,6 @@ export function ReturnsOrderLookup({
       Promise.all(
         newOrders.map(async (order, index) => {
           await getReturnEligible({ order: order, overrideDate: false }).then((res) => {
-            /* console.log(res); */
             if (
               res &&
               res.data &&
@@ -131,24 +129,18 @@ export function ReturnsOrderLookup({
         })
       ).then(() => {
         setReturnStatusLoading(false);
-        /* console.log("checkReturnElgibility: ", newOrders); */
         handleOrders(newOrders);
       });
     } else {
       handleOrders(null);
     }
-
-    setSubmitting(false);
   };
 
-  const hydrateOrderFromParams = useCallback(
-    async (paramsOrderName) => {
-      if (!paramsOrderName) return null;
-
-      onSubmit({ orderName: paramsOrderName });
-    },
-    [paramsOrderName]
-  );
+  const hydrateOrderFromParams = async (paramsOrderName) => {
+    if (!paramsOrderName) return null;
+    setValue('orderName', paramsOrderName);
+    handleSubmit(onSubmit)();
+  };
 
   useEffect(() => {
     if (paramsOrderName && !orders && !selectedOrder) {
@@ -161,14 +153,6 @@ export function ReturnsOrderLookup({
     }
   }, [paramsOrderName, orders]);
 
-  /* console.log(localOrders) */
-
-  const formik = useFormik({
-    initialValues,
-    validationSchema: validationSchema,
-    onSubmit
-  });
-
   return (
     <Box padding="30px" justifyContent="center" display="flex">
       <Grid container spacing={2}>
@@ -177,33 +161,25 @@ export function ReturnsOrderLookup({
           xs={12}
           md={4}
           sx={{ padding: 2, borderRight: { xs: '0', md: '1px solid rgba(0,0,0,0.12)' } }}>
-          <form onSubmit={formik.handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={2}>
               <TextField
                 label="Order Number"
                 variant="outlined"
-                name={'orderName'}
+                {...register('orderName')}
                 fullWidth
-                value={formik.values.orderName}
-                onChange={formik.handleChange}
-                error={formik.touched.orderName && Boolean(formik.errors.orderName)}
-                helperText={formik.touched.orderName && formik.errors.orderName}
+                error={!!errors.orderName}
+                helperText={errors.orderName?.message}
               />
               <TextField
                 label="Email Address"
                 variant="outlined"
-                name={'email'}
+                {...register('email')}
                 fullWidth
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
+                error={!!errors.email}
+                helperText={errors.email?.message}
               />
-              <LoadingButton
-                size={'large'}
-                variant={'contained'}
-                type={'submit'}
-                loading={formik.isSubmitting || submitting}>
+              <LoadingButton size="large" variant="contained" type="submit" loading={isSubmitting}>
                 Search
               </LoadingButton>
             </Stack>
@@ -265,9 +241,7 @@ export function ReturnsOrderLookup({
                       <Box>
                         {order.node.returnableFulfillment ? (
                           <Checkbox
-                            checked={
-                              selectedOrder && selectedOrder.id === order.node.id ? true : false
-                            }
+                            checked={selectedOrder && selectedOrder.id === order.node.id}
                             onClick={() => handleSelectedOrder(order.node)}
                           />
                         ) : (

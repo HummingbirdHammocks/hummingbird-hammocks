@@ -1,15 +1,15 @@
 import { Box, Divider, Typography } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
-// components
-import {
-  Link
-  /* , ProductPreviewBadge */
-} from 'components';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import React from 'react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+// components
+import {
+  Link
+  /* , ProductPreviewBadge */
+} from '../../components';
 // stores
 import { useRecentlyViewedStore } from '../../stores';
 
@@ -121,11 +121,11 @@ export function RecentlyViewed({ title }) {
                     placeholder="blurred"
                   />
                 )}
-                {item.images[1] ? (
+                {item.media && item.media[1] ? (
                   <AbsoluteImage
                     className="image-2"
-                    image={item.images[1].gatsbyImageData}
-                    alt={item.images[1].altText}
+                    image={item.media[1].image.gatsbyImageData}
+                    alt={item.media[1].image.altText}
                     placeholder="blurred"
                   />
                 ) : (

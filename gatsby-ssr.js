@@ -11,27 +11,24 @@ import { ThemeProvider } from '@mui/material/styles';
 // react query
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { CartContextProvider, ProductContextProvider } from 'contexts';
 import fetch from 'isomorphic-fetch';
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// stores
-import { AuthProvider, ProductsProvider, RecentlyViewedProvider, UIProvider } from 'stores';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/thumbs';
-// Judge.me
-import { ReviewWidgetScripts } from 'utils/judgeMe';
-// Help Widget
-import { ChatWidget } from 'utils/quickchatai';
 
+import { CartContextProvider, ProductContextProvider } from './src/contexts';
+// stores
+import { AuthProvider, ProductsProvider, RecentlyViewedProvider, UIProvider } from './src/stores';
 import './src/ui/style.css';
-// theme
 import theme from './src/ui/theme';
+// Judge.me and Quickchat
+import { ChatWidget, ReviewWidgetScripts } from './src/utils';
 
 const rqClient = new QueryClient();
 
@@ -48,6 +45,17 @@ export const client = new ApolloClient({
   })
 });
 
+export const wrapPageElement = ({ element }) => (
+  <>
+    <CssBaseline />
+    {element}
+    <ToastContainer pauseOnFocusLoss={false} />
+    <ReactQueryDevtools initialIsOpen={false} />
+    <ReviewWidgetScripts />
+    <ChatWidget />
+  </>
+);
+
 export const wrapRootElement = ({ element }) => (
   <QueryClientProvider client={rqClient}>
     <ApolloProvider client={client}>
@@ -57,14 +65,7 @@ export const wrapRootElement = ({ element }) => (
             <RecentlyViewedProvider>
               <ProductContextProvider>
                 <CartContextProvider>
-                  <ThemeProvider theme={theme}>
-                    <CssBaseline />
-                    {element}
-                    <ToastContainer pauseOnFocusLoss={false} />
-                    <ReactQueryDevtools initialIsOpen={false} />
-                    <ReviewWidgetScripts />
-                    <ChatWidget />
-                  </ThemeProvider>
+                  <ThemeProvider theme={theme}>{element}</ThemeProvider>
                 </CartContextProvider>
               </ProductContextProvider>
             </RecentlyViewedProvider>

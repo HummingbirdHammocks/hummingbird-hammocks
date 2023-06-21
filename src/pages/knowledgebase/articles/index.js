@@ -1,8 +1,9 @@
 import { Box, Grid, Stack, Typography } from '@mui/material';
-import { Layout, Link, MainWrapper } from 'components';
 import { graphql } from 'gatsby';
 import React from 'react';
-import { ArticlesHeader, ArticlesSection, ArticlesSidebar } from 'sections';
+
+import { Layout, Link, MainWrapper, Seo } from '../../../components';
+import { ArticlesHeader, ArticlesSection, ArticlesSidebar } from '../../../sections';
 
 const KnowledgebaseArticlesPage = ({
   data: { allKnowledgebaseArticles, knowledgebaseArticles }
@@ -43,7 +44,7 @@ export default KnowledgebaseArticlesPage;
 
 export const query = graphql`
   query knowlegebaseArticlesTemplate {
-    allKnowledgebaseArticles(sort: { published_at: DESC }) {
+    allKnowledgebaseArticles(sort: { publishedAt: DESC }) {
       totalCount
       group(field: { tags: SELECT }) {
         nodes {
@@ -52,8 +53,8 @@ export const query = graphql`
               gatsbyImageData(placeholder: BLURRED)
             }
           }
-          summary_html
-          published_at
+          contentHtml
+          publishedAt
           title
           handle
           id
@@ -62,7 +63,7 @@ export const query = graphql`
       }
     }
 
-    knowledgebaseArticles: allKnowledgebaseArticles(limit: 5, sort: { published_at: DESC }) {
+    knowledgebaseArticles: allKnowledgebaseArticles(limit: 5, sort: { publishedAt: DESC }) {
       nodes {
         title
         handle
@@ -71,3 +72,5 @@ export const query = graphql`
     }
   }
 `;
+
+export const Head = () => <Seo title="Knowledgebase Articles | Hummingbird Hammocks" />;

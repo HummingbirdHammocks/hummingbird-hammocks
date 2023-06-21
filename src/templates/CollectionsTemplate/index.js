@@ -20,19 +20,21 @@ import {
   Typography
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-// components
-import { Layout, Link, MainWrapper, Seo } from 'components';
 import { graphql } from 'gatsby';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import React, { useEffect, useState } from 'react';
-import { BargainBinNotifications, ProductCard } from 'sections';
 
+// components
+import { Layout, Link, MainWrapper, Seo } from '../../components';
+import { BargainBinNotifications, ProductCard } from '../../sections';
 // stores
 import { useRecentlyViewedStore } from '../../stores';
+// utils
+import { convertToPlain } from '../../utils';
 
 const CollectionsPage = ({ data }) => {
   const theme = useTheme();
-  const { title, image, products, description } = data.shopifyCollection;
+  const { title, image, products } = data.shopifyCollection;
   const { collections } = data.allShopifyCollection;
 
   const { recentlyViewedProducts } = useRecentlyViewedStore();
@@ -202,7 +204,6 @@ const CollectionsPage = ({ data }) => {
 
   return (
     <Layout>
-      <Seo title={title} description={description} />
       <Box
         sx={{
           display: 'grid',
@@ -588,3 +589,17 @@ export const query = graphql`
     }
   }
 `;
+
+export const Head = ({ data }) => {
+  let description = '';
+  if (data?.shopifyCollection?.description) {
+    description = convertToPlain(data.shopifyCollection.summary_html);
+  }
+
+  return (
+    <Seo
+      title={`${data?.shopifyCollection?.title} | HH Outdoor Articles`}
+      description={description}
+    />
+  );
+};

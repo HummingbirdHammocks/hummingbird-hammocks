@@ -11,11 +11,11 @@ import {
   Typography
 } from '@mui/material';
 import axios from 'axios';
-// components
-import { AccountLayout, Link, MiddleSpinner } from 'components';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
+// components
+import { AccountLayout, Link, MiddleSpinner } from '../../components';
 // stores
 import { useAuthStore } from '../../stores';
 import { RestockNotifications } from './components';

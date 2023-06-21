@@ -1,10 +1,10 @@
-import { Layout, Seo } from 'components';
 import React from 'react';
-import { Info } from 'sections';
+
+import { Layout, Seo } from '../components';
+import { Info } from '../sections';
 
 const PrivacyPolicyPage = () => (
   <Layout>
-    <Seo title="Privacy Policy" />
     <Info subTextAlign="left" title="Privacy Policy">
       <br />
       This Privacy Policy describes how your personal information is collected, used, and shared
@@ -236,3 +236,5 @@ const PrivacyPolicyPage = () => (
 );
 
 export default PrivacyPolicyPage;
+
+export const Head = () => <Seo title="Privacy Policy | Hummingbird Hammocks" />;

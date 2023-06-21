@@ -1,6 +1,7 @@
 // stores
-import { CartContext } from 'contexts';
 import { useContext, useState } from 'react';
+
+import { CartContext } from '../contexts';
 
 export const useDiscountCode = (code) => {
   const [lastCode, setLastCode] = useState(null);

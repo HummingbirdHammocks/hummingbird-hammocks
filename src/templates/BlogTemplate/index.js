@@ -12,12 +12,12 @@ import {
   Stack,
   Typography
 } from '@mui/material';
-import { Layout, Link, MainWrapper, Seo } from 'components';
 import { graphql, navigate } from 'gatsby';
 import React, { useState } from 'react';
-import { BlogItem } from 'sections';
 
-import ArtclesSearch from '../../utils/algolia/articlesSearch';
+import { Layout, Link, MainWrapper, Seo } from '../../components';
+import { BlogItem } from '../../sections';
+import { ArticlesSearch } from '../../utils';
 
 const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
   const [collapse, setCollapse] = useState(true);
@@ -81,7 +81,7 @@ const BlogTemplate = ({ data: { allArticles, articles }, pageContext }) => {
                 paddingRight: 2
               }}>
               <Box className="articles">
-                <ArtclesSearch />
+                <ArticlesSearch />
               </Box>
               <Box>
                 <ListItemButton onClick={() => setCollapse(!collapse)}>
@@ -121,7 +121,7 @@ export default BlogTemplate;
 
 export const query = graphql`
   query articlesTemplate($skip: Int!, $limit: Int!) {
-    allArticles(limit: $limit, skip: $skip, sort: { published_at: DESC }) {
+    allArticles(limit: $limit, skip: $skip, sort: { publishedAt: DESC }) {
       totalCount
       nodes {
         localFile {
@@ -129,15 +129,16 @@ export const query = graphql`
             gatsbyImageData(placeholder: BLURRED)
           }
         }
-        summary_html
-        published_at
+        content
+        contentHtml
+        publishedAt
         title
         handle
         id
       }
     }
 
-    articles: allArticles(limit: 10, sort: { published_at: DESC }) {
+    articles: allArticles(limit: 10, sort: { publishedAt: DESC }) {
       nodes {
         title
         handle
@@ -146,3 +147,5 @@ export const query = graphql`
     }
   }
 `;
+
+export const Head = () => <Seo title={`Outdoor Articles | Hummingbird Hammocks`} />;

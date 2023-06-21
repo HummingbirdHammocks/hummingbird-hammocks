@@ -16,9 +16,8 @@ import {
 } from '@mui/material';
 import { navigate } from 'gatsby';
 import React, { useEffect, useState } from 'react';
-import { fShopify } from 'utils/formatTime';
 
-import { getReturnEligible } from '../../../utils/shopify';
+import { fShopify, getReturnEligible } from '../../../utils';
 import { SupportTicketForm } from './SupportTicketForm';
 
 export const OrderDetails = ({ firstName, lastName, email, data, returnAccount }) => {

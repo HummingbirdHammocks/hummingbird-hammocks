@@ -1,7 +1,7 @@
 import { Link } from 'gatsby';
 import React from 'react';
 
-export default function KnowledgebaseItem({ hit, components, linkType }) {
+export function KnowledgebaseItem({ hit, components, linkType }) {
   /* console.log(hit); */
   /* console.log(components); */
   return (

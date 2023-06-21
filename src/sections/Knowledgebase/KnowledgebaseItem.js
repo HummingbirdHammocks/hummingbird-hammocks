@@ -1,9 +1,9 @@
 import { Box, Button, Paper, Stack, Typography } from '@mui/material';
-import { Link } from 'components';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import React from 'react';
 
-import { fShopify } from '../../utils/formatTime';
+import { Link } from '../../components';
+import { fShopify } from '../../utils';
 
 export const KnowledgebaseItem = ({ item, description, linkType }) => {
   return (
@@ -32,7 +32,7 @@ export const KnowledgebaseItem = ({ item, description, linkType }) => {
       <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
         <Stack>
           <Typography variant="caption" sx={{ fontSize: 12 }}>
-            {fShopify(item.published_at)}
+            {fShopify(item.publishedAt)}
           </Typography>
         </Stack>
         <Button component={Link} to={`/knowledgebase/${linkType}/${item.handle}`}>

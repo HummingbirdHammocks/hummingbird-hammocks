@@ -1,11 +1,11 @@
 import { Box, List, ListItem, ListItemText, Paper, Stack } from '@mui/material';
-import { Layout, Link, MainWrapper, Seo } from 'components';
 import React from 'react';
-import { Info } from 'sections';
+
+import { Layout, Link, MainWrapper, Seo } from '../components';
+import { Info } from '../sections';
 
 const NotFoundPage = () => (
   <Layout>
-    <Seo title="Not Found" />
     <MainWrapper>
       <Box
         sx={{
@@ -69,3 +69,5 @@ const NotFoundPage = () => (
 );
 
 export default NotFoundPage;
+
+export const Head = () => <Seo title="Not Found | Hummingbird Hammocks" />;

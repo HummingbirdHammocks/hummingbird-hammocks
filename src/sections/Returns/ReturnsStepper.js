@@ -2,8 +2,8 @@ import { Box, Button, Step, StepLabel, Stepper, Typography } from '@mui/material
 import axios from 'axios';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import { ReturnReviewSubmit, ReturnsItemSelector, ReturnsOrderLookup } from 'sections';
 
+import { ReturnReviewSubmit, ReturnsItemSelector, ReturnsOrderLookup } from '../../sections';
 import { SupportTicketDialog } from '../AccountPage/components';
 
 const steps = [

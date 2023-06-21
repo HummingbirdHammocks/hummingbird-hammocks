@@ -17,7 +17,7 @@ const firebaseConfig = {
 let app;
 
 // Gatsby specific version for SSR
-export default function getFirebase() {
+export function getFirebase() {
   if (typeof window == 'undefined') return null;
 
   if (app) return app;

@@ -1,20 +1,18 @@
 import { gql, useQuery } from '@apollo/client';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Add, Close, Remove } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import { Box, Button, Dialog, IconButton, Stack, TextField, Typography } from '@mui/material';
 import { useQueryClient } from '@tanstack/react-query';
-import { CartContext } from 'contexts';
-import { useFormik } from 'formik';
 import React, { useContext, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-//firebase
-import { saveDocumentGenerateID } from 'utils/firebase';
 import * as yup from 'yup';
 
-// hooks
-import useRestockNotifications from '../../hooks/useRestockNotifications';
-// stores
+import { CartContext } from '../../contexts';
+import { useRestockNotifications } from '../../hooks';
 import { useAuthStore } from '../../stores';
+import { saveDocumentGenerateID } from '../../utils';
 
 const validationSchema = yup.object({
   email: yup
@@ -93,10 +91,9 @@ export function ProductQuantityAdder({
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleAddToCart = async (variantId, quantity) => {
     setLoading(true);
 
-    e.preventDefault();
     await updateLineItem({ variantId, quantity: parseInt(quantity, 10) });
     toast.success('Item added to cart');
 
@@ -107,21 +104,33 @@ export function ProductQuantityAdder({
     email: data && data.customer ? data.customer.email : ''
   };
 
-  const onSubmit = async ({ email }) => {
-    console.log(email);
+  const {
+    handleSubmit: handleFormSubmit,
+    formState,
+    reset,
+    control
+  } = useForm({
+    defaultValues: initialValues,
+    resolver: yupResolver(validationSchema),
+    mode: 'onBlur'
+  });
+
+  const { errors, isSubmitting } = formState;
+
+  const onSubmit = async (formData) => {
     const payload = {
-      email: `${email}`,
-      variantTitle: variantTitle !== 'Default Title' ? `${variantTitle}` : '',
-      variantSku: `${variantSku}`,
-      variantId: `${variantId}`,
-      productTitle: `${productTitle}`,
-      productHandle: `${productHandle}`
+      email: formData.email,
+      variantTitle: variantTitle !== 'Default Title' ? variantTitle : '',
+      variantSku: variantSku,
+      variantId: variantId,
+      productTitle: productTitle,
+      productHandle: productHandle
     };
     const response = await saveDocumentGenerateID('restock_notifications', payload);
     if (response) {
       toast.success('Thanks! We will let you know as soon as this item is back in stock');
       queryClient.invalidateQueries(['restock_notifications']);
-      formik.resetForm({});
+      reset();
       setOpen(false);
     }
   };
@@ -134,74 +143,67 @@ export function ProductQuantityAdder({
     setOpen(false);
   };
 
-  const formik = useFormik({
-    initialValues,
-    validationSchema: validationSchema,
-    onSubmit
-  });
-
   return (
     <Box>
       <Typography variant="navUser">Quantity</Typography>
-      <form style={{ marginTop: '10px' }} onSubmit={handleSubmit}>
-        <Stack direction={{ xs: 'column', sm: 'row', md: 'row', lg: 'row' }} spacing={2}>
-          <Stack direction="row" spacing={2}>
-            <Button
-              color="primary"
-              variant="outlined"
-              disabled={!available}
-              onClick={handleDecreaseQuantity}
-              sx={{ height: '57px', width: '57px' }}>
-              <Remove />
-            </Button>
-            <TextField
-              disabled={!available}
-              InputProps={{
-                inputProps: {
-                  style: { textAlign: 'center' }
-                }
-              }}
-              type="number"
-              value={quantity}
-              onChange={handleQuantityChange}
-              sx={{ width: '80px' }}
-            />
-            <Button
-              color="primary"
-              variant="outlined"
-              disabled={!available}
-              onClick={handleIncreaseQuantity}
-              sx={{ height: '57px', width: '57px' }}>
-              <Add />
-            </Button>
-          </Stack>
-
-          {available ? (
-            <LoadingButton
-              margin="30px 0 0 0"
-              type="submit"
-              variant="contained"
-              border={!available ? '1px solid #aeaeae' : ''}
-              disabled={!available}
-              loading={loading}
-              sx={{
-                backgroundColor: accentcolor ? accentcolor : 'primary'
-              }}>
-              {!available ? 'Sold Out' : 'Add to Cart'}
-            </LoadingButton>
-          ) : (
-            <Button
-              color="primary"
-              variant="contained"
-              onClick={handleClickOpen}
-              sx={{
-                backgroundColor: accentcolor ? accentcolor : 'primary'
-              }}>
-              Notify Me
-            </Button>
-          )}
+      <Stack direction={{ xs: 'column', sm: 'row', md: 'row', lg: 'row' }} spacing={2}>
+        <Stack direction="row" spacing={2}>
+          <Button
+            color="primary"
+            variant="outlined"
+            disabled={!available}
+            onClick={handleDecreaseQuantity}
+            sx={{ height: '57px', width: '57px' }}>
+            <Remove />
+          </Button>
+          <TextField
+            disabled={!available}
+            InputProps={{
+              inputProps: {
+                style: { textAlign: 'center' }
+              }
+            }}
+            type="number"
+            value={quantity}
+            onChange={handleQuantityChange}
+            sx={{ width: '80px' }}
+          />
+          <Button
+            color="primary"
+            variant="outlined"
+            disabled={!available}
+            onClick={handleIncreaseQuantity}
+            sx={{ height: '57px', width: '57px' }}>
+            <Add />
+          </Button>
         </Stack>
-      </form>
+
+        {available ? (
+          <LoadingButton
+            margin="30px 0 0 0"
+            type="submit"
+            variant="contained"
+            border={!available ? '1px solid #aeaeae' : ''}
+            disabled={!available}
+            loading={loading}
+            onClick={() => handleAddToCart(variantId, quantity)}
+            sx={{
+              backgroundColor: accentcolor ? accentcolor : 'primary'
+            }}>
+            {!available ? 'Sold Out' : 'Add to Cart'}
+          </LoadingButton>
+        ) : (
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={handleClickOpen}
+            sx={{
+              backgroundColor: accentcolor ? accentcolor : 'primary'
+            }}>
+            Notify Me
+          </Button>
+        )}
+      </Stack>
       {!available && (
         <Dialog open={open} onClose={handleClose}>
           <Box
@@ -231,28 +233,32 @@ export function ProductQuantityAdder({
                 <Typography mb="20px" variant="body1">
                   Enter your email and we will notify you when this product becomes available.
                 </Typography>
-                <form onSubmit={formik.handleSubmit}>
+                <form onSubmit={handleFormSubmit(onSubmit)}>
                   <Stack
                     direction={{ xs: 'column', sm: 'row' }}
                     justifyContent="space-between"
                     alignItems="center"
                     spacing={2}>
-                    <TextField
-                      label="Email *"
-                      variant="outlined"
-                      name={'email'}
-                      fullWidth
-                      value={formik.values.email}
-                      onChange={formik.handleChange}
-                      error={formik.touched.email && Boolean(formik.errors.email)}
-                      helperText={formik.touched.email && formik.errors.email}
+                    <Controller
+                      name="email"
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          label="Email *"
+                          variant="outlined"
+                          fullWidth
+                          error={!!errors.email}
+                          helperText={errors.email?.message}
+                        />
+                      )}
                     />
                     <LoadingButton
                       sx={{ minWidth: '160px' }}
                       size={'large'}
                       variant={'contained'}
                       type={'submit'}
-                      loading={formik.isSubmitting}>
+                      loading={isSubmitting}>
                       Notify Me
                     </LoadingButton>
                   </Stack>

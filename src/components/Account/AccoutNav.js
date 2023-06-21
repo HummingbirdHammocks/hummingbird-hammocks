@@ -9,8 +9,9 @@ import {
   Paper,
   Popper
 } from '@mui/material';
-import { Link } from 'components';
 import React, { useEffect, useRef, useState } from 'react';
+
+import { Link } from '../../components';
 
 const navItems = [
   {

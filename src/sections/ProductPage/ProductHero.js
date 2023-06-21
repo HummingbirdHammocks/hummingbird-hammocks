@@ -1,6 +1,7 @@
 import { Box, Container, Paper } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { productBackgrounds } from 'utils/productBackgrounds';
+
+import { productBackgrounds } from '../../utils';
 
 export function ProductHero({ children, handle, backgroundColor, accentcolor }) {
   const [background, setBackground] = useState(null);

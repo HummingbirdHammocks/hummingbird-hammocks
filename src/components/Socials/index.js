@@ -1,12 +1,13 @@
 import { Facebook, Mail, Pinterest, Twitter } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { AnotherLink } from 'components';
 import React from 'react';
 
+import { AnotherLink } from '../../components';
+
 const SocialItem = styled(Box)(({ color }) => ({
-  borderRadius: '50%',
-  padding: '10px 10px 7px 10px',
+  borderRadius: 20,
+  padding: '10px 10px 6px 10px',
   marginRight: '9px',
   border: '1px solid #e2e2e2',
   cursor: 'pointer',

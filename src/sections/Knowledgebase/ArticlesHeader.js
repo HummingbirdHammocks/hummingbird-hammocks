@@ -1,8 +1,9 @@
 import { ArrowBack } from '@mui/icons-material';
 import { Box, Button, Divider, Stack, Typography } from '@mui/material';
-import { Link, MainWrapper, Seo } from 'components';
 import React from 'react';
-import { fShopify } from 'utils/formatTime';
+
+import { Link, MainWrapper, Seo } from '../../components';
+import { fShopify } from '../../utils';
 
 export const ArticlesHeader = ({ title, backpath, date }) => {
   return (

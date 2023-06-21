@@ -4,16 +4,16 @@ import algoliasearch from 'algoliasearch';
 import { navigate } from 'gatsby';
 import React from 'react';
 
-import KnowledgebaseItem from './KnowledgebaseItem';
+import { KnowledgebaseItem } from './KnowledgebaseItem';
 import './autocomplete.css';
-import Autocomplete from './customAutocomplete';
+import { Autocomplete } from './customAutocomplete';
 
 const searchClient = algoliasearch(
   process.env.GATSBY_ALGOLIA_APP_ID,
   process.env.GATSBY_ALGOLIA_ADMIN_KEY
 );
 
-export default function KnowledgebaseComboSearch() {
+export function KnowledgebaseComboSearch() {
   return (
     <Autocomplete
       openOnFocus={true}

@@ -1,4 +1,5 @@
 import { gql, useMutation } from '@apollo/client';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import {
@@ -12,14 +13,13 @@ import {
   Typography
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-// components
-import { Layout, MainWrapper, Seo } from 'components';
-import { useFormik } from 'formik';
 import { navigate } from 'gatsby';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
+import { Layout, MainWrapper, Seo } from '../../../components';
 // stores
 import { useAuthDispatch, useAuthStore } from '../../../stores';
 
@@ -39,29 +39,27 @@ const validationSchema = yup.object({
 const ResetPage = ({ params }) => {
   const theme = useTheme();
 
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [showPasswordConfirmation, setShowPasswordConfirmation] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
 
   const { customerAccessToken } = useAuthStore();
   const authDispatch = useAuthDispatch();
 
-  const initialValues = {
-    password: '',
-    repeatPassword: ''
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset
+  } = useForm({
+    resolver: yupResolver(validationSchema)
+  });
 
-  const onSubmit = async (values, { resetForm }) => {
+  const onSubmit = async (values) => {
     const response = await handlePasswordReset(values.password);
     if (response) {
-      resetForm({});
+      reset();
     }
   };
-
-  const formik = useFormik({
-    initialValues,
-    validationSchema: validationSchema,
-    onSubmit
-  });
 
   const resetUrl = `https://hummingbirdhammocks.com/account/reset/${params['*']}`;
 
@@ -80,7 +78,7 @@ const ResetPage = ({ params }) => {
         type: 'setCustomerAccessToken',
         customerAccessToken: data.customerResetByUrl.customerAccessToken.accessToken
       });
-      toast.success("Password Reset Succesfully! You'll logged in automatically in 3s...", {
+      toast.success("Password Reset Successfully! You'll be logged in automatically in 3s...", {
         autoClose: 3000,
         hideProgressBar: false
       });
@@ -90,9 +88,14 @@ const ResetPage = ({ params }) => {
     }
   };
 
+  useEffect(() => {
+    if (errors.repeatPassword) {
+      toast.error(errors.repeatPassword.message);
+    }
+  }, [errors.repeatPassword]);
+
   return (
     <Layout>
-      <Seo title="Password Reset" />
       <Box
         sx={{
           background: theme.palette.white,
@@ -127,12 +130,12 @@ const ResetPage = ({ params }) => {
 
                 <Box padding="30px" justifyContent="center" display="flex">
                   <Box>
-                    <form onSubmit={formik.handleSubmit}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                       <Stack spacing={2} sx={{ width: { xs: '100%', md: '400px' } }}>
                         <TextField
                           label="New Password *"
                           variant="outlined"
-                          name={'password'}
+                          name="password"
                           type={showPassword ? 'text' : 'password'}
                           fullWidth
                           InputProps={{
@@ -146,15 +149,14 @@ const ResetPage = ({ params }) => {
                               </InputAdornment>
                             )
                           }}
-                          value={formik.values.password}
-                          onChange={formik.handleChange}
-                          error={formik.touched.password && Boolean(formik.errors.password)}
-                          helperText={formik.touched.password && formik.errors.password}
+                          {...register('password')}
+                          error={!!errors.password}
+                          helperText={errors.password?.message}
                         />
                         <TextField
                           label="Confirm Password *"
                           variant="outlined"
-                          name={'repeatPassword'}
+                          name="repeatPassword"
                           type={showPasswordConfirmation ? 'text' : 'password'}
                           fullWidth
                           InputProps={{
@@ -168,18 +170,15 @@ const ResetPage = ({ params }) => {
                               </InputAdornment>
                             )
                           }}
-                          value={formik.values.repeatPassword}
-                          onChange={formik.handleChange}
-                          error={
-                            formik.touched.repeatPassword && Boolean(formik.errors.repeatPassword)
-                          }
-                          helperText={formik.touched.repeatPassword && formik.errors.repeatPassword}
+                          {...register('repeatPassword')}
+                          error={!!errors.repeatPassword}
+                          helperText={errors.repeatPassword?.message}
                         />
                         <LoadingButton
-                          size={'large'}
-                          variant={'contained'}
-                          type={'submit'}
-                          loading={formik.isSubmitting}>
+                          size="large"
+                          variant="contained"
+                          type="submit"
+                          loading={isSubmitting}>
                           Change Password
                         </LoadingButton>
                       </Stack>
@@ -212,3 +211,5 @@ const CUSTOMER_PASSWORD_RESET = gql`
     }
   }
 `;
+
+export const Head = () => <Seo title="Password Reset | Hummingbird Hammocks" />;

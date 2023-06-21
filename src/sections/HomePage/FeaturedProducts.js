@@ -1,15 +1,16 @@
 import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useTheme } from '@mui/material/styles';
-import {
-  Link
-  /* , ProductPreviewBadge */
-} from 'components';
-import { ProductContext } from 'contexts';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import React, { useContext } from 'react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
+
+import {
+  Link
+  /* , ProductPreviewBadge */
+} from '../../components';
+import { ProductContext } from '../../contexts';
 
 const AbsoluteImage = styled(GatsbyImage)(({ theme }) => ({
   borderRadius: '20px',
@@ -107,11 +108,11 @@ export function FeaturedProduct() {
                     placeholder="blurred"
                   />
                 )}
-                {item.images[1] ? (
+                {item.media[1] ? (
                   <AbsoluteImage
                     className="image-2"
-                    image={item.images[1].gatsbyImageData}
-                    alt={item.images[1].altText}
+                    image={item.media[1].image.gatsbyImageData}
+                    alt={item.media[1].image.altText}
                     placeholder="blurred"
                   />
                 ) : (

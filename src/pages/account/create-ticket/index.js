@@ -1,11 +1,11 @@
 import { gql, useQuery } from '@apollo/client';
 import { Box, Button, Divider, Stack, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-// components
-import { Layout, Link, MainWrapper, MiddleSpinner, Seo } from 'components';
 import { navigate } from 'gatsby';
 import React from 'react';
 
+// components
+import { Layout, Link, MainWrapper, MiddleSpinner, Seo } from '../../../components';
 import { SupportTicketForm } from '../../../sections/AccountPage/components/SupportTicketForm';
 // stores
 import { useAuthStore } from '../../../stores';
@@ -23,7 +23,6 @@ const CreateTicketPage = () => {
 
   return (
     <Layout>
-      <Seo title="Create Support Ticket" />
       <Box
         sx={{
           background: theme.palette.white,
@@ -95,3 +94,5 @@ const CUSTOMER_INFO = gql`
     }
   }
 `;
+
+export const Head = () => <Seo title="Create Support Ticket | Hummingbird Hammocks" />;

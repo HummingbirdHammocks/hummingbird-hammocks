@@ -1,6 +1,6 @@
 import { gql, useMutation } from '@apollo/client';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { LoadingButton } from '@mui/lab';
 import {
   Box,
   Button,
@@ -12,16 +12,15 @@ import {
   Typography
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-// components
-import { Layout, MainWrapper, Seo } from 'components';
-import { useFormik } from 'formik';
 import { navigate } from 'gatsby';
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
+import { Layout, MainWrapper, Seo } from '../../../components';
 // stores
-import { useAuthDispatch, useAuthStore } from '../stores';
+import { useAuthDispatch, useAuthStore } from '../../../stores';
 
 const validationSchema = yup.object({
   firstName: yup.string().trim().required('First Name is required'),
@@ -46,12 +45,13 @@ const RegisterPage = () => {
   const { customerAccessToken } = useAuthStore();
   const authDispatch = useAuthDispatch();
 
-  const initialValues = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: ''
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting }
+  } = useForm({
+    resolver: yupResolver(validationSchema)
+  });
 
   const onSubmit = async ({ firstName, lastName, email, password }) => {
     const { data } = await customerRegister({
@@ -77,12 +77,6 @@ const RegisterPage = () => {
     }
   };
 
-  const formik = useFormik({
-    initialValues,
-    validationSchema: validationSchema,
-    onSubmit
-  });
-
   const [customerRegister /* , { loading, error } */] = useMutation(CUSTOMER_REGISTER);
 
   const handleShowPassword = () => {
@@ -91,7 +85,6 @@ const RegisterPage = () => {
 
   return (
     <Layout>
-      <Seo title="Register" />
       <Box
         sx={{
           background: theme.palette.white,
@@ -138,37 +131,34 @@ const RegisterPage = () => {
 
                 <Box padding="30px" justifyContent="center" display="flex">
                   <Box>
-                    <form onSubmit={formik.handleSubmit}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                       <Stack spacing={2} sx={{ width: { xs: '100%', md: '400px' } }}>
                         <TextField
                           label="First Name *"
                           variant="outlined"
                           name={'firstName'}
                           fullWidth
-                          value={formik.values.firstName}
-                          onChange={formik.handleChange}
-                          error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-                          helperText={formik.touched.firstName && formik.errors.firstName}
+                          {...register('firstName')}
+                          error={!!errors.firstName}
+                          helperText={errors.firstName?.message}
                         />
                         <TextField
                           label="Last Name *"
                           variant="outlined"
                           name={'lastName'}
                           fullWidth
-                          value={formik.values.lastName}
-                          onChange={formik.handleChange}
-                          error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-                          helperText={formik.touched.lastName && formik.errors.lastName}
+                          {...register('lastName')}
+                          error={!!errors.lastName}
+                          helperText={errors.lastName?.message}
                         />
                         <TextField
                           label="Email *"
                           variant="outlined"
                           name={'email'}
                           fullWidth
-                          value={formik.values.email}
-                          onChange={formik.handleChange}
-                          error={formik.touched.email && Boolean(formik.errors.email)}
-                          helperText={formik.touched.email && formik.errors.email}
+                          {...register('email')}
+                          error={!!errors.email}
+                          helperText={errors.email?.message}
                         />
                         <TextField
                           label="Password *"
@@ -185,18 +175,17 @@ const RegisterPage = () => {
                               </InputAdornment>
                             )
                           }}
-                          value={formik.values.password}
-                          onChange={formik.handleChange}
-                          error={formik.touched.password && Boolean(formik.errors.password)}
-                          helperText={formik.touched.password && formik.errors.password}
+                          {...register('password')}
+                          error={!!errors.password}
+                          helperText={errors.password?.message}
                         />
-                        <LoadingButton
+                        <Button
                           size={'large'}
                           variant={'contained'}
                           type={'submit'}
-                          loading={formik.isSubmitting}>
+                          disabled={isSubmitting}>
                           Create Account
-                        </LoadingButton>
+                        </Button>
                       </Stack>
                     </form>
                   </Box>
@@ -226,3 +215,5 @@ const CUSTOMER_REGISTER = gql`
     }
   }
 `;
+
+export const Head = () => <Seo title="Register | Hummingbird Hammocks" />;

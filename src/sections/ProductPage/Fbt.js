@@ -10,10 +10,11 @@ import {
   useMediaQuery
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Link } from 'components';
-import { CartContext } from 'contexts';
 import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+
+import { Link } from '../../components';
+import { CartContext } from '../../contexts';
 
 export const Fbt = ({ currentVariant, product, fbtData }) => {
   const theme = useTheme();
@@ -82,12 +83,15 @@ export const Fbt = ({ currentVariant, product, fbtData }) => {
   const handleSubmit = async () => {
     setLoading(true);
 
+    let count = 0;
+
     for (let i = 0; i < selectedVariant.length; i++) {
-      if (selectedVariant[i].selected) {
+      if (selectedVariant[i]?.selected) {
+        count++;
         await updateLineItem({ variantId: selectedVariant[i].id, quantity: 1 });
       }
     }
-    toast.success(`${selectedVariant.length} items added to cart`);
+    toast.success(`${count} items added to cart`);
 
     setLoading(false);
   };

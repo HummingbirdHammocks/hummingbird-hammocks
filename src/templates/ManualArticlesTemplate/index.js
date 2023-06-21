@@ -9,13 +9,13 @@ import {
   Typography
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Layout, Link, MainWrapper, Socials } from 'components';
 import { graphql } from 'gatsby';
 import React, { useEffect } from 'react';
-import { ArticlesHeader, ArticlesSidebar } from 'sections';
 
+import { Layout, Link, MainWrapper, Seo, Socials } from '../../components';
+import { ArticlesHeader, ArticlesSidebar } from '../../sections';
 import { useRecentlyViewedDispatch } from '../../stores';
-import { fShopify } from '../../utils/formatTime';
+import { fShopify } from '../../utils';
 
 const ManualArticles = ({
   data: { manualArticles, recentManualArticles },
@@ -27,7 +27,7 @@ const ManualArticles = ({
 
   const type = 'manuals';
 
-  const { title, published_at, /* author, */ body_html, /* handle, */ localFile } = manualArticles;
+  const { title, publishedAt, contentHtml, localFile } = manualArticles;
   const url = typeof window !== 'undefined' ? window.location.href : '';
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const ManualArticles = ({
       <ArticlesHeader
         title={title}
         backpath={'/knowledgebase/manuals'}
-        date={fShopify(published_at)}
+        date={fShopify(publishedAt)}
       />
       <MainWrapper>
         <Stack
@@ -121,7 +121,7 @@ const ManualArticles = ({
                 }}>
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: body_html
+                    __html: contentHtml
                   }}
                 />
               </Box>
@@ -160,16 +160,18 @@ export const query = graphql`
           gatsbyImageData(placeholder: BLURRED)
         }
       }
-      author
-      body_html
-      summary_html
-      published_at
+      authorV2 {
+        name
+      }
+      contentHtml
+      excerpt
+      publishedAt
       title
       handle
       id
     }
 
-    recentManualArticles: allManualArticles(limit: 5, sort: { published_at: DESC }) {
+    recentManualArticles: allManualArticles(limit: 5, sort: { publishedAt: DESC }) {
       nodes {
         title
         handle
@@ -178,3 +180,21 @@ export const query = graphql`
     }
   }
 `;
+
+export const Head = ({ data }) => {
+  let title = '';
+  if (data?.manualArticles?.seo?.title) {
+    title = data?.manualArticles?.seo?.title;
+  } else {
+    title = data.manualArticles.title;
+  }
+
+  let description = '';
+  if (data?.manualArticles?.seo?.description) {
+    description = data?.manualArticles?.seo?.description;
+  } else {
+    description = data.manualArticles.content;
+  }
+
+  return <Seo title={`${title} | HH Knowledgebase`} description={description} />;
+};

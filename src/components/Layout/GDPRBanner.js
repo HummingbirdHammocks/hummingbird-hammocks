@@ -1,7 +1,8 @@
 import { Typography } from '@mui/material';
-import { Link } from 'components';
 import React from 'react';
 import CookieConsent from 'react-cookie-consent';
+
+import { Link } from '../../components';
 
 const GDPRConsent = () => {
   return (

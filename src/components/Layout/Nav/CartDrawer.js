@@ -14,11 +14,11 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { Link } from 'components';
-import { CartContext } from 'contexts';
 import window from 'global';
 import React, { useContext } from 'react';
 
+import { Link } from '../../../components';
+import { CartContext } from '../../../contexts';
 // stores
 import { useUIDispatch, useUIStore } from '../../../stores';
 

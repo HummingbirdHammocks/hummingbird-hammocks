@@ -12,12 +12,13 @@ module.exports = {
     siteUrl: `https://hummingbirdhammocks.com/`,
     author: `@HummingbirdHammocks`,
     phone: `+17193772116`,
-    email: `support@hummingbirdhammocks.com`,
+    email: `help@hummingbirdhammocks.com`,
+    //image: `/gatsby-icon.png`, /static/image.png
     address: `18611 Cherry Springs Ranch Dr. Monument, CO 80132 USA`,
+    twitterUsername: '@HummingbirdHammocks',
     privacyAccessibilityTermsUpdateDate: '15 May, 2022'
   },
   plugins: [
-    `gatsby-plugin-react-helmet`,
     `gatsby-plugin-image`,
     `gatsby-plugin-sitemap`,
     {

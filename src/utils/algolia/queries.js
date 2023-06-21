@@ -4,7 +4,7 @@ const query = `{
       title
       id
       tags
-      body_html
+      contentHtml
       localFile {
         childImageSharp {
           gatsbyImageData(height: 96, width: 96)
@@ -18,9 +18,13 @@ const query = `{
       id
       title
       description
-      featuredImage {
-        gatsbyImageData
-        altText
+      featuredMedia {
+        preview {
+          image {
+            gatsbyImageData
+            altText
+          }
+        }
       }
       handle
     }
@@ -30,7 +34,7 @@ const query = `{
       title
       id
       tags
-      body_html
+      contentHtml
       localFile {
         childImageSharp {
           gatsbyImageData(height: 96, width: 96)
@@ -44,7 +48,7 @@ const query = `{
       title
       id
       tags
-      body_html
+      contentHtml
       localFile {
         childImageSharp {
           gatsbyImageData(height: 96, width: 96)

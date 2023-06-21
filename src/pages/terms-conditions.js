@@ -1,10 +1,10 @@
-import { Layout, Seo } from 'components';
 import React from 'react';
-import { Info } from 'sections';
+
+import { Layout, Seo } from '../components';
+import { Info } from '../sections';
 
 const TermsPage = () => (
   <Layout>
-    <Seo title="TERMS AND CONDITIONS" />
     <Info subTextAlign="left" title="TERMS AND CONDITIONS">
       <br />
       <br />
@@ -311,3 +311,5 @@ const TermsPage = () => (
 );
 
 export default TermsPage;
+
+export const Head = () => <Seo title="Terms and Conditions | Hummingbird Hammocks" />;

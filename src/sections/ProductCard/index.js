@@ -1,10 +1,11 @@
 import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { BargainBinWrap, Link, MiddleSpinner, SoldOutWrap } from 'components';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import React, { useState } from 'react';
 // import JudgeMe from "utils/judgeMe"
 import { useEffect } from 'react';
+
+import { BargainBinWrap, Link, MiddleSpinner, SoldOutWrap } from '../../components';
 
 const ProductWrapper = styled(Box)(() => ({
   padding: '40px 15px',
@@ -77,8 +78,8 @@ export const ProductCard = ({ products, minHeight, mdminheight }) => {
             <Link to={`/products/${product.handle}`}>
               <ImageBox mdminheight={mdminheight} minHeight={minHeight}>
                 <AbsoluteImage
-                  className={product.images[1] ? 'image-1' : ''}
-                  image={product.images[0].gatsbyImageData}
+                  className={product.media[1] ? 'image-1' : ''}
+                  image={product.media[0].image.gatsbyImageData}
                   alt={product.title}
                   placeholder="blurred"
                   style={{ margin: '1rem', maxHeight: '350px' }}
@@ -96,10 +97,10 @@ export const ProductCard = ({ products, minHeight, mdminheight }) => {
                   }}
                 />
 
-                {product.images[1] && (
+                {product.media[1] && (
                   <AbsoluteImage
                     className="image-2"
-                    image={product.images[1].gatsbyImageData}
+                    image={product.media[1].image.gatsbyImageData}
                     alt={product.title}
                     placeholder="blurred"
                     style={{ margin: '1rem', maxHeight: '350px' }}
@@ -120,7 +121,7 @@ export const ProductCard = ({ products, minHeight, mdminheight }) => {
               </ImageBox>
               {/* <GatsbyImage
                 alt={product.title}
-                image={product.images[0].gatsbyImageData}
+                image={product.media[0]image.gatsbyImageData}
               /> */}
               <Box m="30px 0 5px 0">
                 <Typography textAlign="center" variant="subtitle2" color="black">

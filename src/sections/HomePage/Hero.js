@@ -1,7 +1,8 @@
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Link } from 'components';
 import React from 'react';
+
+import { Link } from '../../components';
 
 export function Hero({ children, data }) {
   const theme = useTheme();

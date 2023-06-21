@@ -32,6 +32,20 @@ exports.onCreateNode = async ({
         createNodeField({ node, name: 'localFile', value: fileNode.id });
       }
     }
+    if (node.image && node.image.url && node.image.url !== null) {
+      const fileNode = await createRemoteFileNode({
+        // the url of the remote image to generate a node for
+        url: node.image.url,
+        parentNodeId: node.id,
+        createNode,
+        createNodeId,
+        getCache
+      });
+
+      if (fileNode) {
+        createNodeField({ node, name: 'localFile', value: fileNode.id });
+      }
+    }
   }
 };
 
@@ -60,19 +74,60 @@ exports.createSchemaCustomization = ({ actions }) => {
 exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => {
   const { createNode } = actions;
 
-  //Blog articles
-  const {
-    data: { articles }
-  } = await axios(
-    `https://${process.env.GATSBY_SHOPIFY_SHOP_NAME}.myshopify.com/admin/api/${process.env.GATSBY_SHOPIFY_API_VERSION}/blogs/${process.env.GATSBY_SHOPIFY_BLOG_ID}/articles.json?published_status=published`,
-    {
-      headers: {
-        'X-Shopify-Access-Token': process.env.GATSBY_SHOPIFY_ADMIN_ACCESS_TOKEN
+  //Outdoor Articles
+  const dataOutdoorArticles = JSON.stringify({
+    query: `{
+    articles(first: 250, query: "blog_title:'Outdoor Articles'") {
+      nodes {
+        authorV2 {
+            name
+        }
+        blog {
+            title
+            id
+        }
+        content(truncateAt: 155)
+        contentHtml
+        excerpt
+        handle
+        id
+        image {
+            altText
+            height
+            id
+            url
+            width
+        }
+        publishedAt
+        seo {
+            description
+            title
+        }
+        tags
+        title
       }
     }
-  );
+  }`,
+    variables: {}
+  });
 
-  articles.forEach((node) => {
+  const configOutdoorArticles = {
+    method: 'post',
+    maxBodyLength: Infinity,
+    url: `https://${process.env.GATSBY_SHOPIFY_STORE_URL}/api/${process.env.GATSBY_SHOPIFY_API_VERSION}/graphql.json`,
+    headers: {
+      'X-Shopify-Storefront-Access-Token': `${process.env.GATSBY_SHOPIFY_STOREFRONT_ACCESS_TOKEN}`,
+      'Content-Type': 'application/json'
+    },
+    data: dataOutdoorArticles
+  };
+
+  //Fetch and Create Outdoor Article Data
+  const {
+    data: { data: outdoorArticles }
+  } = await axios(configOutdoorArticles);
+
+  outdoorArticles.articles.nodes.forEach((node) => {
     createNode({
       ...node,
       id: createNodeId(`${NODE_TYPE_ARTICLES}-${node.id}`),
@@ -86,19 +141,60 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     });
   });
 
-  //Knowledgebase articles
-  const {
-    data: { articles: knowledgebaseArticles }
-  } = await axios(
-    `https://${process.env.GATSBY_SHOPIFY_SHOP_NAME}.myshopify.com/admin/api/${process.env.GATSBY_SHOPIFY_API_VERSION}/blogs/${process.env.GATSBY_SHOPIFY_KNOWLEDGEBASE_ID}/articles.json?published_status=published`,
-    {
-      headers: {
-        'X-Shopify-Access-Token': process.env.GATSBY_SHOPIFY_ADMIN_ACCESS_TOKEN
+  //Knowledgebase Articles
+  const dataKnowledgebaseArticles = JSON.stringify({
+    query: `{
+    articles(first: 250, query: "blog_title:'Knowledge Base'") {
+      nodes {
+        authorV2 {
+            name
+        }
+        blog {
+            title
+            id
+        }
+        content(truncateAt: 155)
+        contentHtml
+        excerpt
+        handle
+        id
+        image {
+            altText
+            height
+            id
+            url
+            width
+        }
+        publishedAt
+        seo {
+            description
+            title
+        }
+        tags
+        title
       }
     }
-  );
+  }`,
+    variables: {}
+  });
 
-  knowledgebaseArticles.forEach((node) => {
+  const configKnowledgebaseArticles = {
+    method: 'post',
+    maxBodyLength: Infinity,
+    url: `https://${process.env.GATSBY_SHOPIFY_STORE_URL}/api/${process.env.GATSBY_SHOPIFY_API_VERSION}/graphql.json`,
+    headers: {
+      'X-Shopify-Storefront-Access-Token': `${process.env.GATSBY_SHOPIFY_STOREFRONT_ACCESS_TOKEN}`,
+      'Content-Type': 'application/json'
+    },
+    data: dataKnowledgebaseArticles
+  };
+
+  //Fetch and Create Outdoor Article Data
+  const {
+    data: { data: knowledgebaseArticles }
+  } = await axios(configKnowledgebaseArticles);
+
+  knowledgebaseArticles.articles.nodes.forEach((node) => {
     createNode({
       ...node,
       id: createNodeId(`${NODE_TYPE_KNOWLEDGEBASE_ARTICLES}-${node.id}`),
@@ -112,19 +208,60 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     });
   });
 
-  //Manuals
-  const {
-    data: { articles: manualArticles }
-  } = await axios(
-    `https://${process.env.GATSBY_SHOPIFY_SHOP_NAME}.myshopify.com/admin/api/${process.env.GATSBY_SHOPIFY_API_VERSION}/blogs/${process.env.GATSBY_SHOPIFY_MANUALS_ID}/articles.json?published_status=published`,
-    {
-      headers: {
-        'X-Shopify-Access-Token': process.env.GATSBY_SHOPIFY_ADMIN_ACCESS_TOKEN
+  //Knowledgebase Articles
+  const dataManuals = JSON.stringify({
+    query: `{
+    articles(first: 250, query: "blog_title:'Manuals'") {
+      nodes {
+        authorV2 {
+            name
+        }
+        blog {
+            title
+            id
+        }
+        content(truncateAt: 155)
+        contentHtml
+        excerpt
+        handle
+        id
+        image {
+            altText
+            height
+            id
+            url
+            width
+        }
+        publishedAt
+        seo {
+            description
+            title
+        }
+        tags
+        title
       }
     }
-  );
+  }`,
+    variables: {}
+  });
 
-  manualArticles.forEach((node) => {
+  const configManuals = {
+    method: 'post',
+    maxBodyLength: Infinity,
+    url: `https://${process.env.GATSBY_SHOPIFY_STORE_URL}/api/${process.env.GATSBY_SHOPIFY_API_VERSION}/graphql.json`,
+    headers: {
+      'X-Shopify-Storefront-Access-Token': `${process.env.GATSBY_SHOPIFY_STOREFRONT_ACCESS_TOKEN}`,
+      'Content-Type': 'application/json'
+    },
+    data: dataManuals
+  };
+
+  //Fetch and Create Outdoor Article Data
+  const {
+    data: { data: manualArticles }
+  } = await axios(configManuals);
+
+  manualArticles.articles.nodes.forEach((node) => {
     createNode({
       ...node,
       id: createNodeId(`${NODE_TYPE_MANUAL_ARTICLES}-${node.id}`),

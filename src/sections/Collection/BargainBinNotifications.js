@@ -128,8 +128,8 @@ export function BargainBinNotifications() {
                   alignItems="center"
                   spacing={2}>
                   <Typography mb="20px" variant="body1">
-                    Just click the button below and we will notify you when new Bargain Bin items are
-                    available.
+                    Just click the button below and we will notify you when new Bargain Bin items
+                    are available.
                   </Typography>
                   <LoadingButton
                     sx={{ minWidth: '160px' }}

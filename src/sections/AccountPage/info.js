@@ -2,14 +2,14 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
-// components
-import { AccountLayout, Link, MiddleSpinner } from 'components';
 import { navigate } from 'gatsby';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
+// components
+import { AccountLayout, Link, MiddleSpinner } from '../../components';
 // stores
 import { useAuthDispatch, useAuthStore } from '../../stores';
 

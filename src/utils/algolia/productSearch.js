@@ -5,15 +5,15 @@ import { navigate } from 'gatsby';
 import React from 'react';
 
 import './autocomplete.css';
-import Autocomplete from './customAutocomplete';
-import ProductItem from './productItem';
+import { Autocomplete } from './customAutocomplete';
+import { ProductItem } from './productItem';
 
 const searchClient = algoliasearch(
   process.env.GATSBY_ALGOLIA_APP_ID,
   process.env.GATSBY_ALGOLIA_ADMIN_KEY
 );
 
-export default function ProductSearch() {
+export function ProductSearch() {
   return (
     <Autocomplete
       openOnFocus={true}

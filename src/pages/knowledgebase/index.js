@@ -1,17 +1,15 @@
 import { Box, Button, Container, Grid, Paper, Stack, Typography } from '@mui/material';
-import DoubleHammockBackground from 'assets/images/product-backgrounds/DoubleHammockBackground.jpg';
-import { Layout, Link, MainWrapper, Seo } from 'components';
 import { graphql } from 'gatsby';
 import React from 'react';
-import { ArticleTagsTabs } from 'sections';
-import KnowledgebaseArticlesSearch from 'utils/algolia/knowledgebaseArticlesSearch';
-import KnowledgebaseComboSearch from 'utils/algolia/knowledgebaseComboSearch';
-import ManualsSearch from 'utils/algolia/manualsSearch';
+
+import DoubleHammockBackground from '../../assets/images/product-backgrounds/DoubleHammockBackground.jpg';
+import { Layout, Link, MainWrapper, Seo } from '../../components';
+import { ArticleTagsTabs } from '../../sections';
+import { KnowledgebaseArticlesSearch, KnowledgebaseComboSearch, ManualsSearch } from '../../utils';
 
 const HelpCenter = ({ data: { allKnowledgebaseArticles, allManualArticles } }) => {
   return (
     <Layout>
-      <Seo title="Help Center Knowledge Base" />
       <Box display={{ xs: 'none', md: 'block' }}>
         <Box
           sx={{
@@ -155,7 +153,7 @@ export default HelpCenter;
 
 export const query = graphql`
   query helpCenterArticlesTemplate {
-    allKnowledgebaseArticles(sort: { published_at: DESC }) {
+    allKnowledgebaseArticles(sort: { publishedAt: DESC }) {
       totalCount
       group(field: { tags: SELECT }) {
         nodes {
@@ -164,8 +162,8 @@ export const query = graphql`
               gatsbyImageData(placeholder: BLURRED)
             }
           }
-          summary_html
-          published_at
+          contentHtml
+          publishedAt
           title
           handle
           id
@@ -174,7 +172,7 @@ export const query = graphql`
       }
     }
 
-    allManualArticles(sort: { published_at: DESC }) {
+    allManualArticles(sort: { publishedAt: DESC }) {
       totalCount
       group(field: { tags: SELECT }) {
         nodes {
@@ -183,8 +181,8 @@ export const query = graphql`
               gatsbyImageData(placeholder: BLURRED)
             }
           }
-          summary_html
-          published_at
+          contentHtml
+          publishedAt
           title
           handle
           id
@@ -194,3 +192,5 @@ export const query = graphql`
     }
   }
 `;
+
+export const Head = () => <Seo title="Help Center Knowledge Base | Hummingbird Hammocks" />;

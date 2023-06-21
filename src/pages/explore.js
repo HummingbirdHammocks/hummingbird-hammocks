@@ -1,9 +1,10 @@
 import { Container } from '@mui/material';
-import { Layout, MainWrapper, Seo } from 'components';
-import { ProductContext } from 'contexts';
 import { StaticImage } from 'gatsby-plugin-image';
 import React, { useContext } from 'react';
-import { Details, Hero, Info, RecentlyViewed } from 'sections';
+
+import { Layout, MainWrapper, Seo } from '../components';
+import { ProductContext } from '../contexts';
+import { Details, Hero, Info, RecentlyViewed } from '../sections';
 
 const heroData = {
   position: 'center',
@@ -44,7 +45,6 @@ const ExplorePage = () => {
   const { featuredProducts } = useContext(ProductContext);
   return (
     <Layout>
-      <Seo />
       <Hero data={heroData}>
         <StaticImage
           style={{
@@ -127,3 +127,5 @@ const ExplorePage = () => {
 };
 
 export default ExplorePage;
+
+export const Head = () => <Seo title="Explore | Hummingbird Hammocks" />;

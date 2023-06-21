@@ -1,11 +1,10 @@
-import { Layout, Seo } from 'components';
 import React from 'react';
-import { Info } from 'sections';
+
+import { Layout, Seo } from '../components';
+import { Info } from '../sections';
 
 const ShippingPolicyPage = () => (
   <Layout>
-    <Seo title="Shipping Policy" />
-
     <Info subTextAlign="left" title="SHIPPING POLICY">
       <b>GENERAL</b>
       <br />
@@ -80,3 +79,5 @@ const ShippingPolicyPage = () => (
 );
 
 export default ShippingPolicyPage;
+
+export const Head = () => <Seo title="Shipping Policy | Hummingbird Hammocks" />;
