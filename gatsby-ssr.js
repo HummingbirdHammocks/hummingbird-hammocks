@@ -27,8 +27,6 @@ import { CartContextProvider, ProductContextProvider } from './src/contexts';
 import { AuthProvider, ProductsProvider, RecentlyViewedProvider, UIProvider } from './src/stores';
 import './src/ui/style.css';
 import theme from './src/ui/theme';
-// Judge.me and Quickchat
-import { ChatWidget, ReviewWidgetScripts } from './src/utils';
 
 const rqClient = new QueryClient();
 
@@ -51,8 +49,6 @@ export const wrapPageElement = ({ element }) => (
     {element}
     <ToastContainer pauseOnFocusLoss={false} />
     <ReactQueryDevtools initialIsOpen={false} />
-    <ReviewWidgetScripts />
-    <ChatWidget />
   </>
 );
 

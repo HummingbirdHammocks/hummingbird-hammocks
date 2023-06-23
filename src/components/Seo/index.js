@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useSiteMetadata } from '../../hooks';
 import { truncateText } from '../../utils';
+import { ChatWidget, ReviewWidgetScripts } from '../../utils';
 
 export const Seo = ({ title, description, pathname, children }) => {
   const {
@@ -32,6 +33,8 @@ export const Seo = ({ title, description, pathname, children }) => {
       <meta name="twitter:image" content={seo.image} />
       <meta name="twitter:creator" content={seo.twitterUsername} />
       <link rel="icon" href="/favicon.png" />
+      <ReviewWidgetScripts />
+      <ChatWidget />
       {children}
     </>
   );
