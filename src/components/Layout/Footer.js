@@ -4,7 +4,12 @@ import { useTheme } from '@mui/material/styles';
 import { StaticImage } from 'gatsby-plugin-image';
 import React from 'react';
 
-import { AnotherLink, Link, MainWrapper, VerifiedReviewsCountBadge } from '../../components';
+import {
+  AnotherLink,
+  Link,
+  MainWrapper
+  /*VerifiedReviewsCountBadge*/
+} from '../../components';
 import { useIos } from '../../hooks';
 import { FooterShapeDivider } from './FooterShapeDivider';
 
