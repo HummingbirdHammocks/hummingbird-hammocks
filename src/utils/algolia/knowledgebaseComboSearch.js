@@ -1,17 +1,10 @@
 import { getAlgoliaResults } from '@algolia/autocomplete-js';
-import '@algolia/autocomplete-theme-classic';
-import algoliasearch from 'algoliasearch';
 import { navigate } from 'gatsby';
 import React from 'react';
 
 import { KnowledgebaseItem } from './KnowledgebaseItem';
-import './autocomplete.css';
 import { Autocomplete } from './customAutocomplete';
-
-const searchClient = algoliasearch(
-  process.env.GATSBY_ALGOLIA_APP_ID,
-  process.env.GATSBY_ALGOLIA_ADMIN_KEY
-);
+import { searchClient } from './searchClient';
 
 export function KnowledgebaseComboSearch() {
   return (
@@ -35,7 +28,7 @@ export function KnowledgebaseComboSearch() {
           },
           onSelect({ item, setQuery, setIsOpen, refresh }) {
             setQuery(`${item.query} `);
-            setIsOpen(true);
+            setIsOpen(false);
             refresh();
           },
           /* getItemUrl({ item }) {
@@ -79,7 +72,7 @@ export function KnowledgebaseComboSearch() {
           },
           onSelect({ item, setQuery, setIsOpen, refresh }) {
             setQuery(`${item.query} `);
-            setIsOpen(true);
+            setIsOpen(false);
             refresh();
           },
           /* getItemUrl({ item }) {

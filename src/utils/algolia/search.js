@@ -1,19 +1,12 @@
 import { getAlgoliaResults } from '@algolia/autocomplete-js';
-import '@algolia/autocomplete-theme-classic';
-import algoliasearch from 'algoliasearch';
 import { navigate } from 'gatsby';
 import React from 'react';
 
 import { ArticleItem } from './ArticleItem';
 import { KnowledgebaseItem } from './KnowledgebaseItem';
-import './autocomplete.css';
 import { Autocomplete } from './customAutocomplete';
 import { ProductItem } from './productItem';
-
-const searchClient = algoliasearch(
-  process.env.GATSBY_ALGOLIA_APP_ID,
-  process.env.GATSBY_ALGOLIA_ADMIN_KEY
-);
+import { searchClient } from './searchClient';
 
 export function Search() {
   return (
@@ -37,7 +30,7 @@ export function Search() {
           },
           onSelect({ item, setQuery, setIsOpen, refresh }) {
             setQuery(`${item.query} `);
-            setIsOpen(true);
+            setIsOpen(false);
             refresh();
           },
           /* getItemUrl({ item }) {
@@ -81,7 +74,7 @@ export function Search() {
           },
           onSelect({ item, setQuery, setIsOpen, refresh }) {
             setQuery(`${item.query} `);
-            setIsOpen(true);
+            setIsOpen(false);
             refresh();
           },
           /* getItemUrl({ item }) {
@@ -125,7 +118,7 @@ export function Search() {
           },
           onSelect({ item, setQuery, setIsOpen, refresh }) {
             setQuery(`${item.query} `);
-            setIsOpen(true);
+            setIsOpen(false);
             refresh();
           },
           /* getItemUrl({ item }) {
@@ -169,7 +162,7 @@ export function Search() {
           },
           onSelect({ item, setQuery, setIsOpen, refresh }) {
             setQuery(`${item.query} `);
-            setIsOpen(true);
+            setIsOpen(false);
             refresh();
           },
           /* getItemUrl({ item }) {
