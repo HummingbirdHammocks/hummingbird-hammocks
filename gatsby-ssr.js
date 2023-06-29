@@ -1,3 +1,4 @@
+import '@algolia/autocomplete-theme-classic';
 import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
 import '@fontsource/montserrat/400.css';
 import '@fontsource/montserrat/500.css';
@@ -27,6 +28,8 @@ import { CartContextProvider, ProductContextProvider } from './src/contexts';
 import { AuthProvider, ProductsProvider, RecentlyViewedProvider, UIProvider } from './src/stores';
 import './src/ui/style.css';
 import theme from './src/ui/theme';
+// Algolia Search
+import './src/utils/algolia/autocomplete.css';
 
 const rqClient = new QueryClient();
 

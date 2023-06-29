@@ -1,11 +1,9 @@
 import { getAlgoliaResults } from '@algolia/autocomplete-js';
-import '@algolia/autocomplete-theme-classic';
 import algoliasearch from 'algoliasearch';
 import { navigate } from 'gatsby';
 import React from 'react';
 
 import { ArticleItem } from './ArticleItem';
-import './autocomplete.css';
 import { Autocomplete } from './customAutocomplete';
 
 const searchClient = algoliasearch(
@@ -35,7 +33,7 @@ export function ArticlesSearch() {
           },
           onSelect({ item, setQuery, setIsOpen, refresh }) {
             setQuery(`${item.query} `);
-            setIsOpen(true);
+            setIsOpen(false);
             refresh();
           },
           /* getItemUrl({ item }) {

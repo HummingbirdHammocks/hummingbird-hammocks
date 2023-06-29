@@ -8,3 +8,4 @@ export * from './manualsSearch';
 export * from './productItem';
 export * from './productSearch';
 export * from './search';
+export * from './searchClient';
