@@ -5,7 +5,11 @@ import React from 'react';
 import DoubleHammockBackground from '../../assets/images/product-backgrounds/DoubleHammockBackground.jpg';
 import { Layout, Link, MainWrapper, Seo } from '../../components';
 import { ArticleTagsTabs } from '../../sections';
-import { KnowledgebaseArticlesSearch, KnowledgebaseComboSearch, ManualsSearch } from '../../utils';
+import {
+  /* KnowledgebaseArticlesSearch, */
+  KnowledgebaseComboSearch
+  /* ManualsSearch */
+} from '../../utils';
 
 const HelpCenter = ({ data: { allKnowledgebaseArticles, allManualArticles } }) => {
   return (
@@ -117,7 +121,7 @@ const HelpCenter = ({ data: { allKnowledgebaseArticles, allManualArticles } }) =
               padding={2}>
               <Typography variant="h4">FAQ & Articles</Typography>
               <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2}>
-                <KnowledgebaseArticlesSearch />
+                {/* <KnowledgebaseArticlesSearch /> */}
                 <Button variant="outlined" component={Link} to={`/knowledgebase/articles`}>
                   All Articles
                 </Button>
@@ -135,7 +139,7 @@ const HelpCenter = ({ data: { allKnowledgebaseArticles, allManualArticles } }) =
               padding={2}>
               <Typography variant="h4">Manuals & Guides</Typography>
               <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2}>
-                <ManualsSearch />
+                {/* <ManualsSearch /> */}
                 <Button variant="outlined" component={Link} to={`/knowledgebase/manuals`}>
                   All Manuals
                 </Button>
