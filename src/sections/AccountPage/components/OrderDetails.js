@@ -130,7 +130,7 @@ export const OrderDetails = ({ firstName, lastName, email, data, returnAccount }
                       '&:last-child td, &:last-child th': { border: 0 }
                     }}>
                     <TableCell scope="row">{title}</TableCell>
-                    <TableCell align="right">{variant.sku}</TableCell>
+                    <TableCell align="right">{variant && variant.sku && variant.sku}</TableCell>
                     <TableCell align="right">${originalTotalPrice.amount}</TableCell>
                     <TableCell align="right">{quantity}</TableCell>
                     <TableCell align="right">${discountedTotalPrice.amount}</TableCell>

@@ -38,6 +38,8 @@ export const OrderCard = ({ order, firstName, lastName, email }) => {
     successfulFulfillments
   } = order.node;
 
+  console.log(lineItems.edges[0].node.title);
+
   const { pathname } = useLocation();
 
   const handleOrderDetails = (name) => {
@@ -107,18 +109,26 @@ export const OrderCard = ({ order, firstName, lastName, email }) => {
         <Grid container spacing={2}>
           <Grid item xs={12} sm={8} lg={7}>
             {lineItems &&
-              lineItems.edges.map((item) => {
-                const {
-                  title,
-                  variant: {
-                    title: variantTitle,
-                    image: { url, altText }
-                  },
-                  quantity
-                } = item.node;
+              lineItems.edges.map((item, index) => {
+                if (!item.node) {
+                  console.warn('item.node is null or undefined', item);
+                  return <Box key={index}>Item is no longer available or was discontinued.</Box>;
+                }
+                const { title, variant } = item.node;
+                if (!variant) {
+                  console.warn('item.node.variant is null or undefined', item);
+                  return <Box key={index}>Item is no longer available or was discontinued.</Box>;
+                }
+                const { title: variantTitle, image } = variant;
+                if (!image) {
+                  console.warn('item.node.variant.image is null or undefined', item);
+                  return <Box key={index}>Item is no longer available or was discontinued.</Box>;
+                }
+                const { url, altText } = image;
+                const { quantity } = item.node;
                 return (
                   <Box sx={{ margin: 1 }} key={title}>
-                    <Tooltip title={`${title} ${variantTitle}`}>
+                    <Tooltip title={`${title && title} ${variantTitle && variantTitle}`}>
                       <Badge badgeContent={quantity} color="primary">
                         <img src={url} alt={altText} height={'80px'} width={'80px'} />
                       </Badge>
