@@ -35,7 +35,7 @@ const AccountOrdersPage = () => {
   });
 
   useEffect(() => {
-    if (data?.customer.orders?.edges && q) {
+    if (data?.customer?.orders?.edges && q) {
       const index = data.customer.orders?.edges.findIndex((i) => i.node.name === q);
       if (index >= 0) {
         setAccountDetails({ open: true, index });
@@ -51,18 +51,18 @@ const AccountOrdersPage = () => {
         <Box>
           {error && 'Error'}
           {loading && <MiddleSpinner divminheight="460px" size={20} />}
-          {data && (
+          {data && data.customer && (
             <Grid container spacing={2} sx={{ paddingBottom: 4 }}>
               <Grid item xs={12}>
                 <Typography sx={{ marginBottom: 7 }} variant="h4">
                   Order History
                 </Typography>
                 <OrderHistory
-                  rows={data.customer.orders?.edges}
-                  data={data?.customer.orders?.edges[accountDetails.index]}
-                  firstName={data.customer.firstName}
-                  lastName={data.customer.lastName}
-                  email={data.customer.email}
+                  rows={data.customer?.orders?.edges}
+                  data={data.customer?.orders?.edges[accountDetails.index]}
+                  firstName={data.customer?.firstName}
+                  lastName={data.customer?.lastName}
+                  email={data.customer?.email}
                 />
               </Grid>
             </Grid>
