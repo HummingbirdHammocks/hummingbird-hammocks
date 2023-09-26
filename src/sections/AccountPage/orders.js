@@ -34,6 +34,8 @@ const AccountOrdersPage = () => {
     }
   });
 
+  console.log(error);
+
   useEffect(() => {
     if (data?.customer?.orders?.edges && q) {
       const index = data.customer.orders?.edges.findIndex((i) => i.node.name === q);
@@ -101,7 +103,10 @@ const CUSTOMER_INFO = gql`
           node {
             name
             id
-            totalPrice
+            totalPrice {
+              amount
+              currencyCode
+            }
             processedAt
             currencyCode
             fulfillmentStatus
@@ -127,7 +132,10 @@ const CUSTOMER_INFO = gql`
             currentTotalTax {
               amount
             }
-            totalShippingPrice
+            totalShippingPrice {
+              amount
+              currencyCode
+            }
             lineItems(first: 10) {
               edges {
                 node {
@@ -154,8 +162,14 @@ const CUSTOMER_INFO = gql`
                 }
               }
             }
-            subtotalPrice
-            totalPrice
+            subtotalPrice {
+              amount
+              currencyCode
+            }
+            totalPrice {
+              amount
+              currencyCode
+            }
           }
         }
       }

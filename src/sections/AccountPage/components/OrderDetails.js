@@ -144,7 +144,7 @@ export const OrderDetails = ({ firstName, lastName, email, data, returnAccount }
                 <TableCell align="right" colSpan={4}>
                   Sub Total
                 </TableCell>
-                <TableCell align="right">${subtotalPrice}</TableCell>
+                <TableCell align="right">${subtotalPrice?.amount}</TableCell>
               </TableRow>
               <TableRow
                 sx={{
@@ -153,7 +153,7 @@ export const OrderDetails = ({ firstName, lastName, email, data, returnAccount }
                 <TableCell align="right" colSpan={4}>
                   Shipping
                 </TableCell>
-                <TableCell align="right">${totalShippingPrice}</TableCell>
+                <TableCell align="right">${totalShippingPrice?.amount}</TableCell>
               </TableRow>
               <TableRow
                 sx={{
@@ -171,7 +171,7 @@ export const OrderDetails = ({ firstName, lastName, email, data, returnAccount }
                 <TableCell align="right" colSpan={4}>
                   Total
                 </TableCell>
-                <TableCell align="right">${totalPrice}</TableCell>
+                <TableCell align="right">${totalPrice?.amount}</TableCell>
               </TableRow>
             </TableBody>
           </Table>

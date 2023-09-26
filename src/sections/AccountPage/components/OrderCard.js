@@ -188,8 +188,8 @@ export const OrderCard = ({ order, firstName, lastName, email }) => {
           </Typography>
         </Box>
         <Box>
-          <Typography variant="caption">{`Total (${currencyCode}):`}</Typography>
-          <Typography>{`$${totalPrice}`}</Typography>
+          <Typography variant="caption">{`Total (${totalPrice?.currencyCode}):`}</Typography>
+          <Typography>{`$${totalPrice?.amount}`}</Typography>
         </Box>
         <Chip label={financialStatus} color={financialStatusColor(financialStatus)} />
       </Stack>
