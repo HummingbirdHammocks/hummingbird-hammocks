@@ -29,6 +29,11 @@
           "source": "/3170631789/invoices/:invoiceId",
           "destination": "https://hummingbird-hammocks.myshopify.com/3170631789/invoices/:invoiceId",
           "type": 307
+        },
+        {
+          "source": "/account/orders/:orderId/return_labels/:labelId/print",
+          "destination": "https://hummingbird-hammocks.myshopify.com/account/orders/:orderId/return_labels/:labelId/print",
+          "type": 307
         }
       ],
       "rewrites": [
@@ -122,6 +127,11 @@
           "source": "/3170631789/invoices/:invoiceId",
           "destination": "https://hummingbird-hammocks.myshopify.com/3170631789/invoices/:invoiceId",
           "type": 307
+        },
+        {
+          "source": "/account/orders/:orderId/return_labels/:labelId/print",
+          "destination": "https://hummingbird-hammocks.myshopify.com/account/orders/:orderId/return_labels/:labelId/print",
+          "type": 307
         }
       ],
       "rewrites": [
@@ -163,6 +173,11 @@
         {
           "source": "/3170631789/invoices/:invoiceId",
           "destination": "https://hummingbird-hammocks.myshopify.com/3170631789/invoices/:invoiceId",
+          "type": 307
+        },
+        {
+          "source": "/account/orders/:orderId/return_labels/:labelId/print",
+          "destination": "https://hummingbird-hammocks.myshopify.com/account/orders/:orderId/return_labels/:labelId/print",
           "type": 307
         }
       ],

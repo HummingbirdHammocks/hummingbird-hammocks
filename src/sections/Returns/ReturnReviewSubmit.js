@@ -5,7 +5,7 @@ import { fShopify, fulfillmentStatusChipColor } from '../../utils';
 
 export function ReturnReviewSubmit({ selectedOrder, selectedItems, handleOpenTicketDialog }) {
   return (
-    <Box padding="30px" justifyContent="center" display="flex">
+    <Box paddingTop="30px" paddingBottom="30px" justifyContent="center" display="flex">
       <Grid container spacing={2}>
         <Grid
           item
