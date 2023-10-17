@@ -154,7 +154,7 @@ export function ReturnsOrderLookup({
   }, [paramsOrderName, orders]);
 
   return (
-    <Box padding="30px" justifyContent="center" display="flex">
+    <Box paddingTop="30px" paddingBottom="30px" justifyContent="center" display="flex">
       <Grid container spacing={2}>
         <Grid
           item
@@ -215,7 +215,7 @@ export function ReturnsOrderLookup({
                   </Stack>
                   <Divider />
                   <Stack
-                    direction="row"
+                    direction={{ xs: 'column', sm: 'row', md: 'row', lg: 'row' }}
                     justifyContent="space-between"
                     spacing={2}
                     sx={{ marginTop: 2 }}>

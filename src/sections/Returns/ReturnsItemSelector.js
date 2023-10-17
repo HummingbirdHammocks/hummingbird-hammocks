@@ -106,7 +106,7 @@ export function ReturnsItemSelector({
   }
 
   return (
-    <Box padding="30px" justifyContent="center" display="flex">
+    <Box paddingTop="30px" paddingBottom="30px" justifyContent="center" display="flex">
       <Grid container spacing={2}>
         <Grid
           item
@@ -158,7 +158,7 @@ export function ReturnsItemSelector({
                         : 'none'
                     }}>
                     <Grid container>
-                      <Grid item xs={2}>
+                      <Grid item xs={12} sm={4}>
                         <img
                           src={item.node.fulfillmentLineItem.lineItem.image.url}
                           alt={item.node.fulfillmentLineItem.lineItem.image.altText}
@@ -166,7 +166,7 @@ export function ReturnsItemSelector({
                           width={'80px'}
                         />
                       </Grid>
-                      <Grid item xs={10}>
+                      <Grid item xs={12} sm={8}>
                         <Stack
                           direction="row"
                           justifyContent="space-between"
