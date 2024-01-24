@@ -12,6 +12,11 @@ const query = `{
         }
       }
       handle
+      internal {
+        contentDigest
+        type
+        owner
+      }
     }
   }
   allShopifyProduct {
@@ -28,6 +33,11 @@ const query = `{
         }
       }
       handle
+      internal {
+        contentDigest
+        type
+        owner
+      }
     }
   }
   allKnowledgebaseArticles {
@@ -43,6 +53,11 @@ const query = `{
         }
       }
       handle
+      internal {
+        contentDigest
+        type
+        owner
+      }
     }
   }
   allManualArticles {
@@ -58,6 +73,11 @@ const query = `{
         }
       }
       handle
+      internal {
+        contentDigest
+        type
+        owner
+      }
     }
   }
 }
