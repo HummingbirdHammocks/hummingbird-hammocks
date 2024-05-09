@@ -7,4 +7,5 @@ export * from './freescout';
 export * from './judgeMe';
 export * from './productBackgrounds';
 export * from './quickchatai';
+export * from './userWay';
 export * from './seo';
